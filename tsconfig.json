@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -15,6 +15,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "jsxImportSource": "solid-js"
   },
   "include": ["src"],

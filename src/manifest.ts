@@ -40,7 +40,8 @@ export default defineManifest({
       matches: [],
     },
   ],
-  permissions: ['sidePanel', 'storage'],
+  host_permissions: ['https://twitter.com/i/bookmarks*'],
+  permissions: ['sidePanel', 'storage', 'webRequest', 'cookies'],
   chrome_url_overrides: {
     newtab: 'pages/newtab.html',
   },

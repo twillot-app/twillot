@@ -59,45 +59,64 @@ export const Options = () => {
         <div class="">
           <For each={store.tweets}>
             {(tweet) => (
-              <div class="">
-                <div class="flex flex-shrink-0 p-4 pb-0">
-                  <a class="flex-shrink-0 group block" target="_blank">
-                    <div class="flex items-center cursor-pointer">
-                      <div
-                        onClick={() =>
-                          openNewTab(
-                            `https://twitter.com/${tweet.screen_name}/`,
-                          )
-                        }
-                      >
-                        <img
-                          class="inline-block h-10 w-10 rounded-full"
-                          src={tweet.avatar_url}
-                          alt="avatar"
-                        />
-                      </div>
-                      <div
-                        class="ml-3 cursor-pointer"
-                        onClick={() =>
-                          openNewTab(
-                            `https://twitter.com/${tweet.screen_name}/status/${tweet.tweet_id}`,
-                          )
-                        }
-                      >
-                        <p class="text-base leading-6 font-medium text-black dark:text-white">
+              <div class="hover:bg-black hover:bg-opacity-5 rounded-lg p-4">
+                <div class="flex flex-shrink-0 pb-0">
+                  <div class="flex items-start cursor-pointer">
+                    <div
+                      class="mr-2"
+                      onClick={() =>
+                        openNewTab(`https://twitter.com/${tweet.screen_name}/`)
+                      }
+                    >
+                      <img
+                        class="inline-block h-10 w-10 rounded-full"
+                        src={tweet.avatar_url}
+                        alt="avatar"
+                      />
+                    </div>
+                    <div class="cursor-pointer">
+                      <p class="text-base leading-6 font-bold text-black dark:text-white">
+                        <span
+                          onClick={() =>
+                            openNewTab(
+                              `https://twitter.com/${tweet.screen_name}/`,
+                            )
+                          }
+                        >
                           {tweet.username}&nbsp;
-                          <span class="text-sm leading-5 font-medium text-black dark:text-white">
-                            @{tweet.screen_name} .{' '}
+                        </span>
+                        <span class="text-sm leading-5 ml-1 font-normal text-[rgb(83,100,113)] dark:text-white">
+                          <span
+                            onClick={() =>
+                              openNewTab(
+                                `https://twitter.com/${tweet.screen_name}/`,
+                              )
+                            }
+                          >
+                            @{tweet.screen_name} ·{' '}
+                          </span>
+                          <span
+                            onClick={() =>
+                              openNewTab(
+                                `https://twitter.com/${tweet.screen_name}/status/${tweet.tweet_id}`,
+                              )
+                            }
+                          >
                             {new Date(tweet.created_at * 1000).toLocaleString()}
                           </span>
-                        </p>
-                      </div>
+                        </span>
+                      </p>
                     </div>
-                  </a>
+                  </div>
                 </div>
-                <div class="pl-16">
+                <div class="pl-12 -mt-2">
                   <p class="text-base width-auto font-medium text-black dark:text-white flex-shrink">
-                    {tweet.full_text}
+                    {tweet.full_text.split('\n').map((i) => (
+                      <>
+                        <span>{i}</span>
+                        <br />
+                      </>
+                    ))}
                   </p>
                 </div>
               </div>

@@ -45,7 +45,7 @@ export default defineManifest({
     },
   ],
   host_permissions: ['https://twitter.com/i/bookmarks*'],
-  permissions: ['sidePanel', 'storage', 'webRequest', 'cookies'],
+  permissions: ['sidePanel', 'storage', 'webRequest', 'cookies', 'tabs'],
   chrome_url_overrides: {
     newtab: 'pages/newtab.html',
   },

@@ -19,7 +19,10 @@ export function openDb(): Promise<IDBDatabase> {
 
     const request = window.indexedDB.open('twillot', DB_VERSION)
     request.onerror = (event: Event) => {
-      reject('Database error: ' + (event.target as IDBOpenDBRequest).error?.toString())
+      reject(
+        'Database error: ' +
+          (event.target as IDBOpenDBRequest).error?.toString(),
+      )
     }
     request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
       const target = event.target as IDBOpenDBRequest
@@ -54,7 +57,9 @@ export async function addRecords(records: Tweet[]): Promise<void> {
       resolve()
     }
     transaction.onerror = (event: Event) => {
-      reject('Transaction error: ' + (event.target as IDBRequest).error?.toString())
+      reject(
+        'Transaction error: ' + (event.target as IDBRequest).error?.toString(),
+      )
     }
     records.forEach((record) => {
       objectStore.put(record)
@@ -62,7 +67,11 @@ export async function addRecords(records: Tweet[]): Promise<void> {
   })
 }
 
-export async function findRecords(page = 1, pageSize = 100, keyword?: string): Promise<Tweet[]> {
+export async function findRecords(
+  page = 1,
+  pageSize = 100,
+  keyword?: string,
+): Promise<Tweet[]> {
   const db = await openDb()
   const skip = (page - 1) * pageSize // 计算跳过的记录数
   let recordsFetched = 0 // 已获取的记录数
@@ -81,7 +90,10 @@ export async function findRecords(page = 1, pageSize = 100, keyword?: string): P
           recordsFetched = skip
         } else {
           const tweet = cursor.value as Tweet
-          if (!keyword || tweet.full_text.toLowerCase().includes(keyword.toLowerCase())) {
+          if (
+            !keyword ||
+            tweet.full_text.toLowerCase().includes(keyword.toLowerCase())
+          ) {
             results.push(tweet)
           }
           if (results.length < skip + pageSize) {
@@ -97,7 +109,10 @@ export async function findRecords(page = 1, pageSize = 100, keyword?: string): P
     }
 
     request.onerror = (event: Event) => {
-      reject('Failed to retrieve records: ' + (event.target as IDBRequest).error?.toString())
+      reject(
+        'Failed to retrieve records: ' +
+          (event.target as IDBRequest).error?.toString(),
+      )
     }
   })
 }
@@ -114,7 +129,9 @@ export async function getRecord(id: string): Promise<Tweet | undefined> {
     }
 
     request.onerror = (event: Event) => {
-      reject('Get record error: ' + (event.target as IDBRequest).error?.toString())
+      reject(
+        'Get record error: ' + (event.target as IDBRequest).error?.toString(),
+      )
     }
   })
 }
@@ -151,7 +168,9 @@ export function toRecord(record) {
       type,
     },
     lang: legacy.lang,
-    full_text: legacy.full_text,
+    full_text:
+      base_result.note_tweet?.note_tweet_results.result.text ||
+      legacy.full_text,
     created_at: Math.floor(new Date(legacy.created_at).getTime() / 1000),
   }
 }

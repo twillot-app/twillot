@@ -22,3 +22,9 @@ export interface Header {
   csrf: string
   cookie: string
 }
+
+export enum AuthStatus {
+  AUTH_PENDING = 'AUTH_PENDING',
+  AUTH_SUCCESS = 'AUTH_SUCCESS',
+  AUTH_FAILED = 'AUTH_FAILED',
+}

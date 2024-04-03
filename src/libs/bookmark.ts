@@ -1,5 +1,5 @@
 import { addRecords, findRecords, toRecord, getTweetId, getRecord } from './db'
-import { Tweet, Header } from '../types'
+import { Tweet, Header, AuthStatus } from '../types'
 
 const pageSize = 100
 
@@ -17,33 +17,39 @@ function buildUrl(url: string, cursor?: string) {
 }
 
 async function getBookmarks(headers: Header, cursor?: string) {
-  const res = await fetch(`${buildUrl(headers.url, cursor)}`, {
-    headers: {
-      accept: '*/*',
-      authorization: headers.token,
-      'content-type': 'application/json',
-      'x-csrf-token': headers.csrf,
-      'x-twitter-active-user': 'no',
-      'x-twitter-auth-type': 'OAuth2Session',
-      'x-twitter-client-language': 'zh-cn',
-      cookie: headers.cookie,
-      Referer: 'https://twitter.com/i/bookmarks',
-    },
-    referrer: 'https://twitter.com/i/bookmarks',
-    body: null,
-    method: 'GET',
-  })
-  const json = await res.json()
-  return json
+  try {
+    const res = await fetch(`${buildUrl(headers.url, cursor)}`, {
+      headers: {
+        accept: '*/*',
+        authorization: headers.token,
+        'content-type': 'application/json',
+        'x-csrf-token': headers.csrf,
+        'x-twitter-active-user': 'no',
+        'x-twitter-auth-type': 'OAuth2Session',
+        'x-twitter-client-language': 'zh-cn',
+        cookie: headers.cookie,
+        Referer: 'https://twitter.com/i/bookmarks',
+      },
+      referrer: 'https://twitter.com/i/bookmarks',
+      body: null,
+      method: 'GET',
+    })
+    const json = await res.json()
+    return json
+  } catch (error) {
+    console.error('Authentication failed', error)
+    throw new Error(AuthStatus.AUTH_FAILED)
+  }
 }
 
 export async function syncAllBookmarks(headers: Header, forceSync = false) {
   let cursor: string | undefined = undefined
   while (true) {
     const json = await getBookmarks(headers, cursor)
-    const instruction = json.data.bookmark_timeline_v2.timeline.instructions?.find(
-      (i) => i.type === 'TimelineAddEntries',
-    )
+    const instruction =
+      json.data.bookmark_timeline_v2.timeline.instructions?.find(
+        (i) => i.type === 'TimelineAddEntries',
+      )
     if (!instruction) {
       console.error('No instructions found in response')
       break
@@ -53,10 +59,11 @@ export async function syncAllBookmarks(headers: Header, forceSync = false) {
       (e) => e.content.entryType === 'TimelineTimelineItem',
     ) as Tweet[]
     if (!tweets.length) {
-      console.warn(`Reached end of bookmarks with cursor ${cursor}, ${tweets.length}`)
+      console.warn(
+        `Reached end of bookmarks with cursor ${cursor}, ${tweets.length}`,
+      )
       break
     } else {
-      await addRecords(tweets.map(toRecord))
       if (!forceSync) {
         const [latestTweet, lastTweet] = await Promise.all([
           getRecord(getTweetId(tweets[0])),
@@ -71,11 +78,13 @@ export async function syncAllBookmarks(headers: Header, forceSync = false) {
           break
         }
       }
+
+      await addRecords(tweets.map(toRecord))
     }
     cursor = instruction.entries[instruction.entries.length - 1]?.content.value
   }
 }
 
-export function searchBookmark(keyword: string) {
-  return findRecords(1, 100, keyword)
+export function searchBookmark(keyword: string, page = 1, pageSize = 100) {
+  return findRecords(page, pageSize, keyword)
 }

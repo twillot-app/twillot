@@ -1,65 +1,94 @@
 import { createEffect, For } from 'solid-js'
-import { createStore } from 'solid-js/store'
 import dataStore from './store'
 
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
-import { Header, Tweet } from '../types'
+import { AuthStatus, Header, Tweet } from '../types'
+import { openNewTab } from '../libs/browser'
 
 export const Options = () => {
   const [store, setStore] = dataStore
   const addTweets = (tweets: Tweet[]) => {
     setStore('tweets', () => [...tweets])
   }
-  const query = async (e) => {
+  const query = async () => {
     try {
-      const keyword = e.target.value as string
-      const result = await searchBookmark(keyword.trim())
+      const keyword = store.keyword.trim()
+      const result = await searchBookmark(keyword, store.page, store.pageSize)
       console.log(result)
       addTweets(result)
     } catch (err) {}
   }
 
   createEffect(async () => {
-    const auth = await chrome.storage.local.get(['token', 'url', 'cookie', 'csrf'])
-    if (!auth || !auth.token || !auth.url || !auth.cookie || !auth.csrf) {
-      // 使用 chrome tab api 打开 https://twitter.com/i/bookmarks
-      setStore('isSyncing', true)
-      chrome.tabs.create({ url: 'https://twitter.com/i/bookmarks' })
-      return
+    try {
+      setStore('isAutoSyncing', true)
+      const auth = await chrome.storage.local.get([
+        'token',
+        'url',
+        'cookie',
+        'csrf',
+      ])
+      await syncAllBookmarks(auth as Header)
+    } catch (err) {
+      console.error(err)
+      if (err.message == AuthStatus.AUTH_FAILED) {
+        setStore('isAuthFailed', true)
+      }
+    } finally {
+      setStore('isAutoSyncing', false)
     }
-    await syncAllBookmarks(auth as Header)
   })
 
   return (
     <main>
-      <div class="flex flex-col items-center w-full">
+      <div class="flex flex-col items-center max-w-2xl mx-auto">
         <p>
-          {store.isSyncing ? <strong>Syncing, please wait and do not close this tab.</strong> : ''}
+          {store.isAuthFailed
+            ? 'Authentication failed. Please log in again.'
+            : ''}
         </p>
-        <input
-          onChange={query}
-          placeholder="Search for a tweet now"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
+        <div class="flex">
+          <input
+            onChange={(e) => setStore('keyword', e.target.value as string)}
+            placeholder="Search for a tweet now"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <button onClick={query}>Search</button>
+        </div>
+
         <div class="">
           <For each={store.tweets}>
             {(tweet) => (
               <div class="">
                 <div class="flex flex-shrink-0 p-4 pb-0">
                   <a class="flex-shrink-0 group block" target="_blank">
-                    <div class="flex items-center">
-                      <div>
+                    <div class="flex items-center cursor-pointer">
+                      <div
+                        onClick={() =>
+                          openNewTab(
+                            `https://twitter.com/${tweet.screen_name}/`,
+                          )
+                        }
+                      >
                         <img
                           class="inline-block h-10 w-10 rounded-full"
                           src={tweet.avatar_url}
-                          alt=""
+                          alt="avatar"
                         />
                       </div>
-                      <div class="ml-3">
-                        <p class="text-base leading-6 font-medium text-white">
-                          {tweet.username}
-                          <span class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-                            @{tweet.screen_name} . {tweet.created_at}
+                      <div
+                        class="ml-3 cursor-pointer"
+                        onClick={() =>
+                          openNewTab(
+                            `https://twitter.com/${tweet.screen_name}/status/${tweet.tweet_id}`,
+                          )
+                        }
+                      >
+                        <p class="text-base leading-6 font-medium text-black dark:text-white">
+                          {tweet.username}&nbsp;
+                          <span class="text-sm leading-5 font-medium text-black dark:text-white">
+                            @{tweet.screen_name} .{' '}
+                            {new Date(tweet.created_at * 1000).toLocaleString()}
                           </span>
                         </p>
                       </div>

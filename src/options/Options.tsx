@@ -1,13 +1,12 @@
 import { createEffect, For } from 'solid-js'
 import { createStore } from 'solid-js/store'
+import dataStore from './store'
 
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
 import { Header, Tweet } from '../types'
 
 export const Options = () => {
-  const [store, setStore] = createStore({
-    tweets: new Array<Tweet>(),
-  })
+  const [store, setStore] = dataStore
   const addTweets = (tweets: Tweet[]) => {
     setStore('tweets', () => [...tweets])
   }
@@ -21,13 +20,22 @@ export const Options = () => {
   }
 
   createEffect(async () => {
-    const auth = (await chrome.storage.local.get(['token', 'url', 'cookie', 'csrf'])) as Header
-    await syncAllBookmarks(auth)
+    const auth = await chrome.storage.local.get(['token', 'url', 'cookie', 'csrf'])
+    if (!auth || !auth.token || !auth.url || !auth.cookie || !auth.csrf) {
+      // 使用 chrome tab api 打开 https://twitter.com/i/bookmarks
+      setStore('isSyncing', true)
+      chrome.tabs.create({ url: 'https://twitter.com/i/bookmarks' })
+      return
+    }
+    await syncAllBookmarks(auth as Header)
   })
 
   return (
     <main>
       <div class="flex flex-col items-center w-full">
+        <p>
+          {store.isSyncing ? <strong>Syncing, please wait and do not close this tab.</strong> : ''}
+        </p>
         <input
           onChange={query}
           placeholder="Search for a tweet now"

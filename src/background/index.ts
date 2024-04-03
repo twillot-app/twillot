@@ -1,9 +1,7 @@
 console.log('background is running')
 
-chrome.runtime.onMessage.addListener((request) => {
-  if (request.type === 'COUNT') {
-    console.log('background has received a message from popup, and count is ', request?.count)
-  }
+chrome.action.onClicked.addListener(function () {
+  chrome.runtime.openOptionsPage()
 })
 
 let csrf = '',
@@ -44,7 +42,7 @@ chrome.webRequest.onSendHeaders.addListener(
     }
   },
   {
-    urls: ['*://*.twitter.com/*'],
+    urls: ['https://twitter.com/i/bookmarks*'],
   },
   ['requestHeaders'],
 )

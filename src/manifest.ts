@@ -16,10 +16,14 @@ export default defineManifest({
     128: 'img/logo-128.png',
   },
   action: {
-    default_popup: 'pages/popup.html',
-    default_icon: 'img/logo-48.png',
+    // popup 优先级高
+    // default_popup: 'pages/popup.html',
+    // default_icon: 'img/logo-48.png',
   },
-  options_page: 'pages/options.html',
+  options_ui: {
+    page: 'pages/options.html',
+    open_in_tab: true,
+  },
   devtools_page: 'pages/devtools.html',
   background: {
     service_worker: 'src/background/index.ts',

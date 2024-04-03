@@ -37,7 +37,7 @@ async function getBookmarks(headers: Header, cursor?: string) {
   return json
 }
 
-export async function syncAllBookmarks(headers: Header) {
+export async function syncAllBookmarks(headers: Header, forceSync = false) {
   let cursor: string | undefined = undefined
   while (true) {
     const json = await getBookmarks(headers, cursor)
@@ -56,17 +56,20 @@ export async function syncAllBookmarks(headers: Header) {
       console.warn(`Reached end of bookmarks with cursor ${cursor}, ${tweets.length}`)
       break
     } else {
-      const [latestTweet, lastTweet] = await Promise.all([
-        getRecord(getTweetId(tweets[0])),
-        getRecord(getTweetId(tweets[tweets.length - 1])),
-      ])
-      if (!latestTweet && !lastTweet) {
-        const docs = tweets.map(toRecord)
-        await addRecords(docs)
-        console.log(`Synced ${tweets.length} bookmarks`)
-      } else {
-        console.log(`Tweets already exists`)
-        break
+      await addRecords(tweets.map(toRecord))
+      if (!forceSync) {
+        const [latestTweet, lastTweet] = await Promise.all([
+          getRecord(getTweetId(tweets[0])),
+          getRecord(getTweetId(tweets[tweets.length - 1])),
+        ])
+        /**
+         * 首尾两条都同步过了，说明已经同步完毕，可以退出循环
+         * 如果因为同步被中断导致部分旧数据未同步，可以手动调用时设置 forceSync 参数为 true
+         */
+        if (latestTweet && lastTweet) {
+          console.log('All bookmarks have been synchronized')
+          break
+        }
       }
     }
     cursor = instruction.entries[instruction.entries.length - 1]?.content.value

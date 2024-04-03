@@ -18,11 +18,9 @@ export function openDb(): Promise<IDBDatabase> {
     }
 
     const request = window.indexedDB.open('twillot', DB_VERSION)
-
     request.onerror = (event: Event) => {
       reject('Database error: ' + (event.target as IDBOpenDBRequest).error?.toString())
     }
-
     request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
       const target = event.target as IDBOpenDBRequest
       const db = target.result
@@ -50,24 +48,20 @@ export function openDb(): Promise<IDBDatabase> {
 
 export async function addRecords(records: Tweet[]): Promise<void> {
   const db = await openDb()
-
   return new Promise((resolve, reject) => {
     const { transaction, objectStore } = getObjectStore(db)
-
     transaction.oncomplete = () => {
-      console.log('Transaction complete')
       resolve()
     }
-
     transaction.onerror = (event: Event) => {
       reject('Transaction error: ' + (event.target as IDBRequest).error?.toString())
     }
-
     records.forEach((record) => {
       objectStore.put(record)
     })
   })
 }
+
 export async function findRecords(page = 1, pageSize = 100, keyword?: string): Promise<Tweet[]> {
   const db = await openDb()
   const skip = (page - 1) * pageSize // 计算跳过的记录数

@@ -136,6 +136,24 @@ export async function getRecord(id: string): Promise<Tweet | undefined> {
   })
 }
 
+export async function countRecords(): Promise<number> {
+  const db = await openDb()
+
+  return new Promise((resolve, reject) => {
+    const { objectStore } = getObjectStore(db)
+    const request = objectStore.count()
+    request.onsuccess = (event: Event) => {
+      resolve((event.target as IDBRequest<number>).result)
+    }
+    request.onerror = (event: Event) => {
+      reject(
+        'Count records error: ' +
+          (event.target as IDBRequest).error?.toString(),
+      )
+    }
+  })
+}
+
 export function toRecord(record) {
   let base_result = record.content.itemContent.tweet_results.result
   if (base_result.tweet) {

@@ -1,12 +1,14 @@
 {
   "name": "Twillot",
-  "displayName": "Twillot - your social media pilot",
+  "displayName": "Twillot - Twitter Copilot",
   "version": "0.0.1",
   "author": "simon@lionjs.com",
-  "description": "A pilot for social media platforms, built with SolidJS and Vite",
+  "description": "Sync, search, tag, and export your Twitter bookmarks with AI and ease.",
   "type": "module",
   "license": "MIT",
   "keywords": [
+    "twitter",
+    "bookmark",
     "chrome-extension",
     "solid",
     "solidjs",

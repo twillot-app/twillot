@@ -172,13 +172,11 @@ export const Options = () => {
               <div class="hover:bg-black hover:bg-opacity-5 p-2">
                 <div class="flex flex-shrink-0 pb-0">
                   <div class="flex items-start cursor-pointer">
-                    <div
-                      class="mr-2"
-                      data-text={`https://twitter.com/${tweet.screen_name}/`}
-                    >
+                    <div class="mr-2">
                       <img
                         class="inline-block h-10 w-10 rounded-full"
                         src={tweet.avatar_url}
+                        data-text={`https://twitter.com/${tweet.screen_name}/`}
                         alt="avatar"
                       />
                     </div>

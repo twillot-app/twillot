@@ -56,8 +56,7 @@ export const Options = () => {
         throw new Error(AuthStatus.AUTH_FAILED)
       }
 
-      const total = await countRecords()
-      setStore('totalCount', total)
+      setStore('totalCount', await countRecords())
 
       if (!auth.lastSynced) {
         setStore('isForceSyncing', true)
@@ -70,6 +69,7 @@ export const Options = () => {
         setStore('isAutoSyncing', false)
         if (addedCount > 0) {
           await query()
+          setStore('totalCount', await countRecords())
         }
       }
       const syncedTime = Math.floor(Date.now() / 1000)
@@ -88,7 +88,7 @@ export const Options = () => {
   return (
     <main class="bg-white dark:bg-black">
       <div class="flex flex-col items-center max-w-2xl mx-auto h-screen">
-        <h1 class="font-large text-xl text-center my-4 text-black dark:text-white">
+        <h1 class="font-large text-xl text-center my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
           Twillot - your social media copilot
         </h1>
         <p>

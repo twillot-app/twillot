@@ -24,20 +24,20 @@ export default defineManifest({
     page: 'pages/options.html',
     open_in_tab: true,
   },
-  devtools_page: 'pages/devtools.html',
+  // devtools_page: 'pages/devtools.html',
   background: {
     service_worker: 'src/background/index.ts',
     type: 'module',
   },
-  content_scripts: [
-    {
-      matches: ['http://*/*', 'https://*/*'],
-      js: ['src/contentScript/index.ts'],
-    },
-  ],
-  side_panel: {
-    default_path: 'pages/sidepanel.html',
-  },
+  // content_scripts: [
+  //   {
+  //     matches: ['http://*/*', 'https://*/*'],
+  //     js: ['src/contentScript/index.ts'],
+  //   },
+  // ],
+  // side_panel: {
+  //   default_path: 'pages/sidepanel.html',
+  // },
   web_accessible_resources: [
     {
       resources: ['img/logo-16.png', 'img/logo-34.png', 'img/logo-48.png', 'img/logo-128.png'],
@@ -46,7 +46,7 @@ export default defineManifest({
   ],
   host_permissions: ['https://twitter.com/i/bookmarks*'],
   permissions: ['sidePanel', 'storage', 'webRequest', 'cookies', 'tabs'],
-  chrome_url_overrides: {
-    newtab: 'pages/newtab.html',
-  },
+  // chrome_url_overrides: {
+  //   newtab: 'pages/newtab.html',
+  // },
 })

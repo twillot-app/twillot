@@ -1,1 +1,1 @@
-console.info('contentScript is running')
+console.info('Twillot - your personal Twitter copilot is running')

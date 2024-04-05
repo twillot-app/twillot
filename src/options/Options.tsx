@@ -14,7 +14,11 @@ export const Options = () => {
     setStore('tweets', () => [...tweets])
   }
   const query = async (keyword?: string) => {
-    const result = await searchBookmark(keyword || '', store.page, store.pageSize)
+    const result = await searchBookmark(
+      keyword || '',
+      store.page,
+      store.pageSize,
+    )
     addTweets(result)
     listRef.scrollTo(0, 0)
   }
@@ -51,6 +55,9 @@ export const Options = () => {
         'cookie',
         'csrf',
       ])
+      if (!auth || !auth.url) {
+        throw new Error(AuthStatus.AUTH_FAILED)
+      }
       await syncAllBookmarks(auth as Header)
       setStore('isAuthFailed', false)
     } catch (err) {
@@ -106,7 +113,19 @@ export const Options = () => {
             <strong>{store.keyword}</strong>
           </div>
         </Show>
-        <div class="my-4 flex-1 overflow-y-auto" onClick={openPage} ref={listRef!}>
+        <div
+          class="my-4 flex-1 overflow-y-auto"
+          onClick={openPage}
+          ref={listRef!}
+        >
+          <Show when={store.isAuthFailed}>
+            <p
+              class="text-black dark:text-white text-center cursor-pointer"
+              data-text="https://twitter.com/i/bookmarks?twillot=reauth"
+            >
+              Authentication failed, click here to reauthenticate.
+            </p>
+          </Show>
           <For each={store.tweets}>
             {(tweet) => (
               <div class="hover:bg-black hover:bg-opacity-5 p-2">

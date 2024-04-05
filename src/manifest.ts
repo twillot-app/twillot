@@ -40,12 +40,17 @@ export default defineManifest({
   // },
   web_accessible_resources: [
     {
-      resources: ['img/logo-16.png', 'img/logo-32.png', 'img/logo-48.png', 'img/logo-128.png'],
+      resources: [
+        'img/logo-16.png',
+        'img/logo-32.png',
+        'img/logo-48.png',
+        'img/logo-128.png',
+      ],
       matches: [],
     },
   ],
-  host_permissions: ['https://twitter.com/i/bookmarks*'],
-  permissions: ['sidePanel', 'storage', 'webRequest', 'cookies', 'tabs'],
+  host_permissions: ['https://twitter.com/*'],
+  permissions: ['storage', 'webRequest', 'cookies', 'tabs'],
   // chrome_url_overrides: {
   //   newtab: 'pages/newtab.html',
   // },

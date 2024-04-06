@@ -94,7 +94,7 @@ export const Options = () => {
         <div class="flex items-center justify-center w-full">
           <div class="flex w-full">
             <form onSubmit={onSubmit} class="flex w-full">
-              <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white p-5">
+              <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border border-gray-200 bg-white p-5">
                 <svg
                   viewBox="0 0 20 20"
                   aria-hidden="true"
@@ -105,7 +105,7 @@ export const Options = () => {
               </div>
               <input
                 type="text"
-                class="flex-1 bg-white pl-2 text-base font-semibold outline-0"
+                class="flex-1 bg-white pl-2 text-base font-semibold outline-0 border-y border-gray-200"
                 placeholder={`Search ${store.totalCount} tweets`}
                 name="keyword"
               />

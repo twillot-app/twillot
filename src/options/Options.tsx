@@ -91,11 +91,6 @@ export const Options = () => {
         <h1 class="font-large text-xl text-center my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
           Twillot - your social media copilot
         </h1>
-        <p>
-          {store.isAuthFailed
-            ? 'Authentication failed. Please log in again.'
-            : ''}
-        </p>
         <div class="flex items-center justify-center w-full">
           <div class="flex w-full">
             <form onSubmit={onSubmit} class="flex w-full">
@@ -175,7 +170,7 @@ export const Options = () => {
                     <div class="mr-2">
                       <img
                         class="inline-block h-10 w-10 rounded-full"
-                        src={tweet.avatar_url}
+                        src={tweet.avatar_url.replace('_normal', '_x96')}
                         data-text={`https://twitter.com/${tweet.screen_name}/`}
                         alt="avatar"
                       />
@@ -205,7 +200,7 @@ export const Options = () => {
                   </div>
                 </div>
                 <div class="pl-12 -mt-2">
-                  <div class="text-base width-auto font-medium text-black dark:text-white flex-shrink">
+                  <div class="text-base leading-5 width-auto font-normal text-[rgb(15,20,25)] dark:text-white flex-shrink">
                     {tweet.full_text.split('\n').map((i) => (
                       <>
                         <Text text={i} keyword={store.keyword} />

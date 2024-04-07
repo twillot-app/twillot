@@ -37,13 +37,14 @@ export async function onSendHeaders(
   if (csrf && token) {
     const cookies = await chrome.cookies.getAll({ domain: 'twitter.com' })
     const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
-    chrome.storage.local.set({
+    await chrome.storage.local.set({
       cookie: cookiesStr,
       csrf,
       token,
       url: bookmarkUrl,
     })
-    chrome.webRequest.onSendHeaders.removeListener(onSendHeaders)
+    // NOTE 加了这一句获取登录态不稳定，导致登录失败，暂时注释掉
+    // chrome.webRequest.onSendHeaders.removeListener(onSendHeaders)
   }
 }
 

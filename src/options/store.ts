@@ -9,6 +9,7 @@ export default createStore({
   totalCount: 0,
   tweets: new Array<Tweet>(),
   syncTime: 0,
+  searchTime: 0,
   isAuthenicating: false,
   isAuthFailed: false,
   isAutoSyncing: false,

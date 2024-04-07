@@ -16,6 +16,7 @@ export const Options = () => {
     setStore('tweets', () => [...tweets])
   }
   const query = async (keyword?: string) => {
+    const start = new Date().getTime()
     const result = await searchBookmark(
       keyword || '',
       store.page,
@@ -23,6 +24,7 @@ export const Options = () => {
     )
     addTweets(result)
     listRef.scrollTo(0, 0)
+    setStore('searchTime', new Date().getTime() - start)
   }
   const onSubmit = async (e) => {
     try {
@@ -115,8 +117,7 @@ export const Options = () => {
         </div>
         <Show when={!!store.keyword.trim()}>
           <div class="mt-4 text-base text-gray-500 text-left w-full">
-            Found {store.tweets.length} records:{' '}
-            <strong>{store.keyword}</strong>
+            Found {store.tweets.length} records in {store.searchTime} ms
           </div>
         </Show>
         <div

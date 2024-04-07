@@ -56,3 +56,15 @@ export function authTwitter() {
     ['requestHeaders'],
   )
 }
+
+export async function getAuthInfo() {
+  const auth = await chrome.storage.local.get([
+    'token',
+    'url',
+    'cookie',
+    'csrf',
+    'lastSynced',
+  ])
+
+  return auth
+}

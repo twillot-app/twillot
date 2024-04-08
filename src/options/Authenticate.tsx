@@ -1,4 +1,4 @@
-import { Show, onCleanup } from 'solid-js'
+import { Show, createEffect, onCleanup } from 'solid-js'
 
 import dataStore from './store'
 import { getAuthInfo, openNewTab } from '../libs/browser'
@@ -6,7 +6,8 @@ import Indicator from '../components/Indicator'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
-  let timerId
+  let timerId, tab: chrome.tabs.Tab
+  const title = document.title
   const checkAuth = async () => {
     const auth = await getAuthInfo()
     const authenticated = !!(auth && auth.cookie)
@@ -14,6 +15,7 @@ export default function Authenticate() {
     if (authenticated) {
       clearInterval(timerId)
       location.reload()
+      if (tab) chrome.tabs.remove(tab.id)
     }
 
     return authenticated
@@ -23,9 +25,20 @@ export default function Authenticate() {
     const authed = await checkAuth()
     if (authed) return
     setStore('isAuthenicating', true)
-    openNewTab('https://twitter.com/i/bookmarks?twillot=reauth')
+    tab = await openNewTab('https://twitter.com/i/bookmarks?twillot=reauth')
     timerId = setInterval(checkAuth, 5000)
   }
+
+  createEffect(() => {
+    let progress = ''
+    if (store.isAuthenicating) {
+      progress = 'Authenticating... - Twillot'
+    } else if (store.isAuthFailed) {
+      progress = 'Authentication failed - Twillot'
+    }
+
+    document.title = progress || title
+  })
 
   onCleanup(() => clearInterval(timerId))
 

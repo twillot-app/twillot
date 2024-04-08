@@ -60,6 +60,7 @@ export const Options = () => {
         setStore('isForceSyncing', true)
         await syncAllBookmarks(auth as Header, true)
         setStore('isForceSyncing', false)
+        await query()
       } else {
         await query()
         setStore('isAutoSyncing', true)

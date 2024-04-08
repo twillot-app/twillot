@@ -28,3 +28,7 @@ Click on the Twillot icon in the Chrome toolbar to open the extension.
 
 - [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
 - [twitter-web-exporter](https://github.com/prinsss/twitter-web-exporter)
+
+## Donate
+
+<a href='https://ko-fi.com/N4N5TP4BZ' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>

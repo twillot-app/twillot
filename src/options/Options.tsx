@@ -23,6 +23,9 @@ export const Options = () => {
       store.pageSize,
     )
     setStore('tweets', () => [...tweets])
+    if (keyword) {
+      setStore('isSupportUsVisible', false)
+    }
     listRef.scrollTo(0, 0)
     setStore('searchTime', new Date().getTime() - start)
   }
@@ -108,7 +111,7 @@ export const Options = () => {
             />
           </Show>
         </div>
-        <Show when={!store.isSupportUsVisible}>
+        <Show when={store.isSupportUsVisible}>
           <SupportUs />
         </Show>
         <div

@@ -1,8 +1,8 @@
-import { createEffect, For, Show } from 'solid-js'
+import { For, onMount, Show } from 'solid-js'
 
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
-import { AuthStatus, Header, Tweet } from '../types'
+import { AuthStatus, Header } from '../types'
 import { getAuthInfo, openNewTab } from '../libs/browser'
 import { countRecords } from '../libs/db'
 import { Text } from '../components/Tweet'
@@ -12,17 +12,14 @@ import Authenticate from './Authenticate'
 export const Options = () => {
   let listRef: HTMLDivElement
   const [store, setStore] = dataStore
-  const addTweets = (tweets: Tweet[]) => {
-    setStore('tweets', () => [...tweets])
-  }
   const query = async (keyword?: string) => {
     const start = new Date().getTime()
-    const result = await searchBookmark(
+    const tweets = await searchBookmark(
       keyword || '',
       store.page,
       store.pageSize,
     )
-    addTweets(result)
+    setStore('tweets', () => [...tweets])
     listRef.scrollTo(0, 0)
     setStore('searchTime', new Date().getTime() - start)
   }
@@ -47,7 +44,7 @@ export const Options = () => {
     }
   }
 
-  createEffect(async () => {
+  onMount(async () => {
     try {
       const auth = await getAuthInfo()
       if (!auth || !auth.cookie) {
@@ -58,18 +55,36 @@ export const Options = () => {
 
       if (!auth.lastSynced) {
         setStore('isForceSyncing', true)
-        await syncAllBookmarks(auth as Header, true)
+        /**
+         * 全量同步时展示最新的 100 条数据
+         * 后续更新只更新总数
+         */
+        for await (const docs of syncAllBookmarks(auth as Header, true)) {
+          if (store.tweets.length > 0) {
+            setStore('totalCount', (val) => val + docs.length)
+          } else {
+            setStore('tweets', () => [...docs])
+          }
+        }
         setStore('isForceSyncing', false)
-        await query()
       } else {
+        /**
+         * 增量更新时先展示最新的 100 条
+         * 后续更新同时更新总数和展示数据
+         */
         await query()
         setStore('isAutoSyncing', true)
-        const addedCount = await syncAllBookmarks(auth as Header)
-        setStore('isAutoSyncing', false)
-        if (addedCount > 0) {
-          await query()
+        for await (const docs of syncAllBookmarks(auth as Header)) {
           setStore('totalCount', await countRecords())
+          /**
+           * 当前正在搜索时不更新数据
+           */
+          if (store.isAutoSyncing && store.keyword.trim()) {
+            continue
+          }
+          await query()
         }
+        setStore('isAutoSyncing', false)
       }
       const syncedTime = Math.floor(Date.now() / 1000)
       await chrome.storage.local.set({
@@ -121,18 +136,19 @@ export const Options = () => {
             Found {store.tweets.length} records in {store.searchTime} ms
           </div>
         </Show>
+        <Show when={store.isAuthFailed}>
+          <Authenticate />
+        </Show>
+        <Show when={store.isForceSyncing}>
+          <Indicator
+            text={`Sync in progress: ${store.totalCount} tweets. Please do not refresh or close this page.`}
+          />
+        </Show>
         <div
           class="my-4 flex-1 overflow-y-auto"
           onClick={openPage}
           ref={listRef!}
         >
-          <Show when={store.isAuthFailed}>
-            <Authenticate />
-          </Show>
-          <Show when={store.isForceSyncing}>
-            <Indicator text="Performing initial sync, please don't close this tab" />
-          </Show>
-
           <For each={store.tweets}>
             {(tweet) => (
               <div class="hover:bg-black hover:bg-opacity-5 p-2">

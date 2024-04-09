@@ -42,9 +42,8 @@ async function getBookmarks(headers: Header, cursor?: string) {
   }
 }
 
-export async function syncAllBookmarks(headers: Header, forceSync = false) {
+export async function* syncAllBookmarks(headers: Header, forceSync = false) {
   let cursor: string | undefined = undefined
-  let totalCount = 0
   while (true) {
     const json = await getBookmarks(headers, cursor)
     const instruction =
@@ -80,13 +79,12 @@ export async function syncAllBookmarks(headers: Header, forceSync = false) {
         }
       }
 
-      await addRecords(tweets.map(toRecord))
-      totalCount += tweets.length
+      const docs = tweets.map(toRecord)
+      await addRecords(docs)
+      yield docs
     }
     cursor = instruction.entries[instruction.entries.length - 1]?.content.value
   }
-
-  return totalCount
 }
 
 export function searchBookmark(keyword: string, page = 1, pageSize = 100) {

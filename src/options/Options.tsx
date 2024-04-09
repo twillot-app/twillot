@@ -3,13 +3,14 @@ import { For, onMount, Show } from 'solid-js'
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
-import { getAuthInfo, openNewTab } from '../libs/browser'
+import { getAuthInfo } from '../libs/browser'
 import { countRecords } from '../libs/db'
 import { Text } from '../components/Tweet'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
 import SupportUs from '../components/SupportUs'
 import Search from './Search'
+import { openPage } from '../libs/dom'
 
 export const Options = () => {
   let listRef: HTMLDivElement
@@ -24,18 +25,6 @@ export const Options = () => {
     setStore('tweets', () => [...tweets])
     listRef.scrollTo(0, 0)
     setStore('searchTime', new Date().getTime() - start)
-  }
-  const openPage = (e) => {
-    const url = e.target.dataset.text
-    if (url) {
-      if (url.startsWith('http')) {
-        openNewTab(url)
-      } else if (url.startsWith('@')) {
-        openNewTab(`https://twitter.com/${url.slice(1)}`)
-      } else if (url.startsWith('#')) {
-        openNewTab(`https://twitter.com/hashtag/${url.slice(1)}`)
-      }
-    }
   }
 
   onMount(async () => {
@@ -119,7 +108,7 @@ export const Options = () => {
             />
           </Show>
         </div>
-        <Show when={store.isSupportUsVisible}>
+        <Show when={!store.isSupportUsVisible}>
           <SupportUs />
         </Show>
         <div

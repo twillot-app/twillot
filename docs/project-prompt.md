@@ -33,6 +33,8 @@ Streamline your Twitter experience with smart syncing, searching, and tagging, a
 - 推特书签的上限是 1000 条
 - 推特书签不支持按关键字查询
 - 推特书签中的推文可能被随时被删除，收藏的内容也会消失
+- 推特书签没有收藏时间线
+- 推特书签没有收藏推文的相关数据分析
 
 ---
 
@@ -83,3 +85,37 @@ Our Chrome extension is designed to enhance the user experience on Twitter, part
 In summary, each requested permission plays a vital role in enabling our Chrome extension to enhance the Twitter experience, particularly in managing Bookmarks. We are committed to ensuring the privacy and security of our users' data, and these permissions are requested strictly for the functionality described. Thank you for considering our extension for approval.
 
 This draft aims to clearly justify the necessity of each permission in relation to the core functionalities of your extension, adhering to privacy and security best practices.
+
+## Support us Prompt
+
+我开发的 chrome 扩展，核心功能是同步推特的书签里面收藏的推文到本地。
+解决的痛点：推特收藏的1000条上限；按关键字搜索推文；备份推文。
+现在你是一个运营专家，设计以下文案引导用户积极参与如下2个运营活动：
+1）Social Media Support - 引导用户分享扩展的功能。
+2）Financial Support - 引导用户去捐赠开发者。
+
+请使用英文分别为这2个活动生成两句话长度的描述性文案以及一些 bullet points 说明。
+文案重点关注用户的参与能够创造很大的价值，也能够为自己创造价值。
+文案的语气需要非常诚恳并具有一定的煽动性，尽量口语化且简单。
+
+---
+
+Social Media Support
+Short Description:
+Spread the word and extend the life of your favorite tweets beyond Twitter's limits. Share the magic, share the memories!
+
+Bullet List:
+
+Empower & Inspire: Let friends discover the joy of unlimited bookmarks.
+Build Community: Join a circle that cherishes every tweet.
+Share Your Story: Tell how our tool enhanced your Twitter journey.
+
+Financial Support
+Short Description:
+A small donation makes a big difference. Help us keep your tweets safe, searchable, and always accessible.
+
+Bullet List:
+
+Direct Impact: Your gift directly fuels improvements.
+Stay Independent: Support us in offering a user-focused, ad-free experience.
+Unlock Features: Early access to new tools and updates for supporters.

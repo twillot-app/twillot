@@ -8,6 +8,8 @@ import { countRecords } from '../libs/db'
 import { Text } from '../components/Tweet'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
+import SupportUs from '../components/SupportUs'
+import Search from './Search'
 
 export const Options = () => {
   let listRef: HTMLDivElement
@@ -22,14 +24,6 @@ export const Options = () => {
     setStore('tweets', () => [...tweets])
     listRef.scrollTo(0, 0)
     setStore('searchTime', new Date().getTime() - start)
-  }
-  const onSubmit = async (e) => {
-    try {
-      e.preventDefault()
-      const keyword = e.target.keyword.value.trim()
-      setStore('keyword', keyword)
-      await query(keyword)
-    } catch (err) {}
   }
   const openPage = (e) => {
     const url = e.target.dataset.text
@@ -101,51 +95,35 @@ export const Options = () => {
 
   return (
     <main class="bg-white dark:bg-black">
-      <div class="flex flex-col items-center max-w-2xl mx-auto h-screen">
-        <h1 class="font-large text-xl text-center my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
-          Twillot - your social media copilot
-        </h1>
-        <div class="flex items-center justify-center w-full">
-          <div class="flex w-full">
-            <form onSubmit={onSubmit} class="flex w-full">
-              <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border border-gray-200 bg-white p-5">
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                  class="pointer-events-none absolute w-5 fill-gray-500 transition"
-                >
-                  <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
-                </svg>
-              </div>
-              <input
-                type="text"
-                class="flex-1 bg-white pl-2 text-base font-semibold outline-0 border-y border-gray-200"
-                placeholder={`Search ${store.totalCount} tweets`}
-                name="keyword"
-              />
-              <input
-                type="submit"
-                value="Search"
-                class="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
-              />
-            </form>
+      <div class="flex flex-col items-center h-screen">
+        <div class="w-[42rem] mx-auto">
+          <h1 class="font-large text-xl text-center my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
+            Twillot - your social media copilot
+          </h1>
+          <div class="flex items-center justify-center w-full">
+            <div class="flex w-full">
+              <Search onSubmit={query} />
+            </div>
           </div>
+          <Show when={!!store.keyword.trim()}>
+            <div class="mt-4 text-base text-gray-500 text-left w-full">
+              Found {store.tweets.length} records in {store.searchTime} ms
+            </div>
+          </Show>
+          <Show when={store.isAuthFailed}>
+            <Authenticate />
+          </Show>
+          <Show when={store.isForceSyncing}>
+            <Indicator
+              text={`Sync in progress: ${store.totalCount} tweets. Please do not refresh or close this page.`}
+            />
+          </Show>
         </div>
-        <Show when={!!store.keyword.trim()}>
-          <div class="mt-4 text-base text-gray-500 text-left w-full">
-            Found {store.tweets.length} records in {store.searchTime} ms
-          </div>
-        </Show>
-        <Show when={store.isAuthFailed}>
-          <Authenticate />
-        </Show>
-        <Show when={store.isForceSyncing}>
-          <Indicator
-            text={`Sync in progress: ${store.totalCount} tweets. Please do not refresh or close this page.`}
-          />
+        <Show when={store.isSupportUsVisible}>
+          <SupportUs />
         </Show>
         <div
-          class="my-4 flex-1 overflow-y-auto"
+          class="my-4 flex-1 overflow-y-auto w-[42rem] mx-auto"
           onClick={openPage}
           ref={listRef!}
         >

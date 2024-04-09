@@ -1,4 +1,8 @@
-export function Text({ text, keyword }: { text: string; keyword?: string }) {
+import { splitProps } from 'solid-js'
+
+export function Text(props: { text: string; keyword?: string }) {
+  const [fields] = splitProps(props, ['text', 'keyword'])
+  const { text, keyword } = fields
   const at = '@\\w+'
   const link = 'https?:\\/\\/[\\w\\d\\.\\-\\/_?=&#%]+'
   const hashtag = '#(?!\\s|$)[^\\s#]+'

@@ -1,13 +1,18 @@
 ## slogan 提示词
 
-我开发了一个chrome 扩展，它的主要功能如下：
+作为一位经验丰富的营销专家,你的任务是为一款名为Twillot的Chrome扩展撰写一段简洁有力的产品介绍。
+Twillot是一款面向Twitter重度用户的智能工具,它可以帮助用户方便地整理、搜索和分享Twitter内容,它的slogan是"your smart social media copilot"。
 
-- 同步 Twitter 书签到本地
-- 支持搜索 Twitter 书签
-- 支持对收藏的推文使用 AI 自动打标签
-- 支持导出到Excel以及第三方笔记平台比如 Notion, Roam Research, Evernote等
+这款扩展的主要功能包括:
 
-现在我给这个扩展命名 Twillot，slogan 是：your smart social medial copilot.围绕这个名字和 slogan 生成简短的简介。
+- 同步Twitter书签到本地
+- 支持搜索Twitter书签
+- 支持备份Twitter书签
+- 支持对收藏的推文使用AI自动打标签
+- 支持导出到第三方平台
+
+请围绕产品名称和slogan,根据以上功能点撰写一段简短的简介。
+介绍要突出该扩展如何帮助Twitter重度用户高效整理和利用海量信息,体现出它作为用户智能助手的特点,吸引目标用户的兴趣。
 
 ---
 
@@ -16,6 +21,10 @@ Sync, search, tag, and export your Twitter bookmarks with AI and ease.
 Your AI-fueled sidekick for Twitter bookmarks, bridging the gap between social media and personal organization.
 
 Streamline your Twitter experience with smart syncing, searching, and tagging, and let your social media soar with the power of your smart social media copilot.
+
+Twillot: Your Smart Social Media Copilot. Designed for the Twitter power user, Twillot revolutionizes the way you organize, search, and share Twitter content. With features like local synchronization of Twitter bookmarks, powerful search capabilities, robust backup options, intelligent AI tagging of your favorite tweets, and seamless export to third-party platforms, Twillot is the ultimate tool for managing the vast ocean of information on Twitter efficiently. Make Twillot your go-to assistant and turn information chaos into organized, actionable insights.
+
+Twillot transforms Twitter chaos into organized insights for power users, with AI tagging, bookmark syncing, and seamless sharing—your smart social media copilot.
 
 ## 使用说明提示词
 

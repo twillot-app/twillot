@@ -1,4 +1,4 @@
-import { For } from 'solid-js'
+import { createEffect, For } from 'solid-js'
 
 import dataStore from './store'
 import { Text } from '../components/Tweet'
@@ -7,6 +7,12 @@ import { openPage } from '../libs/dom'
 export const Home = () => {
   let listRef: HTMLDivElement
   const [store] = dataStore
+
+  createEffect(() => {
+    if (store.tweets.length > 0) {
+      listRef.scrollTo(0, 0)
+    }
+  })
 
   return (
     <div

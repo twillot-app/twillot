@@ -10,8 +10,10 @@ import Authenticate from './Authenticate'
 import SupportUs from '../components/SupportUs'
 import Search from './Search'
 import Tabs from './Tabs'
+import { useNavigate } from '@solidjs/router'
 
 export const Layout = (props) => {
+  const navigate = useNavigate()
   const [store, setStore] = dataStore
   const query = async (keyword?: string) => {
     const start = new Date().getTime()
@@ -25,6 +27,7 @@ export const Layout = (props) => {
       setStore('isSupportUsVisible', false)
     }
     setStore('searchTime', new Date().getTime() - start)
+    navigate('/')
   }
 
   onMount(async () => {

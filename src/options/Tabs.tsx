@@ -9,6 +9,10 @@ const tabs = [
     url: '/export-and-sync',
     label: 'Export & Sync',
   },
+  {
+    url: '/support-us',
+    label: 'Support Us',
+  },
 ]
 
 export default function Tabs() {

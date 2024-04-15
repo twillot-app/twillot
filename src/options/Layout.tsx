@@ -113,9 +113,6 @@ export const Layout = (props) => {
             />
           </Show>
         </div>
-        <Show when={store.isSupportUsVisible}>
-          <SupportUs />
-        </Show>
 
         <Tabs />
 

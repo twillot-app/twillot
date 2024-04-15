@@ -1,4 +1,4 @@
-import { createEffect, onMount, Show } from 'solid-js'
+import { onMount, Show } from 'solid-js'
 
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
@@ -52,6 +52,7 @@ export const Layout = (props) => {
         }
         setStore('isForceSyncing', false)
       } else {
+        setStore('syncTime', auth.lastSynced)
         /**
          * 增量更新时先展示最新的 100 条
          * 后续更新同时更新总数和展示数据

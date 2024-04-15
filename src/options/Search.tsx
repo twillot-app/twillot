@@ -27,7 +27,7 @@ export default function Search(props: {
       <input
         type="text"
         class="flex-1 bg-white pl-2 text-base font-semibold outline-0 border-y border-gray-200"
-        placeholder={`Search ${store.totalCount} tweets`}
+        placeholder={`Search ${store.totalCount} tweets, last synced at ${new Date(store.syncTime * 1000).toLocaleString()}`}
         name="keyword"
       />
       <input

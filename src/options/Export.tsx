@@ -4,10 +4,10 @@ import { EXPORT_FORMAT } from '../libs/export'
 
 export default function Export() {
   return (
-    <div class="flex gap-4 flex-col w-[42rem] mx-auto mt-4 text-sm">
+    <div class="flex gap-4 flex-col w-[42rem] mx-auto mt-4 text-base">
       <div class="shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring justify-between  p-0 rounded-xl border border-input flex flex-col">
         <div class="flex flex-col pb-0 w-full p-3 px-4">
-          <h3 class="font-medium relative">Choose your format</h3>
+          <h3 class="font-medium text-base relative">Export as CSV or JSON</h3>
           <div class="mt-1 text-muted-foreground">
             Note: Media files will be exported as links. <br />
             If you want to download them, please leave a comment

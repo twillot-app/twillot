@@ -1,5 +1,6 @@
 import { addRecords, findRecords, toRecord, getTweetId, getRecord } from './db'
 import { Tweet, Header, AuthStatus } from '../types'
+import { exportData, ExportFormatType } from './export'
 
 const pageSize = 100
 
@@ -89,4 +90,19 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
 
 export function searchBookmark(keyword: string, page = 1, pageSize = 100) {
   return findRecords(page, pageSize, keyword)
+}
+
+export async function exportBookmarks(format: ExportFormatType) {
+  let allTweets = await searchBookmark('', 1, 100000)
+  const all = allTweets.map((i) => {
+    return {
+      username: i.username,
+      url: `https://x.com/${i.screen_name}/status/${i.tweet_id}`,
+      content: i.full_text,
+      media: i.media.url.length > 0 ? i.media.url.join('\t') : '',
+      media_count: i.media.url.length,
+      contains_video: i.media.type.includes('video') ? 'Y' : 'N',
+    }
+  })
+  exportData(all, format, `twillot.${format.toLowerCase()}`)
 }

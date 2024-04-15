@@ -3,6 +3,7 @@ import { Show, createEffect, onCleanup } from 'solid-js'
 import dataStore from './store'
 import { getAuthInfo, openNewTab } from '../libs/browser'
 import Indicator from '../components/Indicator'
+import { Alert } from '../components/Alert'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
@@ -43,17 +44,17 @@ export default function Authenticate() {
   onCleanup(() => clearInterval(timerId))
 
   return (
-    <p class="text-black dark:text-white text-center cursor-pointer">
+    <div class="text-black dark:text-white text-center cursor-pointer mt-4">
       <Show
         when={store.isAuthenicating}
         fallback={
-          <span class="text-blue-500 text-lg" onClick={startAuth}>
-            Click here to authenticate
-          </span>
+          <p onClick={startAuth}>
+            <Alert type="error" message="Click here to authenticate" />
+          </p>
         }
       >
         <Indicator text="Authenticating, please wait..." />
       </Show>
-    </p>
+    </div>
   )
 }

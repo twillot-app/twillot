@@ -10,9 +10,6 @@ export default function SupportUs() {
     <section class="bg-white dark:bg-black mt-4">
       <div class="py-8 mx-auto max-w-4xl">
         <div class="mx-auto text-center mb-8">
-          <h2 class="mb-2 text-2xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-            All your bookmarks are now supported by Twillot!
-          </h2>
           <p class="mb-2 font-normal text-gray-500 sm:text-xl dark:text-gray-400">
             Together, we can do more. Choose your best option to engage with us.
           </p>

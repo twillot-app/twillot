@@ -11,6 +11,7 @@ import Authenticate from './Authenticate'
 import SupportUs from '../components/SupportUs'
 import Search from './Search'
 import { openPage } from '../libs/dom'
+// import { EXPORT_FORMAT, exportData } from '../libs/export'
 
 export const Options = () => {
   let listRef: HTMLDivElement
@@ -28,6 +29,18 @@ export const Options = () => {
     }
     listRef.scrollTo(0, 0)
     setStore('searchTime', new Date().getTime() - start)
+    // let allTweets = await searchBookmark('', 1, 100000)
+    // const all = allTweets.map((i) => {
+    //   return {
+    //     username: i.username,
+    //     url: `https://x.com/${i.screen_name}/status/${i.tweet_id}`,
+    //     content: i.full_text,
+    //     media: i.media.url.length > 0 ? i.media.url.join('\t') : '',
+    //     media_count: i.media.url.length,
+    //     contains_video: i.media.type.includes('video') ? 'Y' : 'N',
+    //   }
+    // })
+    // exportData(all, EXPORT_FORMAT.CSV, `twillot.csv`)
   }
 
   onMount(async () => {
@@ -114,6 +127,27 @@ export const Options = () => {
         <Show when={store.isSupportUsVisible}>
           <SupportUs />
         </Show>
+
+        <ul class="w-[42rem] flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 mt-4">
+          <li class="me-2">
+            <a
+              href="#"
+              aria-current="page"
+              class="inline-block px-4 py-2 text-blue-500 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
+            >
+              All Tweets
+            </a>
+          </li>
+          <li class="me-2">
+            <a
+              href="#"
+              class="inline-block px-4 py-2 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+            >
+              Export
+            </a>
+          </li>
+        </ul>
+
         <div
           class="my-4 flex-1 overflow-y-auto w-[42rem] mx-auto"
           onClick={openPage}

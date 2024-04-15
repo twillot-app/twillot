@@ -1,4 +1,4 @@
-import { onMount, Show } from 'solid-js'
+import { createEffect, onMount, Show } from 'solid-js'
 
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
@@ -7,7 +7,6 @@ import { getAuthInfo } from '../libs/browser'
 import { countRecords } from '../libs/db'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
-import SupportUs from '../components/SupportUs'
 import Search from './Search'
 import Tabs from './Tabs'
 import { useNavigate } from '@solidjs/router'
@@ -23,9 +22,6 @@ export const Layout = (props) => {
       store.pageSize,
     )
     setStore('tweets', () => [...tweets])
-    if (keyword) {
-      setStore('isSupportUsVisible', false)
-    }
     setStore('searchTime', new Date().getTime() - start)
     if (isTriggeredByUser) {
       navigate('/')

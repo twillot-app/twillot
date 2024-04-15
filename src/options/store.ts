@@ -1,6 +1,6 @@
 import { createStore } from 'solid-js/store'
 
-import { Tweet } from '../types'
+import type { Tweet, User } from '../types'
 
 export default createStore({
   keyword: '',
@@ -8,6 +8,7 @@ export default createStore({
   pageSize: 100,
   totalCount: 0,
   tweets: new Array<Tweet>(),
+  topUsers: new Array<User>(),
   syncTime: 0,
   searchTime: 0,
   isAuthenicating: false,

@@ -1,4 +1,5 @@
 import { createEffect, For } from 'solid-js'
+import { A } from '@solidjs/router'
 
 import dataStore from './store'
 import { Text } from '../components/Tweet'
@@ -17,10 +18,39 @@ export const Home = () => {
 
   return (
     <div
-      class="my-4 flex-1 overflow-y-auto w-[42rem] mx-auto"
+      class="my-4 flex-1 overflow-y-auto w-[42rem] mx-auto text-black dark:text-white"
       onClick={openPage}
       ref={listRef!}
     >
+      <div class="text-gray-900 bg-white dark:bg-gray-800 dark:text-white p-4 rounded-md relative">
+        <h2 class="text-xl font-bold">Top 10 Users from your bookmarks</h2>
+        <A
+          href="/graph"
+          class="flex absolute top-4 right-4 text-sm text-blue-500 hover:text-blue-700"
+        >
+          More
+        </A>
+        <div class="flex mt-4 justify-between">
+          <For each={store.topUsers}>
+            {(user) => (
+              <A
+                href="/graph"
+                class="flex flex-col items-center cursor-pointer"
+                title={`You bookmarked ${user.count} tweets from ${user.username}`}
+              >
+                <img
+                  class="inline-block h-14 w-14 rounded-full"
+                  src={user.avatar_url.replace('_normal', '_x96')}
+                  alt="avatar"
+                />
+              </A>
+            )}
+          </For>
+        </div>
+      </div>
+
+      <div class="my-4 h-[1px]"></div>
+
       <For each={store.tweets}>
         {(tweet) => (
           <div class="hover:bg-black hover:bg-opacity-5 p-2">

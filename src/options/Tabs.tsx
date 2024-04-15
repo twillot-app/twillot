@@ -6,6 +6,10 @@ const tabs = [
     label: 'Tweets',
   },
   {
+    url: '/graph',
+    label: 'Graph',
+  },
+  {
     url: '/export-and-sync',
     label: 'Export & Sync',
   },
@@ -17,7 +21,7 @@ const tabs = [
 
 export default function Tabs() {
   return (
-    <ul class="w-[42rem] flex flex-wrap text-sm font-medium text-center texb-black border-b border-gray-200 dark:border-gray-500 dark:text-white mt-4">
+    <ul class="w-[42rem] flex flex-wrap text-base font-medium text-center texb-black border-b border-gray-200 dark:border-gray-500 dark:text-white mt-4">
       {tabs.map((tab) => (
         <li class="me-2">
           <A

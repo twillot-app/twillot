@@ -4,7 +4,7 @@ import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
 import { getAuthInfo } from '../libs/browser'
-import { countRecords } from '../libs/db'
+import { countRecords, getTopUsers } from '../libs/db'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
 import Search from './Search'
@@ -52,6 +52,8 @@ export const Layout = (props) => {
         }
         setStore('isForceSyncing', false)
       } else {
+        const topUsers = await getTopUsers(10)
+        setStore('topUsers', topUsers)
         setStore('syncTime', auth.lastSynced)
         /**
          * 增量更新时先展示最新的 100 条

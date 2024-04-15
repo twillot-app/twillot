@@ -201,3 +201,43 @@ export function getTweetId(record): string {
   const legacy = base_result.legacy
   return legacy.id_str
 }
+
+export async function aggregatUsers() {
+  const db = await openDb()
+  const userInfo = {}
+
+  return new Promise((resolve, reject) => {
+    const { objectStore } = getObjectStore(db)
+    const index = objectStore.index('sort_index')
+    const request = index.openCursor()
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        const userId = cursor.value.screen_name
+        if (!userInfo[userId]) {
+          userInfo[userId] = {
+            avatar_url: cursor.value.avatar_url,
+            username: cursor.value.username,
+            screen_name: cursor.value.screen_name,
+            count: 0,
+          }
+        }
+        userInfo[userId].count += 1
+
+        cursor.continue()
+      } else {
+        resolve(userInfo)
+      }
+    }
+
+    request.onerror = () => reject(request.error)
+  })
+}
+
+export async function getTopUsers(num = 10) {
+  const users = await aggregatUsers()
+  return Object.values(users)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, num)
+}

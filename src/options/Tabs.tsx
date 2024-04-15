@@ -6,12 +6,8 @@ const tabs = [
     label: 'Tweets',
   },
   {
-    url: '/export',
-    label: 'Export',
-  },
-  {
-    url: '/sync',
-    label: 'Sync',
+    url: '/export-and-sync',
+    label: 'Export & Sync',
   },
 ]
 

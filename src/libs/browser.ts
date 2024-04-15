@@ -69,3 +69,17 @@ export async function getAuthInfo() {
 
   return auth
 }
+
+export async function addLocalItem(key: string, value: string) {
+  if (value && value.length > 0) {
+    await chrome.storage.local.set({
+      [key]: value,
+    })
+    return value.trim()
+  }
+}
+
+export async function getLocalItem(key: string) {
+  const item = await chrome.storage.local.get(key)
+  return item && item[key]
+}

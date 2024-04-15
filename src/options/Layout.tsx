@@ -3,7 +3,7 @@ import { onMount, Show } from 'solid-js'
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
-import { getAuthInfo } from '../libs/browser'
+import { getAuthInfo, getLocalItem } from '../libs/browser'
 import { countRecords } from '../libs/db'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
@@ -34,6 +34,8 @@ export const Layout = (props) => {
 
   onMount(async () => {
     try {
+      setStore('memApiKey', await getLocalItem('MEM_API_KEY'))
+
       const auth = await getAuthInfo()
       if (!auth || !auth.cookie) {
         throw new Error(AuthStatus.AUTH_FAILED)

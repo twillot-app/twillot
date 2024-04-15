@@ -1,13 +1,15 @@
 import dataStore from './store'
 
-export default function Search(props: { onSubmit: (keyword: string) => void }) {
+export default function Search(props: {
+  onSubmit: (keyword: string, byUser: boolean) => void
+}) {
   const [store, setStore] = dataStore
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
       const keyword = e.target.keyword.value.trim()
       setStore('keyword', keyword)
-      await props.onSubmit(keyword)
+      await props.onSubmit(keyword, true)
     } catch (err) {}
   }
 

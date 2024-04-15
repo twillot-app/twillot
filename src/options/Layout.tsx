@@ -15,7 +15,7 @@ import { useNavigate } from '@solidjs/router'
 export const Layout = (props) => {
   const navigate = useNavigate()
   const [store, setStore] = dataStore
-  const query = async (keyword?: string) => {
+  const query = async (keyword = '', isTriggeredByUser = false) => {
     const start = new Date().getTime()
     const tweets = await searchBookmark(
       keyword || '',
@@ -27,7 +27,9 @@ export const Layout = (props) => {
       setStore('isSupportUsVisible', false)
     }
     setStore('searchTime', new Date().getTime() - start)
-    navigate('/')
+    if (isTriggeredByUser) {
+      navigate('/')
+    }
   }
 
   onMount(async () => {

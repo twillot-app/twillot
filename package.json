@@ -39,6 +39,7 @@
     "vite-plugin-solid": "^2.7.1"
   },
   "dependencies": {
+    "@solidjs/router": "^0.13.2",
     "solid-js": "^1.8.1"
   },
   "packageManager": "pnpm@8.15.4"

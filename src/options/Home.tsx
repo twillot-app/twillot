@@ -98,9 +98,9 @@ export const Home = () => {
                 ))}
               </div>
             </div>
-            <div class="text-blue-500 pl-12 mt-4 -ml-1 cursor-pointer">
+            {/* <div class="text-blue-500 pl-12 mt-4 -ml-1 cursor-pointer">
               <IconBookmark />
-            </div>
+            </div> */}
           </div>
         )}
       </For>

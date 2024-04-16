@@ -1,6 +1,6 @@
 import { Tweet } from '../types'
 
-const DB_VERSION = 2
+const DB_VERSION = 3
 
 function getObjectStore(db: IDBDatabase) {
   const transaction = db.transaction(['tweets'], 'readwrite')
@@ -40,6 +40,9 @@ export function openDb(): Promise<IDBDatabase> {
       if (!objectStore.indexNames.contains('sort_index')) {
         objectStore.createIndex('sort_index', 'sort_index', { unique: false })
       }
+      if (!objectStore.indexNames.contains('screen_name')) {
+        objectStore.createIndex('screen_name', 'screen_name', { unique: false })
+      }
     }
 
     request.onsuccess = (event: Event) => {
@@ -75,6 +78,8 @@ export async function findRecords(
   const db = await openDb()
   const skip = (page - 1) * pageSize // 计算跳过的记录数
   let recordsFetched = 0 // 已获取的记录数
+  const isByUser = typeof keyword === 'object' && keyword.fromUser
+  const q = typeof keyword === 'string' && keyword.toLowerCase()
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db)
@@ -90,15 +95,9 @@ export async function findRecords(
           recordsFetched = skip
         } else {
           const tweet = cursor.value as Tweet
-          if (typeof keyword === 'object' && keyword.fromUser) {
-            if (tweet.screen_name === keyword.fromUser) {
-              results.push(tweet)
-            }
-          } else if (
-            !keyword ||
-            (typeof keyword === 'string' &&
-              tweet.full_text.toLowerCase().includes(keyword.toLowerCase()))
-          ) {
+          if (isByUser && tweet.screen_name === keyword.fromUser) {
+            results.push(tweet)
+          } else if (!keyword || tweet.full_text.toLowerCase().includes(q)) {
             results.push(tweet)
           }
 

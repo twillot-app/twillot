@@ -101,7 +101,7 @@ export const Layout = (props) => {
           </h1>
           <div class="flex items-center justify-center w-full">
             <div class="flex w-full">
-              <Search />
+              <Search onSubmit={query} />
             </div>
           </div>
           <Show when={!!store.keyword.trim()}>

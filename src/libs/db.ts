@@ -202,7 +202,7 @@ export function getTweetId(record): string {
   return legacy.id_str
 }
 
-export async function aggregatUsers() {
+export async function aggregateUsers() {
   const db = await openDb()
   const userInfo = {}
 
@@ -236,7 +236,7 @@ export async function aggregatUsers() {
 }
 
 export async function getTopUsers(num = 10) {
-  const users = await aggregatUsers()
+  const users = await aggregateUsers()
   return Object.values(users)
     .sort((a, b) => b.count - a.count)
     .slice(0, num)

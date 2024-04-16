@@ -1,6 +1,7 @@
-import { For } from 'solid-js'
+import { For, onMount } from 'solid-js'
 
 function TopN(props) {
+  let el = null
   const users = props.users // Sort users by count in descending order
   const maxCount = users[0]?.count
   const minCount = users[users.length - 1]?.count
@@ -17,11 +18,28 @@ function TopN(props) {
   let size = maxAvatarSize
   let x = stageSize / 2 - maxAvatarSize / 2
   let y = stageSize / 2 - maxAvatarSize / 2
+  const initX = stageSize / 2 - minAvatarSize / 2
+  const initY = stageSize / 2 - minAvatarSize / 2
+
+  onMount(() => {
+    setTimeout(() => {
+      el.querySelectorAll('[data-size]').forEach((item) => {
+        const size = item.getAttribute('data-size')
+        const x = item.getAttribute('data-x')
+        const y = item.getAttribute('data-y')
+        item.style.width = `${size}px`
+        item.style.height = `${size}px`
+        item.style.left = `${x}px`
+        item.style.top = `${y}px`
+      })
+    }, 200)
+  })
 
   return (
     <div
       class={`relative`}
       style={{ width: `${stageSize}px`, height: `${stageSize}px` }}
+      ref={el}
     >
       <For each={users}>
         {(user, index) => {
@@ -37,11 +55,16 @@ function TopN(props) {
             <div
               class="absolute rounded-full overflow-hidden border-[rgba(0,0,0,0.25)] border-2 cursor-pointer"
               title={`You bookmarked ${user.username} ${user.count} times`}
+              data-size={size}
+              data-x={x}
+              data-y={y}
               style={{
-                width: `${size}px`,
-                height: `${size}px`,
-                left: `${x}px`,
-                top: `${y}px`,
+                width: `${minAvatarSize}px`,
+                height: `${minAvatarSize}px`,
+                left: `${initX}px`,
+                top: `${initY}px`,
+                transition: `all ${200 + Math.random() * 200}ms ease-out`,
+                'z-index': 20 - index(),
               }}
             >
               <img

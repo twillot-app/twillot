@@ -23,12 +23,12 @@ export const Home = () => {
       ref={listRef!}
     >
       <div class="text-gray-900 bg-black bg-opacity-5 dark:bg-gray-800 dark:text-white dark:bg-opacity-100 p-4 rounded-md relative">
-        <h2 class="text-xl font-bold">Top 10 Users from your bookmarks</h2>
+        <h2 class="text-lg font-bold">Top 10 Authors from your bookmarks</h2>
         <A
           href="/graph"
           class="flex absolute top-4 right-4 text-sm text-blue-500 hover:text-blue-700"
         >
-          More
+          Details
         </A>
         <div class="flex mt-4 justify-between">
           <For each={store.topUsers}>

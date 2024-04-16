@@ -83,7 +83,7 @@ export async function findRecords(
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db)
-    const index = objectStore.index('sort_index')
+    const index = objectStore.index(isByUser ? 'screen_name' : 'sort_index')
     const request = index.openCursor(null, 'prev')
     const results: Tweet[] = []
 

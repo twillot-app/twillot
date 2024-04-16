@@ -22,7 +22,7 @@ export const Home = () => {
       onClick={openPage}
       ref={listRef!}
     >
-      <div class="text-gray-900 bg-white dark:bg-gray-800 dark:text-white p-4 rounded-md relative">
+      <div class="text-gray-900 bg-black bg-opacity-5 dark:bg-gray-800 dark:text-white dark:bg-opacity-100 p-4 rounded-md relative">
         <h2 class="text-xl font-bold">Top 10 Users from your bookmarks</h2>
         <A
           href="/graph"
@@ -49,11 +49,11 @@ export const Home = () => {
         </div>
       </div>
 
-      <div class="my-4 h-[1px]"></div>
+      <div class="my-2 h-[1px]"></div>
 
       <For each={store.tweets}>
         {(tweet) => (
-          <div class="hover:bg-black hover:bg-opacity-5 p-2">
+          <div class="hover:bg-black hover:bg-opacity-5 p-2 rounded-md">
             <div class="flex flex-shrink-0 pb-0">
               <div class="flex items-start cursor-pointer">
                 <div class="mr-2">

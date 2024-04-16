@@ -1,7 +1,7 @@
 import { useNavigate } from '@solidjs/router'
 import dataStore from './store'
 
-export default function Search(props) {
+export default function Search() {
   const [store, setStore] = dataStore
   const navigate = useNavigate()
   const onSubmit = async (e) => {
@@ -9,7 +9,6 @@ export default function Search(props) {
       e.preventDefault()
       const keyword = e.target.keyword.value.trim()
       setStore('keyword', keyword)
-      props.onSubmit(keyword)
       navigate('/')
     } catch (err) {}
   }

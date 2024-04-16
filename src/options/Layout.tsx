@@ -15,11 +15,11 @@ import { parseTwitterQuery } from '../libs/query-parser'
 export const Layout = (props) => {
   const [searchParams] = useSearchParams()
   const [store, setStore] = dataStore
-  const query = async (keyword = '') => {
-    const q = parseTwitterQuery(keyword) as any
+  const query = async () => {
+    const q = parseTwitterQuery(store.keyword) as any
     const start = new Date().getTime()
     const tweets = await searchBookmark(
-      q.fromUser ? q : keyword || '',
+      q.fromUser ? q : store.keyword || '',
       store.page,
       store.pageSize,
     )
@@ -31,7 +31,7 @@ export const Layout = (props) => {
     if (searchParams.q) {
       setStore('keyword', searchParams.q)
     }
-    await query(searchParams.q)
+    await query()
   })
 
   onMount(async () => {
@@ -65,7 +65,6 @@ export const Layout = (props) => {
          * 增量更新时先展示最新的 100 条
          * 后续更新同时更新总数和展示数据
          */
-        await query()
         setStore('isAutoSyncing', true)
         for await (const docs of syncAllBookmarks(auth as Header)) {
           setStore('totalCount', await countRecords())
@@ -101,7 +100,7 @@ export const Layout = (props) => {
           </h1>
           <div class="flex items-center justify-center w-full">
             <div class="flex w-full">
-              <Search onSubmit={query} />
+              <Search />
             </div>
           </div>
           <Show when={!!store.keyword.trim()}>

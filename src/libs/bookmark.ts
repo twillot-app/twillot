@@ -88,7 +88,11 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
   }
 }
 
-export function searchBookmark(keyword: string, page = 1, pageSize = 100) {
+export function searchBookmark(
+  keyword: string | { fromUser: string },
+  page = 1,
+  pageSize = 100,
+) {
   return findRecords(page, pageSize, keyword)
 }
 

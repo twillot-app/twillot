@@ -1,4 +1,4 @@
-import { onMount, Show } from 'solid-js'
+import { createEffect, onMount, Show } from 'solid-js'
 
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
@@ -9,24 +9,30 @@ import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
 import Search from './Search'
 import Tabs from './Tabs'
-import { useNavigate } from '@solidjs/router'
+import { useSearchParams } from '@solidjs/router'
+import { parseTwitterQuery } from '../libs/query-parser'
 
 export const Layout = (props) => {
-  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [store, setStore] = dataStore
-  const query = async (keyword = '', isTriggeredByUser = false) => {
+  const query = async (keyword = '') => {
+    const q = parseTwitterQuery(keyword) as any
     const start = new Date().getTime()
     const tweets = await searchBookmark(
-      keyword || '',
+      q.fromUser ? q : keyword || '',
       store.page,
       store.pageSize,
     )
     setStore('tweets', () => [...tweets])
     setStore('searchTime', new Date().getTime() - start)
-    if (isTriggeredByUser) {
-      navigate('/')
-    }
   }
+
+  createEffect(async () => {
+    if (searchParams.q) {
+      setStore('keyword', searchParams.q)
+    }
+    await query(searchParams.q)
+  })
 
   onMount(async () => {
     try {
@@ -95,7 +101,7 @@ export const Layout = (props) => {
           </h1>
           <div class="flex items-center justify-center w-full">
             <div class="flex w-full">
-              <Search onSubmit={query} />
+              <Search />
             </div>
           </div>
           <Show when={!!store.keyword.trim()}>

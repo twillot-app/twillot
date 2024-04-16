@@ -58,6 +58,7 @@ function TopN(props) {
               data-size={size}
               data-x={x}
               data-y={y}
+              onClick={() => props.onClick(user.screen_name)}
               style={{
                 width: `${minAvatarSize}px`,
                 height: `${minAvatarSize}px`,

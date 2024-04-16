@@ -70,7 +70,7 @@ export async function addRecords(records: Tweet[]): Promise<void> {
 export async function findRecords(
   page = 1,
   pageSize = 100,
-  keyword?: string,
+  keyword?: string | { fromUser: string },
 ): Promise<Tweet[]> {
   const db = await openDb()
   const skip = (page - 1) * pageSize // 计算跳过的记录数
@@ -90,12 +90,18 @@ export async function findRecords(
           recordsFetched = skip
         } else {
           const tweet = cursor.value as Tweet
-          if (
+          if (typeof keyword === 'object' && keyword.fromUser) {
+            if (tweet.screen_name === keyword.fromUser) {
+              results.push(tweet)
+            }
+          } else if (
             !keyword ||
-            tweet.full_text.toLowerCase().includes(keyword.toLowerCase())
+            (typeof keyword === 'string' &&
+              tweet.full_text.toLowerCase().includes(keyword.toLowerCase()))
           ) {
             results.push(tweet)
           }
+
           if (results.length < skip + pageSize) {
             cursor.continue()
           } else {

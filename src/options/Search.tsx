@@ -1,15 +1,15 @@
+import { useNavigate } from '@solidjs/router'
 import dataStore from './store'
 
-export default function Search(props: {
-  onSubmit: (keyword: string, byUser: boolean) => void
-}) {
+export default function Search() {
   const [store, setStore] = dataStore
+  const navigate = useNavigate()
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
       const keyword = e.target.keyword.value.trim()
       setStore('keyword', keyword)
-      await props.onSubmit(keyword, true)
+      navigate('/')
     } catch (err) {}
   }
 
@@ -29,6 +29,7 @@ export default function Search(props: {
         class="flex-1 bg-white pl-2 text-base font-semibold outline-0 border-y border-gray-200"
         placeholder={`Search ${store.totalCount} tweets, last synced at ${new Date(store.syncTime * 1000).toLocaleString()}`}
         name="keyword"
+        value={store.keyword}
       />
       <input
         type="submit"

@@ -1,7 +1,7 @@
 import { For } from 'solid-js'
 
 function TopN(props) {
-  const users = props.users.sort((a, b) => b.count - a.count) // Sort users by count in descending order
+  const users = props.users // Sort users by count in descending order
   const maxCount = users[0]?.count
   const minCount = users[users.length - 1]?.count
   const maxAvatarSize = 120
@@ -14,6 +14,9 @@ function TopN(props) {
       minAvatarSize
     )
   }
+  let size = maxAvatarSize
+  let x = stageSize / 2 - maxAvatarSize / 2
+  let y = stageSize / 2 - maxAvatarSize / 2
 
   return (
     <div
@@ -22,14 +25,12 @@ function TopN(props) {
     >
       <For each={users}>
         {(user, index) => {
-          let size = maxAvatarSize
-          let x = stageSize / 2 - maxAvatarSize / 2
-          let y = stageSize / 2 - maxAvatarSize / 2
           if (index() !== 0) {
-            const angle = ((360 / users.length) * index() * Math.PI) / 180
+            const angle =
+              ((360 / (users.length - 1)) * (index() - 1) * Math.PI) / 180
             size = scaleSize(user.count)
-            x = Math.cos(angle) * 200 + 250 - size / 2
-            y = Math.sin(angle) * 200 + 250 - size / 2
+            x = Math.cos(angle) * 190 + stageSize / 2 - size / 2
+            y = Math.sin(angle) * 190 + stageSize / 2 - size / 2
           }
 
           return (

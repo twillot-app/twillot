@@ -83,3 +83,19 @@ export async function getLocalItem(key: string) {
   const item = await chrome.storage.local.get(key)
   return item && item[key]
 }
+
+export async function createPopup(url: string) {
+  const tab = await chrome.tabs.create({
+    url,
+    active: true,
+  })
+  const window = await chrome.windows.create({
+    tabId: tab.id,
+    type: 'popup',
+    width: 400,
+    height: 800,
+    focused: true,
+  })
+
+  return window
+}

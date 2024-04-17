@@ -36,6 +36,12 @@ export const Layout = (props) => {
 
   onMount(async () => {
     try {
+      /**
+       * 可能之前已经同步过数据，先获取试试
+       */
+      const topUsers = await getTopUsers(10)
+      setStore('topUsers', topUsers)
+
       const auth = await getAuthInfo()
       if (!auth || !auth.cookie) {
         throw new Error(AuthStatus.AUTH_FAILED)
@@ -50,6 +56,9 @@ export const Layout = (props) => {
          * 后续更新只更新总数
          */
         for await (const docs of syncAllBookmarks(auth as Header, true)) {
+          /**
+           * 已经有最新的数据展示，不对数据进行操作
+           */
           if (store.tweets.length > 0) {
             setStore('totalCount', (val) => val + docs.length)
           } else {
@@ -57,9 +66,9 @@ export const Layout = (props) => {
           }
         }
         setStore('isForceSyncing', false)
-      } else {
         const topUsers = await getTopUsers(10)
         setStore('topUsers', topUsers)
+      } else {
         setStore('syncTime', auth.lastSynced)
         /**
          * 增量更新时先展示最新的 100 条
@@ -83,6 +92,7 @@ export const Layout = (props) => {
         lastSynced: syncedTime,
       })
       setStore('syncTime', syncedTime)
+      setStore('topUsers', await getTopUsers(10))
     } catch (err) {
       console.error(err)
       if (err.message == AuthStatus.AUTH_FAILED) {
@@ -92,7 +102,7 @@ export const Layout = (props) => {
   })
 
   return (
-    <main class="bg-white dark:bg-black">
+    <main class="bg-white dark:bg-black text-black dark:text-white">
       <div class="flex flex-col items-center h-screen">
         <div class="w-[42rem] mx-auto">
           <h1 class="font-large text-xl text-center my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">

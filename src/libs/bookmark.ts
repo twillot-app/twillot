@@ -1,5 +1,5 @@
 import { addRecords, findRecords, toRecord, getTweetId, getRecord } from './db'
-import { Tweet, Header, AuthStatus } from '../types'
+import { Tweet, Header, AuthStatus, Host } from '../types'
 import { exportData, ExportFormatType } from './export'
 
 const pageSize = 100
@@ -25,13 +25,12 @@ async function getBookmarks(headers: Header, cursor?: string) {
         authorization: headers.token,
         'content-type': 'application/json',
         'x-csrf-token': headers.csrf,
-        'x-twitter-active-user': 'no',
+        'x-twitter-active-user': 'yes',
         'x-twitter-auth-type': 'OAuth2Session',
-        'x-twitter-client-language': 'zh-cn',
+        'x-twitter-client-language': 'en-us',
         cookie: headers.cookie,
-        Referer: 'https://twitter.com/i/bookmarks',
+        Referer: `${Host}/i/bookmarks`,
       },
-      referrer: 'https://twitter.com/i/bookmarks',
       body: null,
       method: 'GET',
     })

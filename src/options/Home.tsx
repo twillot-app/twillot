@@ -33,7 +33,14 @@ export const Home = () => {
           Details
         </A>
         <div class="flex mt-4 justify-between">
-          <For each={store.topUsers}>
+          <For
+            each={store.topUsers}
+            fallback={
+              <div class="text-center p-4 w-full text-base text-gray-400">
+                Hold on, Twillot is fetching your bookmarks ...
+              </div>
+            }
+          >
             {(user) => (
               <A
                 href="/graph"

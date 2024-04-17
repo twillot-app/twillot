@@ -123,7 +123,12 @@ export const Layout = (props) => {
           </Show>
           <Show when={store.isForceSyncing}>
             <Indicator
-              text={`Sync in progress: ${store.totalCount} tweets. Please do not refresh or close this page.`}
+              text={
+                <div class="text-center">
+                  Sync in progress: {store.totalCount} tweets. <br /> Please do
+                  not refresh or close this page.
+                </div>
+              }
             />
           </Show>
         </div>

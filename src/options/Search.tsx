@@ -34,7 +34,7 @@ export default function Search() {
       <input
         type="submit"
         value="Search"
-        class="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
+        class="bg-blue-500 py-2 px-4 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-700 transition-colors cursor-pointer text-base"
       />
     </form>
   )

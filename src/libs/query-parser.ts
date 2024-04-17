@@ -18,7 +18,3 @@ export function parseTwitterQuery(query) {
 
   return result
 }
-
-const query = 'from:NASA since:2020-01-01 until:2020-01-31 #space'
-const parsedQuery = parseTwitterQuery(query)
-console.log(parsedQuery)

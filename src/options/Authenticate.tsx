@@ -4,6 +4,7 @@ import dataStore from './store'
 import { getAuthInfo, openNewTab } from '../libs/browser'
 import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
+import { ActionPage } from '../types'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
@@ -26,7 +27,7 @@ export default function Authenticate() {
     const authed = await checkAuth()
     if (authed) return
     setStore('isAuthenicating', true)
-    tab = await openNewTab('https://twitter.com/i/bookmarks?twillot=reauth')
+    tab = await openNewTab(ActionPage.AUTHENTICATE)
     timerId = setInterval(checkAuth, 5000)
   }
 

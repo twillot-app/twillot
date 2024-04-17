@@ -35,3 +35,10 @@ export interface User {
   avatar_url: string
   count: number
 }
+
+export enum ActionPage {
+  DEL_BOOKMARK = 'https://twitter.com/i/bookmarks?twillot=delete-bookmark',
+  AUTHENTICATE = 'https://twitter.com/i/bookmarks?twillot=reauth',
+}
+
+export const Host = 'https://twitter.com'

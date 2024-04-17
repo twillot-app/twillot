@@ -5,6 +5,8 @@ import dataStore from './store'
 import { Text } from '../components/Tweet'
 import { openPage } from '../libs/dom'
 import { IconBookmark } from '../components/IconBookmark'
+import { Host } from '../types'
+import { removeBookmark } from './handlers'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -60,26 +62,22 @@ export const Home = () => {
                   <img
                     class="inline-block h-10 w-10 rounded-full"
                     src={tweet.avatar_url.replace('_normal', '_x96')}
-                    data-text={`https://twitter.com/${tweet.screen_name}/`}
+                    data-text={`${Host}/${tweet.screen_name}/`}
                     alt="avatar"
                   />
                 </div>
                 <div class="cursor-pointer">
                   <p class="text-base leading-6 font-bold text-black dark:text-white">
-                    <span
-                      data-text={`https://twitter.com/${tweet.screen_name}/`}
-                    >
+                    <span data-text={`${Host}/${tweet.screen_name}/`}>
                       {tweet.username}&nbsp;
                     </span>
                     <span class="text-sm leading-5 ml-1 font-normal text-[rgb(83,100,113)] dark:text-gray-500">
-                      <span
-                        data-text={`https://twitter.com/${tweet.screen_name}/`}
-                      >
+                      <span data-text={`${Host}/${tweet.screen_name}/`}>
                         @{tweet.screen_name} ·{' '}
                       </span>
                       <span
                         class="dark:text-gray-500"
-                        data-text={`https://twitter.com/${tweet.screen_name}/status/${tweet.tweet_id}`}
+                        data-text={`${Host}/${tweet.screen_name}/status/${tweet.tweet_id}`}
                       >
                         {new Date(tweet.created_at * 1000).toLocaleString()}
                       </span>
@@ -98,9 +96,11 @@ export const Home = () => {
                 ))}
               </div>
             </div>
-            {/* <div class="text-blue-500 pl-12 mt-4 -ml-1 cursor-pointer">
-              <IconBookmark />
-            </div> */}
+            <div class="text-blue-500 pl-12 mt-4 -ml-1 cursor-pointer">
+              <div onClick={() => removeBookmark(tweet.tweet_id)}>
+                <IconBookmark />
+              </div>
+            </div>
           </div>
         )}
       </For>

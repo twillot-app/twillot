@@ -27,18 +27,21 @@ export default function Graph() {
               onClick={searchByScreenName}
             />
           </Show>
-          <ul class="flex-1 flex flex-col ml-4">
+          <ul class="flex-1 flex flex-col ml-12">
             <For each={store.topUsers}>
               {(user, index) => {
                 return (
                   <li
-                    class="flex mt-2 justify-between items-center cursor-pointer"
+                    class="flex mt-2 items-center cursor-pointer"
                     title={user.username}
                     onClick={() => searchByScreenName(user.screen_name)}
                   >
                     <span class="italic w-8 font-medium">#{index() + 1}</span>
-                    <img src={user.avatar_url} class="w-10 h-10 rounded-full" />
-                    <p class="flex-1 flex flex-col text-right">
+                    <img
+                      src={user.avatar_url}
+                      class="w-10 h-10 rounded-full ml-2"
+                    />
+                    <p class="flex flex-1 flex-col text-right">
                       <span class="italic">{user.count}</span>
                     </p>
                   </li>

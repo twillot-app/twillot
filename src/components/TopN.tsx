@@ -53,7 +53,7 @@ function TopN(props) {
 
           return (
             <div
-              class="absolute rounded-full overflow-hidden border-[rgba(0,0,0,0.25)] border-2 cursor-pointer"
+              class="absolute rounded-full overflow-hidden border-[rgba(0,0,0,0.25)] border-2 cursor-pointer dark:border-gray-400"
               title={`You bookmarked ${user.username} ${user.count} times`}
               data-size={size}
               data-x={x}

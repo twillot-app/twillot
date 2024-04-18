@@ -1,3 +1,5 @@
+import { Host, X_DOMAIN } from '../types'
+
 export function openNewTab(url: string) {
   return chrome.tabs.create({
     url,
@@ -35,7 +37,7 @@ export async function onSendHeaders(
   }
 
   if (csrf && token) {
-    const cookies = await chrome.cookies.getAll({ domain: 'twitter.com' })
+    const cookies = await chrome.cookies.getAll({ domain: X_DOMAIN })
     const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
     await chrome.storage.local.set({
       cookie: cookiesStr,
@@ -52,7 +54,7 @@ export function authTwitter() {
   chrome.webRequest.onSendHeaders.addListener(
     onSendHeaders,
     {
-      urls: ['https://twitter.com/i/api/graphql/*'],
+      urls: [`${Host}/i/api/graphql/*`],
     },
     ['requestHeaders'],
   )

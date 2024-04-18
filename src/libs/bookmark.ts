@@ -1,6 +1,14 @@
 import { addRecords, findRecords, toRecord, getTweetId, getRecord } from './db'
-import { Tweet, Header, AuthStatus, Host } from '../types'
+import {
+  Header,
+  AuthStatus,
+  Host,
+  TimelineEntry,
+  TimelineTimelineItem,
+  TimelineTweet,
+} from '../types'
 import { exportData, ExportFormatType } from './export'
+import { BookmarksResponse } from '../types'
 
 const pageSize = 100
 
@@ -34,7 +42,7 @@ async function getBookmarks(headers: Header, cursor?: string) {
       body: null,
       method: 'GET',
     })
-    const json = await res.json()
+    const json = (await res.json()) as BookmarksResponse
     return json
   } catch (error) {
     console.error('Authentication failed', error)
@@ -57,7 +65,7 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
 
     const tweets = instruction.entries.filter(
       (e) => e.content.entryType === 'TimelineTimelineItem',
-    ) as Tweet[]
+    ) as TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[]
     if (!tweets.length) {
       console.warn(
         `Reached end of bookmarks with cursor ${cursor}, ${tweets.length}`,
@@ -79,11 +87,16 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
         }
       }
 
-      const docs = tweets.map(toRecord)
+      const docs = tweets.map((i) => toRecord(i))
       await addRecords(docs)
       yield docs
     }
-    cursor = instruction.entries[instruction.entries.length - 1]?.content.value
+    const target = instruction.entries[instruction.entries.length - 1].content
+    if (target.entryType === 'TimelineTimelineCursor') {
+      cursor = target.value
+    } else {
+      break
+    }
   }
 }
 
@@ -100,7 +113,7 @@ export async function exportBookmarks(format: ExportFormatType) {
   const all = allTweets.map((i) => {
     return {
       username: i.username,
-      url: `https://x.com/${i.screen_name}/status/${i.tweet_id}`,
+      url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
       content: i.full_text,
       media: i.media.url.length > 0 ? i.media.url.join('\t') : '',
       media_count: i.media.url.length,

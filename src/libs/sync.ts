@@ -2,6 +2,7 @@ import { searchBookmark } from './bookmark'
 import { getLocalItem } from './browser'
 import { mem as memApi } from './api'
 import { countRecords } from './db'
+import { Host } from '../types'
 
 export async function* mem() {
   const key = await getLocalItem('MEM_API_KEY')
@@ -19,7 +20,7 @@ export async function* mem() {
 
     await memApi({
       datalist: tweets.map((t) => ({
-        content: `${t.full_text}\n\nSource: ${`https://x.com/${t.screen_name}/status/${t.tweet_id}`}`,
+        content: `${t.full_text}\n\nSource: ${`${Host}/${t.screen_name}/status/${t.tweet_id}`}`,
       })),
       key,
     })

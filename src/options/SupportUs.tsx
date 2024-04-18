@@ -1,5 +1,6 @@
 import { openPage } from '../libs/dom'
 import Checked from '../components/Checked'
+import { Host } from '../types'
 
 const share_text = encodeURIComponent(
   'Check out this awesome tool for searching and exporting twitter bookmarks! #twillot #buildinpublic https://dub.sh/7ubLVdF',
@@ -41,7 +42,7 @@ export default function SupportUs() {
             </ul>
             <div
               class="mx-auto cursor-pointer items-center mb-2 flex rounded-[28px] bg-blue-500 px-6 py-2.5 font-medium leading-normal text-white shadow-md transition duration-150 ease-in-out"
-              data-text={`https://twitter.com/intent/tweet?text=${share_text}`}
+              data-text={`${Host}/intent/tweet?text=${share_text}`}
               onClick={openPage}
             >
               <span class="[&>svg]:h-5 [&>svg]:w-5 [&>svg]:fill-black pointer-events-none">

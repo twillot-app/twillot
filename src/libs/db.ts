@@ -1,4 +1,9 @@
-import { Tweet } from '../types'
+import {
+  TimelineTweet,
+  Tweet,
+  TimelineEntry,
+  TimelineTimelineItem,
+} from '../types'
 
 const DB_VERSION = 3
 
@@ -65,7 +70,9 @@ export async function addRecords(records: Tweet[]): Promise<void> {
       )
     }
     records.forEach((record) => {
-      objectStore.put(record)
+      if (record) {
+        objectStore.put(record)
+      }
     })
   })
 }
@@ -158,10 +165,15 @@ export async function countRecords(): Promise<number> {
     }
   })
 }
-
-export function toRecord(record) {
+export function toRecord(
+  record: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>,
+): Tweet | null {
   let base_result = record.content.itemContent.tweet_results.result
-  if (base_result.tweet) {
+  const typename = base_result.__typename
+  if (typename !== 'Tweet' && typename !== 'TweetWithVisibilityResults') {
+    return null
+  }
+  if (typename === 'TweetWithVisibilityResults') {
     base_result = base_result.tweet
   }
   const legacy = base_result.legacy
@@ -195,7 +207,7 @@ export function toRecord(record) {
       base_result.note_tweet?.note_tweet_results.result.text ||
       legacy.full_text,
     created_at: Math.floor(new Date(legacy.created_at).getTime() / 1000),
-  }
+  } as Tweet
 }
 
 export function getTweetId(record): string {

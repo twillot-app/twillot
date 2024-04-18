@@ -94,7 +94,7 @@ export const Home = () => {
               </div>
             </div>
             <div class="pl-12 -mt-2">
-              <div class="text-base leading-5 width-auto font-normal text-[rgb(15,20,25)] dark:text-white flex-shrink">
+              <div class="text-base leading-6 width-auto font-normal text-[rgb(15,20,25)] dark:text-white flex-shrink">
                 <FullText text={tweet.full_text} keyword={store.keyword} />
               </div>
             </div>

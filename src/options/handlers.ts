@@ -60,7 +60,7 @@ export async function initSync() {
          * 已经有最新的数据展示，不对数据进行操作
          */
         if (store.tweets.length > 0) {
-          setStore('totalCount', (val) => val + docs.length)
+          setStore('totalCount', await countRecords())
         } else {
           setStore('tweets', () => [...docs])
         }

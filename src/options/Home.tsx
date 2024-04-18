@@ -2,11 +2,11 @@ import { createEffect, For } from 'solid-js'
 import { A } from '@solidjs/router'
 
 import dataStore from './store'
-import { Text } from '../components/Tweet'
+import { FullText } from '../components/Tweet'
 import { openPage } from '../libs/dom'
-import { IconBookmark } from '../components/IconBookmark'
+// import { IconBookmark } from '../components/IconBookmark'
 import { Host } from '../types'
-import { removeBookmark } from './handlers'
+// import { removeBookmark } from './handlers'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -95,12 +95,7 @@ export const Home = () => {
             </div>
             <div class="pl-12 -mt-2">
               <div class="text-base leading-5 width-auto font-normal text-[rgb(15,20,25)] dark:text-white flex-shrink">
-                {tweet.full_text.split('\n').map((i) => (
-                  <>
-                    <Text text={i} keyword={store.keyword} />
-                    <br />
-                  </>
-                ))}
+                <FullText text={tweet.full_text} keyword={store.keyword} />
               </div>
             </div>
             {/* <div class="text-blue-500 pl-12 mt-4 -ml-1 cursor-pointer">

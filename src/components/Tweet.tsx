@@ -1,8 +1,13 @@
 import { createSignal, Show } from 'solid-js'
+import { Host } from '../types'
 
 const dots = '<span class="text-gray-400 flex items-center my-1">...</span>'
 const markTag = '<mark>$&</mark>'
 const maxChars = 280
+const urlRegex = /(https?:\/\/[^\s]+)/g
+const usernameRegex = /(@[a-zA-Z0-9_]{1,15})\b/g
+const hashtagRegex = /(#[a-zA-Z0-9_]+)\b/g
+
 const escapeHtml = (unsafe: string) => {
   return unsafe
     .replace(/&/g, '&amp;')
@@ -10,6 +15,22 @@ const escapeHtml = (unsafe: string) => {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;')
+}
+
+function richText(tweet: string): string {
+  return tweet
+    .replace(
+      urlRegex,
+      '<a href="$1" target="_blank" class="text-blue-500">$1</a>',
+    )
+    .replace(
+      usernameRegex,
+      `<a href="${Host}/$1" target="_blank" class="text-blue-500">$1</a>`,
+    )
+    .replace(
+      hashtagRegex,
+      `<a href="${Host}/hashtag/$1" target="_blank" class="text-blue-500">$1</a>`,
+    )
 }
 
 export const FullText = (props: { text: string; keyword?: string }) => {
@@ -30,7 +51,7 @@ export const FullText = (props: { text: string; keyword?: string }) => {
       excerpt += dots
     }
 
-    return `${excerpt.replace(regex, markTag)} `
+    return richText(excerpt.replace(regex, markTag))
   }
 
   return (
@@ -53,9 +74,9 @@ export const FullText = (props: { text: string; keyword?: string }) => {
     >
       <span
         class="text-wrap whitespace-pre-wrap"
-        innerHTML={
-          props.keyword ? props.text.replace(regex, markTag) : props.text
-        }
+        innerHTML={richText(
+          props.keyword ? props.text.replace(regex, markTag) : props.text,
+        )}
       />
     </Show>
   )

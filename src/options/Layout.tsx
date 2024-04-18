@@ -31,8 +31,9 @@ export const Layout = (props) => {
     if (searchParams.q) {
       setStore('keyword', searchParams.q)
     }
-    await query()
   })
+
+  createEffect(query)
 
   onMount(async () => {
     try {

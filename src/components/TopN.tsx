@@ -1,4 +1,5 @@
 import { For, onMount } from 'solid-js'
+import { A } from '@solidjs/router'
 
 function TopN(props) {
   let el = null
@@ -68,10 +69,12 @@ function TopN(props) {
                 'z-index': 20 - index(),
               }}
             >
-              <img
-                src={user.avatar_url.replace('normal', '200x200')}
-                class="w-full h-auto block"
-              />
+              <A href={`/?q=from:${user.screen_name}`}>
+                <img
+                  src={user.avatar_url.replace('normal', '200x200')}
+                  class="w-full h-auto block"
+                />
+              </A>
             </div>
           )
         }}

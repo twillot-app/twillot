@@ -41,13 +41,12 @@ export const Layout = (props) => {
        */
       const topUsers = await getTopUsers(10)
       setStore('topUsers', topUsers)
+      setStore('totalCount', await countRecords())
 
       const auth = await getAuthInfo()
       if (!auth || !auth.cookie) {
         throw new Error(AuthStatus.AUTH_FAILED)
       }
-
-      setStore('totalCount', await countRecords())
 
       if (!auth.lastSynced) {
         setStore('isForceSyncing', true)

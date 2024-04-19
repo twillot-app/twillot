@@ -21,12 +21,12 @@ export async function removeBookmark(tweet_id: string) {
   }
 }
 
-export async function query() {
+export async function query(keyword = '') {
   const [store, setStore] = dataStore
-  const q = parseTwitterQuery(store.keyword) as any
+  const q = parseTwitterQuery(keyword) as any
   const start = new Date().getTime()
   const tweets = await searchBookmark(
-    q.fromUser ? q : store.keyword || '',
+    q.fromUser ? q : keyword || '',
     store.page,
     store.pageSize,
   )
@@ -34,7 +34,7 @@ export async function query() {
   setStore('searchTime', new Date().getTime() - start)
 }
 
-export async function initSync() {
+export async function initSync(keyword = '') {
   const [store, setStore] = dataStore
   try {
     /**
@@ -83,7 +83,7 @@ export async function initSync() {
         if (store.isAutoSyncing && store.keyword.trim()) {
           continue
         }
-        await query()
+        await query(keyword)
       }
       setStore('isAutoSyncing', false)
     }

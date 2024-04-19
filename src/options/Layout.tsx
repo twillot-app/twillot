@@ -12,14 +12,18 @@ export const Layout = (props) => {
   const [searchParams] = useSearchParams()
   const [store, setStore] = dataStore
 
-  createEffect(async () => {
+  createEffect(() => {
     if (searchParams.q) {
       setStore('keyword', searchParams.q)
     }
   })
 
-  createEffect(query)
-  onMount(initSync)
+  createEffect(() => {
+    query(store.keyword)
+  })
+  onMount(() => {
+    initSync(searchParams.q)
+  })
 
   return (
     <main class="bg-white dark:bg-black text-black dark:text-white">

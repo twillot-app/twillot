@@ -11,8 +11,10 @@ const hashtagRegex = /(\s|^)#([a-zA-Z0-9_]+)\b/g
 export const maxChars = 280
 
 export function escapeHtml(unsafe: string): string {
+  /**
+   * & 不处理，一般处理过一遍
+   */
   return unsafe
-    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
@@ -23,10 +25,14 @@ export function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+/**
+ * 高亮关键字，不命中 html 标签相关的属性
+ */
 export function highlight(html: string, reg: RegExp) {
-  return html.replace(new RegExp(`>([^<]*)`, 'g'), (match, group1) => {
-    return '>' + group1.replace(reg, '<mark>$1</mark>')
-  })
+  return html.replace(
+    new RegExp(`(?!<[^<>]*)${reg.source}(?![^<>]*>)`, 'gi'),
+    '<mark>$1</mark>',
+  )
 }
 
 export function linkify(text: string) {
@@ -46,18 +52,15 @@ export function linkify(text: string) {
 
 export function highlightAndLinkify(
   text: string,
-  query: string,
+  keywordReg?: RegExp,
   expanded = false,
 ): string {
-  text = escapeHtml(text)
-
-  if (query) {
-    query = escapeHtml(query)
-    const escapedQueryForRegex = escapeRegExp(query)
-    const highlightRegex = new RegExp(`(${escapedQueryForRegex})`, 'gi')
-
+  if (keywordReg) {
+    /**
+     * 文本太长则仅显示摘要
+     */
     if (!expanded) {
-      const index = text.search(highlightRegex)
+      const index = text.search(keywordReg)
       const startIndex = Math.max(0, index - prevChars)
       const endIndex = Math.min(text.length, index + nextChars)
       let exerpt = text.slice(startIndex, endIndex)
@@ -68,10 +71,10 @@ export function highlightAndLinkify(
         exerpt += dots
       }
 
-      return highlight(linkify(exerpt), highlightRegex)
+      return highlight(linkify(exerpt), keywordReg)
     }
 
-    return highlight(linkify(text), highlightRegex)
+    return highlight(linkify(text), keywordReg)
   } else {
     return linkify(text)
   }

@@ -1,16 +1,24 @@
 import { createMemo, createSignal, Show } from 'solid-js'
-import { escapeHtml, highlightAndLinkify, maxChars } from '../libs/text'
+import {
+  escapeHtml,
+  escapeRegExp,
+  highlightAndLinkify,
+  maxChars,
+} from '../libs/text'
 
 export const FullText = (props: { text: string; keyword?: string }) => {
   const [showFullText, setShowFullText] = createSignal(
     !props.keyword || props.text.length < maxChars,
   )
-  const text = escapeHtml(props.text)
   const keyword = props.keyword ? escapeHtml(props.keyword) : ''
-  const regex = props.keyword && new RegExp(keyword, 'gi')
-  const matches = props.keyword ? text.match(regex)?.length || 0 : 0
+  const text = keyword ? escapeHtml(props.text) : props.text
+  const escapedQueryForRegex = keyword ? escapeRegExp(keyword) : ''
+  const highlightRegex = keyword
+    ? new RegExp(`(${escapedQueryForRegex})`, 'gi')
+    : null
+  const matches = keyword ? text.match(highlightRegex)?.length || 0 : 0
   const html = createMemo(() =>
-    highlightAndLinkify(text, keyword, showFullText()),
+    highlightAndLinkify(text, highlightRegex, showFullText()),
   )
 
   return (

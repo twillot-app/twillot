@@ -12,13 +12,9 @@ export const maxChars = 280
 
 export function escapeHtml(unsafe: string): string {
   /**
-   * & 不处理，一般处理过一遍
+   * & " ' 已经转义，不需要再次转义
    */
-  return unsafe
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
+  return unsafe.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
 export function escapeRegExp(string: string): string {

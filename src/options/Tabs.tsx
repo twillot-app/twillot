@@ -15,7 +15,7 @@ const tabs = [
   },
   {
     url: '/support-us',
-    label: 'Support Us',
+    label: 'Support',
   },
 ]
 

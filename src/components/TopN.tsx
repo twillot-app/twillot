@@ -7,7 +7,7 @@ function TopN(props) {
   const maxCount = users[0]?.count
   const minCount = users[users.length - 1]?.count
   const maxAvatarSize = 120
-  const minAvatarSize = 60
+  const minAvatarSize = 40
   const stageSize = props.stageSize
   const scaleSize = (count) => {
     return (

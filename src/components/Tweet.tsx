@@ -4,9 +4,10 @@ import { Host } from '../types'
 const dots = '<span class="text-gray-400 flex items-center my-1">...</span>'
 const markTag = '<mark>$&</mark>'
 const maxChars = 280
-const urlRegex = /(https?:\/\/[^\s]+)/g
-const usernameRegex = /(@[a-zA-Z0-9_]{1,15})\b/g
-const hashtagRegex = /(#[a-zA-Z0-9_]+)\b/g
+const urlRegex =
+  /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))/g
+const usernameRegex = /(?<!@)(@\w{1,15})\b/g
+const hashtagRegex = /(\s|^)(#[a-zA-Z0-9_]+)\b/g
 
 const escapeHtml = (unsafe: string) => {
   return unsafe
@@ -21,7 +22,7 @@ function richText(tweet: string): string {
   return tweet
     .replace(
       urlRegex,
-      '<a href="$1" target="_blank" class="text-blue-500">$1</a>',
+      `<a href="$1" target="_blank" class="text-blue-500">$1</a>`,
     )
     .replace(
       usernameRegex,
@@ -29,7 +30,7 @@ function richText(tweet: string): string {
     )
     .replace(
       hashtagRegex,
-      `<a href="${Host}/hashtag/$1" target="_blank" class="text-blue-500">$1</a>`,
+      `<a href="${Host}/hashtag/$2" target="_blank" class="text-blue-500">$2</a>`,
     )
 }
 
@@ -38,7 +39,7 @@ export const FullText = (props: { text: string; keyword?: string }) => {
     !props.keyword || props.text.length < maxChars,
   )
   const regex = props.keyword && new RegExp(props.keyword, 'gi')
-  const matches = props.keyword ? props.text.match(regex).length : 0
+  const matches = props.keyword ? props.text.match(regex)?.length || 0 : 0
   const highlightText = () => {
     const index = props.text.search(regex)
     const startIndex = Math.max(0, index - 100)

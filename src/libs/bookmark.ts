@@ -6,9 +6,11 @@ import {
   TimelineEntry,
   TimelineTimelineItem,
   TimelineTweet,
+  TimelineAddEntriesInstruction,
 } from '../types'
 import { exportData, ExportFormatType } from './export'
 import { BookmarksResponse } from '../types'
+import { addLocalItem, getLocalItem } from './browser'
 
 const pageSize = 100
 
@@ -51,13 +53,16 @@ async function getBookmarks(headers: Header, cursor?: string) {
 }
 
 export async function* syncAllBookmarks(headers: Header, forceSync = false) {
-  let cursor: string | undefined = undefined
+  /**
+   * 从上次同步位置开始同步，如果没有上次同步位置，则从头开始同步
+   */
+  let cursor: string | undefined = await getLocalItem('bookmark_cursor')
   while (true) {
     const json = await getBookmarks(headers, cursor)
     const instruction =
       json.data.bookmark_timeline_v2.timeline.instructions?.find(
         (i) => i.type === 'TimelineAddEntries',
-      )
+      ) as TimelineAddEntriesInstruction | undefined
     if (!instruction) {
       console.error('No instructions found in response')
       break
@@ -94,6 +99,7 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
     const target = instruction.entries[instruction.entries.length - 1].content
     if (target.entryType === 'TimelineTimelineCursor') {
       cursor = target.value
+      await addLocalItem('bookmark_cursor', cursor)
     } else {
       break
     }

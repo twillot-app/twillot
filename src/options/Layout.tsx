@@ -48,7 +48,31 @@ export const Layout = (props) => {
           </Show>
           <Show when={store.isForceSyncTimedout}>
             <Alert
-              message="Sync failed. Refresh the page to continue syncing from where it last failed."
+              message={
+                <>
+                  <span class="font-medium">
+                    Sync timed out, but that's not a big problem:
+                  </span>
+                  <ul class="mt-1.5 list-disc list-inside">
+                    <li>All your synced tweets are available from now on.</li>
+                    <li>
+                      Refresh this page to continue syncing from where it last
+                      failed.
+                    </li>
+                    <li>
+                      Contact the{' '}
+                      <a
+                        href="https://twitter.com/SiZapPaaiGwat"
+                        target="_blank"
+                        class="text-blue-500 underline"
+                      >
+                        maker
+                      </a>{' '}
+                      of Twillot if the problem persists.
+                    </li>
+                  </ul>
+                </>
+              }
               type="error"
             />
           </Show>

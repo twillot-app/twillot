@@ -11,6 +11,7 @@ import {
 import { exportData, ExportFormatType } from './export'
 import { BookmarksResponse } from '../types'
 import { addLocalItem, getLocalItem } from './browser'
+import xfetch, { FetchError } from './xfetch'
 
 const pageSize = 100
 
@@ -29,7 +30,7 @@ function buildUrl(url: string, cursor?: string) {
 
 async function getBookmarks(headers: Header, cursor?: string) {
   try {
-    const res = await fetch(`${buildUrl(headers.url, cursor)}`, {
+    const res = await xfetch(`${buildUrl(headers.url, cursor)}`, {
       headers: {
         accept: '*/*',
         authorization: headers.token,
@@ -46,17 +47,22 @@ async function getBookmarks(headers: Header, cursor?: string) {
     })
     const json = (await res.json()) as BookmarksResponse
     return json
-  } catch (error) {
-    console.error('Authentication failed', error)
-    throw new Error(AuthStatus.AUTH_FAILED)
+  } catch (e) {
+    if (e.name !== FetchError.TimeoutError) {
+      e.name = FetchError.IdentityError
+    }
+
+    throw e
   }
 }
 
 export async function* syncAllBookmarks(headers: Header, forceSync = false) {
   /**
-   * 从上次同步位置开始同步，如果没有上次同步位置，则从头开始同步
+   * 仅针对全量同步记录 cursor 到本地
    */
-  let cursor: string | undefined = await getLocalItem('bookmark_cursor')
+  let cursor: string | undefined = forceSync
+    ? await getLocalItem('bookmark_cursor')
+    : undefined
   while (true) {
     const json = await getBookmarks(headers, cursor)
     const instruction =
@@ -99,7 +105,9 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
     const target = instruction.entries[instruction.entries.length - 1].content
     if (target.entryType === 'TimelineTimelineCursor') {
       cursor = target.value
-      await addLocalItem('bookmark_cursor', cursor)
+      if (forceSync) {
+        await addLocalItem('bookmark_cursor', cursor)
+      }
     } else {
       break
     }

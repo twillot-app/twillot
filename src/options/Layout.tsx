@@ -7,6 +7,7 @@ import Search from './Search'
 import Tabs from './Tabs'
 import { useSearchParams } from '@solidjs/router'
 import { initSync, query } from './handlers'
+import { Alert } from '../components/Alert'
 
 export const Layout = (props) => {
   const [searchParams] = useSearchParams()
@@ -45,12 +46,17 @@ export const Layout = (props) => {
           <Show when={store.isAuthFailed}>
             <Authenticate />
           </Show>
+          <Show when={store.isForceSyncTimedout}>
+            <Alert
+              message="Sync failed. Refresh the page to continue syncing from where it last failed."
+              type="error"
+            />
+          </Show>
           <Show when={store.isForceSyncing}>
             <Indicator
               text={
                 <div class="text-center">
-                  Sync in progress: {store.totalCount} tweets. <br /> Please do
-                  not refresh or close this page.
+                  Sync in progress: {store.totalCount} tweets.
                 </div>
               }
             />

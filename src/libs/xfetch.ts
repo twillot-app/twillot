@@ -8,7 +8,7 @@ export enum FetchError {
 export default async function fetchWithTimeout(
   url: string,
   options: RequestInit | undefined,
-  timeout = 2800,
+  timeout = 15000,
 ) {
   const controller = new AbortController()
   const signal = controller.signal

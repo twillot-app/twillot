@@ -15,5 +15,6 @@ export default createStore({
   isAuthFailed: false,
   isAutoSyncing: false,
   isForceSyncing: false,
+  isForceSyncTimedout: false,
   memApiKey: '',
 })

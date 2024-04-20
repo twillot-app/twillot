@@ -27,7 +27,8 @@ export default function Authenticate() {
     const authed = await checkAuth()
     if (authed) return
     setStore('isAuthenicating', true)
-    tab = await openNewTab(ActionPage.AUTHENTICATE)
+    // 个人猜测大部份用户 twitter 已经登录，所以不需要聚焦到这个窗口
+    tab = await openNewTab(ActionPage.AUTHENTICATE, false)
     timerId = setInterval(checkAuth, 5000)
   }
 
@@ -45,7 +46,7 @@ export default function Authenticate() {
   onCleanup(() => clearInterval(timerId))
 
   return (
-    <div class="text-black dark:text-white text-center cursor-pointer mt-4">
+    <div class="text-black dark:text-white text-center cursor-pointer">
       <Show
         when={store.isAuthenicating}
         fallback={

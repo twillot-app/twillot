@@ -27,7 +27,7 @@ const classNames = (type: AlertType) => {
 export const Alert = (props) => {
   return (
     <div
-      class={`flex items-center p-4 text-base rounded-lg ${classNames(props.type)}`}
+      class={`flex items-center mt-4 p-4 text-base rounded-lg ${classNames(props.type)}`}
       role="alert"
     >
       <svg

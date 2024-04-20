@@ -5,6 +5,7 @@ import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
 import { countRecords, getTopUsers } from '../libs/db'
+import { FetchError } from '../libs/xfetch'
 
 export async function removeBookmark(tweet_id: string) {
   try {
@@ -95,8 +96,14 @@ export async function initSync(keyword = '') {
     setStore('topUsers', await getTopUsers(10))
   } catch (err) {
     console.error(err)
-    if (err.message == AuthStatus.AUTH_FAILED) {
+    if (
+      err.name == FetchError.IdentityError ||
+      err.message == AuthStatus.AUTH_FAILED
+    ) {
       setStore('isAuthFailed', true)
+    } else if (err.name == FetchError.TimeoutError) {
+      setStore('isForceSyncTimedout', true)
+      setStore('isForceSyncing', false)
     }
   }
 }

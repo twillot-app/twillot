@@ -1,8 +1,9 @@
 import { Host, X_DOMAIN } from '../types'
 
-export function openNewTab(url: string) {
+export function openNewTab(url: string, active = true) {
   return chrome.tabs.create({
     url,
+    active,
   })
 }
 

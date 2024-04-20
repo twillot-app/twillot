@@ -1,9 +1,12 @@
 import { useNavigate } from '@solidjs/router'
+import { createMemo } from 'solid-js'
+
 import dataStore from './store'
 
 export default function Search() {
   const [store, setStore] = dataStore
   const navigate = useNavigate()
+  const placeholder = createMemo(() => `Search ${store.totalCount} tweets`)
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
@@ -27,7 +30,7 @@ export default function Search() {
       <input
         type="text"
         class="flex-1 bg-white pl-2 text-base font-semibold outline-0 border-y border-gray-200 dark:text-black"
-        placeholder={`Search ${store.totalCount} tweets`}
+        placeholder={placeholder()}
         name="keyword"
         value={store.keyword}
       />

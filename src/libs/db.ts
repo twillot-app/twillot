@@ -274,7 +274,7 @@ export async function getTimeline(): Promise<TweetWithPosition[]> {
     const request = index.openCursor(null, 'next')
     const results: TweetWithPosition[] = []
     let count = 0
-    const targets = new Set([1, 10, 100, 1000])
+    const targets = new Set([1, 10, 100, 200, 500, 1000])
 
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result

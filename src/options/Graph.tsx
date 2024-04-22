@@ -2,33 +2,34 @@ import { For, Show } from 'solid-js'
 import { A } from '@solidjs/router'
 import TopN from '../components/TopN'
 import dataStore from './store'
+import Timeline from '../components/Timeline'
 
 export default function Graph() {
   const [store] = dataStore
 
   return (
-    <div class="w-[42rem] text-base mt-4">
+    <div class="mx-auto my-4 w-[42rem] flex-1 overflow-y-auto text-base text-black dark:text-white">
       <div>
-        <h2 class="text-lg font-medium text-center my-4">
+        <h2 class="my-4 text-center text-lg font-medium">
           Top 10 Authors from your bookmarks
         </h2>
         <div class="flex">
           <Show
             when={store.topUsers.length > 0}
-            fallback={<div class="w-[480px] h-[480px]"></div>}
+            fallback={<div class="h-[480px] w-[480px]"></div>}
           >
             <TopN users={store.topUsers} stageSize={480} />
           </Show>
-          <ul class="flex-1 flex flex-col ml-12">
+          <ul class="ml-12 flex flex-1 flex-col">
             <For each={store.topUsers}>
               {(user, index) => {
                 return (
-                  <li class="flex mt-2 items-center" title={user.username}>
-                    <span class="italic w-8 font-medium">#{index() + 1}</span>
+                  <li class="mt-2 flex items-center" title={user.username}>
+                    <span class="w-8 font-medium italic">#{index() + 1}</span>
                     <A href={`/?q=from:${user.screen_name}`}>
                       <img
                         src={user.avatar_url}
-                        class="w-10 h-10 rounded-full ml-2"
+                        class="ml-2 h-10 w-10 rounded-full"
                       />
                     </A>
                     <p class="flex flex-1 flex-col text-right">
@@ -40,6 +41,10 @@ export default function Graph() {
             </For>
           </ul>
         </div>
+      </div>
+
+      <div class="my-4 ml-8">
+        <Timeline />
       </div>
     </div>
   )

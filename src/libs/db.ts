@@ -6,7 +6,7 @@ import {
   TweetWithPosition,
 } from '../types'
 
-const DB_VERSION = 3
+const DB_VERSION = 4
 
 function getObjectStore(db: IDBDatabase) {
   const transaction = db.transaction(['tweets'], 'readwrite')
@@ -265,7 +265,7 @@ export async function getTopUsers(num = 10) {
     .slice(0, num)
 }
 
-export async function getTimeline() {
+export async function getTimeline(): Promise<TweetWithPosition[]> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
@@ -284,7 +284,10 @@ export async function getTimeline() {
           (count <= 1000 && targets.has(count)) ||
           (count > 1000 && (count - 1000) % 1000 === 0)
         ) {
-          results.push({ tweet: cursor.value, position: count })
+          results.unshift({
+            tweet: cursor.value,
+            position: count,
+          })
         }
         cursor.continue()
       } else {
@@ -297,7 +300,3 @@ export async function getTimeline() {
     }
   })
 }
-
-getTimeline().then((timeline) => {
-  console.log(timeline)
-})

@@ -1,6 +1,6 @@
 import { createStore } from 'solid-js/store'
 
-import type { Tweet, User } from '../types'
+import type { Tweet, TweetWithPosition, User } from '../types'
 
 export default createStore({
   keyword: '',
@@ -17,4 +17,5 @@ export default createStore({
   isForceSyncing: false,
   isForceSyncTimedout: false,
   memApiKey: '',
+  timeline: new Array<TweetWithPosition>(),
 })

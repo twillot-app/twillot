@@ -30,6 +30,11 @@ export interface Tweet {
   }
 }
 
+export interface TweetWithPosition {
+  tweet: Tweet
+  position: number
+}
+
 export interface Header {
   url: string
   token: string

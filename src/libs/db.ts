@@ -3,6 +3,7 @@ import {
   Tweet,
   TimelineEntry,
   TimelineTimelineItem,
+  TweetWithPosition,
 } from '../types'
 
 const DB_VERSION = 3
@@ -263,3 +264,40 @@ export async function getTopUsers(num = 10) {
     .sort((a, b) => b.count - a.count)
     .slice(0, num)
 }
+
+export async function getTimeline() {
+  const db = await openDb()
+
+  return new Promise((resolve, reject) => {
+    const { objectStore } = getObjectStore(db)
+    const index = objectStore.index('sort_index')
+    const request = index.openCursor(null, 'next')
+    const results: TweetWithPosition[] = []
+    let count = 0
+    const targets = new Set([1, 10, 100, 1000])
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        count++
+        if (
+          (count <= 1000 && targets.has(count)) ||
+          (count > 1000 && (count - 1000) % 1000 === 0)
+        ) {
+          results.push({ tweet: cursor.value, position: count })
+        }
+        cursor.continue()
+      } else {
+        resolve(results)
+      }
+    }
+
+    request.onerror = (event) => {
+      reject((event.target as IDBRequest).error)
+    }
+  })
+}
+
+getTimeline().then((timeline) => {
+  console.log(timeline)
+})

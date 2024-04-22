@@ -210,13 +210,18 @@ export function toRecord(
   } as Tweet
 }
 
-export function getTweetId(record): string {
+export function getTweetId(
+  record: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>,
+): string {
   let base_result = record.content.itemContent.tweet_results.result
-  if (base_result.tweet) {
-    base_result = base_result.tweet
+  if ('tweet' in base_result) {
+    return base_result.tweet.legacy.id_str
   }
-  const legacy = base_result.legacy
-  return legacy.id_str
+  if ('legacy' in base_result) {
+    return base_result.legacy.id_str
+  }
+
+  return ''
 }
 
 export async function aggregateUsers() {

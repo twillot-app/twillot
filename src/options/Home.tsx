@@ -62,11 +62,15 @@ export const Home = () => {
       </div>
 
       <div class="mb-4">
-        <h3 class="mb-2 text-lg font-medium">Recent Bookmarks</h3>
+        <h3 class="mb-2 text-lg font-medium">
+          {store.keyword
+            ? `Search results: ${store.tweets.length} bookmarks`
+            : 'Recent Bookmarks'}
+        </h3>
         <For
           each={store.tweets}
           fallback={
-            <div class="text-center text-base text-gray-400">
+            <div class="my-8 text-center text-base text-gray-400">
               No bookmarks yet.
             </div>
           }

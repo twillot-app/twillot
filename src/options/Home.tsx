@@ -4,9 +4,8 @@ import { A } from '@solidjs/router'
 import dataStore from './store'
 import { FullText } from '../components/Tweet'
 import { openPage } from '../libs/dom'
-// import { IconBookmark } from '../components/IconBookmark'
 import { Host } from '../types'
-// import { removeBookmark } from './handlers'
+import Contribution from '../components/Contribution'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -20,23 +19,28 @@ export const Home = () => {
 
   return (
     <div
-      class="my-4 flex-1 overflow-y-auto w-[42rem] mx-auto text-black dark:text-white"
+      class="my-4 w-[48rem] flex-1 overflow-y-auto text-base text-black dark:text-white"
       onClick={openPage}
       ref={listRef!}
     >
-      <div class="text-gray-900 bg-black bg-opacity-5 dark:bg-gray-800 dark:text-white dark:bg-opacity-100 p-4 rounded-md relative">
-        <h2 class="text-lg font-medium">Top 10 Authors from your bookmarks</h2>
+      <div class="mb-4">
+        <h3 class="mb-2 text-lg font-medium">Bookmarks in the last year</h3>
+        <Contribution />
+      </div>
+
+      <div class="relative mb-6 rounded-md py-4">
+        <h3 class="text-lg font-medium">Top 10 Authors from your bookmarks</h3>
         <A
           href="/graph"
-          class="flex absolute top-4 right-4 text-sm text-blue-500 hover:text-blue-700"
+          class="absolute right-4 top-4 flex text-sm text-blue-500 hover:text-blue-700"
         >
           Details
         </A>
-        <div class="flex mt-4 justify-between">
+        <div class="mt-4 flex justify-between">
           <For
             each={store.topUsers}
             fallback={
-              <div class="text-center p-4 w-full text-base text-gray-400">
+              <div class="w-full p-4 text-center text-base text-gray-400">
                 Hold on, Twillot is fetching your bookmarks ...
               </div>
             }
@@ -44,7 +48,7 @@ export const Home = () => {
             {(user) => (
               <A
                 href="/graph"
-                class="flex flex-col items-center cursor-pointer"
+                class="flex cursor-pointer flex-col items-center"
                 title={`You bookmarked ${user.count} tweets from ${user.username}`}
               >
                 <img
@@ -58,54 +62,50 @@ export const Home = () => {
         </div>
       </div>
 
-      <div class="my-2 h-[1px]"></div>
-
-      <For each={store.tweets}>
-        {(tweet) => (
-          <div class="hover:bg-black hover:bg-opacity-5 p-2 rounded-md">
-            <div class="flex flex-shrink-0 pb-0">
-              <div class="flex items-start cursor-pointer">
-                <div class="mr-2">
-                  <img
-                    class="inline-block h-10 w-10 rounded-full"
-                    src={tweet.avatar_url.replace('_normal', '_x96')}
-                    data-text={`${Host}/${tweet.screen_name}/`}
-                    alt="avatar"
-                  />
-                </div>
-                <div class="cursor-pointer">
-                  <p class="text-base leading-6 font-bold text-black dark:text-white">
-                    <span data-text={`${Host}/${tweet.screen_name}/`}>
-                      {tweet.username}&nbsp;
-                    </span>
-                    <span class="text-sm leading-5 ml-1 font-normal text-[rgb(83,100,113)] dark:text-gray-500">
+      <div class="mb-4">
+        <h3 class="mb-2 text-lg font-medium">Recent Bookmarks</h3>
+        <For each={store.tweets}>
+          {(tweet) => (
+            <div class="rounded-md p-2 hover:bg-black hover:bg-opacity-5">
+              <div class="flex flex-shrink-0 pb-0">
+                <div class="flex cursor-pointer items-start">
+                  <div class="mr-2">
+                    <img
+                      class="inline-block h-10 w-10 rounded-full"
+                      src={tweet.avatar_url.replace('_normal', '_x96')}
+                      data-text={`${Host}/${tweet.screen_name}/`}
+                      alt="avatar"
+                    />
+                  </div>
+                  <div class="cursor-pointer">
+                    <p class="text-base font-bold leading-6 text-black dark:text-white">
                       <span data-text={`${Host}/${tweet.screen_name}/`}>
-                        @{tweet.screen_name} ·{' '}
+                        {tweet.username}&nbsp;
                       </span>
-                      <span
-                        class="dark:text-gray-500"
-                        data-text={`${Host}/${tweet.screen_name}/status/${tweet.tweet_id}`}
-                      >
-                        {new Date(tweet.created_at * 1000).toLocaleString()}
+                      <span class="ml-1 text-sm font-normal leading-5 text-[rgb(83,100,113)] dark:text-gray-500">
+                        <span data-text={`${Host}/${tweet.screen_name}/`}>
+                          @{tweet.screen_name} ·{' '}
+                        </span>
+                        <span
+                          class="dark:text-gray-500"
+                          data-text={`${Host}/${tweet.screen_name}/status/${tweet.tweet_id}`}
+                        >
+                          {new Date(tweet.created_at * 1000).toLocaleString()}
+                        </span>
                       </span>
-                    </span>
-                  </p>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="-mt-2 pl-12">
+                <div class="width-auto text-base font-normal leading-6 text-[rgb(15,20,25)] dark:text-white">
+                  <FullText text={tweet.full_text} keyword={store.keyword} />
                 </div>
               </div>
             </div>
-            <div class="pl-12 -mt-2">
-              <div class="text-base leading-6 width-auto font-normal text-[rgb(15,20,25)] dark:text-white">
-                <FullText text={tweet.full_text} keyword={store.keyword} />
-              </div>
-            </div>
-            {/* <div class="text-blue-500 pl-12 mt-4 -ml-1 cursor-pointer">
-              <div onClick={() => removeBookmark(tweet.tweet_id)}>
-                <IconBookmark />
-              </div>
-            </div> */}
-          </div>
-        )}
-      </For>
+          )}
+        </For>
+      </div>
     </div>
   )
 }

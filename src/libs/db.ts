@@ -348,7 +348,7 @@ export async function getTimeline(): Promise<TweetWithPosition[]> {
     const request = index.openCursor(null, 'next')
     const results: TweetWithPosition[] = []
     let count = 0
-    const targets = new Set([1, 10, 100, 200, 500, 1000])
+    const targets = new Set([1, 100, 1000])
 
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
@@ -375,9 +375,12 @@ export async function getTimeline(): Promise<TweetWithPosition[]> {
   })
 }
 
-export async function getRencentTweets(days: number) {
+export async function getRencentTweets(days: number): Promise<{
+  total: number
+  data: { date: string; count: number }[]
+}> {
   const db = await openDb()
-  return new Promise<{ date: string; count: number }[]>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db)
     const index = objectStore.index('created_at')
     const oneYearAgo = Math.floor(
@@ -386,12 +389,14 @@ export async function getRencentTweets(days: number) {
     const range = IDBKeyRange.lowerBound(oneYearAgo)
     const request = index.openCursor(range)
     const dateCounts: { [key: string]: number } = {}
+    let total = 0
 
     request.onsuccess = () => {
       const cursor = request.result
       if (cursor) {
         const tweet = cursor.value
         const date = new Date(tweet.created_at * 1000).toLocaleDateString()
+        total += 1
         if (dateCounts[date]) {
           dateCounts[date] += 1
         } else {
@@ -403,7 +408,10 @@ export async function getRencentTweets(days: number) {
           date,
           count: dateCounts[date],
         }))
-        resolve(result)
+        resolve({
+          total,
+          data: result,
+        })
       }
     }
 

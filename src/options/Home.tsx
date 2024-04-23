@@ -24,7 +24,6 @@ export const Home = () => {
       ref={listRef!}
     >
       <div class="mb-4">
-        <h3 class="mb-2 text-lg font-medium">Bookmarks in the last year</h3>
         <Contribution />
       </div>
 

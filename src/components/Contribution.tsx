@@ -60,11 +60,12 @@ function getColorForFavorites(favorites: number) {
 
 export default function Contribution() {
   const [list, setList] = createSignal(new Array(DAYS).fill(0))
+  const [total, setTotal] = createSignal(0)
   const navigate = useNavigate()
 
   createEffect(async () => {
     const days = getLastNDaysDates(DAYS)
-    const items = await getRencentTweets(DAYS)
+    const { total, data: items } = await getRencentTweets(DAYS)
     const countMap = items.reduce((map, item) => {
       map[item.date] = item.count
       return map
@@ -76,57 +77,63 @@ export default function Contribution() {
       }
     })
     setList(history)
+    setTotal(total)
   })
 
   return (
-    <div class="graph mx-auto w-full text-xs">
-      <ul class="months leading-3">
-        <li>Jan</li>
-        <li>Feb</li>
-        <li>Mar</li>
-        <li>Apr</li>
-        <li>May</li>
-        <li>Jun</li>
-        <li>Jul</li>
-        <li>Aug</li>
-        <li>Sep</li>
-        <li>Oct</li>
-        <li>Nov</li>
-        <li>Dec</li>
-      </ul>
-      <ul class="days leading-3">
-        <li>Sun</li>
-        <li>Mon</li>
-        <li>Tue</li>
-        <li>Wed</li>
-        <li>Thu</li>
-        <li>Fri</li>
-        <li>Sat</li>
-      </ul>
-      <ul class="squares">
-        <For each={list()}>
-          {(cell) => {
-            const color = getColorForFavorites(cell.count || 0)
-            const disabled = color === disabledColor
-            return (
-              <li
-                style={{
-                  'background-color': color,
-                }}
-                class={disabled ? '' : 'cursor-pointer'}
-                onClick={
-                  disabled
-                    ? null
-                    : () => {
-                        const localDate = formatDate(cell.date)
-                        navigate(`/?q=since:${localDate} until:${localDate}`)
-                      }
-                }
-              ></li>
-            )
-          }}
-        </For>
-      </ul>
-    </div>
+    <>
+      <h3 class="mb-2 text-lg font-medium">
+        {total()} bookmarks in the last year
+      </h3>
+      <div class="graph mx-auto w-full text-xs">
+        <ul class="months leading-3">
+          <li>Jan</li>
+          <li>Feb</li>
+          <li>Mar</li>
+          <li>Apr</li>
+          <li>May</li>
+          <li>Jun</li>
+          <li>Jul</li>
+          <li>Aug</li>
+          <li>Sep</li>
+          <li>Oct</li>
+          <li>Nov</li>
+          <li>Dec</li>
+        </ul>
+        <ul class="days leading-3">
+          <li>Sun</li>
+          <li>Mon</li>
+          <li>Tue</li>
+          <li>Wed</li>
+          <li>Thu</li>
+          <li>Fri</li>
+          <li>Sat</li>
+        </ul>
+        <ul class="squares">
+          <For each={list()}>
+            {(cell) => {
+              const color = getColorForFavorites(cell.count || 0)
+              const disabled = color === disabledColor
+              return (
+                <li
+                  style={{
+                    'background-color': color,
+                  }}
+                  class={disabled ? '' : 'cursor-pointer'}
+                  onClick={
+                    disabled
+                      ? null
+                      : () => {
+                          const localDate = formatDate(cell.date)
+                          navigate(`/?q=since:${localDate} until:${localDate}`)
+                        }
+                  }
+                ></li>
+              )
+            }}
+          </For>
+        </ul>
+      </div>
+    </>
   )
 }

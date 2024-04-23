@@ -1,8 +1,19 @@
-import { createEffect, createSignal, For, Index } from 'solid-js'
+import { createEffect, createSignal, For } from 'solid-js'
+import { useNavigate } from '@solidjs/router'
 
 import { getRencentTweets } from '../libs/db'
 
+const disabledColor = '#ebedf0'
 const DAYS = 52 * 7
+
+function formatDate(date: string) {
+  const d = new Date(date)
+  let month = '' + (d.getMonth() + 1)
+  let day = '' + d.getDate()
+  const year = d.getFullYear()
+
+  return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-')
+}
 
 function getLastNDaysDates(days: number) {
   const today = new Date()
@@ -23,7 +34,7 @@ function getLastNDaysDates(days: number) {
 
 function getColorForFavorites(favorites: number) {
   if (favorites === 0) {
-    return '#ebedf0'
+    return disabledColor
   }
 
   let level
@@ -50,9 +61,11 @@ function getColorForFavorites(favorites: number) {
 
 export default function Contribution() {
   const [list, setList] = createSignal(new Array(DAYS).fill(0))
+  const navigate = useNavigate()
 
   createEffect(async () => {
     const days = getLastNDaysDates(DAYS)
+    console.log(days)
     const items = await getRencentTweets(DAYS)
     const countMap = items.reduce((map, item) => {
       map[item.date] = item.count
@@ -96,12 +109,21 @@ export default function Contribution() {
         <For each={list()}>
           {(cell) => {
             const color = getColorForFavorites(cell.count || 0)
+            const disabled = color === disabledColor
             return (
               <li
                 style={{
                   'background-color': color,
                 }}
-                class={color === '#ebedf0' ? '' : 'cursor-pointer'}
+                class={disabled ? '' : 'cursor-pointer'}
+                onClick={
+                  disabled
+                    ? null
+                    : () => {
+                        const localDate = formatDate(cell.date)
+                        navigate(`/?q=since:${localDate} until:${localDate}`)
+                      }
+                }
               ></li>
             )
           }}

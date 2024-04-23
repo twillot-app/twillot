@@ -47,6 +47,13 @@ export interface Header {
   cookie: string
 }
 
+export interface QueryOptions {
+  keyword?: string
+  fromUser?: string
+  since?: string
+  until?: string
+}
+
 export enum AuthStatus {
   AUTH_PENDING = 'AUTH_PENDING',
   AUTH_SUCCESS = 'AUTH_SUCCESS',

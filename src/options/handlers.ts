@@ -1,6 +1,5 @@
 import { createPopup, getAuthInfo } from '../libs/browser'
 import { ActionPage } from '../types'
-import { parseTwitterQuery } from '../libs/query-parser'
 import dataStore from './store'
 import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
@@ -24,13 +23,8 @@ export async function removeBookmark(tweet_id: string) {
 
 export async function query(keyword = '') {
   const [store, setStore] = dataStore
-  const q = parseTwitterQuery(keyword) as any
   const start = new Date().getTime()
-  const tweets = await searchBookmark(
-    q.fromUser ? q : keyword || '',
-    store.page,
-    store.pageSize,
-  )
+  const tweets = await searchBookmark(keyword, store.page, store.pageSize)
   setStore('tweets', () => [...tweets])
   setStore('searchTime', new Date().getTime() - start)
 }

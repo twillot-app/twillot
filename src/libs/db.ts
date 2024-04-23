@@ -5,7 +5,9 @@ import {
   TimelineTimelineItem,
   TweetWithPosition,
   IndexItem,
+  QueryOptions,
 } from '../types'
+import { parseTwitterQuery } from './query-parser'
 
 const DB_VERSION = 5
 
@@ -110,43 +112,79 @@ export async function addRecords(records: Tweet[]): Promise<void> {
   })
 }
 
+function meetsCriteria(tweet: Tweet, options: QueryOptions): boolean {
+  return (
+    (!options.keyword ||
+      tweet.full_text.toLowerCase().includes(options.keyword.toLowerCase())) &&
+    (!options.fromUser ||
+      tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase())
+  )
+}
+
+function getRange(since?: number, until?: number): IDBKeyRange | null {
+  if (since && until) {
+    return IDBKeyRange.bound(since, until)
+  } else if (since) {
+    return IDBKeyRange.lowerBound(since)
+  } else if (until) {
+    return IDBKeyRange.upperBound(until)
+  }
+  return null
+}
+
+/**
+ *
+ * @param page Number 目前都只查了第一页，翻页涉及查询条件会不准
+ * @param pageSize
+ * @param keyword
+ * @returns
+ */
 export async function findRecords(
   page = 1,
   pageSize = 100,
-  keyword?: string | { fromUser: string },
+  keyword = '',
 ): Promise<Tweet[]> {
   const db = await openDb()
-  const skip = (page - 1) * pageSize // 计算跳过的记录数
-  let recordsFetched = 0 // 已获取的记录数
-  const isByUser = typeof keyword === 'object' && keyword.fromUser
-  const q = typeof keyword === 'string' && keyword.toLowerCase()
+  const options = parseTwitterQuery(keyword)
+  const skip = (page - 1) * pageSize
+  const results: Tweet[] = []
+  let recordsFetched = 0 // 实际已获取的记录数
+  const since = options.since
+    ? Math.floor(new Date(options.since + ' 00:00:00').getTime() / 1000)
+    : null
+  const until = options.until
+    ? Math.floor(new Date(options.until + ' 23:59:59').getTime() / 1000)
+    : null
+  const indexName = since || until ? 'created_at' : 'sort_index' // 选择索引
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db)
-    const index = objectStore.index(isByUser ? 'screen_name' : 'sort_index')
-    const request = index.openCursor(null, 'prev')
-    const results: Tweet[] = []
+    const index = objectStore.index(indexName)
+    const range = getRange(since, until) // 创建时间范围
+    const request = index.openCursor(range, 'prev')
 
     request.onsuccess = (event: Event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
+        // 如果还没有到达应该开始收集数据的记录
         if (recordsFetched < skip) {
-          cursor.advance(skip)
+          // 高效跳过
+          cursor.advance(skip - recordsFetched)
           recordsFetched = skip
         } else {
           const tweet = cursor.value as Tweet
-          if (isByUser && tweet.screen_name === keyword.fromUser) {
-            results.push(tweet)
-          } else if (!keyword || tweet.full_text.toLowerCase().includes(q)) {
-            results.push(tweet)
+          const met = meetsCriteria(tweet, options)
+          if (met) {
+            recordsFetched++
+            if (recordsFetched <= skip + pageSize) {
+              results.push(tweet)
+            }
+            if (recordsFetched === skip + pageSize) {
+              resolve(results)
+              return
+            }
           }
-
-          if (results.length < skip + pageSize) {
-            cursor.continue()
-          } else {
-            resolve(results)
-            return
-          }
+          cursor.continue()
         }
       } else {
         resolve(results)

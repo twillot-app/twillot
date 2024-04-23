@@ -64,7 +64,14 @@ export const Home = () => {
 
       <div class="mb-4">
         <h3 class="mb-2 text-lg font-medium">Recent Bookmarks</h3>
-        <For each={store.tweets}>
+        <For
+          each={store.tweets}
+          fallback={
+            <div class="text-center text-base text-gray-400">
+              No bookmarks yet.
+            </div>
+          }
+        >
           {(tweet) => (
             <div class="rounded-md p-2 hover:bg-black hover:bg-opacity-5">
               <div class="flex flex-shrink-0 pb-0">

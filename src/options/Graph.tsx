@@ -2,13 +2,13 @@ import { For, Show } from 'solid-js'
 import { A } from '@solidjs/router'
 import TopN from '../components/TopN'
 import dataStore from './store'
-import Timeline from '../components/Timeline'
+// import Timeline from '../components/Timeline'
 
 export default function Graph() {
   const [store] = dataStore
 
   return (
-    <div class="mx-auto my-4 w-[42rem] flex-1 overflow-y-auto text-base text-black dark:text-white">
+    <div class="mx-auto my-4 w-[48rem] flex-1 overflow-y-auto text-base text-black dark:text-white">
       <div>
         <h2 class="my-4 text-center text-lg font-medium">
           Top 10 Authors from your bookmarks
@@ -43,9 +43,9 @@ export default function Graph() {
         </div>
       </div>
 
-      <div class="my-4 ml-8">
+      {/* <div class="my-4 ml-8">
         <Timeline />
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -27,19 +27,19 @@ export const Layout = (props) => {
   })
 
   return (
-    <main class="bg-white dark:bg-black text-black dark:text-white">
-      <div class="flex flex-col items-center h-screen">
-        <div class="w-[42rem] mx-auto">
-          <h1 class="font-large text-xl text-center my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
+    <main class="bg-white text-black dark:bg-black dark:text-white">
+      <div class="flex h-screen flex-col items-center">
+        <div class="mx-auto w-[48rem]">
+          <h1 class="font-large my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-center text-xl font-semibold text-transparent">
             Twillot - your social media copilot
           </h1>
-          <div class="flex items-center justify-center w-full">
+          <div class="flex w-full items-center justify-center">
             <div class="flex w-full">
               <Search />
             </div>
           </div>
           <Show when={!!store.keyword.trim()}>
-            <div class="mt-4 text-base text-gray-500 text-left w-full">
+            <div class="mt-4 w-full text-left text-base text-gray-500">
               Found {store.tweets.length} records in {store.searchTime} ms
             </div>
           </Show>
@@ -53,7 +53,7 @@ export const Layout = (props) => {
                   <span class="font-medium">
                     Sync timed out, but that's not a big problem:
                   </span>
-                  <ul class="mt-1.5 list-disc list-inside">
+                  <ul class="mt-1.5 list-inside list-disc">
                     <li>All your synced tweets are available from now on.</li>
                     <li>
                       Refresh this page to continue syncing from where it last

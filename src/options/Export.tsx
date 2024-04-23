@@ -8,7 +8,7 @@ import Button from '../components/Button'
 export default function Export() {
   // const [store, addStore] = dataStore
   return (
-    <div class="flex gap-4 flex-col w-[42rem] mx-auto mt-4 text-base">
+    <div class="mx-auto mt-4 flex w-[48rem] flex-col gap-4 text-base">
       <Card
         header="Export / Local file"
         label={

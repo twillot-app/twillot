@@ -40,16 +40,15 @@ function getColorForFavorites(favorites: number) {
   let level
 
   if (favorites <= 10) {
-    level = Math.ceil(favorites / 2) // 1-10收藏，每2个一级，共5级
+    level = Math.ceil(favorites / 5)
   } else {
-    // 11-100收藏，分为5级
-    level = Math.ceil((favorites - 10) / 18) + 5
+    level = Math.ceil((favorites - 10) / 45) + 2 // 以11为起点，每45个收藏增加一个级别，加2是因为1-10已经用了2个级别
   }
 
-  level = Math.min(level, 10)
-  const startColor = { r: 204, g: 235, b: 197 } // #ccebb5 (更亮的浅绿色)
-  const endColor = { r: 67, g: 160, b: 71 } // #43a047 (更亮的深绿色)
-  const fraction = (level - 1) / 9 // 分数比例，用于线性插值
+  level = Math.min(level, 4) // 总共4个级别
+  const startColor = { r: 155, g: 233, b: 168 }
+  const endColor = { r: 33, g: 110, b: 57 }
+  let fraction = (level - 1) / 3
 
   // 线性插值计算颜色
   const r = Math.round(startColor.r + fraction * (endColor.r - startColor.r))
@@ -65,7 +64,6 @@ export default function Contribution() {
 
   createEffect(async () => {
     const days = getLastNDaysDates(DAYS)
-    console.log(days)
     const items = await getRencentTweets(DAYS)
     const countMap = items.reduce((map, item) => {
       map[item.date] = item.count
@@ -82,7 +80,7 @@ export default function Contribution() {
 
   return (
     <div class="graph mx-auto w-full text-xs">
-      <ul class="months">
+      <ul class="months leading-3">
         <li>Jan</li>
         <li>Feb</li>
         <li>Mar</li>
@@ -96,7 +94,7 @@ export default function Contribution() {
         <li>Nov</li>
         <li>Dec</li>
       </ul>
-      <ul class="days">
+      <ul class="days leading-3">
         <li>Sun</li>
         <li>Mon</li>
         <li>Tue</li>

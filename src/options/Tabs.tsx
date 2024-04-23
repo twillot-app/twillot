@@ -11,7 +11,7 @@ const tabs = [
   },
   {
     url: '/export-and-sync',
-    label: 'Export & Sync',
+    label: 'Export',
   },
   {
     url: '/support-us',

@@ -46,7 +46,7 @@ export const Home = () => {
           >
             {(user) => (
               <A
-                href="/graph"
+                href={`/?q=from:${user.screen_name}`}
                 class="flex cursor-pointer flex-col items-center"
                 title={`You bookmarked ${user.count} tweets from ${user.username}`}
               >
@@ -65,7 +65,10 @@ export const Home = () => {
         <h3 class="mb-2 text-lg font-medium">
           {store.keyword
             ? `Search results: ${store.tweets.length} bookmarks`
-            : 'Recent Bookmarks'}
+            : 'Recent Bookmarks'}{' '}
+          <span class="float-right text-sm font-normal text-gray-500">
+            Query time: {store.searchTime} ms
+          </span>
         </h3>
         <For
           each={store.tweets}

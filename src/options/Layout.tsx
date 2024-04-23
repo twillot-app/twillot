@@ -38,11 +38,6 @@ export const Layout = (props) => {
               <Search />
             </div>
           </div>
-          <Show when={!!store.keyword.trim()}>
-            <div class="mt-4 w-full text-left text-base text-gray-500">
-              Found {store.tweets.length} records in {store.searchTime} ms
-            </div>
-          </Show>
           <Show when={store.isAuthFailed}>
             <Authenticate />
           </Show>

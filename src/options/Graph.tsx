@@ -10,9 +10,9 @@ export default function Graph() {
   return (
     <div class="mx-auto my-4 w-[48rem] flex-1 overflow-y-auto text-base text-black dark:text-white">
       <div>
-        <h2 class="my-4 text-center text-lg font-medium">
+        <h3 class="my-4 text-lg font-medium">
           Top 10 Authors from your bookmarks
-        </h2>
+        </h3>
         <div class="flex">
           <Show
             when={store.topUsers.length > 0}
@@ -32,6 +32,9 @@ export default function Graph() {
                         class="ml-2 h-10 w-10 rounded-full"
                       />
                     </A>
+                    <span class="mx-3 max-w-24 overflow-hidden text-ellipsis whitespace-nowrap text-sm">
+                      {user.username}
+                    </span>
                     <p class="flex flex-1 flex-col text-right">
                       <span class="italic">{user.count}</span>
                     </p>

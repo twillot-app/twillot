@@ -6,7 +6,9 @@ const nextChars = 140
 const urlRegex =
   /(?<!")(https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))(?!")/g
 const mentionRegex = /(?<!@)@(\w{1,15})\b/g
-const hashtagRegex = /(\s|^)#([a-zA-Z0-9_]+)\b/g
+// copied from https://regex101.com/r/NLHUQh/1
+const hashtagRegex =
+  /\B(?:#|＃)((?![\p{N}_]+(?:$|\b|\s))(?:[\p{L}\p{M}\p{N}_]{1,60}))/gu
 
 export const maxChars = 280
 
@@ -42,7 +44,7 @@ export function linkify(text: string) {
     )
     .replace(
       hashtagRegex,
-      `<a href="${Host}/hashtag/$2" target="_blank" class="text-blue-500 mx-1">#$2</a>`,
+      `<a href="${Host}/hashtag/$1" target="_blank" class="text-blue-500 mx-1">#$1</a>`,
     )
 }
 

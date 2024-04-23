@@ -4,16 +4,37 @@ import {
   TimelineEntry,
   TimelineTimelineItem,
   TweetWithPosition,
+  IndexItem,
 } from '../types'
 
-const DB_VERSION = 4
+const DB_VERSION = 5
 
-function getObjectStore(db: IDBDatabase) {
-  const transaction = db.transaction(['tweets'], 'readwrite')
+function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
+  const transaction = db.transaction([tableName], 'readwrite')
   return {
     transaction,
-    objectStore: transaction.objectStore('tweets'),
+    objectStore: transaction.objectStore(tableName),
   }
+}
+
+function upsertTable(
+  db: IDBDatabase,
+  transaction: IDBTransaction,
+  tableName: string,
+  keyPath: string,
+  indexes: IndexItem[],
+) {
+  let objectStore = db.objectStoreNames.contains(tableName)
+    ? transaction.objectStore(tableName)
+    : db.createObjectStore(tableName, {
+        keyPath: keyPath,
+      })
+
+  indexes.forEach((index) => {
+    if (!objectStore.indexNames.contains(index.name)) {
+      objectStore.createIndex(index.name, index.name, index.options)
+    }
+  })
 }
 
 export function openDb(): Promise<IDBDatabase> {
@@ -34,21 +55,32 @@ export function openDb(): Promise<IDBDatabase> {
       const target = event.target as IDBOpenDBRequest
       const db = target.result
       // DO NOT create a new transaction here
-      let objectStore = db.objectStoreNames.contains('tweets')
-        ? target.transaction.objectStore('tweets')
-        : db.createObjectStore('tweets', {
-            keyPath: 'tweet_id',
-          })
-
-      if (!objectStore.indexNames.contains('full_text')) {
-        objectStore.createIndex('full_text', 'full_text', { unique: false })
-      }
-      if (!objectStore.indexNames.contains('sort_index')) {
-        objectStore.createIndex('sort_index', 'sort_index', { unique: false })
-      }
-      if (!objectStore.indexNames.contains('screen_name')) {
-        objectStore.createIndex('screen_name', 'screen_name', { unique: false })
-      }
+      upsertTable(db, target.transaction, 'tweets', 'tweet_id', [
+        {
+          name: 'full_text',
+          options: {
+            unique: false,
+          },
+        },
+        {
+          name: 'sort_index',
+          options: {
+            unique: false,
+          },
+        },
+        {
+          name: 'screen_name',
+          options: {
+            unique: false,
+          },
+        },
+        {
+          name: 'created_at',
+          options: {
+            unique: false,
+          },
+        },
+      ])
     }
 
     request.onsuccess = (event: Event) => {
@@ -178,6 +210,10 @@ export function toRecord(
     base_result = base_result.tweet
   }
   const legacy = base_result.legacy
+  // 接口有时候报错，不返回
+  if (!legacy) {
+    return null
+  }
   const user_legacy = base_result.core.user_results.result.legacy
   const entities = legacy.extended_entities || legacy.entities
   const alt_text = []
@@ -297,6 +333,44 @@ export async function getTimeline(): Promise<TweetWithPosition[]> {
 
     request.onerror = (event) => {
       reject((event.target as IDBRequest).error)
+    }
+  })
+}
+
+export async function getRencentTweets(days: number) {
+  const db = await openDb()
+  return new Promise<{ date: string; count: number }[]>((resolve, reject) => {
+    const { objectStore } = getObjectStore(db)
+    const index = objectStore.index('created_at')
+    const oneYearAgo = Math.floor(
+      (Date.now() - days * 24 * 60 * 60 * 1000) / 1000,
+    )
+    const range = IDBKeyRange.lowerBound(oneYearAgo)
+    const request = index.openCursor(range)
+    const dateCounts: { [key: string]: number } = {}
+
+    request.onsuccess = () => {
+      const cursor = request.result
+      if (cursor) {
+        const tweet = cursor.value
+        const date = new Date(tweet.created_at * 1000).toLocaleDateString()
+        if (dateCounts[date]) {
+          dateCounts[date] += 1
+        } else {
+          dateCounts[date] = 1
+        }
+        cursor.continue()
+      } else {
+        const result = Object.keys(dateCounts).map((date) => ({
+          date,
+          count: dateCounts[date],
+        }))
+        resolve(result)
+      }
+    }
+
+    request.onerror = (event) => {
+      reject(request.error)
     }
   })
 }

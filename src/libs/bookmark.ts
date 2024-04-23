@@ -33,6 +33,7 @@ async function getBookmarks(headers: Header, cursor?: string) {
     const res = await xfetch(`${buildUrl(headers.url, cursor)}`, {
       headers: {
         accept: '*/*',
+        'accept-language': 'en-US,en;q=0.9',
         authorization: headers.token,
         'content-type': 'application/json',
         'x-csrf-token': headers.csrf,
@@ -46,9 +47,21 @@ async function getBookmarks(headers: Header, cursor?: string) {
       method: 'GET',
     })
     const json = (await res.json()) as BookmarksResponse
+
+    if ('errors' in json) {
+      const t = res.headers.get('X-Rate-Limit-Reset')
+      const leftTime = t
+        ? Math.ceil((parseInt(t) * 1000 - Date.now()) / 60000)
+        : 10
+      const error = new Error(
+        `Severe error occurred, retry after ${leftTime} minutes.`,
+      )
+      error.name = FetchError.DataError
+      throw error
+    }
     return json
   } catch (e) {
-    if (e.name !== FetchError.TimeoutError) {
+    if (e.name !== FetchError.TimeoutError && e.name !== FetchError.DataError) {
       e.name = FetchError.IdentityError
     }
 

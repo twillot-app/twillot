@@ -98,7 +98,8 @@ export interface TweetBase {
       result: NoteTweet
     }
   }
-  legacy: {
+  // 服务端限制可能不会返回
+  legacy?: {
     bookmark_count: number
     bookmarked: boolean
     created_at: string

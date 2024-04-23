@@ -35,6 +35,11 @@ export interface TweetWithPosition {
   position: number
 }
 
+export interface IndexItem {
+  name: string
+  options: IDBIndexParameters
+}
+
 export interface Header {
   url: string
   token: string
@@ -64,6 +69,14 @@ export enum ActionPage {
   AUTHENTICATE = `${Host}/i/bookmarks?twillot=reauth`,
 }
 
+interface ErrorResponse {
+  message: string
+  code: number
+  kind: string
+  name: string
+  source: string
+}
+
 export interface BookmarksResponse {
   data: {
     bookmark_timeline_v2: {
@@ -73,6 +86,7 @@ export interface BookmarksResponse {
       }
     }
   }
+  errors?: ErrorResponse[]
 }
 
 export interface EntityURL {

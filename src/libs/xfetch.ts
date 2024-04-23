@@ -1,6 +1,7 @@
 export enum FetchError {
   TimeoutError = 'TimeoutError',
   IdentityError = 'IdentityError',
+  DataError = 'DataError',
   // 通用错误
   NetworkError = 'NetworkError',
 }

@@ -16,7 +16,7 @@ export default function SupportUs() {
           </p>
         </div>
         <div class="space-y-8 sm:gap-6 lg:grid lg:grid-cols-2 lg:space-y-0 xl:gap-10">
-          <div class="mx-auto flex flex-col rounded-lg  border  bg-white p-6 text-center text-gray-900 shadow  xl:p-8 dark:bg-gray-800 dark:text-white">
+          <div class="mx-auto flex flex-col rounded-lg  border border-gray-100  bg-white p-6 text-center text-gray-900 shadow  xl:p-8 dark:border-gray-600 dark:bg-gray-800 dark:text-white">
             <h3 class="mb-2 text-2xl font-semibold">Social Media Support</h3>
             <p class="font-normal text-gray-500 sm:text-lg dark:text-gray-400">
               Show your love and share your excitement, help twillot grow

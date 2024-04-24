@@ -1,12 +1,50 @@
 import { useNavigate } from '@solidjs/router'
-import { createMemo } from 'solid-js'
+import { createEffect, createMemo, createSignal, For } from 'solid-js'
 
 import dataStore from './store'
 
+const allCategories = [
+  {
+    name: 'All categories',
+    value: '',
+  },
+  {
+    name: 'Image',
+    value: 'has_image',
+  },
+  {
+    name: 'Video',
+    value: 'has_video',
+  },
+  {
+    name: 'Gif',
+    value: 'has_gif',
+  },
+  {
+    name: 'Link',
+    value: 'has_link',
+  },
+  {
+    name: 'Quote',
+    value: 'is_quote',
+  },
+  {
+    name: 'Article',
+    value: 'is_long_text',
+  },
+]
+
 export default function Search() {
+  const [isMenuVisible, setIsMenuVisible] = createSignal(false)
   const [store, setStore] = dataStore
   const navigate = useNavigate()
   const placeholder = createMemo(() => `Search ${store.totalCount} tweets`)
+  const category = createMemo(() =>
+    allCategories.find((c) => c.value === store.category),
+  )
+  const categories = createMemo(() =>
+    allCategories.filter((c) => c.value !== store.category),
+  )
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
@@ -16,29 +54,89 @@ export default function Search() {
     } catch (err) {}
   }
 
+  createEffect(() => {
+    // DO not delete
+    console.log(store.category)
+    setIsMenuVisible(false)
+  })
+
   return (
     <form onSubmit={onSubmit} class="flex w-full">
-      <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border border-gray-200 bg-white p-5">
-        <svg
-          viewBox="0 0 20 20"
-          aria-hidden="true"
-          class="pointer-events-none absolute w-5 fill-gray-500 transition"
+      <div class="relative flex w-full">
+        <button
+          class="z-10 inline-flex w-36 flex-shrink-0 items-center rounded-s-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 "
+          type="button"
+          onClick={() => setIsMenuVisible(!isMenuVisible())}
         >
-          <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
-        </svg>
+          {category().name}{' '}
+          <svg
+            class="ms-2.5 h-2.5 w-2.5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 4 4 4-4"
+            />
+          </svg>
+        </button>
+        <div
+          class={`absolute left-0 top-12 z-10 w-32 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700 ${isMenuVisible() ? 'block' : 'hidden'}`}
+        >
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+            <For each={categories()}>
+              {(category) => {
+                return (
+                  <li>
+                    <button
+                      onClick={() => setStore('category', category.value)}
+                      type="button"
+                      class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      {category.name}
+                    </button>
+                  </li>
+                )
+              }}
+            </For>
+          </ul>
+        </div>
+
+        <div class="relative w-full">
+          <input
+            type="search"
+            placeholder={placeholder()}
+            name="keyword"
+            value={store.keyword}
+            class="z-20 block w-full rounded-e-lg border  border-gray-300 border-s-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 outline-0 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
+          />
+          <button
+            type="submit"
+            class="absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            <svg
+              class="h-4 w-4"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
-      <input
-        type="text"
-        class="flex-1 bg-white pl-2 text-base font-semibold outline-0 border-y border-gray-200 dark:text-black"
-        placeholder={placeholder()}
-        name="keyword"
-        value={store.keyword}
-      />
-      <input
-        type="submit"
-        value="Search"
-        class="bg-blue-500 py-2 px-4 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-700 transition-colors cursor-pointer text-base"
-      />
     </form>
   )
 }

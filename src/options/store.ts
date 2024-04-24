@@ -4,6 +4,7 @@ import type { Tweet, TweetWithPosition, User } from '../types'
 
 export default createStore({
   keyword: '',
+  category: '',
   page: 1,
   pageSize: 100,
   totalCount: 0,

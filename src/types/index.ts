@@ -3,7 +3,7 @@
  * https://github.com/prinsss/twitter-web-exporter/blob/main/src/types/index.ts
  */
 
-import { TimelineTweet } from './tweet'
+import { Media, TimelineTweet } from './tweet'
 import { TimelineTwitterList } from './list'
 import { TimelineUser } from './user'
 
@@ -23,11 +23,13 @@ export interface Tweet {
   sort_index: string
   created_at: number
   possibly_sensitive: boolean
-  media: {
-    alt_text: string[]
-    url: string[]
-    type: string[]
-  }
+  has_image: boolean
+  has_video: boolean
+  has_gif: boolean
+  has_link: boolean
+  has_quote: boolean
+  is_long_text: boolean
+  media_items: Media[] | null | undefined
 }
 
 export interface TweetWithPosition {
@@ -35,7 +37,7 @@ export interface TweetWithPosition {
   position: number
 }
 
-export interface IndexItem {
+export interface IndexedDbIndexItem {
   name: string
   options: IDBIndexParameters
 }

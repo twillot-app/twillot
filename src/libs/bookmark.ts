@@ -130,9 +130,11 @@ export async function exportBookmarks(format: ExportFormatType) {
       username: i.username,
       url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
       content: i.full_text,
-      media: i.media.url.length > 0 ? i.media.url.join('\t') : '',
-      media_count: i.media.url.length,
-      contains_video: i.media.type.includes('video') ? 'Y' : 'N',
+      media: i.media_items
+        ? i.media_items.map((m) => m.media_url_https).join('\t')
+        : [],
+      media_count: i.media_items.length,
+      contains_video: i.has_video,
     }
   })
   exportData(all, format, `twillot.${format.toLowerCase()}`)

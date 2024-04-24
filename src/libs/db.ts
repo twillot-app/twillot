@@ -4,12 +4,13 @@ import {
   TimelineEntry,
   TimelineTimelineItem,
   TweetWithPosition,
-  IndexItem,
+  IndexedDbIndexItem,
   QueryOptions,
 } from '../types'
 import { parseTwitterQuery } from './query-parser'
+import { URL_REG } from './text'
 
-const DB_VERSION = 5
+const DB_VERSION = 6
 
 function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   const transaction = db.transaction([tableName], 'readwrite')
@@ -19,12 +20,12 @@ function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   }
 }
 
-function upsertTable(
+function updateTableScheme(
   db: IDBDatabase,
   transaction: IDBTransaction,
   tableName: string,
   keyPath: string,
-  indexes: IndexItem[],
+  indexes: IndexedDbIndexItem[],
 ) {
   let objectStore = db.objectStoreNames.contains(tableName)
     ? transaction.objectStore(tableName)
@@ -57,32 +58,22 @@ export function openDb(): Promise<IDBDatabase> {
       const target = event.target as IDBOpenDBRequest
       const db = target.result
       // DO NOT create a new transaction here
-      upsertTable(db, target.transaction, 'tweets', 'tweet_id', [
-        {
-          name: 'full_text',
-          options: {
-            unique: false,
-          },
-        },
-        {
-          name: 'sort_index',
-          options: {
-            unique: false,
-          },
-        },
-        {
-          name: 'screen_name',
-          options: {
-            unique: false,
-          },
-        },
-        {
-          name: 'created_at',
-          options: {
-            unique: false,
-          },
-        },
-      ])
+      const indexFields =
+        'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text'
+          .split(',')
+          .map((field) => ({
+            name: field,
+            options: {
+              unique: false,
+            },
+          }))
+      updateTableScheme(
+        db,
+        target.transaction,
+        'tweets',
+        'tweet_id',
+        indexFields,
+      )
     }
 
     request.onsuccess = (event: Event) => {
@@ -252,18 +243,13 @@ export function toRecord(
   if (!legacy) {
     return null
   }
+
   const user_legacy = base_result.core.user_results.result.legacy
   const entities = legacy.extended_entities || legacy.entities
-  const alt_text = []
-  const url = []
-  const type = []
-  if (entities.media) {
-    for (const media of entities.media) {
-      alt_text.push(media.ext_alt_text || '')
-      url.push(media.media_url_https)
-      type.push(media.type)
-    }
-  }
+  const media_items = entities?.media
+  const full_text =
+    base_result.note_tweet?.note_tweet_results.result.text || legacy.full_text
+
   return {
     sort_index: record.sortIndex,
     user_id: legacy.user_id_str,
@@ -272,15 +258,15 @@ export function toRecord(
     tweet_id: legacy.id_str,
     avatar_url: user_legacy.profile_image_url_https,
     possibly_sensitive: legacy.possibly_sensitive,
-    media: {
-      alt_text,
-      url,
-      type,
-    },
+    media_items,
+    has_gif: !!media_items?.some((item) => item.type === 'animated_gif'),
+    has_image: !!media_items?.some((item) => item.type === 'photo'),
+    has_video: !!media_items?.some((item) => item.type === 'video'),
+    has_quote: !!base_result.quoted_status_result,
+    is_long_text: !!base_result.note_tweet?.note_tweet_results,
+    has_link: URL_REG.test(full_text),
     lang: legacy.lang,
-    full_text:
-      base_result.note_tweet?.note_tweet_results.result.text ||
-      legacy.full_text,
+    full_text,
     created_at: Math.floor(new Date(legacy.created_at).getTime() / 1000),
   } as Tweet
 }

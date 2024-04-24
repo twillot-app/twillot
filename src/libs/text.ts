@@ -1,16 +1,16 @@
 import { Host } from '../types'
 
+export const URL_REG =
+  /(?<!")(https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))(?!")/g
+export const mentionRegex = /(?<!@)@(\w{1,15})\b/g
+// copied from https://regex101.com/r/NLHUQh/1
+export const hashtagRegex =
+  /\B(?:#|＃)((?![\p{N}_]+(?:$|\b|\s))(?:[\p{L}\p{M}\p{N}_]{1,60}))/gu
+export const maxChars = 280
+
 const dots = '<span class="text-gray-400 flex items-center my-1">...</span>'
 const prevChars = 140
 const nextChars = 140
-const urlRegex =
-  /(?<!")(https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))(?!")/g
-const mentionRegex = /(?<!@)@(\w{1,15})\b/g
-// copied from https://regex101.com/r/NLHUQh/1
-const hashtagRegex =
-  /\B(?:#|＃)((?![\p{N}_]+(?:$|\b|\s))(?:[\p{L}\p{M}\p{N}_]{1,60}))/gu
-
-export const maxChars = 280
 
 export function escapeHtml(unsafe: string): string {
   /**
@@ -34,18 +34,13 @@ export function highlight(html: string, reg: RegExp) {
 }
 
 export function linkify(text: string) {
+  const attrs = 'target="_blank" class="text-blue-500 mx-1"'
   return text
-    .replace(urlRegex, (url) => {
-      return `<a href="${url}" target="_blank" class="text-blue-500 mx-1">${url.replace(/[@#]/g, '')}</a>`
+    .replace(URL_REG, (url) => {
+      return `<a href="${url}" ${attrs}>${url.replace(/[@#]/g, '')}</a>`
     })
-    .replace(
-      mentionRegex,
-      `<a href="${Host}/$1" target="_blank" class="text-blue-500 mx-1">@$1</a>`,
-    )
-    .replace(
-      hashtagRegex,
-      `<a href="${Host}/hashtag/$1" target="_blank" class="text-blue-500 mx-1">#$1</a>`,
-    )
+    .replace(mentionRegex, `<a href="${Host}/$1" ${attrs}>@$1</a>`)
+    .replace(hashtagRegex, `<a href="${Host}/hashtag/$1" ${attrs}>#$1</a>`)
 }
 
 export function highlightAndLinkify(

@@ -44,7 +44,7 @@ export async function initSync(keyword = '') {
       throw new Error(AuthStatus.AUTH_FAILED)
     }
 
-    if (!auth.lastSynced) {
+    if (!auth.lastForceSynced) {
       setStore('isForceSyncing', true)
       /**
        * 全量同步时展示最新的 100 条数据
@@ -60,11 +60,15 @@ export async function initSync(keyword = '') {
           setStore('tweets', () => [...docs])
         }
       }
-      setStore('isForceSyncing', false)
+
       const topUsers = await getTopUsers(10)
+      setStore('isForceSyncing', false)
       setStore('topUsers', topUsers)
+      const syncedTime = Math.floor(Date.now() / 1000)
+      await chrome.storage.local.set({
+        lastForceSynced: syncedTime,
+      })
     } else {
-      setStore('syncTime', auth.lastSynced)
       /**
        * 增量更新时先展示最新的 100 条
        * 后续更新同时更新总数和展示数据
@@ -82,11 +86,7 @@ export async function initSync(keyword = '') {
       }
       setStore('isAutoSyncing', false)
     }
-    const syncedTime = Math.floor(Date.now() / 1000)
-    await chrome.storage.local.set({
-      lastSynced: syncedTime,
-    })
-    setStore('syncTime', syncedTime)
+
     setStore('topUsers', await getTopUsers(10))
   } catch (err) {
     console.error(err)

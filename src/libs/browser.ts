@@ -67,7 +67,7 @@ export async function getAuthInfo() {
     'url',
     'cookie',
     'csrf',
-    'lastSynced',
+    'lastForceSynced',
   ])
 
   return auth

@@ -1,9 +1,9 @@
 import { createPopup, getAuthInfo } from '../libs/browser'
 import { ActionPage } from '../types'
 import dataStore from './store'
-import { searchBookmark, syncAllBookmarks } from '../libs/bookmark'
+import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
-import { countRecords, getTopUsers } from '../libs/db'
+import { countRecords, findRecords, getTopUsers } from '../libs/db'
 import { FetchError } from '../libs/xfetch'
 
 export async function removeBookmark(tweet_id: string) {
@@ -21,10 +21,15 @@ export async function removeBookmark(tweet_id: string) {
   }
 }
 
-export async function query(keyword = '') {
+export async function query(keyword = '', category = '') {
   const [store, setStore] = dataStore
   const start = new Date().getTime()
-  const tweets = await searchBookmark(keyword, store.page, store.pageSize)
+  const tweets = await findRecords(
+    keyword,
+    category,
+    store.page,
+    store.pageSize,
+  )
   setStore('tweets', () => [...tweets])
   setStore('searchTime', new Date().getTime() - start)
 }

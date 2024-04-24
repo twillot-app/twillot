@@ -1,7 +1,6 @@
-import { searchBookmark } from './bookmark'
 import { getLocalItem } from './browser'
 import { mem as memApi } from './api'
-import { countRecords } from './db'
+import { countRecords, findRecords } from './db'
 import { Host } from '../types'
 
 export async function* mem() {
@@ -13,7 +12,7 @@ export async function* mem() {
   const total = await countRecords()
   const totalPage = Math.ceil(total / 10)
   for (let i = 0; i < totalPage; i++) {
-    const tweets = await searchBookmark('', i + 1, 10)
+    const tweets = await findRecords('', '', i + 1, 10)
     if (tweets.length === 0) {
       break
     }

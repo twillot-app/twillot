@@ -119,12 +119,8 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
   }
 }
 
-export function searchBookmark(keyword: string, page = 1, pageSize = 100) {
-  return findRecords(page, pageSize, keyword)
-}
-
 export async function exportBookmarks(format: ExportFormatType) {
-  let allTweets = await searchBookmark('', 1, 100000)
+  let allTweets = await findRecords('', '', 1, 100000)
   const all = allTweets.map((i) => {
     return {
       username: i.username,

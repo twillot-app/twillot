@@ -5,7 +5,7 @@ import dataStore from './store'
 
 const allCategories = [
   {
-    name: 'All categories',
+    name: 'All',
     value: '',
   },
   {
@@ -55,16 +55,16 @@ export default function Search() {
   }
 
   createEffect(() => {
-    // DO not delete
-    console.log(store.category)
-    setIsMenuVisible(false)
+    if (typeof store.category) {
+      setIsMenuVisible(false)
+    }
   })
 
   return (
     <form onSubmit={onSubmit} class="flex w-full">
       <div class="relative flex w-full">
         <button
-          class="z-10 inline-flex w-36 flex-shrink-0 items-center rounded-s-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 "
+          class="z-10 inline-flex w-24 flex-shrink-0 items-center rounded-s-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 "
           type="button"
           onClick={() => setIsMenuVisible(!isMenuVisible())}
         >
@@ -86,7 +86,7 @@ export default function Search() {
           </svg>
         </button>
         <div
-          class={`absolute left-0 top-12 z-10 w-32 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700 ${isMenuVisible() ? 'block' : 'hidden'}`}
+          class={`absolute left-0 top-12 z-10 w-24 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700 ${isMenuVisible() ? 'block' : 'hidden'}`}
         >
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
             <For each={categories()}>
@@ -117,10 +117,10 @@ export default function Search() {
           />
           <button
             type="submit"
-            class="absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 "
           >
             <svg
-              class="h-4 w-4"
+              class="mx-4 h-4 w-4"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

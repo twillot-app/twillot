@@ -103,12 +103,17 @@ export async function addRecords(records: Tweet[]): Promise<void> {
   })
 }
 
-function meetsCriteria(tweet: Tweet, options: QueryOptions): boolean {
+function meetsCriteria(
+  tweet: Tweet,
+  options: QueryOptions,
+  category = '',
+): boolean {
   return (
     (!options.keyword ||
       tweet.full_text.toLowerCase().includes(options.keyword.toLowerCase())) &&
     (!options.fromUser ||
-      tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase())
+      tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase()) &&
+    (!category || tweet[category])
   )
 }
 
@@ -124,16 +129,13 @@ function getRange(since?: number, until?: number): IDBKeyRange | null {
 }
 
 /**
- *
- * @param page Number 目前都只查了第一页，翻页涉及查询条件会不准
- * @param pageSize
- * @param keyword
- * @returns
+ * Number 目前都只查了第一页，翻页涉及查询条件会不准
  */
 export async function findRecords(
+  keyword = '',
+  category = '',
   page = 1,
   pageSize = 100,
-  keyword = '',
 ): Promise<Tweet[]> {
   const db = await openDb()
   const options = parseTwitterQuery(keyword)
@@ -164,7 +166,7 @@ export async function findRecords(
           recordsFetched = skip
         } else {
           const tweet = cursor.value as Tweet
-          const met = meetsCriteria(tweet, options)
+          const met = meetsCriteria(tweet, options, category)
           if (met) {
             recordsFetched++
             if (recordsFetched <= skip + pageSize) {

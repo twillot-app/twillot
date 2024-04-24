@@ -1,4 +1,4 @@
-import { createEffect, onMount, Show } from 'solid-js'
+import { createEffect, onMount, Show, untrack } from 'solid-js'
 
 import dataStore from './store'
 import Indicator from '../components/Indicator'
@@ -20,7 +20,7 @@ export const Layout = (props) => {
   })
 
   createEffect(() => {
-    query(store.keyword)
+    query(store.keyword, store.category)
   })
   onMount(() => {
     initSync(searchParams.q)

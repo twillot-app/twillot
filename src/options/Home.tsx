@@ -63,7 +63,7 @@ export const Home = () => {
 
       <div class="mb-4">
         <h3 class="mb-2 text-lg font-medium">
-          {store.keyword
+          {store.keyword || store.category
             ? `Search results: ${store.tweets.length} bookmarks`
             : 'Recent Bookmarks'}{' '}
           <span class="float-right text-sm font-normal text-gray-500">

@@ -27,7 +27,7 @@ export default function Tabs() {
           <A
             href={tab.url}
             class="block w-full px-4 py-2"
-            inactiveClass="hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+            inactiveClass="hover:text-gray-600 dark:hover:text-gray-300"
             activeClass="text-blue-500 active"
             end
           >

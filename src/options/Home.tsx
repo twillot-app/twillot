@@ -62,7 +62,7 @@ export const Home = () => {
       </div>
 
       <div class="mb-4">
-        <h3 class="mb-2 text-lg font-medium">
+        <h3 class="mb-4 text-lg font-medium">
           {store.keyword || store.category
             ? `Search results: ${store.tweets.length} bookmarks`
             : 'Recent Bookmarks'}{' '}

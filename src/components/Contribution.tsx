@@ -11,7 +11,7 @@ export default function Contribution() {
 
   return (
     <>
-      <h3 class="mb-2 text-lg font-medium">
+      <h3 class="mb-4 text-lg font-medium">
         {store.historySize} bookmarks in the last year
       </h3>
       <div class="graph mx-auto w-full text-xs">
@@ -45,6 +45,7 @@ export default function Contribution() {
               const disabled = color === disabledColor
               return (
                 <li
+                  title={cell.date}
                   style={{
                     'background-color': color,
                   }}

@@ -44,9 +44,9 @@ export const FullText = (props: { text: string; keyword?: string }) => {
 }
 
 export const MediaItems = (props: { media_items: Media[] }) => {
-  const width = props.media_items.length > 1 ? 'calc(50%-4px)' : '100%'
+  const width = props.media_items.length > 1 ? 'w-[calc(50%-4px)]' : 'w-full'
   return props.media_items.map((item) => (
-    <div class={`relative flex w-[${width}] items-center`}>
+    <div class={`relative ${width} flex items-center`}>
       <Image
         src={item.media_url_https}
         alt={item.ext_alt_text}

@@ -128,7 +128,7 @@ export const Home = () => {
                       </svg>
                     </div>
                   </div>
-                  <Content tweet={tweet.quoted_tweet} />
+                  <Content tweet={tweet.quoted_tweet} isQuoted={true} />
                 </Show>
               </div>
             </div>

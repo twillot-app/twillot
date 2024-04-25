@@ -69,6 +69,10 @@ export function highlightAndLinkify(
 
     return highlight(linkify(text), keywordReg)
   } else {
-    return linkify(text)
+    return linkify(
+      expanded
+        ? text
+        : text.slice(0, maxChars) + (text.length > maxChars ? dots : ''),
+    )
   }
 }

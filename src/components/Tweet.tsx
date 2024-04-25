@@ -1,4 +1,4 @@
-import { createMemo, createSignal, Show } from 'solid-js'
+import { createEffect, createMemo, createSignal, Show } from 'solid-js'
 
 import {
   escapeHtml,
@@ -8,9 +8,14 @@ import {
 } from '../libs/text'
 import { Media, Tweet, TweetQuoted } from '../types'
 
-export const FullText = (props: { text: string; keyword?: string }) => {
+export const FullText = (props: {
+  text: string
+  keyword?: string
+  isQuoted?: boolean
+}) => {
+  const shouldShowFullText = props.text.length < maxChars
   const [showFullText, setShowFullText] = createSignal(
-    !props.keyword || props.text.length < maxChars,
+    shouldShowFullText || (props.isQuoted ? false : !props.keyword),
   )
   const keyword = props.keyword ? escapeHtml(props.keyword) : ''
   const text = keyword ? escapeHtml(props.text) : props.text
@@ -95,12 +100,17 @@ export function Image(props: { src: string; alt?: string; url?: string }) {
 export const Content = (props: {
   tweet: Tweet | TweetQuoted
   keyword?: string
+  isQuoted?: boolean
 }) => {
   const tweet = props.tweet
   return (
     <>
       <div class="width-auto text-base font-normal leading-6 ">
-        <FullText text={tweet.full_text} keyword={props.keyword} />
+        <FullText
+          text={tweet.full_text}
+          keyword={props.keyword}
+          isQuoted={props.isQuoted}
+        />
       </div>
       <Show when={tweet.media_items}>
         <div class="my-2 flex flex-wrap space-x-1 space-y-1">

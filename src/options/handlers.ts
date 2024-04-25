@@ -5,6 +5,7 @@ import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
 import { countRecords, findRecords, getTopUsers } from '../libs/db'
 import { FetchError } from '../libs/xfetch'
+import { reconcile } from 'solid-js/store'
 
 export async function removeBookmark(tweet_id: string) {
   try {
@@ -38,10 +39,9 @@ export async function initSync(keyword = '') {
   const [store, setStore] = dataStore
   try {
     /**
-     * 可能之前已经同步过数据，先获取试试
+     * 可能之前已经同步过数据
      */
-    const topUsers = await getTopUsers(10)
-    setStore('topUsers', topUsers)
+    setStore('topUsers', await getTopUsers(10))
     setStore('totalCount', await countRecords())
 
     const auth = await getAuthInfo()
@@ -66,9 +66,8 @@ export async function initSync(keyword = '') {
         }
       }
 
-      const topUsers = await getTopUsers(10)
       setStore('isForceSyncing', false)
-      setStore('topUsers', topUsers)
+      setStore('topUsers', reconcile(await getTopUsers(10)))
       const syncedTime = Math.floor(Date.now() / 1000)
       await chrome.storage.local.set({
         lastForceSynced: syncedTime,
@@ -92,7 +91,7 @@ export async function initSync(keyword = '') {
       setStore('isAutoSyncing', false)
     }
 
-    setStore('topUsers', await getTopUsers(10))
+    setStore('topUsers', reconcile(await getTopUsers(10)))
   } catch (err) {
     console.error(err)
     if (

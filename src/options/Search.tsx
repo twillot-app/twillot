@@ -26,7 +26,7 @@ const allCategories = [
   },
   {
     name: 'Quote',
-    value: 'is_quote',
+    value: 'has_quote',
   },
   {
     name: 'Article',

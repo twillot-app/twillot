@@ -1,6 +1,7 @@
 import { createStore } from 'solid-js/store'
 
 import type { Tweet, TweetWithPosition, User } from '../types'
+import { DAYS } from '../libs/date'
 
 export default createStore({
   keyword: '',
@@ -10,6 +11,11 @@ export default createStore({
   totalCount: 0,
   tweets: new Array<Tweet>(),
   topUsers: new Array<User>(),
+  history: new Array<{ date: string; count: number }>(DAYS).fill({
+    date: '',
+    count: 0,
+  }),
+  historySize: 0,
   searchTime: 0,
   isAuthenicating: false,
   isAuthFailed: false,

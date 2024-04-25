@@ -3,9 +3,15 @@ import { ActionPage } from '../types'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
-import { countRecords, findRecords, getTopUsers } from '../libs/db'
+import {
+  countRecords,
+  findRecords,
+  getRencentTweets,
+  getTopUsers,
+} from '../libs/db'
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
+import { DAYS, getLastNDaysDates } from '../libs/date'
 
 export async function removeBookmark(tweet_id: string) {
   try {
@@ -104,4 +110,24 @@ export async function initSync(keyword = '') {
       setStore('isForceSyncing', false)
     }
   }
+}
+
+export async function getHistory() {
+  const [store, setStore] = dataStore
+  const days = getLastNDaysDates(DAYS)
+  const { total, data: items } = await getRencentTweets(DAYS)
+  const countMap = items.reduce((map, item) => {
+    map[item.date] = item.count
+    return map
+  }, {})
+  const history = days.map((date) => {
+    return {
+      date: date,
+      count: countMap[date] || 0,
+    }
+  })
+  setStore({
+    history,
+    historySize: total,
+  })
 }

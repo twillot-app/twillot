@@ -6,7 +6,7 @@ import Authenticate from './Authenticate'
 import Search from './Search'
 import Tabs from './Tabs'
 import { useSearchParams } from '@solidjs/router'
-import { initSync, query } from './handlers'
+import { getHistory, initSync, query } from './handlers'
 import { Alert } from '../components/Alert'
 
 export const Layout = (props) => {
@@ -22,7 +22,9 @@ export const Layout = (props) => {
   createEffect(() => {
     query(store.keyword, store.category)
   })
+
   onMount(() => {
+    getHistory()
     initSync(searchParams.q)
   })
 

@@ -6,6 +6,8 @@ import {
   TweetWithPosition,
   IndexedDbIndexItem,
   QueryOptions,
+  TweetBase,
+  TweetUnion,
 } from '../types'
 import { parseTwitterQuery } from './query-parser'
 import { URL_REG } from './text'
@@ -194,6 +196,10 @@ export async function findRecords(
 }
 
 export async function getRecord(id: string): Promise<Tweet | undefined> {
+  if (!id) {
+    return Promise.resolve(undefined)
+  }
+
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
@@ -229,62 +235,78 @@ export async function countRecords(): Promise<number> {
     }
   })
 }
+
+function getTweet(tweet?: TweetUnion): TweetBase | null {
+  if (!tweet) {
+    return null
+  }
+  if (tweet.__typename === 'TweetWithVisibilityResults') {
+    return tweet.tweet
+  }
+
+  return 'legacy' in tweet && tweet.legacy ? tweet : null
+}
+
+function getTweetFields(tweet?: TweetUnion) {
+  if (!tweet) {
+    return null
+  }
+  tweet = getTweet(tweet)
+  if (!tweet) {
+    return null
+  }
+
+  const user_legacy = tweet.core.user_results.result.legacy
+  const entities = tweet.legacy.extended_entities || tweet.legacy.entities
+  const media_items = entities?.media
+  return {
+    username: user_legacy.name,
+    screen_name: user_legacy.screen_name,
+    avatar_url: user_legacy.profile_image_url_https,
+    user_id: tweet.legacy.user_id_str,
+    tweet_id: tweet.legacy.id_str,
+    possibly_sensitive: tweet.legacy.possibly_sensitive,
+    full_text:
+      tweet.note_tweet?.note_tweet_results.result.text ||
+      tweet.legacy.full_text,
+    media_items,
+    lang: tweet.legacy.lang,
+    created_at: Math.floor(new Date(tweet.legacy.created_at).getTime() / 1000),
+  }
+}
+
 export function toRecord(
   record: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>,
 ): Tweet | null {
-  let base_result = record.content.itemContent.tweet_results.result
-  const typename = base_result.__typename
-  if (typename !== 'Tweet' && typename !== 'TweetWithVisibilityResults') {
-    return null
-  }
-  if (typename === 'TweetWithVisibilityResults') {
-    base_result = base_result.tweet
-  }
-  const legacy = base_result.legacy
-  // 接口有时候报错，不返回
-  if (!legacy) {
+  let tweet_base = getTweet(record.content.itemContent.tweet_results.result)
+  if (!tweet_base) {
     return null
   }
 
-  const user_legacy = base_result.core.user_results.result.legacy
-  const entities = legacy.extended_entities || legacy.entities
-  const media_items = entities?.media
-  const full_text =
-    base_result.note_tweet?.note_tweet_results.result.text || legacy.full_text
+  const fields = getTweetFields(tweet_base)
+  const media_items = fields.media_items
+  const has_quote = !!tweet_base.quoted_status_result?.result
 
   return {
+    ...fields,
     sort_index: record.sortIndex,
-    user_id: legacy.user_id_str,
-    username: user_legacy.name,
-    screen_name: user_legacy.screen_name,
-    tweet_id: legacy.id_str,
-    avatar_url: user_legacy.profile_image_url_https,
-    possibly_sensitive: legacy.possibly_sensitive,
-    media_items,
     has_gif: !!media_items?.some((item) => item.type === 'animated_gif'),
     has_image: !!media_items?.some((item) => item.type === 'photo'),
     has_video: !!media_items?.some((item) => item.type === 'video'),
-    has_quote: !!base_result.quoted_status_result,
-    is_long_text: !!base_result.note_tweet?.note_tweet_results,
-    has_link: URL_REG.test(full_text),
-    lang: legacy.lang,
-    full_text,
-    created_at: Math.floor(new Date(legacy.created_at).getTime() / 1000),
+    has_quote,
+    is_long_text: !!tweet_base.note_tweet?.note_tweet_results,
+    has_link: URL_REG.test(fields.full_text),
+    quoted_tweet: has_quote
+      ? getTweetFields(tweet_base.quoted_status_result.result)
+      : null,
   } as Tweet
 }
 
 export function getTweetId(
   record: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>,
 ): string {
-  let base_result = record.content.itemContent.tweet_results.result
-  if ('tweet' in base_result) {
-    return base_result.tweet.legacy.id_str
-  }
-  if ('legacy' in base_result) {
-    return base_result.legacy.id_str
-  }
-
-  return ''
+  let tweet = getTweet(record.content.itemContent.tweet_results.result)
+  return tweet?.legacy?.id_str || ''
 }
 
 export async function aggregateUsers() {

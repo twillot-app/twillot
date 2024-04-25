@@ -12,7 +12,18 @@ export * from './tweet'
 export * from './user'
 
 // For db usage
-export interface Tweet {
+export interface Tweet extends TweetQuoted {
+  sort_index: string
+  has_image: boolean
+  has_video: boolean
+  has_gif: boolean
+  has_link: boolean
+  has_quote: boolean
+  is_long_text: boolean
+  quoted_tweet?: TweetQuoted
+}
+
+export interface TweetQuoted {
   tweet_id: string
   user_id: string
   username: string
@@ -20,15 +31,8 @@ export interface Tweet {
   avatar_url: string
   full_text: string
   lang: string
-  sort_index: string
   created_at: number
   possibly_sensitive: boolean
-  has_image: boolean
-  has_video: boolean
-  has_gif: boolean
-  has_link: boolean
-  has_quote: boolean
-  is_long_text: boolean
   media_items: Media[] | null | undefined
 }
 

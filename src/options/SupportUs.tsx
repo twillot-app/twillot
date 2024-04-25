@@ -63,8 +63,7 @@ export default function SupportUs() {
           <div class="mx-auto flex flex-col rounded-lg  border border-gray-100 bg-white p-6 text-center text-gray-900 shadow xl:p-8 dark:border-gray-600 dark:bg-gray-800 dark:text-white">
             <h3 class="mb-2 text-2xl font-semibold">Financial Support</h3>
             <p class="font-normal text-gray-500 sm:text-lg dark:text-gray-400">
-              A small donation makes a big difference, the behind magician is
-              YOU.
+              A small donation makes a big difference, the magician is YOU.
             </p>
             <div class="my-8 flex items-baseline justify-center"></div>
             <ul role="list" class="mb-8 space-y-4 text-left">

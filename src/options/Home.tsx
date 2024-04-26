@@ -69,6 +69,23 @@ export const Home = () => {
           <span class="float-right text-sm font-normal text-gray-500">
             Query time: {store.searchTime} ms
           </span>
+          <svg
+            class="h-6 w-6 "
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="M14 8H4m8 3.5v5M9.5 14h5M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
+            />
+          </svg>
         </h3>
         <For
           each={store.tweets}
@@ -81,7 +98,7 @@ export const Home = () => {
           {(tweet) => (
             <div class="rounded-md p-2 hover:bg-black hover:bg-opacity-5">
               <div class="flex flex-shrink-0 pb-0">
-                <div class="flex cursor-pointer items-start">
+                <div class="flex w-full cursor-pointer items-start ">
                   <div class="mr-2">
                     <A href={`/?q=from:${tweet.screen_name}`}>
                       <img
@@ -108,6 +125,24 @@ export const Home = () => {
                         </span>
                       </span>
                     </p>
+                  </div>
+                  <div class="flex flex-1 justify-end">
+                    <svg
+                      class="h-6 w-6 "
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1"
+                        d="M13.5 8H4m4 6h8m0 0-2-2m2 2-2 2M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
+                      />
+                    </svg>
                   </div>
                 </div>
               </div>

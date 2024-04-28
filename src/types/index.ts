@@ -21,6 +21,8 @@ export interface Tweet extends TweetQuoted {
   has_quote: boolean
   is_long_text: boolean
   quoted_tweet?: TweetQuoted
+  // 可以属于多个文件夹
+  folders: string[]
 }
 
 export interface TweetQuoted {
@@ -58,6 +60,7 @@ export interface QueryOptions {
   fromUser?: string
   since?: string
   until?: string
+  folder?: string
 }
 
 export enum AuthStatus {

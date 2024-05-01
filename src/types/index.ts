@@ -19,7 +19,6 @@ export enum OptionName {
 export interface Config {
   option_name: OptionName
   option_value: any
-  created_at: number
 }
 
 export interface Tweet extends TweetQuoted {

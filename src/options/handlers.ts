@@ -1,5 +1,5 @@
 import { createPopup, getAuthInfo } from '../libs/browser'
-import { ActionPage } from '../types'
+import { ActionPage, OptionName } from '../types'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
@@ -12,6 +12,7 @@ import {
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
+import { readConfig } from '../libs/db/configs'
 
 export async function removeBookmark(tweet_id: string) {
   try {
@@ -112,8 +113,8 @@ export async function initSync(keyword = '') {
   }
 }
 
-export async function getHistory() {
-  const [store, setStore] = dataStore
+export async function initHistory() {
+  const [_, setStore] = dataStore
   const days = getLastNDaysDates(DAYS)
   const { total, data: items } = await getRencentTweets(DAYS)
   const countMap = items.reduce((map, item) => {
@@ -130,4 +131,15 @@ export async function getHistory() {
     history,
     historySize: total,
   })
+}
+
+export async function initFolders() {
+  const [_, setStore] = dataStore
+  const config = await readConfig(OptionName.FOLDER)
+  if (!config || !config.option_value) {
+    return
+  }
+
+  const folders = config.option_value as string[]
+  setStore('folders', folders)
 }

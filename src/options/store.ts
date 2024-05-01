@@ -11,6 +11,7 @@ export default createStore({
   totalCount: 0,
   tweets: new Array<Tweet>(),
   topUsers: new Array<User>(),
+  folders: new Array<string>(),
   history: new Array<{ date: string; count: number }>(DAYS).fill({
     date: '',
     count: 0,

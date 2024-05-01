@@ -6,7 +6,7 @@ import Authenticate from './Authenticate'
 import Search from './Search'
 import Tabs from './Tabs'
 import { useSearchParams } from '@solidjs/router'
-import { getHistory, initSync, query } from './handlers'
+import { initFolders, initHistory, initSync, query } from './handlers'
 import { Alert } from '../components/Alert'
 
 export const Layout = (props) => {
@@ -24,8 +24,9 @@ export const Layout = (props) => {
   })
 
   onMount(() => {
-    getHistory()
+    initHistory()
     initSync(searchParams.q)
+    initFolders()
   })
 
   return (

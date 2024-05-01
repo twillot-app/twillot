@@ -6,6 +6,8 @@ import { Content } from '../components/Tweet'
 import { openPage } from '../libs/dom'
 import { Host } from '../types'
 import Contribution from '../components/Contribution'
+import { IconQuote } from '../components/Icons'
+import FolderDropDown from '../components/FolderDropDown'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -66,26 +68,9 @@ export const Home = () => {
           {store.keyword || store.category
             ? `Search results: ${store.tweets.length} bookmarks`
             : 'Recent Bookmarks'}{' '}
-          <span class="float-right text-sm font-normal text-gray-500">
-            Query time: {store.searchTime} ms
-          </span>
-          <svg
-            class="h-6 w-6 "
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M14 8H4m8 3.5v5M9.5 14h5M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
-            />
-          </svg>
+          <div class="relative float-right">
+            <FolderDropDown />
+          </div>
         </h3>
         <For
           each={store.tweets}
@@ -126,24 +111,7 @@ export const Home = () => {
                       </span>
                     </p>
                   </div>
-                  <div class="flex flex-1 justify-end">
-                    <svg
-                      class="h-6 w-6 "
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1"
-                        d="M13.5 8H4m4 6h8m0 0-2-2m2 2-2 2M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
-                      />
-                    </svg>
-                  </div>
+                  <div class="flex flex-1 justify-end"></div>
                 </div>
               </div>
               <div class="-mt-2 pl-12 text-[rgb(15,20,25)] dark:text-white">
@@ -152,15 +120,7 @@ export const Home = () => {
                   <div class="relative inline-flex w-full items-center justify-center">
                     <hr class="my-8 h-1 w-64 rounded border-0 bg-gray-200 dark:bg-gray-700" />
                     <div class="absolute left-1/2 -translate-x-1/2 px-4">
-                      <svg
-                        class="h-4 w-4 text-gray-500 dark:text-gray-300"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 18 14"
-                      >
-                        <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
-                      </svg>
+                      <IconQuote />
                     </div>
                   </div>
                   <Content tweet={tweet.quoted_tweet} isQuoted={true} />

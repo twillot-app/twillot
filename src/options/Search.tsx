@@ -2,6 +2,7 @@ import { useNavigate } from '@solidjs/router'
 import { createEffect, createMemo, createSignal, For } from 'solid-js'
 
 import dataStore from './store'
+import { IconArrowDown, IconSearch } from '../components/Icons'
 
 const allCategories = [
   {
@@ -68,22 +69,7 @@ export default function Search() {
           type="button"
           onClick={() => setIsMenuVisible(!isMenuVisible())}
         >
-          {category().name}{' '}
-          <svg
-            class="ms-2.5 h-2.5 w-2.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
+          {category().name} <IconArrowDown />
         </button>
         <div
           class={`absolute left-0 top-12 z-10 w-24 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700 ${isMenuVisible() ? 'block' : 'hidden'}`}
@@ -119,21 +105,7 @@ export default function Search() {
             type="submit"
             class="absolute end-0 top-0 h-full rounded-e-lg border border-blue-700 bg-blue-700 p-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 "
           >
-            <svg
-              class="mx-4 h-4 w-4"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
+            <IconSearch />
           </button>
         </div>
       </div>

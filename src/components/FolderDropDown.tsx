@@ -49,13 +49,15 @@ export default function FolderDropDown() {
                   <A href={`/?q=folder:${folder}`} class="block flex-1  py-2">
                     {folder}
                   </A>
-                  <span
-                    title={`Move to folder ${folder}`}
-                    onClick={() => moveToFolder(folder)}
-                    class="cursor-pointer"
-                  >
-                    <IconFolderMove />
-                  </span>
+                  <Show when={store.keyword}>
+                    <span
+                      title={`Move to folder ${folder}`}
+                      onClick={() => moveToFolder(folder)}
+                      class="cursor-pointer"
+                    >
+                      <IconFolderMove />
+                    </span>
+                  </Show>
                 </li>
               )}
             </For>

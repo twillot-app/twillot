@@ -12,9 +12,9 @@ import {
 import { parseTwitterQuery } from './query-parser'
 import { URL_REG } from './text'
 
-const DB_VERSION = 7
+const DB_VERSION = 8
 
-function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
+export function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   const transaction = db.transaction([tableName], 'readwrite')
   return {
     transaction,
@@ -22,7 +22,7 @@ function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   }
 }
 
-function updateTableScheme(
+function createSchema(
   db: IDBDatabase,
   transaction: IDBTransaction,
   tableName: string,
@@ -71,19 +71,14 @@ export function openDb(): Promise<IDBDatabase> {
             },
           }))
       indexFields.push({
-        name: 'folders',
+        name: 'folder',
         options: {
           unique: false,
-          multiEntry: true,
+          multiEntry: false,
         },
       })
-      updateTableScheme(
-        db,
-        target.transaction,
-        'tweets',
-        'tweet_id',
-        indexFields,
-      )
+      createSchema(db, target.transaction, 'tweets', 'tweet_id', indexFields)
+      createSchema(db, target.transaction, 'configs', 'option_name', [])
     }
 
     request.onsuccess = (event: Event) => {
@@ -124,7 +119,8 @@ function meetsCriteria(
     (!options.fromUser ||
       tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase()) &&
     (!category || tweet[category]) &&
-    (!options.folder || tweet.folders.includes(options.folder))
+    (!options.folder ||
+      tweet.folder.toLowerCase() === options.folder.toLowerCase())
   )
 }
 

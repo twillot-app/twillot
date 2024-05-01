@@ -11,7 +11,17 @@ export * from './list'
 export * from './tweet'
 export * from './user'
 
-// For db usage
+export enum OptionName {
+  FOLDER = 'folder',
+  RULE = 'rule',
+}
+
+export interface Config {
+  option_name: OptionName
+  option_value: any
+  created_at: number
+}
+
 export interface Tweet extends TweetQuoted {
   sort_index: string
   has_image: boolean
@@ -22,7 +32,7 @@ export interface Tweet extends TweetQuoted {
   is_long_text: boolean
   quoted_tweet?: TweetQuoted
   // 可以属于多个文件夹
-  folders: string[]
+  folder: string
 }
 
 export interface TweetQuoted {

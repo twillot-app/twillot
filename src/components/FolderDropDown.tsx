@@ -7,10 +7,12 @@ import { upsertConfig } from '../libs/db/configs'
 import { OptionName } from '../types'
 import { addRecords } from '../libs/db'
 import { unwrap } from 'solid-js/store'
+import useClickOutside from '../hooks/useClickOutside'
 
 export default function FolderDropDown() {
   const [store, setStore] = dataStore
   const [expanded, setExpanded] = createSignal(false)
+  const [dropdownRef, setDropdownRef] = createSignal(null)
   const addFolder = async (e) => {
     e.preventDefault()
     const folderName = e.target.folder.value.trim()
@@ -33,13 +35,15 @@ export default function FolderDropDown() {
     }
   }
 
+  useClickOutside(dropdownRef, () => setExpanded(false))
+
   return (
-    <>
-      <span class="cursor-pointer" onClick={() => setExpanded(!expanded())}>
+    <div ref={setDropdownRef}>
+      <span class="cursor-pointer" onClick={() => setExpanded(true)}>
         <IconFolder />
       </span>
       <div
-        class={`absolute right-0 z-10 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700 ${expanded() ? 'block' : 'hidden'}`}
+        class={`absolute right-1 z-10 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700 ${expanded() ? 'block' : 'hidden'}`}
       >
         <Show when={store.folders.length}>
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
@@ -74,6 +78,6 @@ export default function FolderDropDown() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   )
 }

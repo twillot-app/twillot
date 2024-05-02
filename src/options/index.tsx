@@ -6,14 +6,12 @@ import { Home } from './Home'
 import Layout from './Layout'
 import Export from './Export'
 import SupportUs from './SupportUs'
-import Graph from './Graph'
 import '../assets/main.css'
 
 render(
   () => (
     <HashRouter root={Layout}>
       <Route path="/" component={Home} />
-      <Route path="/graph" component={Graph} />
       <Route path="/export-and-sync" component={Export} />
       <Route path="/support-us" component={SupportUs} />
     </HashRouter>

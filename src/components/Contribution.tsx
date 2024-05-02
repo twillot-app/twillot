@@ -1,6 +1,7 @@
 import { For } from 'solid-js'
 import { useNavigate } from '@solidjs/router'
 
+import tooltip from './Tooltip'
 import dataStore from '../options/store'
 import {
   WEEK_NAMES,
@@ -44,7 +45,8 @@ export default function Contribution() {
               const disabled = color === disabledColor
               return (
                 <li
-                  title={cell.date}
+                  use:tooltip="top"
+                  title={`${cell.count} bookmarks on ${cell.date}`}
                   style={{
                     'background-color': color,
                   }}

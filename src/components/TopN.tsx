@@ -1,5 +1,6 @@
 import { For, onMount } from 'solid-js'
 import { A } from '@solidjs/router'
+import tooltip from './Tooltip'
 
 function TopN(props) {
   let el = null
@@ -54,7 +55,8 @@ function TopN(props) {
 
           return (
             <div
-              class="absolute rounded-full overflow-hidden border-[rgba(0,0,0,0.25)] border-2 cursor-pointer dark:border-gray-400"
+              use:tooltip="top"
+              class="absolute cursor-pointer overflow-hidden rounded-full border-2 border-[rgba(0,0,0,0.25)] dark:border-gray-400"
               title={`You bookmarked ${user.username} ${user.count} times`}
               data-size={size}
               data-x={x}
@@ -72,7 +74,7 @@ function TopN(props) {
               <A href={`/?q=from:${user.screen_name}`}>
                 <img
                   src={user.avatar_url.replace('normal', '200x200')}
-                  class="w-full h-auto block"
+                  class="block h-auto w-full"
                 />
               </A>
             </div>

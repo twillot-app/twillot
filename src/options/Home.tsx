@@ -8,6 +8,7 @@ import { Host } from '../types'
 import Contribution from '../components/Contribution'
 import { IconQuote } from '../components/Icons'
 import FolderDropDown from '../components/FolderDropDown'
+import TopN from '../components/TopN'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -31,35 +32,14 @@ export const Home = () => {
 
       <div class="relative mb-6 rounded-md py-4">
         <h3 class="text-lg font-medium">Top 10 Authors from your bookmarks</h3>
-        <A
-          href="/graph"
-          class="absolute right-4 top-4 flex text-sm text-blue-500 hover:text-blue-700"
-        >
-          Details
-        </A>
-        <div class="mt-4 flex justify-between">
-          <For
-            each={store.topUsers}
-            fallback={
-              <div class="w-full p-4 text-center text-base text-gray-400">
-                Hold on, Twillot is fetching your bookmarks ...
-              </div>
-            }
+
+        <div class="flex justify-center">
+          <Show
+            when={store.topUsers.length > 0}
+            fallback={<div class="h-[480px] w-[480px]"></div>}
           >
-            {(user) => (
-              <A
-                href={`/?q=from:${user.screen_name}`}
-                class="flex cursor-pointer flex-col items-center"
-                title={`You bookmarked ${user.count} tweets from ${user.username}`}
-              >
-                <img
-                  class="inline-block h-14 w-14 rounded-full"
-                  src={user.avatar_url.replace('_normal', '_x96')}
-                  alt="avatar"
-                />
-              </A>
-            )}
-          </For>
+            <TopN users={store.topUsers} stageSize={480} />
+          </Show>
         </div>
       </div>
 

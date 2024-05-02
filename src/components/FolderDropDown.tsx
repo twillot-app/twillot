@@ -28,6 +28,7 @@ export default function FolderDropDown() {
   }
   const moveToFolder = async (folder: string) => {
     try {
+      // TODO 确认是否移动，可能误操作
       let tweets = unwrap(store.tweets).map((tweet) => ({ ...tweet, folder }))
       await addRecords(tweets)
     } catch (error) {
@@ -50,10 +51,14 @@ export default function FolderDropDown() {
             <For each={store.folders}>
               {(folder) => (
                 <li class="flex items-center gap-1 pl-4 pr-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  <A href={`/?q=folder:${folder}`} class="block flex-1  py-2">
+                  <A
+                    href={`/?q=folder:${folder}`}
+                    class="block flex-1 py-2"
+                    onClick={() => setExpanded(false)}
+                  >
                     {folder}
                   </A>
-                  <Show when={store.keyword}>
+                  <Show when={store.keyword && store.tweets.length}>
                     <span
                       title={`Move to folder ${folder}`}
                       onClick={() => moveToFolder(folder)}

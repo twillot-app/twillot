@@ -10,6 +10,8 @@ export default createStore({
   pageSize: 100,
   totalCount: 0,
   tweets: new Array<Tweet>(),
+  selectedTweet: null as Tweet | null,
+  action: '',
   topUsers: new Array<User>(),
   folders: new Array<string>(),
   history: new Array<{ date: string; count: number }>(DAYS).fill({

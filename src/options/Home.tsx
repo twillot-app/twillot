@@ -98,7 +98,7 @@ export const Home = () => {
                       when={store.folders.length && tweet.folder}
                       fallback={
                         <span
-                          class={`${store.action === 'changeFolder' ? 'hidden' : ''}`}
+                          class={`${store.selectedTweet === tweet && store.action === 'changeFolder' ? 'hidden' : ''}`}
                           onClick={() =>
                             setStore({
                               selectedTweet: tweet,
@@ -111,7 +111,7 @@ export const Home = () => {
                       }
                     >
                       <span
-                        class={`me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300 ${store.action === 'changeFolder' ? 'hidden' : ''}`}
+                        class={`me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300 ${store.selectedTweet === tweet && store.action === 'changeFolder' ? 'hidden' : ''}`}
                         onClick={() =>
                           setStore({
                             selectedTweet: tweet,

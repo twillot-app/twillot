@@ -1,7 +1,7 @@
 import { A } from '@solidjs/router'
+import { For } from 'solid-js'
 
 import dataStore from './store'
-import { For } from 'solid-js'
 import { FolderForm } from '../components/FolderDropDown'
 
 export default function Folders() {
@@ -49,7 +49,7 @@ export default function Folders() {
                     href={`/?q=folder:${folder}`}
                     class="mr-4 cursor-pointer font-medium text-blue-600 hover:underline dark:text-blue-500"
                   >
-                    0
+                    {store.folderInfo[folder] || 0}
                   </A>
                 </td>
                 <td class="px-6 py-4 text-right">

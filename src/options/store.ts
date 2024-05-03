@@ -14,6 +14,7 @@ export default createStore({
   action: '',
   topUsers: new Array<User>(),
   folders: new Array<string>(),
+  folderInfo: new Map<string, number>(),
   history: new Array<{ date: string; count: number }>(DAYS).fill({
     date: '',
     count: 0,

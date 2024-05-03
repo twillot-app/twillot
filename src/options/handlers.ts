@@ -142,4 +142,14 @@ export async function initFolders() {
 
   const folders = config.option_value as string[]
   setStore('folders', folders)
+  if (folders.length < 1) {
+    return
+  }
+
+  const folderInfo = new Map<string, number>()
+  for (const folder of folders) {
+    const count = await countRecords('folder', folder)
+    folderInfo[folder] = count
+  }
+  setStore('folderInfo', folderInfo)
 }

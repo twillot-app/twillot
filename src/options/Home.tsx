@@ -6,11 +6,10 @@ import { Content } from '../components/Tweet'
 import { openPage } from '../libs/dom'
 import { Host } from '../types'
 import Contribution from '../components/Contribution'
-import { IconFolderMove, IconQuote } from '../components/Icons'
+import { IconQuote } from '../components/Icons'
 import FolderDropDown from '../components/FolderDropDown'
 import TopN from '../components/TopN'
-import { unwrap } from 'solid-js/store'
-import { addRecords } from '../libs/db'
+import FolderSelect from '../components/FolderSelect'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -94,73 +93,7 @@ export const Home = () => {
                     </p>
                   </div>
                   <div class="flex flex-1 cursor-pointer justify-end">
-                    <Show
-                      when={store.folders.length && tweet.folder}
-                      fallback={
-                        <span
-                          class={`${store.selectedTweet === tweet && store.action === 'changeFolder' ? 'hidden' : ''}`}
-                          onClick={() =>
-                            setStore({
-                              selectedTweet: tweet,
-                              action: 'changeFolder',
-                            })
-                          }
-                        >
-                          <IconFolderMove />
-                        </span>
-                      }
-                    >
-                      <span
-                        class={`me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300 ${store.selectedTweet === tweet && store.action === 'changeFolder' ? 'hidden' : ''}`}
-                        onClick={() =>
-                          setStore({
-                            selectedTweet: tweet,
-                            action: 'changeFolder',
-                          })
-                        }
-                      >
-                        {tweet.folder}
-                      </span>
-                    </Show>
-
-                    <Show
-                      when={
-                        store.selectedTweet === tweet &&
-                        store.action === 'changeFolder'
-                      }
-                      fallback={null}
-                    >
-                      <select
-                        class={` rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
-                        onchange={async (e) => {
-                          const folder = e.target.value
-                          const tweet = unwrap(store.selectedTweet)
-                          tweet.folder = folder
-                          await addRecords([tweet])
-                          const newTweets = store.tweets.map((t) =>
-                            t.tweet_id === tweet.tweet_id
-                              ? { ...t, folder }
-                              : t,
-                          )
-                          setStore({
-                            tweets: newTweets,
-                            selectedTweet: null,
-                            action: '',
-                          })
-                        }}
-                      >
-                        <For each={store.folders}>
-                          {(folder) => (
-                            <option
-                              selected={folder === tweet.folder}
-                              value={folder}
-                            >
-                              {folder}
-                            </option>
-                          )}
-                        </For>
-                      </select>
-                    </Show>
+                    <FolderSelect tweet={tweet} />
                   </div>
                 </div>
               </div>

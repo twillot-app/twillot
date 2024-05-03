@@ -1,4 +1,4 @@
-export const IconFolder = () => (
+export const IconFolder = (props) => (
   <svg
     class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +11,7 @@ export const IconFolder = () => (
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="1"
+      stroke-width={props.strokeWidth || 1}
       d="M13.5 8H4m0-2v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
     />
   </svg>

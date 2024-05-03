@@ -1,4 +1,5 @@
 import { A } from '@solidjs/router'
+import { IconFolder } from '../components/Icons'
 
 const tabs = [
   {
@@ -22,6 +23,11 @@ const tabs = [
         />
       </svg>
     ),
+  },
+  {
+    url: '/folder',
+    label: 'Folder',
+    icon: <IconFolder strokeWidth="2" />,
   },
   {
     url: '/export-and-sync',

@@ -34,7 +34,16 @@ export default function Folders() {
           </tr>
         </thead>
         <tbody>
-          <For each={store.folders}>
+          <For
+            each={store.folders}
+            fallback={
+              <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                <td colSpan="3" class="py-10 text-center">
+                  No folders found.
+                </td>
+              </tr>
+            }
+          >
             {(folder) => (
               <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
                 <th

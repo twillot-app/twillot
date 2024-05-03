@@ -1,4 +1,4 @@
-import { createEffect, onMount, Show, untrack } from 'solid-js'
+import { createEffect, onMount, Show } from 'solid-js'
 
 import dataStore from './store'
 import Indicator from '../components/Indicator'

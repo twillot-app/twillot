@@ -4,6 +4,7 @@ import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
 import {
+  clearFolder,
   countRecords,
   findRecords,
   getRencentTweets,
@@ -12,7 +13,7 @@ import {
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
-import { readConfig } from '../libs/db/configs'
+import { readConfig, upsertConfig } from '../libs/db/configs'
 
 export async function removeBookmark(tweet_id: string) {
   try {
@@ -152,4 +153,15 @@ export async function initFolders() {
     folderInfo[folder] = count
   }
   setStore('folderInfo', folderInfo)
+}
+
+export async function removeFolder(folder: string) {
+  const [store, setStore] = dataStore
+  const folders = store.folders.filter((f) => f !== folder)
+  await upsertConfig({
+    option_name: OptionName.FOLDER,
+    option_value: folders,
+  })
+  await clearFolder(folder)
+  setStore('folders', [...folders])
 }

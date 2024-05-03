@@ -3,6 +3,7 @@ import { For } from 'solid-js'
 
 import dataStore from './store'
 import { FolderForm } from '../components/FolderDropDown'
+import { removeFolder } from './handlers'
 
 export default function Folders() {
   const [store] = dataStore
@@ -53,7 +54,10 @@ export default function Folders() {
                   </A>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <span class="cursor-pointer font-medium text-red-600 hover:underline dark:text-red-500">
+                  <span
+                    class="cursor-pointer font-medium text-red-600 hover:underline dark:text-red-500"
+                    onClick={() => removeFolder(folder)}
+                  >
                     Delete
                   </span>
                 </td>

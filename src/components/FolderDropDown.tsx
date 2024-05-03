@@ -80,7 +80,7 @@ export default function FolderDropDown() {
                     class="block flex-1 py-2"
                     onClick={() => setExpanded(false)}
                   >
-                    {folder} ({store.folderInfo[folder]})
+                    {folder} ({store.folderInfo[folder] || 0})
                   </A>
                   <Show when={store.keyword && store.tweets.length}>
                     <span

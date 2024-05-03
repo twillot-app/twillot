@@ -222,6 +222,7 @@ export async function getRecord(id: string): Promise<Tweet | undefined> {
     }
   })
 }
+
 export async function countRecords(
   indexName?: string,
   value?: string,
@@ -443,6 +444,35 @@ export async function getRencentTweets(days: number): Promise<{
 
     request.onerror = (event) => {
       reject(request.error)
+    }
+  })
+}
+
+export async function clearFolder(folder: string): Promise<void> {
+  const db = await openDb()
+
+  return new Promise((resolve, reject) => {
+    const store = getObjectStore(db, 'tweets').objectStore
+    const index = store.index('folder')
+    const request = index.openCursor(IDBKeyRange.only(folder))
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        const updateData = cursor.value
+        updateData.folder = ''
+        cursor.update(updateData)
+        cursor.continue()
+      } else {
+        resolve()
+      }
+    }
+
+    request.onerror = (event) => {
+      reject(
+        'Failed to clear folder: ' +
+          (event.target as IDBRequest).error?.toString(),
+      )
     }
   })
 }

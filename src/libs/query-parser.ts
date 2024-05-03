@@ -6,7 +6,7 @@ export function parseTwitterQuery(query) {
     since: /since:(\d{4}-\d{2}-\d{2})/g,
     until: /until:(\d{4}-\d{2}-\d{2})/g,
     // 数据库字段是数组，查询暂时只能单个匹配
-    folder: /folder:(\w+)/g,
+    folder: /folder:(\S+)/g,
   }
 
   const result: QueryOptions = {

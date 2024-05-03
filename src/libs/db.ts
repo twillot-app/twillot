@@ -222,13 +222,24 @@ export async function getRecord(id: string): Promise<Tweet | undefined> {
     }
   })
 }
-
-export async function countRecords(): Promise<number> {
+export async function countRecords(
+  indexName?: string,
+  value?: string,
+): Promise<number> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db)
-    const request = objectStore.count()
+
+    let request
+    if (indexName) {
+      const index = objectStore.index(indexName)
+      const keyRange = IDBKeyRange.only(value)
+      request = index.count(keyRange)
+    } else {
+      request = objectStore.count()
+    }
+
     request.onsuccess = (event: Event) => {
       resolve((event.target as IDBRequest<number>).result)
     }

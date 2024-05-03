@@ -9,10 +9,8 @@ import { addRecords } from '../libs/db'
 import { unwrap } from 'solid-js/store'
 import useClickOutside from '../hooks/useClickOutside'
 
-export default function FolderDropDown() {
+export const FolderForm = () => {
   const [store, setStore] = dataStore
-  const [expanded, setExpanded] = createSignal(false)
-  const [dropdownRef, setDropdownRef] = createSignal(null)
   const addFolder = async (e) => {
     e.preventDefault()
     const folderName = e.target.folder.value.trim()
@@ -26,6 +24,24 @@ export default function FolderDropDown() {
       })
     }
   }
+
+  return (
+    <form class="flex items-center" onSubmit={addFolder}>
+      <input
+        type="text"
+        name="folder"
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1 text-gray-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        placeholder="Add a folder"
+      />
+    </form>
+  )
+}
+
+export default function FolderDropDown() {
+  const [store, setStore] = dataStore
+  const [expanded, setExpanded] = createSignal(false)
+  const [dropdownRef, setDropdownRef] = createSignal(null)
+
   const moveToFolder = async (folder: string) => {
     try {
       // TODO 确认是否移动，可能误操作
@@ -73,14 +89,7 @@ export default function FolderDropDown() {
           </ul>
         </Show>
         <div class="flex p-2 text-sm">
-          <form class="flex items-center" onSubmit={addFolder}>
-            <input
-              type="text"
-              name="folder"
-              class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1 text-gray-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="Add new folder"
-            />
-          </form>
+          <FolderForm />
         </div>
       </div>
     </div>

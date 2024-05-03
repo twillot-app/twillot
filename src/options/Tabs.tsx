@@ -26,7 +26,7 @@ const tabs = [
   },
   {
     url: '/folder',
-    label: 'Folder',
+    label: 'Folders',
     icon: <IconFolder strokeWidth="2" />,
   },
   {

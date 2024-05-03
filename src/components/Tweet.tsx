@@ -58,7 +58,7 @@ export const MediaItems = (props: { media_items: Media[] }) => {
         url={
           item.video_info
             ? item.video_info.variants[item.video_info.variants.length - 1].url
-            : ''
+            : item.media_url_https.split('?')[0] + '?format=jpg&name=large'
         }
       />
       <Show when={item.type === 'video'}>

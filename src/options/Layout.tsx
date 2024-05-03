@@ -8,6 +8,7 @@ import Tabs from './Tabs'
 import { useSearchParams } from '@solidjs/router'
 import { initFolders, initHistory, initSync, query } from './handlers'
 import { Alert } from '../components/Alert'
+import Notification from '../components/Notification'
 
 export const Layout = (props) => {
   const [searchParams] = useSearchParams()
@@ -89,6 +90,7 @@ export const Layout = (props) => {
 
         {props.children}
       </div>
+      <Notification />
     </main>
   )
 }

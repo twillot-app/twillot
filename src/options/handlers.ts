@@ -163,5 +163,14 @@ export async function removeFolder(folder: string) {
     option_value: folders,
   })
   await clearFolder(folder)
+  setStore(
+    'tweets',
+    reconcile(
+      store.tweets.map((t) => ({
+        ...t,
+        folder: t.folder === folder ? '' : t.folder,
+      })),
+    ),
+  )
   setStore('folders', [...folders])
 }

@@ -8,6 +8,7 @@ import { OptionName } from '../types'
 import { addRecords } from '../libs/db'
 import { unwrap } from 'solid-js/store'
 import useClickOutside from '../hooks/useClickOutside'
+import { initFolders } from '../options/handlers'
 
 export const FolderForm = () => {
   const [store, setStore] = dataStore
@@ -44,9 +45,16 @@ export default function FolderDropDown() {
 
   const moveToFolder = async (folder: string) => {
     try {
-      // TODO 确认是否移动，可能误操作
-      let tweets = unwrap(store.tweets).map((tweet) => ({ ...tweet, folder }))
+      // TODO 确认是否移动，可能误操作，提示操作成功
+      // 如果已经设置了文件夹，则不再设置
+      let tweets = unwrap(store.tweets)
+        .filter((x) => !x.folder)
+        .map((tweet) => ({
+          ...tweet,
+          folder,
+        }))
       await addRecords(tweets)
+      await initFolders()
     } catch (error) {
       console.error(error)
     }
@@ -72,7 +80,7 @@ export default function FolderDropDown() {
                     class="block flex-1 py-2"
                     onClick={() => setExpanded(false)}
                   >
-                    {folder}
+                    {folder} ({store.folderInfo[folder]})
                   </A>
                   <Show when={store.keyword && store.tweets.length}>
                     <span

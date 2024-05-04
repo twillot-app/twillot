@@ -1,5 +1,5 @@
 import { createEffect, For } from 'solid-js'
-import { getTimeline } from '../libs/db'
+import { getTimeline } from '../libs/db/tweets'
 import dataStore from '../options/store'
 import { FullText } from './Tweet'
 

@@ -9,7 +9,7 @@ import {
   findRecords,
   getRencentTweets,
   getTopUsers,
-} from '../libs/db'
+} from '../libs/db/tweets'
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'

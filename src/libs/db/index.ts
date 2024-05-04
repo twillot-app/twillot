@@ -12,7 +12,7 @@ import {
 import { parseTwitterQuery } from '../query-parser'
 import { URL_REG } from '../text'
 
-const DB_VERSION = 9
+export const DB_VERSION = 9
 
 export function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   const transaction = db.transaction([tableName], 'readwrite')
@@ -22,7 +22,7 @@ export function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   }
 }
 
-function createSchema(
+export function createSchema(
   db: IDBDatabase,
   transaction: IDBTransaction,
   tableName: string,

@@ -1,6 +1,6 @@
 import { getLocalItem } from './browser'
 import { mem as memApi } from './api'
-import { countRecords, findRecords } from './db'
+import { countRecords, findRecords } from './db/tweets'
 import { Host } from '../types'
 
 export async function* mem() {

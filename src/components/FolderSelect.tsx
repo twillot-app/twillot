@@ -3,7 +3,7 @@ import { unwrap } from 'solid-js/store'
 
 import dataStore from '../options/store'
 import { IconFolderMove } from './Icons'
-import { addRecords } from '../libs/db'
+import { addRecords } from '../libs/db/tweets'
 
 export default function FolderSelect(props) {
   const [store, setStore] = dataStore

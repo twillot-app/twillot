@@ -1,4 +1,10 @@
-import { addRecords, findRecords, toRecord, getTweetId, getRecord } from './db'
+import {
+  addRecords,
+  findRecords,
+  toRecord,
+  getTweetId,
+  getRecord,
+} from './db/tweets'
 import {
   Header,
   AuthStatus,

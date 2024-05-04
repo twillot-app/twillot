@@ -31,7 +31,7 @@ export const Layout = (props) => {
   })
 
   return (
-    <main class="bg-white text-black dark:bg-black dark:text-white">
+    <main class="overflow-y-auto bg-white text-black dark:bg-black dark:text-white">
       <Tabs />
       <div class="fixed left-1/2 top-0 z-30 -ml-[24rem] w-[48rem] bg-white dark:bg-black">
         <h1 class="font-large my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-center text-xl font-semibold text-transparent">

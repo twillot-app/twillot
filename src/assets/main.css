@@ -4,6 +4,13 @@
 
 html {
   font-size: 16px;
+  background-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #000;
+  }
 }
 
 :root {

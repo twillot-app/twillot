@@ -1,20 +1,12 @@
-import {
-  addRecords,
-  findRecords,
-  toRecord,
-  getTweetId,
-  getRecord,
-} from './db/tweets'
+import { addRecords, toRecord, getTweetId, getRecord } from './db/tweets'
 import {
   Header,
-  AuthStatus,
   Host,
   TimelineEntry,
   TimelineTimelineItem,
   TimelineTweet,
   TimelineAddEntriesInstruction,
 } from '../types'
-import { exportData, ExportFormatType } from './export'
 import { BookmarksResponse } from '../types'
 import { addLocalItem, getLocalItem } from './browser'
 import xfetch, { FetchError } from './xfetch'
@@ -125,22 +117,22 @@ export async function* syncAllBookmarks(headers: Header, forceSync = false) {
   }
 }
 
-export async function exportBookmarks(format: ExportFormatType) {
-  let allTweets = await findRecords('', '', 1, 100000)
-  const all = allTweets.map((i) => {
-    return {
-      username: i.username,
-      url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
-      content: i.full_text,
-      media: i.media_items
-        ? i.media_items.map((m) => m.media_url_https).join('\t')
-        : [],
-      media_count: i.media_items.length,
-      contains_video: i.has_video,
-    }
-  })
-  exportData(all, format, `twillot.${format.toLowerCase()}`)
-}
+// export async function exportBookmarks(format: ExportFormatType) {
+//   let allTweets = await findRecords('', '', 1, 100000)
+//   const all = allTweets.map((i) => {
+//     return {
+//       username: i.username,
+//       url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
+//       content: i.full_text,
+//       media: i.media_items
+//         ? i.media_items.map((m) => m.media_url_https).join('\t')
+//         : [],
+//       media_count: i.media_items.length,
+//       contains_video: i.has_video,
+//     }
+//   })
+//   exportData(all, format, `twillot.${format.toLowerCase()}`)
+// }
 
 export async function isBookmarksSynced(
   tweets: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[],

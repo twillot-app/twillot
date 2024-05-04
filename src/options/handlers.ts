@@ -1,3 +1,5 @@
+import { untrack } from 'solid-js/web'
+
 import { createPopup, getAuthInfo } from '../libs/browser'
 import { ActionPage, OptionName } from '../types'
 import dataStore from './store'
@@ -15,32 +17,52 @@ import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
 import { readConfig, upsertConfig } from '../libs/db/configs'
 
-export async function removeBookmark(tweet_id: string) {
-  try {
-    const { token, csrf } = await getAuthInfo()
-    const payload = {
-      token,
-      csrf,
-      tweet_id,
+// export async function removeBookmark(tweet_id: string) {
+//   try {
+//     const { token, csrf } = await getAuthInfo()
+//     const payload = {
+//       token,
+//       csrf,
+//       tweet_id,
+//     }
+//     const url = `${ActionPage.DEL_BOOKMARK}&payload=${btoa(JSON.stringify(payload))}`
+//     await createPopup(url)
+//   } catch (err) {
+//     console.error(err)
+//   }
+// }
+
+async function query(
+  keyword = '',
+  category = '',
+  lastId = '',
+  limit = 100,
+  append = false,
+) {
+  const [_, setStore] = dataStore
+  const start = new Date().getTime()
+  const tweets = await findRecords(keyword, category, lastId, limit)
+  setStore('hasMore', tweets.length === limit)
+  if (append) {
+    if (tweets.length > 0) {
+      setStore('tweets', (current) => [...current, ...tweets])
     }
-    const url = `${ActionPage.DEL_BOOKMARK}&payload=${btoa(JSON.stringify(payload))}`
-    await createPopup(url)
-  } catch (err) {
-    console.error(err)
+  } else {
+    setStore('tweets', tweets)
   }
+  setStore('searchTime', new Date().getTime() - start)
 }
 
-export async function query(keyword = '', category = '') {
-  const [store, setStore] = dataStore
-  const start = new Date().getTime()
-  const tweets = await findRecords(
-    keyword,
-    category,
-    store.page,
+export async function queryByCondition(append = false) {
+  const [store] = dataStore
+  const tweets = untrack(() => store.tweets)
+  query(
+    store.keyword,
+    store.category,
+    append ? tweets[tweets.length - 1]?.tweet_id || '' : '',
     store.pageSize,
+    append,
   )
-  setStore('tweets', () => [...tweets])
-  setStore('searchTime', new Date().getTime() - start)
 }
 
 export async function initSync(keyword = '') {
@@ -91,7 +113,8 @@ export async function initSync(keyword = '') {
         /**
          * 当前正在搜索时不更新数据
          */
-        if (store.isAutoSyncing && store.keyword.trim()) {
+        const isSearching = store.keyword.trim() || store.category
+        if (store.isAutoSyncing && isSearching) {
           continue
         }
         await query(keyword)

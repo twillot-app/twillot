@@ -6,7 +6,12 @@ import Authenticate from './Authenticate'
 import Search from './Search'
 import Tabs from './Tabs'
 import { useSearchParams } from '@solidjs/router'
-import { initFolders, initHistory, initSync, query } from './handlers'
+import {
+  initFolders,
+  initHistory,
+  initSync,
+  queryByCondition,
+} from './handlers'
 import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
 
@@ -21,7 +26,7 @@ export const Layout = (props) => {
   })
 
   createEffect(() => {
-    query(store.keyword, store.category)
+    queryByCondition()
   })
 
   onMount(() => {

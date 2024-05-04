@@ -10,6 +10,7 @@ import { IconQuote } from '../components/Icons'
 import FolderDropDown from '../components/FolderDropDown'
 import TopN from '../components/TopN'
 import FolderSelect from '../components/FolderSelect'
+import { queryByCondition } from './handlers'
 
 export const Home = () => {
   let listRef: HTMLDivElement
@@ -47,20 +48,13 @@ export const Home = () => {
       <div class="mb-4">
         <h3 class="mb-4 text-lg font-medium">
           {store.keyword || store.category
-            ? `Search results: ${store.tweets.length} bookmarks`
-            : 'Recent Bookmarks'}{' '}
-          <div class="relative float-right">
+            ? `Search results:`
+            : 'Recent bookmarks:'}{' '}
+          <div class="relative float-right pr-2">
             <FolderDropDown />
           </div>
         </h3>
-        <For
-          each={store.tweets}
-          fallback={
-            <div class="my-24 text-center text-base text-gray-400">
-              No bookmarks yet.
-            </div>
-          }
-        >
+        <For each={store.tweets}>
           {(tweet) => (
             <div class="rounded-md p-2 hover:bg-black hover:bg-opacity-5">
               <div class="flex flex-shrink-0 pb-0">
@@ -112,6 +106,21 @@ export const Home = () => {
             </div>
           )}
         </For>
+        <Show
+          when={store.hasMore}
+          fallback={
+            <p class="my-24 text-center text-gray-400">
+              Total records: {store.tweets.length}
+            </p>
+          }
+        >
+          <p
+            class="my-6 cursor-pointer text-center text-blue-500"
+            onClick={() => queryByCondition(true)}
+          >
+            Load more
+          </p>
+        </Show>
       </div>
     </div>
   )

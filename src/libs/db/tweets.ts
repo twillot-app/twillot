@@ -65,14 +65,14 @@ function getRange(since?: number, until?: number): IDBKeyRange | null {
 export async function findRecords(
   keyword = '',
   category = '',
-  page = 1,
+  lastId = '',
   pageSize = 100,
 ): Promise<Tweet[]> {
   const db = await openDb()
   const options = parseTwitterQuery(keyword)
-  const skip = (page - 1) * pageSize
   const results: Tweet[] = []
   let recordsFetched = 0 // 实际已获取的记录数
+  let isStartLooking = !lastId
   const since = options.since
     ? Math.floor(new Date(options.since + ' 00:00:00').getTime() / 1000)
     : null
@@ -90,26 +90,26 @@ export async function findRecords(
     request.onsuccess = (event: Event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
-        // 如果还没有到达应该开始收集数据的记录
-        if (recordsFetched < skip) {
-          // 高效跳过
-          cursor.advance(skip - recordsFetched)
-          recordsFetched = skip
-        } else {
-          const tweet = cursor.value as Tweet
+        const tweet = cursor.value as Tweet
+        if (isStartLooking) {
           const met = meetsCriteria(tweet, options, category)
           if (met) {
             recordsFetched++
-            if (recordsFetched <= skip + pageSize) {
+            if (recordsFetched <= pageSize) {
               results.push(tweet)
             }
-            if (recordsFetched === skip + pageSize) {
+            if (recordsFetched === pageSize) {
               resolve(results)
               return
             }
           }
-          cursor.continue()
+        } else {
+          if (tweet.tweet_id === lastId) {
+            isStartLooking = true
+          }
         }
+
+        cursor.continue()
       } else {
         resolve(results)
       }

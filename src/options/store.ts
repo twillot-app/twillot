@@ -6,8 +6,8 @@ import { DAYS } from '../libs/date'
 export default createStore({
   keyword: '',
   category: '',
-  page: 1,
   pageSize: 100,
+  hasMore: true,
   totalCount: 0,
   tweets: new Array<Tweet>(),
   selectedTweet: null as Tweet | null,

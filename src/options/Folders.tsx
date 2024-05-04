@@ -11,10 +11,10 @@ export default function Folders() {
   return (
     <div class="relative mt-4 w-[48rem] overflow-x-auto text-base">
       <table class="w-full text-left  text-gray-500 rtl:text-right dark:text-gray-400">
-        <caption class="bg-white p-5 text-left text-lg font-semibold text-gray-900 rtl:text-right dark:bg-gray-800 dark:text-white">
+        <caption class="bg-white px-0 pb-5 text-left text-lg font-medium text-gray-900 rtl:text-right dark:bg-gray-800 dark:text-white">
           Folders
           <p class="mt-1 font-normal text-gray-500 dark:text-gray-400">
-            Add folders to organize your bookmarks.
+            Organize your bookmarks into folders to help you find them easily.
           </p>
           <div class="mt-2 w-1/3 bg-white font-normal dark:bg-gray-900">
             <FolderForm />

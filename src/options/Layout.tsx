@@ -32,62 +32,60 @@ export const Layout = (props) => {
 
   return (
     <main class="bg-white text-black dark:bg-black dark:text-white">
-      <div class="flex h-screen flex-col items-center">
-        <div class="mx-auto w-[48rem]">
-          <h1 class="font-large my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-center text-xl font-semibold text-transparent">
-            Twillot - your social media copilot
-          </h1>
-          <div class="flex w-full items-center justify-center">
-            <div class="flex w-full">
-              <Search />
-            </div>
+      <Tabs />
+      <div class="fixed left-1/2 top-0 z-30 -ml-[24rem] w-[48rem] bg-white dark:bg-black">
+        <h1 class="font-large my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-center text-xl font-semibold text-transparent">
+          Twillot - your social media copilot
+        </h1>
+        <div class="flex w-full items-center justify-center">
+          <div class="flex w-full">
+            <Search />
           </div>
-          <Show when={store.isAuthFailed}>
-            <Authenticate />
-          </Show>
-          <Show when={store.isForceSyncTimedout}>
-            <Alert
-              message={
-                <>
-                  <span class="font-medium">
-                    Sync timed out, but that's not a big problem:
-                  </span>
-                  <ul class="mt-1.5 list-inside list-disc">
-                    <li>All your synced tweets are available from now on.</li>
-                    <li>
-                      Refresh this page to continue syncing from where it last
-                      failed.
-                    </li>
-                    <li>
-                      Contact the{' '}
-                      <a
-                        href="https://twitter.com/SiZapPaaiGwat"
-                        target="_blank"
-                        class="text-blue-500 underline"
-                      >
-                        maker
-                      </a>{' '}
-                      of Twillot if the problem persists.
-                    </li>
-                  </ul>
-                </>
-              }
-              type="error"
-            />
-          </Show>
-          <Show when={store.isForceSyncing}>
-            <Indicator
-              text={
-                <div class="text-center">
-                  Sync in progress: {store.totalCount} tweets.
-                </div>
-              }
-            />
-          </Show>
         </div>
-
-        <Tabs />
-
+        <Show when={store.isAuthFailed}>
+          <Authenticate />
+        </Show>
+        <Show when={store.isForceSyncTimedout}>
+          <Alert
+            message={
+              <>
+                <span class="font-medium">
+                  Sync timed out, but that's not a big problem:
+                </span>
+                <ul class="mt-1.5 list-inside list-disc">
+                  <li>All your synced tweets are available from now on.</li>
+                  <li>
+                    Refresh this page to continue syncing from where it last
+                    failed.
+                  </li>
+                  <li>
+                    Contact the{' '}
+                    <a
+                      href="https://twitter.com/SiZapPaaiGwat"
+                      target="_blank"
+                      class="text-blue-500 underline"
+                    >
+                      maker
+                    </a>{' '}
+                    of Twillot if the problem persists.
+                  </li>
+                </ul>
+              </>
+            }
+            type="error"
+          />
+        </Show>
+        <Show when={store.isForceSyncing}>
+          <Indicator
+            text={
+              <div class="text-center">
+                Sync in progress: {store.totalCount} tweets.
+              </div>
+            }
+          />
+        </Show>
+      </div>
+      <div class="flex h-screen flex-col items-center pt-[102px]">
         {props.children}
       </div>
       <Notification />

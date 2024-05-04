@@ -23,7 +23,7 @@ export const Home = () => {
 
   return (
     <div
-      class="my-4 w-[48rem] flex-1 overflow-y-auto overflow-x-hidden text-base text-black dark:text-white"
+      class="my-4 w-[48rem] flex-1 text-base text-black dark:text-white"
       onClick={openPage}
       ref={listRef!}
     >

@@ -1,7 +1,7 @@
 import { Host } from '../types'
 
 export const URL_REG =
-  /(?<!")(https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))(?!")/g
+  /(?<!")(https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9@:%_\+~#?&//=]*))(?!")/g
 export const mentionRegex = /(?<!@)@(\w{1,15})\b/g
 // copied from https://regex101.com/r/NLHUQh/1
 export const hashtagRegex =

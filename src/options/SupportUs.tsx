@@ -86,12 +86,12 @@ export default function SupportUs() {
             <div
               class="flex cursor-pointer justify-center"
               onClick={openPage}
-              data-text="https://ko-fi.com/N4N5TP4BZ"
+              data-text="https://www.patreon.com/Twillot"
             >
               <img
                 class="pointer-events-none h-12"
                 src="https://storage.ko-fi.com/cdn/kofi1.png?v=3"
-                alt="Buy Me a Coffee at ko-fi.com"
+                alt="Buy Me a Coffee"
               />
             </div>
           </div>

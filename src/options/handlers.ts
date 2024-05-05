@@ -49,7 +49,9 @@ async function query(
     }
   } else {
     setStore('tweets', tweets)
-    window.scrollTo(0, 720)
+    if (keyword.trim() || category) {
+      window.scrollTo(0, 720)
+    }
   }
   setStore('searchTime', new Date().getTime() - start)
 }

@@ -6,6 +6,7 @@ import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
 import {
+  addRecords,
   clearFolder,
   countRecords,
   findRecords,
@@ -13,7 +14,7 @@ import {
   getTopUsers,
 } from '../libs/db/tweets'
 import { FetchError } from '../libs/xfetch'
-import { reconcile } from 'solid-js/store'
+import { reconcile, unwrap } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
 import { readConfig, upsertConfig } from '../libs/db/configs'
 
@@ -199,4 +200,19 @@ export async function removeFolder(folder: string) {
     ),
   )
   setStore('folders', [...folders])
+}
+
+export async function moveToFolder(folder: string) {
+  const [store, setStore] = dataStore
+  const tweet = unwrap(store.selectedTweet)
+  tweet.folder = folder
+  await addRecords([tweet])
+  const newTweets = store.tweets.map((t) =>
+    t.tweet_id === tweet.tweet_id ? { ...t, folder } : t,
+  )
+  setStore({
+    tweets: newTweets,
+    selectedTweet: null,
+    action: '',
+  })
 }

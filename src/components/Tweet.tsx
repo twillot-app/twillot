@@ -91,7 +91,7 @@ export function Image(props: { src: string; alt?: string; url?: string }) {
       title={props.alt || ''}
     >
       <a href={props.url || props.src} target="_blank">
-        <img class="rounded-lg" src={props.src} />
+        <img class="rounded-lg" src={props.src} loading="lazy" />
       </a>
     </figure>
   )

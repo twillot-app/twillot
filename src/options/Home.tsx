@@ -6,7 +6,7 @@ import { Content } from '../components/Tweet'
 import { openPage } from '../libs/dom'
 import { Host } from '../types'
 import Contribution from '../components/Contribution'
-import { IconQuote } from '../components/Icons'
+import { IconChevronArrowDown, IconQuote } from '../components/Icons'
 import FolderDropDown from '../components/FolderDropDown'
 import TopN from '../components/TopN'
 import FolderSelect from '../components/FolderSelect'
@@ -115,10 +115,10 @@ export const Home = () => {
           }
         >
           <p
-            class="my-6 cursor-pointer text-center text-blue-500"
+            class="my-6 flex justify-center text-blue-500"
             onClick={() => queryByCondition(true)}
           >
-            Load more
+            <IconChevronArrowDown />
           </p>
         </Show>
       </div>

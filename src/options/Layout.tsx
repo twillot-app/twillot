@@ -90,9 +90,7 @@ export const Layout = (props) => {
           />
         </Show>
       </div>
-      <div class="flex h-screen flex-col items-center pt-[102px]">
-        {props.children}
-      </div>
+      <div class="flex flex-col items-center pt-[102px]">{props.children}</div>
       <Notification />
     </main>
   )

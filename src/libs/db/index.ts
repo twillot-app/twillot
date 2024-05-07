@@ -1,18 +1,6 @@
-import {
-  TimelineTweet,
-  Tweet,
-  TimelineEntry,
-  TimelineTimelineItem,
-  TweetWithPosition,
-  IndexedDbIndexItem,
-  QueryOptions,
-  TweetBase,
-  TweetUnion,
-} from '../../types'
-import { parseTwitterQuery } from '../query-parser'
-import { URL_REG } from '../text'
+import { IndexedDbIndexItem } from '../../types'
 
-export const DB_VERSION = 9
+export const DB_VERSION = 10
 
 export function getObjectStore(db: IDBDatabase, tableName = 'tweets') {
   const transaction = db.transaction([tableName], 'readwrite')
@@ -72,6 +60,13 @@ export function openDb(): Promise<IDBDatabase> {
           }))
       indexFields.push({
         name: 'folder',
+        options: {
+          unique: false,
+          multiEntry: false,
+        },
+      })
+      indexFields.push({
+        name: 'tags',
         options: {
           unique: false,
           multiEntry: true,

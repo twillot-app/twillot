@@ -22,6 +22,9 @@ export interface Config {
 }
 
 export interface Tweet extends TweetQuoted {
+  title?: string
+  note?: string
+  tags?: string[]
   sort_index: string
   has_image: boolean
   has_video: boolean
@@ -30,7 +33,7 @@ export interface Tweet extends TweetQuoted {
   has_quote: boolean
   is_long_text: boolean
   quoted_tweet?: TweetQuoted
-  // 可以属于多个文件夹
+  // 不可以属于多个文件夹
   folder: string
 }
 

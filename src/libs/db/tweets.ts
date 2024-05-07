@@ -400,3 +400,29 @@ export async function clearFolder(folder: string): Promise<void> {
     }
   })
 }
+
+export async function getRandomTweet(skip: number): Promise<Tweet | undefined> {
+  const db = await openDb()
+
+  return new Promise((resolve, reject) => {
+    const { objectStore } = getObjectStore(db)
+    const request = objectStore.openCursor()
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        cursor.advance(skip)
+        resolve(cursor.value)
+      } else {
+        resolve(undefined)
+      }
+    }
+
+    request.onerror = (event) => {
+      reject(
+        'Failed to get random tweet: ' +
+          (event.target as IDBRequest).error?.toString(),
+      )
+    }
+  })
+}

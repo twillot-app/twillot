@@ -10,6 +10,7 @@ import {
   clearFolder,
   countRecords,
   findRecords,
+  getRandomTweet,
   getRencentTweets,
   getTopUsers,
 } from '../libs/db/tweets'
@@ -215,4 +216,38 @@ export async function moveToFolder(folder: string) {
     selectedTweet: null,
     action: '',
   })
+}
+
+export async function randomTweet() {
+  const [store] = dataStore
+  const skip = Math.floor(Math.random() * store.totalCount)
+  return await getRandomTweet(skip)
+}
+
+export async function getNextTweet() {
+  const [store, setStore] = dataStore
+  const { selectedTweet } = store
+  const index = store.tweets.findIndex((t) => t === selectedTweet)
+  if (index < 0) {
+    return
+  }
+  const nextIndex = index + 1
+  if (nextIndex >= store.tweets.length) {
+    return
+  }
+  setStore('selectedTweet', store.tweets[nextIndex])
+}
+
+export async function getPrevTweet() {
+  const [store, setStore] = dataStore
+  const { selectedTweet } = store
+  const index = store.tweets.findIndex((t) => t === selectedTweet)
+  if (index < 0) {
+    return
+  }
+  const prevIndex = index - 1
+  if (prevIndex < 0) {
+    return
+  }
+  setStore('selectedTweet', store.tweets[prevIndex])
 }

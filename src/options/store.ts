@@ -1,6 +1,6 @@
 import { createStore } from 'solid-js/store'
 
-import type { Tweet, TweetWithPosition, User } from '../types'
+import { type Tweet, type TweetWithPosition, type User } from '../types'
 import { DAYS } from '../libs/date'
 
 export default createStore({
@@ -11,7 +11,6 @@ export default createStore({
   totalCount: 0,
   tweets: new Array<Tweet>(),
   selectedTweet: null as Tweet | null,
-  action: '',
   topUsers: new Array<User>(),
   folders: new Array<string>(),
   folderInfo: new Map<string, number>(),

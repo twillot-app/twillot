@@ -6,7 +6,11 @@ import { Content } from '../components/Tweet'
 import { openPage } from '../libs/dom'
 import { Host } from '../types'
 import Contribution from '../components/Contribution'
-import { IconChevronArrowDown, IconQuote } from '../components/Icons'
+import {
+  IconChevronArrowDown,
+  IconExpand,
+  IconQuote,
+} from '../components/Icons'
 import FolderDropDown from '../components/FolderDropDown'
 import TopN from '../components/TopN'
 import FolderSelect from '../components/FolderSelect'
@@ -24,7 +28,7 @@ export const Home = () => {
 
   return (
     <div
-      class="my-4 w-[48rem] flex-1 text-base text-black dark:text-white"
+      class="mx-auto my-4 w-[48rem] flex-1 text-base text-black dark:text-white"
       onClick={openPage}
       ref={listRef!}
     >
@@ -58,7 +62,7 @@ export const Home = () => {
           {(tweet) => (
             <div class="rounded-md p-2 hover:bg-black hover:bg-opacity-5">
               <div class="flex flex-shrink-0 pb-0">
-                <div class="flex w-full cursor-pointer items-start ">
+                <div class="flex w-full items-start ">
                   <div class="mr-2">
                     <A href={`/?q=from:${tweet.screen_name}`}>
                       <img
@@ -68,26 +72,35 @@ export const Home = () => {
                       />
                     </A>
                   </div>
-                  <div class="cursor-pointer">
-                    <p class="text-base font-bold leading-6 text-black dark:text-white">
+                  <p class="cursor-pointer text-base font-bold leading-6 text-black dark:text-white">
+                    <span data-text={`${Host}/${tweet.screen_name}/`}>
+                      {tweet.username}&nbsp;
+                    </span>
+                    <span class="ml-1 text-sm font-normal leading-5 text-[rgb(83,100,113)] dark:text-gray-500">
                       <span data-text={`${Host}/${tweet.screen_name}/`}>
-                        {tweet.username}&nbsp;
+                        @{tweet.screen_name} ·{' '}
                       </span>
-                      <span class="ml-1 text-sm font-normal leading-5 text-[rgb(83,100,113)] dark:text-gray-500">
-                        <span data-text={`${Host}/${tweet.screen_name}/`}>
-                          @{tweet.screen_name} ·{' '}
-                        </span>
-                        <span
-                          class="dark:text-gray-500"
-                          data-text={`${Host}/${tweet.screen_name}/status/${tweet.tweet_id}`}
-                        >
-                          {new Date(tweet.created_at * 1000).toLocaleString()}
-                        </span>
+                      <span
+                        class="dark:text-gray-500"
+                        data-text={`${Host}/${tweet.screen_name}/status/${tweet.tweet_id}`}
+                      >
+                        {new Date(tweet.created_at * 1000).toLocaleString()}
                       </span>
-                    </p>
-                  </div>
-                  <div class="flex flex-1 cursor-pointer justify-end">
-                    <FolderSelect tweet={tweet} />
+                    </span>
+                  </p>
+                  <div class="flex flex-1 items-center justify-end gap-4 *:cursor-pointer">
+                    <span>
+                      <FolderSelect tweet={tweet} />
+                    </span>
+                    <span
+                      onClick={() =>
+                        setStore({
+                          selectedTweet: tweet,
+                        })
+                      }
+                    >
+                      <IconExpand />
+                    </span>
                   </div>
                 </div>
               </div>

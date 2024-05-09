@@ -1,3 +1,20 @@
+export const IconExpand = () => (
+  <svg
+    class="h-5 w-5"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1"
+      d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"
+    />
+  </svg>
+)
+
 export const IconRefresh = () => (
   <svg
     class="h-5 w-5"
@@ -85,10 +102,8 @@ export const IconMagic = () => (
 
 export const IconFolder = (props) => (
   <svg
-    class="h-6 w-6"
+    class="h-5 w-5"
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
     fill="none"
     viewBox="0 0 24 24"
   >
@@ -104,11 +119,8 @@ export const IconFolder = (props) => (
 
 export const IconFolderPlus = () => (
   <svg
-    class="h-6 w-6 "
-    aria-hidden="true"
+    class="h-5 w-5 "
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
     fill="none"
     viewBox="0 0 24 24"
   >
@@ -124,10 +136,8 @@ export const IconFolderPlus = () => (
 
 export const IconFolderMove = () => (
   <svg
-    class="h-6 w-6 "
+    class="h-5 w-5 "
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
     fill="none"
     viewBox="0 0 24 24"
   >
@@ -144,7 +154,6 @@ export const IconFolderMove = () => (
 export const IconQuote = () => (
   <svg
     class="h-4 w-4 text-gray-500 dark:text-gray-300"
-    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
     viewBox="0 0 18 14"
@@ -155,8 +164,7 @@ export const IconQuote = () => (
 
 export const IconArrowDown = () => (
   <svg
-    class="ms-2.5 h-2.5 w-2.5"
-    aria-hidden="true"
+    class="ms-2.5 h-5 w-5"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 10 6"
@@ -174,7 +182,6 @@ export const IconArrowDown = () => (
 export const IconSearch = () => (
   <svg
     class="mx-4 h-4 w-4"
-    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 20 20"
@@ -191,10 +198,8 @@ export const IconSearch = () => (
 
 export const IconPlus = () => (
   <svg
-    class="h-6 w-6"
+    class="h-5 w-5"
     xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
     fill="none"
     viewBox="0 0 24 24"
   >
@@ -230,7 +235,7 @@ export const IconUp = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    class="h-6 w-6"
+    class="h-5 w-5"
   >
     <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z" />
   </svg>

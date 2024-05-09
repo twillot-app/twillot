@@ -1,7 +1,7 @@
 import { untrack } from 'solid-js/web'
 
-import { createPopup, getAuthInfo } from '../libs/browser'
-import { ActionPage, OptionName } from '../types'
+import { getAuthInfo } from '../libs/browser'
+import { OptionName, Tweet } from '../types'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus, Header } from '../types'
@@ -15,7 +15,7 @@ import {
   getTopUsers,
 } from '../libs/db/tweets'
 import { FetchError } from '../libs/xfetch'
-import { reconcile, unwrap } from 'solid-js/store'
+import { produce, reconcile, unwrap } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
 import { readConfig, upsertConfig } from '../libs/db/configs'
 
@@ -203,19 +203,15 @@ export async function removeFolder(folder: string) {
   setStore('folders', [...folders])
 }
 
-export async function moveToFolder(folder: string) {
+export async function moveToFolder(folder: string, tweet: Tweet) {
   const [store, setStore] = dataStore
-  const tweet = unwrap(store.selectedTweet)
-  tweet.folder = folder
-  await addRecords([tweet])
-  const newTweets = store.tweets.map((t) =>
-    t.tweet_id === tweet.tweet_id ? { ...t, folder } : t,
+  const index = store.tweets.findIndex((t) => t.tweet_id === tweet.tweet_id)
+  await addRecords([{ ...unwrap(tweet), folder }])
+  setStore(
+    produce((state) => {
+      state.tweets[index].folder = folder
+    }),
   )
-  setStore({
-    tweets: newTweets,
-    selectedTweet: null,
-    action: '',
-  })
 }
 
 export async function randomTweet() {

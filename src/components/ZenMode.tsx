@@ -27,14 +27,17 @@ export default function ZenMode() {
                 src={`${tweet().avatar_url.replace('_normal', '_x96')}`}
               />
               <div>
-                <span class="text-xl font-bold text-gray-900 dark:text-white">
-                  {tweet().screen_name}
-                  <span class="dark:text-gray-40 mx-6 inline-flex items-center gap-4 text-base font-normal text-gray-500">
-                    <time>
-                      {new Date(tweet().created_at * 1000).toLocaleString()}
-                    </time>
-                    <FolderSelect tweet={tweet} />
-                  </span>
+                <span class="text-xl font-bold text-gray-900 dark:text-white ">
+                  {tweet().username}
+                </span>
+                <span class="dark:text-gray-40 ml-2 text-gray-500">
+                  @{tweet().screen_name}
+                </span>
+                <span class="dark:text-gray-40 ml-2 inline-flex items-center gap-4 font-normal text-gray-500">
+                  <time>
+                    {new Date(tweet().created_at * 1000).toLocaleString()}
+                  </time>
+                  <FolderSelect tweet={tweet()} />
                 </span>
               </div>
             </div>

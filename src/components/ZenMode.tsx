@@ -1,10 +1,11 @@
-import { Show, createMemo } from 'solid-js'
+import { Show, createMemo, on } from 'solid-js'
 
 import { Content } from './Tweet'
 import dataStore from '../options/store'
 import FolderSelect from './FolderSelect'
 import { IconClose, IconLeft, IconRight } from './Icons'
 import { getNextTweet, getPrevTweet } from '../options/handlers'
+import useKeyboard from '../hooks/useKeyboard'
 
 export default function ZenMode() {
   const [store, setStore] = dataStore
@@ -16,6 +17,13 @@ export default function ZenMode() {
 
     return store.tweets[index]
   })
+
+  useKeyboard({
+    onLeft: () => getPrevTweet(),
+    onRight: () => getNextTweet(),
+    onEscape: () => setStore({ selectedTweet: -1 }),
+  })
+
   return (
     <Show when={tweet()}>
       <div class="relative flex h-full min-h-[400px] w-full flex-col bg-white dark:bg-gray-800 ">

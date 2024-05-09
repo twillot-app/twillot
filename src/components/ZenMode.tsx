@@ -19,8 +19,8 @@ export default function ZenMode() {
   })
 
   useKeyboard({
-    onLeft: () => getPrevTweet(),
-    onRight: () => getNextTweet(),
+    onLeft: getPrevTweet,
+    onRight: getNextTweet,
     onEscape: () => setStore({ selectedTweet: -1 }),
   })
 

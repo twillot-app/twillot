@@ -18,7 +18,7 @@ export default function FolderSelect(props) {
           when={tweet().folder}
           fallback={
             <span
-              class={`${isSelectVisible() ? '' : 'hidden'}`}
+              class={`${isSelectVisible() ? 'hidden' : ''}`}
               onClick={() => setIsSelectVisible(true)}
             >
               <IconFolderMove />

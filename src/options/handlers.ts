@@ -214,36 +214,33 @@ export async function moveToFolder(folder: string, tweet: Tweet) {
   )
 }
 
-export async function randomTweet() {
-  const [store] = dataStore
-  const skip = Math.floor(Math.random() * store.totalCount)
-  return await getRandomTweet(skip)
-}
-
 export async function getNextTweet() {
   const [store, setStore] = dataStore
-  const { selectedTweet } = store
-  const index = store.tweets.findIndex((t) => t === selectedTweet)
+  const index = store.selectedTweet
   if (index < 0) {
+    console.warn('Invalid index')
     return
   }
   const nextIndex = index + 1
   if (nextIndex >= store.tweets.length) {
+    console.warn('Invalid index')
     return
   }
-  setStore('selectedTweet', store.tweets[nextIndex])
+  setStore('selectedTweet', nextIndex)
 }
 
 export async function getPrevTweet() {
   const [store, setStore] = dataStore
-  const { selectedTweet } = store
-  const index = store.tweets.findIndex((t) => t === selectedTweet)
+  const index = store.selectedTweet
+
   if (index < 0) {
+    console.warn('Invalid index')
     return
   }
   const prevIndex = index - 1
   if (prevIndex < 0) {
+    console.warn('Invalid index')
     return
   }
-  setStore('selectedTweet', store.tweets[prevIndex])
+  setStore('selectedTweet', prevIndex)
 }

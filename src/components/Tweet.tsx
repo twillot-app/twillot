@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createSignal, Show } from 'solid-js'
+import { Accessor, createMemo, createSignal, Show, For } from 'solid-js'
 
 import {
   escapeHtml,
@@ -18,14 +18,14 @@ export const FullText = (props: {
     shouldShowFullText || (props.isQuoted ? false : !props.keyword),
   )
   const keyword = props.keyword ? escapeHtml(props.keyword) : ''
-  const text = keyword ? escapeHtml(props.text) : props.text
+  const text = createMemo(() => (keyword ? escapeHtml(props.text) : props.text))
   const escapedQueryForRegex = keyword ? escapeRegExp(keyword) : ''
   const highlightRegex = keyword
     ? new RegExp(`(${escapedQueryForRegex})`, 'gi')
     : null
-  const matches = keyword ? text.match(highlightRegex)?.length || 0 : 0
+  const matches = keyword ? text().match(highlightRegex)?.length || 0 : 0
   const html = createMemo(() =>
-    highlightAndLinkify(text, highlightRegex, showFullText()),
+    highlightAndLinkify(text(), highlightRegex, showFullText()),
   )
 
   return (
@@ -49,39 +49,47 @@ export const FullText = (props: {
 }
 
 export const MediaItems = (props: { media_items: Media[] }) => {
-  const width = props.media_items.length > 1 ? 'w-[calc(50%-4px)]' : 'w-full'
-  return props.media_items.map((item) => (
-    <div class={`relative ${width} flex items-center`}>
-      <Image
-        src={item.media_url_https}
-        alt={item.ext_alt_text}
-        url={
-          item.video_info
-            ? item.video_info.variants[item.video_info.variants.length - 1].url
-            : item.media_url_https.split('?')[0] + '?format=jpg&name=large'
-        }
-      />
-      <Show when={item.type === 'video'}>
-        <div class="pointer-events-none absolute left-1/2 top-1/2 -ml-8 -mt-8 flex h-14 w-14 items-center justify-center rounded-full">
-          <svg viewBox="0 0 60 61" aria-hidden="true">
-            <g>
-              <circle
-                cx="30"
-                cy="30.4219"
-                fill="#333333"
-                opacity="0.6"
-                r="30"
-              ></circle>
-              <path
-                d="M22.2275 17.1971V43.6465L43.0304 30.4218L22.2275 17.1971Z"
-                fill="white"
-              ></path>
-            </g>
-          </svg>
+  const width = createMemo(() =>
+    props.media_items.length > 1 ? 'w-[calc(50%-4px)]' : 'w-full',
+  )
+
+  return (
+    <For each={props.media_items}>
+      {(item) => (
+        <div class={`relative ${width} flex items-center`}>
+          <Image
+            src={item.media_url_https}
+            alt={item.ext_alt_text}
+            url={
+              item.video_info
+                ? item.video_info.variants[item.video_info.variants.length - 1]
+                    .url
+                : item.media_url_https.split('?')[0] + '?format=jpg&name=large'
+            }
+          />
+          <Show when={item.type === 'video'}>
+            <div class="pointer-events-none absolute left-1/2 top-1/2 -ml-8 -mt-8 flex h-14 w-14 items-center justify-center rounded-full">
+              <svg viewBox="0 0 60 61" aria-hidden="true">
+                <g>
+                  <circle
+                    cx="30"
+                    cy="30.4219"
+                    fill="#333333"
+                    opacity="0.6"
+                    r="30"
+                  ></circle>
+                  <path
+                    d="M22.2275 17.1971V43.6465L43.0304 30.4218L22.2275 17.1971Z"
+                    fill="white"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+          </Show>
         </div>
-      </Show>
-    </div>
-  ))
+      )}
+    </For>
+  )
 }
 
 export function Image(props: { src: string; alt?: string; url?: string }) {
@@ -98,23 +106,27 @@ export function Image(props: { src: string; alt?: string; url?: string }) {
 }
 
 export const Content = (props: {
-  tweet: Tweet | TweetQuoted
+  tweet: Tweet | TweetQuoted | Accessor<Tweet | TweetQuoted>
   keyword?: string
   isQuoted?: boolean
 }) => {
-  const tweet = props.tweet
+  const tweet = createMemo(() =>
+    typeof props.tweet === 'function' ? props.tweet() : props.tweet,
+  )
+  const text = createMemo(() => tweet().full_text)
+  const media_items = createMemo(() => tweet().media_items)
   return (
     <>
       <div class="width-auto text-base font-normal leading-6 ">
         <FullText
-          text={tweet.full_text}
+          text={text()}
           keyword={props.keyword}
           isQuoted={props.isQuoted}
         />
       </div>
-      <Show when={tweet.media_items}>
+      <Show when={media_items()}>
         <div class="my-2 flex flex-wrap space-x-1 space-y-1">
-          <MediaItems media_items={tweet.media_items} />
+          <MediaItems media_items={media_items()} />
         </div>
       </Show>
     </>

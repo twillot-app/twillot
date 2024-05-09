@@ -10,7 +10,7 @@ export default createStore({
   hasMore: true,
   totalCount: 0,
   tweets: new Array<Tweet>(),
-  selectedTweet: null as Tweet | null,
+  selectedTweet: -1,
   topUsers: new Array<User>(),
   folders: new Array<string>(),
   folderInfo: new Map<string, number>(),

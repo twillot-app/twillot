@@ -1,3 +1,20 @@
+export const IconClose = () => (
+  <svg
+    class="h-6 w-6"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M6 18 17.94 6M18 18 6.06 6"
+    />
+  </svg>
+)
+
 export const IconExpand = () => (
   <svg
     class="h-5 w-5"
@@ -17,7 +34,7 @@ export const IconExpand = () => (
 
 export const IconRefresh = () => (
   <svg
-    class="h-5 w-5"
+    class="h-8 w-8"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -34,7 +51,7 @@ export const IconRefresh = () => (
 
 export const IconLeft = () => (
   <svg
-    class="h-5 w-5"
+    class="h-8 w-8"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -51,7 +68,7 @@ export const IconLeft = () => (
 
 export const IconRight = () => (
   <svg
-    class="h-5 w-5"
+    class="h-8 w-8"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"

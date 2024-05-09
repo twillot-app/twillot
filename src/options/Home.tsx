@@ -59,7 +59,7 @@ export const Home = () => {
           </div>
         </h3>
         <For each={store.tweets}>
-          {(tweet) => (
+          {(tweet, index) => (
             <div class="rounded-md p-2 hover:bg-black hover:bg-opacity-5">
               <div class="flex flex-shrink-0 pb-0">
                 <div class="flex w-full items-start ">
@@ -95,7 +95,7 @@ export const Home = () => {
                     <span
                       onClick={() =>
                         setStore({
-                          selectedTweet: tweet,
+                          selectedTweet: index(),
                         })
                       }
                     >

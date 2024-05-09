@@ -42,7 +42,7 @@ export const Layout = (props) => {
     <main class="bg-white text-black dark:bg-black dark:text-white">
       <Tabs />
       <div
-        class={`fixed left-1/2 top-0 z-30 -ml-[24rem] w-[48rem] bg-white dark:bg-black ${store.selectedTweet ? 'hidden' : ''}`}
+        class={`fixed left-1/2 top-0 z-30 -ml-[24rem] w-[48rem] bg-white dark:bg-black ${store.selectedTweet > -1 ? 'hidden' : ''}`}
       >
         <h1 class="font-large my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-center text-xl font-semibold text-transparent">
           Twillot - your social media copilot
@@ -96,7 +96,7 @@ export const Layout = (props) => {
         </Show>
       </div>
       <div
-        class={`flex-col items-center pt-[102px] ${store.selectedTweet ? 'hidden' : ''}`}
+        class={`flex-col items-center pt-[102px] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
       >
         {props.children}
       </div>

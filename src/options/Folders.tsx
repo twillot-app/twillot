@@ -9,7 +9,7 @@ export default function Folders() {
   const [store] = dataStore
 
   return (
-    <div class="relative mt-4 w-[48rem] overflow-x-auto text-base">
+    <div class="relative mx-auto mt-4 w-[48rem] overflow-x-auto text-base">
       <table class="w-full text-left  text-gray-500 rtl:text-right dark:text-gray-400">
         <caption class="px-0 pb-5 text-left text-lg font-medium text-gray-900 rtl:text-right dark:text-white">
           Folders

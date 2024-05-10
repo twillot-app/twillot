@@ -37,5 +37,7 @@ You can support the development of Twillot by becoming a sponsor on Patreon or K
 
 ## Acknowledgments
 
+- [Solid](https://www.solidjs.com/)
+- [Flowbite](https://flowbite.com/)
 - [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
 - [twitter-web-exporter](https://github.com/prinsss/twitter-web-exporter)

@@ -18,6 +18,7 @@ export function createStyleSheet(url: string, id?: string) {
   if (id) {
     const existing = document.getElementById(id)
     if (existing) {
+      existing.setAttribute('href', url)
       return
     }
   }

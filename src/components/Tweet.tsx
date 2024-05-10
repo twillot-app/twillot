@@ -7,12 +7,14 @@ import {
   maxChars,
 } from '../libs/text'
 import { Media, Tweet, TweetQuoted } from '../types'
+import dataStore from '../options/store'
 
 export const FullText = (props: {
   text: string
   keyword?: string
   isQuoted?: boolean
 }) => {
+  const [store] = dataStore
   const shouldShowFullText = props.text.length < maxChars
   const [showFullText, setShowFullText] = createSignal(
     shouldShowFullText || (props.isQuoted ? false : !props.keyword),
@@ -33,7 +35,15 @@ export const FullText = (props: {
       when={showFullText()}
       fallback={
         <>
-          <span class="whitespace-pre-wrap break-words" innerHTML={html()} />
+          <span
+            style={{
+              'font-family': store.activeFont
+                ? `"${store.activeFont.name}"`
+                : 'inherit',
+            }}
+            class="whitespace-pre-wrap break-words"
+            innerHTML={html()}
+          />
           <div
             class="mt-2 cursor-pointer text-blue-500"
             onClick={() => setShowFullText(true)}
@@ -43,7 +53,15 @@ export const FullText = (props: {
         </>
       }
     >
-      <span class="whitespace-pre-wrap break-words" innerHTML={html()} />
+      <span
+        style={{
+          'font-family': store.activeFont
+            ? `"${store.activeFont.name}"`
+            : 'inherit',
+        }}
+        class="whitespace-pre-wrap break-words"
+        innerHTML={html()}
+      />
     </Show>
   )
 }

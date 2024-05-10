@@ -8,7 +8,7 @@ const share_text = encodeURIComponent(
 
 export default function SupportUs() {
   return (
-    <section class="mx-auto mt-4 w-[48rem] bg-white dark:bg-black">
+    <section class="mx-auto mt-4 w-[48rem]">
       <div class="py-8">
         <div class="mx-auto mb-8 text-center">
           <p class="mb-2 font-normal text-gray-500 sm:text-xl dark:text-gray-400">

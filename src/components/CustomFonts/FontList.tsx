@@ -30,7 +30,7 @@ const FontList = () => {
     <div class="mb-4 flex flex-col space-y-4 px-4">
       <h4 class="text-base font-medium">
         Font Size:{' '}
-        <small class="float-right ml-4 text-sm">{store.fontSize}px</small>
+        <small class="float-right ml-4 text-xs">{store.fontSize}px</small>
       </h4>
       <div class="flex items-center">
         <input
@@ -48,9 +48,9 @@ const FontList = () => {
           }}
         />
       </div>
-      <h4 class="text-base font-medium">
-        Choose your font:{' '}
-        <small class="float-right ml-4 text-sm">{store.activeFont?.name}</small>
+      <h4 class="flex items-center text-base font-medium">
+        Font Family:{' '}
+        <small class="float-right ml-4 text-xs">{store.activeFont?.name}</small>
       </h4>
       {fonts.map((font) => (
         <ListItem font={font} />

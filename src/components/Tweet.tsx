@@ -29,6 +29,10 @@ export const FullText = (props: {
   const html = createMemo(() =>
     highlightAndLinkify(text(), highlightRegex, showFullText()),
   )
+  const style = createMemo(() => ({
+    'font-family': store.activeFont ? `"${store.activeFont.name}"` : 'inherit',
+    'font-size': store.fontSize + 'px',
+  }))
 
   return (
     <Show
@@ -36,12 +40,8 @@ export const FullText = (props: {
       fallback={
         <>
           <span
-            style={{
-              'font-family': store.activeFont
-                ? `"${store.activeFont.name}"`
-                : 'inherit',
-            }}
-            class="whitespace-pre-wrap break-words"
+            style={style()}
+            class="whitespace-pre-wrap break-words leading-snug"
             innerHTML={html()}
           />
           <div
@@ -54,12 +54,8 @@ export const FullText = (props: {
       }
     >
       <span
-        style={{
-          'font-family': store.activeFont
-            ? `"${store.activeFont.name}"`
-            : 'inherit',
-        }}
-        class="whitespace-pre-wrap break-words"
+        style={style()}
+        class="whitespace-pre-wrap break-words leading-snug"
         innerHTML={html()}
       />
     </Show>

@@ -11,6 +11,7 @@ import { DAYS } from '../libs/date'
 const activeFont = JSON.parse(
   localStorage.getItem('activeFont') || 'null',
 ) as FontSet | null
+const fontSize = parseInt(localStorage.getItem('fontSize') || '16', 10)
 
 export default createStore({
   keyword: '',
@@ -37,4 +38,5 @@ export default createStore({
   memApiKey: '',
   timeline: new Array<TweetWithPosition>(),
   activeFont,
+  fontSize,
 })

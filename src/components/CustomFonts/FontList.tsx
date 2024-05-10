@@ -40,6 +40,7 @@ const FontList = () => {
           max="32"
           step="1"
           class="flex-1"
+          value={store.fontSize}
           onInput={(e) => {
             const value = parseInt(e.target.value)
             setStore('fontSize', value)

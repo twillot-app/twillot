@@ -1,15 +1,22 @@
 import ListItem from './ListItem'
 import dataStore from '../../options/store'
 
-const fonts = [
+const enFonts = [
   {
     name: 'Roboto',
     url: 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap',
   },
   {
     name: 'Open Sans',
-    url: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet',
+    url: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap',
   },
+  {
+    name: 'Crimson Text',
+    url: 'https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap',
+  },
+]
+
+const cjkFonts = [
   {
     name: 'LXGW WenKai',
     url: 'https://chinese-fonts-cdn.netlify.app/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css',
@@ -19,10 +26,14 @@ const fonts = [
     url: 'https://chinese-fonts-cdn.netlify.app/packages/zqfs/dist/ZhuqueFangsong-Regular/result.css',
   },
   {
-    name: 'XuandongKaishu',
-    url: 'https://chinese-fonts-cdn.netlify.app/packages/xuandongkaishu/dist/XuandongKaishu/result.css',
+    name: '瑞美加张清平硬笔行书',
+    url: 'https://chinese-fonts-cdn.netlify.app/packages/rmjzqpybxs/dist/瑞美加张清平硬笔行书/result.css',
   },
 ]
+
+const fonts = navigator.language.startsWith('zh')
+  ? cjkFonts.concat(enFonts)
+  : enFonts.concat(cjkFonts)
 
 const FontList = () => {
   const [store, setStore] = dataStore

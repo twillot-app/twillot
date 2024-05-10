@@ -11,6 +11,12 @@ export * from './list'
 export * from './tweet'
 export * from './user'
 
+export interface FontSet {
+  name: string
+  url: string
+  preview?: string
+}
+
 export enum OptionName {
   FOLDER = 'folder',
   RULE = 'rule',

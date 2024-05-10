@@ -1,4 +1,5 @@
 import { createEffect, onMount, Show } from 'solid-js'
+import { Portal } from 'solid-js/web'
 
 import dataStore from './store'
 import Indicator from '../components/Indicator'
@@ -16,7 +17,7 @@ import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
 import { IconUp } from '../components/Icons'
 import ZenMode from '../components/ZenMode'
-import { Portal } from 'solid-js/web'
+import { createStyleSheet } from '../libs/dom'
 
 export const Layout = (props) => {
   const [searchParams] = useSearchParams()
@@ -32,6 +33,13 @@ export const Layout = (props) => {
     queryByCondition()
   })
 
+  createEffect(() => {
+    const font = store.activeFont
+    if (font) {
+      createStyleSheet(font.url, 'active-font')
+    }
+  })
+
   onMount(() => {
     initHistory()
     initSync(searchParams.q)
@@ -39,10 +47,10 @@ export const Layout = (props) => {
   })
 
   return (
-    <main class="bg-white text-black dark:bg-black dark:text-white">
+    <main class="bg-white text-black dark:bg-[#121212] dark:text-white">
       <Tabs />
       <div
-        class={`fixed left-1/2 top-0 z-30 -ml-[24rem] w-[48rem] bg-white dark:bg-black ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+        class={`fixed left-1/2 top-0 z-30 -ml-[24rem] w-[48rem] bg-white dark:bg-[#121212] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
       >
         <h1 class="font-large my-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-center text-xl font-semibold text-transparent">
           Twillot - your social media copilot

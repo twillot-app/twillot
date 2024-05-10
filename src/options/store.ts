@@ -1,7 +1,16 @@
 import { createStore } from 'solid-js/store'
 
-import { type Tweet, type TweetWithPosition, type User } from '../types'
+import {
+  type FontSet,
+  type Tweet,
+  type TweetWithPosition,
+  type User,
+} from '../types'
 import { DAYS } from '../libs/date'
+
+const activeFont = JSON.parse(
+  localStorage.getItem('activeFont') || 'null',
+) as FontSet | null
 
 export default createStore({
   keyword: '',
@@ -27,4 +36,5 @@ export default createStore({
   isForceSyncTimedout: false,
   memApiKey: '',
   timeline: new Array<TweetWithPosition>(),
+  activeFont,
 })

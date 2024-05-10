@@ -1,3 +1,55 @@
+export const IconCheck = () => (
+  <svg
+    class="h-6 w-6 "
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 11.917 9.724 16.5 19 7.5"
+    />
+  </svg>
+)
+
+export const IconTextSize = () => (
+  <svg
+    class="h-6 w-6"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M3 6.2V5h11v1.2M8 5v14m-3 0h6m2-6.8V11h8v1.2M17 11v8m-1.5 0h3"
+    />
+  </svg>
+)
+
+export const IconTextFont = () => (
+  <svg
+    class="h-6 w-6"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="m13 19 3.5-9 3.5 9m-6.125-2h5.25M3 7h7m0 0h2m-2 0c0 1.63-.793 3.926-2.239 5.655M7.5 6.818V5m.261 7.655C6.79 13.82 5.521 14.725 4 15m3.761-2.345L5 10m2.761 2.655L10.2 15"
+    />
+  </svg>
+)
+
 export const IconClose = () => (
   <svg
     class="h-6 w-6"
@@ -119,7 +171,7 @@ export const IconMagic = () => (
 
 export const IconFolder = (props) => (
   <svg
-    class="h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -136,7 +188,7 @@ export const IconFolder = (props) => (
 
 export const IconFolderPlus = () => (
   <svg
-    class="h-5 w-5 "
+    class="h-5 w-5"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -190,7 +242,7 @@ export const IconArrowDown = () => (
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="2"
+      stroke-width="1"
       d="m1 1 4 4 4-4"
     />
   </svg>
@@ -232,7 +284,7 @@ export const IconPlus = () => (
 
 export const IconChevronArrowDown = () => (
   <svg
-    class="h-8 w-8 cursor-pointer"
+    class="h-5 w-5 cursor-pointer"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -241,7 +293,7 @@ export const IconChevronArrowDown = () => (
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="2"
+      stroke-width="1"
       d="m8 7 4 4 4-4m-8 6 4 4 4-4"
     />
   </svg>

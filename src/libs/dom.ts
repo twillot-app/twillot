@@ -13,3 +13,18 @@ export function openPage(e) {
     }
   }
 }
+
+export function createStyleSheet(url: string, id?: string) {
+  if (id) {
+    const existing = document.getElementById(id)
+    if (existing) {
+      return
+    }
+  }
+
+  const link = document.createElement('link')
+  link.href = url
+  link.rel = 'stylesheet'
+  link.id = id
+  document.head.appendChild(link)
+}

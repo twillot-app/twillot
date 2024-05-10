@@ -115,7 +115,7 @@ export const Layout = (props) => {
         <ZenMode />
         <Notification />
         <button
-          class="fixed bottom-10 right-10 z-50  h-14 w-14 rounded-full border-0 bg-purple-500 p-4 text-lg font-semibold text-white opacity-40 shadow-md transition-colors duration-300 hover:bg-purple-700 hover:opacity-100"
+          class="fixed bottom-10 right-10 z-50 h-14 w-14 rounded-full border-0 bg-purple-500 p-4 text-lg font-semibold text-white opacity-40 shadow-md transition-colors duration-300 hover:bg-purple-700 hover:opacity-100"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <IconUp />

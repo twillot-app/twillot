@@ -34,8 +34,8 @@ export default function ZenMode() {
 
   return (
     <Show when={tweet()}>
-      <div class="relative flex h-full min-h-[400px] w-full flex-col bg-white dark:bg-gray-800">
-        <header class="sticky top-0 mx-auto w-[40rem] bg-white py-4 dark:bg-gray-800">
+      <div class="relative flex h-full min-h-[400px] w-full flex-col bg-white text-black dark:bg-[#121212] dark:text-white">
+        <header class="sticky top-0 mx-auto w-[40rem] bg-white py-4 dark:bg-[#121212]">
           <address class="flex items-center not-italic">
             <div class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">
               <img
@@ -71,7 +71,7 @@ export default function ZenMode() {
             <Content tweet={tweet().quoted_tweet} isQuoted={true} />
           </Show>
         </article>
-        <aside class="fixed bottom-0 left-[calc(50%+24rem)] right-0 top-0 flex text-base">
+        <aside class="fixed bottom-0 left-[calc(50%+21rem)] right-0 top-0 flex text-base 2xl:left-[calc(50%+24rem)]">
           <div class="flex flex-col items-center justify-start gap-4 pt-8 *:cursor-pointer *:text-gray-500">
             <span onClick={() => setFontVisible((val) => !val)}>
               <IconTextFont />
@@ -81,7 +81,7 @@ export default function ZenMode() {
             </span> */}
           </div>
           <Show when={isFontVisible()}>
-            <div class="ml-6 max-w-xl flex-1 overflow-y-auto border-x border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
+            <div class="ml-3 max-w-xl flex-1 overflow-y-auto border-x border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
               <h3 class="sticky left-0 right-0 top-0 mb-4 bg-gray-100 px-4 py-2 text-lg font-medium dark:bg-gray-900">
                 Custom Fonts
                 <span
@@ -107,7 +107,7 @@ export default function ZenMode() {
             </div>
           </Show>
         </aside>
-        <footer class="sticky bottom-0 mx-auto flex h-14 w-[40rem] select-none items-center justify-center gap-4 bg-white pb-2 pt-4 *:cursor-pointer dark:bg-gray-800">
+        <footer class="sticky bottom-0 mx-auto flex h-14 w-[40rem] select-none items-center justify-center gap-4  bg-white pb-2 pt-4 *:cursor-pointer dark:bg-[#121212]">
           <div class="flex items-center gap-4">
             <span onClick={getPrevTweet}>
               <IconLeft />

@@ -4,6 +4,13 @@ import dataStore from '../../options/store'
 import { IconCheck } from '../Icons'
 import { createStyleSheet } from '../../libs/dom'
 
+const previewTextList = [
+  'The quick brown fox jumps over the lazy dog.',
+  '狐狸快速跳过懒狗',
+  'Le vif renard brun saute par-dessus le chien paresseux.',
+  'El rápido zorro marrón salta sobre el perro perezoso.',
+]
+
 const ListItem = (props: { font: FontSet }) => {
   const [store, setStore] = dataStore
   const isApplied = createMemo(() => store.activeFont?.name === props.font.name)
@@ -43,12 +50,14 @@ const ListItem = (props: { font: FontSet }) => {
           </div>
         </Show>
       </div>
-      <p
-        class="mb-4 text-2xl font-bold"
+      <div
+        class="mb-4 text-lg"
         style={{ 'font-family': `"${props.font.name}"` }}
       >
-        {props.font.preview || 'Preview text'}
-      </p>
+        {previewTextList.map((text) => (
+          <p class="mb-2">{text}</p>
+        ))}
+      </div>
       <Show when={!isApplied()}>
         <button
           type="button"

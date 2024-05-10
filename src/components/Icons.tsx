@@ -232,7 +232,7 @@ export const IconPlus = () => (
 
 export const IconChevronArrowDown = () => (
   <svg
-    class="h-5 w-5 cursor-pointer"
+    class="h-8 w-8 cursor-pointer"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -241,7 +241,7 @@ export const IconChevronArrowDown = () => (
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="1"
+      stroke-width="2"
       d="m8 7 4 4 4-4m-8 6 4 4 4-4"
     />
   </svg>

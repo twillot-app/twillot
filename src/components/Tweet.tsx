@@ -70,7 +70,7 @@ export const MediaItems = (props: { media_items: Media[] }) => {
   return (
     <For each={props.media_items}>
       {(item) => (
-        <div class={`relative ${width} flex items-center`}>
+        <div class={`relative ${width()} flex items-center`}>
           <Image
             src={item.media_url_https}
             alt={item.ext_alt_text}

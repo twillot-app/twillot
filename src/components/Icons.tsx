@@ -1,6 +1,6 @@
 export const IconCheck = () => (
   <svg
-    class="h-6 w-6 "
+    class="h-6 w-6"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -69,7 +69,7 @@ export const IconClose = () => (
 
 export const IconExpand = () => (
   <svg
-    class="h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -137,7 +137,7 @@ export const IconRight = () => (
 
 export const IconAnnotation = () => (
   <svg
-    class="h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -154,7 +154,7 @@ export const IconAnnotation = () => (
 
 export const IconMagic = () => (
   <svg
-    class="h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -188,7 +188,7 @@ export const IconFolder = (props) => (
 
 export const IconFolderPlus = () => (
   <svg
-    class="h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -205,7 +205,7 @@ export const IconFolderPlus = () => (
 
 export const IconFolderMove = () => (
   <svg
-    class="h-5 w-5 "
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -215,7 +215,7 @@ export const IconFolderMove = () => (
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="1"
-      d="M13.5 8H4m4 6h8m0 0-2-2m2 2-2 2M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
+      d="M12.5 7H3m4 6h9m0 0-2-2m2 2-2 2M3 5v14a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-6.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H4a1 1 0 0 0-1 1Z"
     />
   </svg>
 )
@@ -233,7 +233,7 @@ export const IconQuote = () => (
 
 export const IconArrowDown = () => (
   <svg
-    class="ms-2.5 h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 10 6"
@@ -267,7 +267,7 @@ export const IconSearch = () => (
 
 export const IconPlus = () => (
   <svg
-    class="h-5 w-5"
+    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -284,7 +284,7 @@ export const IconPlus = () => (
 
 export const IconChevronArrowDown = () => (
   <svg
-    class="h-5 w-5 cursor-pointer"
+    class="h-6 w-6 cursor-pointer"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -304,7 +304,7 @@ export const IconUp = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    class="h-5 w-5"
+    class="ml-[2px] h-5 w-5"
   >
     <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z" />
   </svg>

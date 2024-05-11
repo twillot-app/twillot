@@ -233,7 +233,7 @@ export const IconQuote = () => (
 
 export const IconArrowDown = () => (
   <svg
-    class="h-6 w-6"
+    class="ms-2.5 h-2.5 w-2.5"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 10 6"

@@ -46,7 +46,7 @@ export default function Authenticate() {
   onCleanup(() => clearInterval(timerId))
 
   return (
-    <div class="text-black dark:text-white text-center cursor-pointer">
+    <div class="cursor-pointer text-center">
       <Show
         when={store.isAuthenicating}
         fallback={

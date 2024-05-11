@@ -60,52 +60,55 @@ export const Layout = (props) => {
             <Search />
           </div>
         </div>
-        <Show when={store.isAuthFailed}>
-          <Authenticate />
-        </Show>
-        <Show when={store.isForceSyncTimedout}>
-          <Alert
-            message={
-              <>
-                <span class="font-medium">
-                  Sync timed out, but that's not a big problem:
-                </span>
-                <ul class="mt-1.5 list-inside list-disc">
-                  <li>All your synced tweets are available from now on.</li>
-                  <li>
-                    Refresh this page to continue syncing from where it last
-                    failed.
-                  </li>
-                  <li>
-                    Contact the{' '}
-                    <a
-                      href="https://twitter.com/SiZapPaaiGwat"
-                      target="_blank"
-                      class="text-blue-500 underline"
-                    >
-                      maker
-                    </a>{' '}
-                    of Twillot if the problem persists.
-                  </li>
-                </ul>
-              </>
-            }
-            type="error"
-          />
-        </Show>
-        <Show when={store.isForceSyncing}>
-          <Indicator
-            text={
-              <div class="text-center">
-                Sync in progress: {store.totalCount} tweets.
-              </div>
-            }
-          />
-        </Show>
       </div>
       <div
         class={`flex-col items-center pt-[102px] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
       >
+        <div class="mx-auto w-[48rem]">
+          <Show when={store.isAuthFailed}>
+            <Authenticate />
+          </Show>
+          <Show when={store.isForceSyncTimedout}>
+            <Alert
+              message={
+                <>
+                  <span class="font-medium">
+                    Sync timed out, but that's not a big problem:
+                  </span>
+                  <ul class="mt-1.5 list-inside list-disc">
+                    <li>All your synced tweets are available from now on.</li>
+                    <li>
+                      Refresh this page to continue syncing from where it last
+                      failed.
+                    </li>
+                    <li>
+                      Contact the{' '}
+                      <a
+                        href="https://twitter.com/SiZapPaaiGwat"
+                        target="_blank"
+                        class="text-blue-500 underline"
+                      >
+                        maker
+                      </a>{' '}
+                      of Twillot if the problem persists.
+                    </li>
+                  </ul>
+                </>
+              }
+              type="error"
+            />
+          </Show>
+          <Show when={store.isForceSyncing}>
+            <Indicator
+              text={
+                <div class="text-center">
+                  Sync in progress: {store.totalCount} tweets.
+                </div>
+              }
+            />
+          </Show>
+        </div>
+
         {props.children}
       </div>
       <Portal>

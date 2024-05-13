@@ -59,7 +59,7 @@ const FontList = () => {
           }}
         />
       </div>
-      <h4 class="flex items-center text-base font-medium">
+      <h4 class="text-base font-medium">
         Font Family:{' '}
         <small class="float-right ml-4 text-xs">{store.activeFont?.name}</small>
       </h4>

@@ -1,4 +1,6 @@
-export const DAYS = 52 * 7
+export const WEEKS = 53
+
+export const DAYS = WEEKS * 7
 
 export const MONTH_NAMES =
   'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(',')
@@ -22,6 +24,19 @@ export function getLastNDaysDates(days: number) {
   return dates
 }
 
+export function getSpecificWeekday(date: Date, targetDay: number): Date {
+  // targetDay: 目标星期几，0 是星期日，6 是星期六
+  const currentDay: number = date.getDay()
+  const difference: number = targetDay - currentDay
+  const resultDate: Date = new Date(date.getTime())
+  resultDate.setDate(resultDate.getDate() + difference)
+  return resultDate
+}
+
+export function getLastSaturday(date: Date): Date {
+  return getSpecificWeekday(date, 6)
+}
+
 export function formatDate(date: string) {
   const d = new Date(date)
   let month = '' + (d.getMonth() + 1)
@@ -41,25 +56,23 @@ export function getGridDates(): {
   let currentDate = new Date()
 
   // 获取当前日期所在周的最后一天（星期六）
-  currentDate = new Date(
-    currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 7),
-  )
+  currentDate = getLastSaturday(currentDate)
 
   for (let i = 0; i < DAYS; i++) {
-    const date = new Date(currentDate.setDate(currentDate.getDate() - 1))
-    dates.unshift(new Date(date).toLocaleDateString())
+    dates.unshift(currentDate.toLocaleDateString())
 
-    if (date.getDate() === 1) {
-      const monthIndex = DAYS - 1 - i
-      colIndexes.unshift(Math.floor(monthIndex / 7))
+    if (currentDate.getDate() === 1) {
+      const index = DAYS - i
+      const colIndex = Math.floor(index / 7)
+      colIndexes.unshift(colIndex)
     }
+    currentDate.setDate(currentDate.getDate() - 1)
   }
 
   colIndexes.unshift(0)
   const weekWidth = colIndexes.map((col, index) => {
-    return colIndexes[index + 1] - col
+    return (colIndexes[index + 1] || WEEKS) - col
   })
-  weekWidth.pop()
   return { dates, colIndexes, weekWidth }
 }
 

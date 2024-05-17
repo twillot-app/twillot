@@ -50,8 +50,14 @@ export default defineManifest({
       matches: [],
     },
   ],
-  host_permissions: ['https://twitter.com/*'],
-  permissions: ['storage', 'webRequest', 'cookies', 'tabs'],
+  host_permissions: [
+    'https://twitter.com/*',
+    'https://drive.google.com/*',
+    'https://www.googleapis.com/*',
+    'https://fonts.googleapis.com/*',
+  ],
+  permissions: ['storage', 'webRequest', 'cookies', 'tabs', 'identity'],
+
   // chrome_url_overrides: {
   //   newtab: 'pages/newtab.html',
   // },

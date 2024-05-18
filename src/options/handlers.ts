@@ -244,3 +244,12 @@ export async function getPrevTweet() {
   }
   setStore('selectedTweet', prevIndex)
 }
+
+export function resetQuery() {
+  const [store, setStore] = dataStore
+  setStore({
+    keyword: '',
+    category: '',
+    folder: '',
+  })
+}

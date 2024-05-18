@@ -12,6 +12,7 @@ import {
   initSync,
   queryByCondition,
   removeFolder,
+  resetQuery,
 } from './handlers'
 import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
@@ -28,6 +29,7 @@ import ZenMode from '../components/ZenMode'
 import { createStyleSheet } from '../libs/dom'
 import logo from '../../public/img/logo-128.png'
 import { FolderForm } from '../components/FolderDropDown'
+import { parseTwitterQuery } from '../libs/query-parser'
 
 const allCategories = [
   {
@@ -63,6 +65,10 @@ export const Layout = (props) => {
   createEffect(() => {
     if (searchParams.q) {
       setStore('keyword', searchParams.q)
+      const { folder } = parseTwitterQuery(searchParams.q)
+      if (folder) {
+        setStore('folder', folder)
+      }
     }
   })
 
@@ -141,6 +147,7 @@ export const Layout = (props) => {
               <A
                 href="/"
                 class="flex w-full items-center rounded-lg p-2  transition duration-75 hover:bg-gray-100  dark:hover:bg-gray-700"
+                onClick={resetQuery}
               >
                 <IconBookmark />
                 <span class="ms-3 flex-1 whitespace-nowrap text-left rtl:text-right">
@@ -189,7 +196,7 @@ export const Layout = (props) => {
                       <li>
                         <A
                           href={`/?q=folder:${folder}`}
-                          class="group flex w-full items-center rounded-lg p-1 pl-11 transition  duration-75 "
+                          class={`${folder === store.folder ? 'text-blue-500 dark:text-blue-300' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
                         >
                           {folder}
                           <div class="ml-4 hidden flex-1 items-center justify-end group-hover:flex">

@@ -17,6 +17,7 @@ const fontSize = parseInt(localStorage.getItem('fontSize') || '16', 10)
 export default createStore({
   keyword: '',
   category: '',
+  folder: '',
   pageSize: 100,
   hasMore: true,
   totalCount: null as null | CountInfo,

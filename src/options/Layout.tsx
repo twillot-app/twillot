@@ -101,7 +101,9 @@ export const Layout = (props) => {
 
   return (
     <>
-      <nav class="text-gary-700 fixed top-0 z-50 w-full border-b border-gray-200 bg-white text-base text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+      <nav
+        class={`text-gary-700 fixed top-0 z-50 w-full border-b border-gray-200 bg-white text-base text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+      >
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -140,7 +142,9 @@ export const Layout = (props) => {
         </div>
       </nav>
 
-      <aside class="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:translate-x-0">
+      <aside
+        class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:translate-x-0 ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+      >
         <div class="h-full overflow-y-auto bg-white px-3 pb-4 dark:bg-gray-800">
           <ul class="space-y-1 font-medium">
             <li>

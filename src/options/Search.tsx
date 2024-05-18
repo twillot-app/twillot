@@ -1,5 +1,4 @@
 import { useNavigate } from '@solidjs/router'
-import { createMemo } from 'solid-js'
 
 import dataStore from './store'
 import { IconSearch } from '../components/Icons'
@@ -7,7 +6,6 @@ import { IconSearch } from '../components/Icons'
 export default function Search() {
   const [store, setStore] = dataStore
   const navigate = useNavigate()
-  const placeholder = createMemo(() => `Search ${store.totalCount} tweets`)
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
@@ -23,8 +21,8 @@ export default function Search() {
         <div class="relative w-full">
           <input
             type="search"
-            placeholder={placeholder()}
             name="keyword"
+            placeholder="Support keyword or from:author folder:name since/until:YYYY-MM-DD"
             value={store.keyword}
             class="z-20 block w-full rounded-lg border  border-gray-300  bg-gray-50 p-2.5 text-sm text-gray-900 outline-0 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
           />

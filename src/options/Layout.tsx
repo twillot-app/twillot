@@ -95,7 +95,7 @@ export const Layout = (props) => {
 
   return (
     <>
-      <nav class="text-gary-700 fixed top-0 z-50 w-full border-b border-gray-200 bg-white text-base dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+      <nav class="text-gary-700 fixed top-0 z-50 w-full border-b border-gray-200 bg-white text-base text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -105,7 +105,7 @@ export const Layout = (props) => {
                 class="ms-2 flex"
               >
                 <img src={logo} class="me-3 h-8" />
-                <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white sm:text-2xl">
+                <span class="self-center whitespace-nowrap text-xl font-semibold">
                   Twillot
                 </span>
               </a>
@@ -134,7 +134,7 @@ export const Layout = (props) => {
         </div>
       </nav>
 
-      <aside class="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-900 transition-transform dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:translate-x-0">
+      <aside class="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:translate-x-0">
         <div class="h-full overflow-y-auto bg-white px-3 pb-4 dark:bg-gray-800">
           <ul class="space-y-1 font-medium">
             <li>
@@ -157,7 +157,7 @@ export const Layout = (props) => {
                       <li class="cursor-pointer">
                         <A
                           href="/"
-                          class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  dark:text-white "
+                          class={`flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  ${category.value === store.category ? 'text-blue-500 dark:text-blue-300' : ''}`}
                           onClick={() => setStore('category', category.value)}
                         >
                           {category.name}
@@ -189,7 +189,7 @@ export const Layout = (props) => {
                       <li>
                         <A
                           href={`/?q=folder:${folder}`}
-                          class="group flex w-full items-center rounded-lg p-1 pl-11 transition  duration-75 dark:text-white"
+                          class="group flex w-full items-center rounded-lg p-1 pl-11 transition  duration-75 "
                         >
                           {folder}
                           <div class="ml-4 hidden flex-1 items-center justify-end group-hover:flex">
@@ -212,14 +212,14 @@ export const Layout = (props) => {
                   }}
                 </For>
                 <li>
-                  <div class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  dark:text-white ">
+                  <div class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75">
                     <FolderForm />
                   </div>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="cursor-d flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              <div class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700">
                 <IconTag />
                 <span class="ms-3 flex-1 whitespace-nowrap">Tags</span>
                 <span class="ms-3 inline-flex items-center justify-center text-xs ">

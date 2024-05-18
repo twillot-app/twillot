@@ -243,7 +243,7 @@ export const Layout = (props) => {
           class={`flex-col items-center pt-[64px] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
         >
           <div class="mx-auto w-[48rem]">
-            <Show when={!store.isAuthFailed}>
+            <Show when={store.isAuthFailed}>
               <Authenticate />
             </Show>
             <Show when={store.isForceSyncTimedout}>

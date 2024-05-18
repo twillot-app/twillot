@@ -22,7 +22,7 @@ export default function Search() {
           <input
             type="search"
             name="keyword"
-            placeholder="Support keyword or from:author folder:name since/until:YYYY-MM-DD"
+            placeholder="keyword / from:author / folder:name / since:YYYY-MM-DD / until:YYYY-MM-DD"
             value={store.keyword}
             class="z-20 block w-full rounded-lg border  border-gray-300  bg-gray-50 p-2.5 text-sm text-gray-900 outline-0 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
           />

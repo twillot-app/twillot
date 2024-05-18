@@ -5,6 +5,7 @@ import {
   type Tweet,
   type TweetWithPosition,
   type User,
+  type CountInfo,
 } from '../types'
 import { DAYS } from '../libs/date'
 
@@ -18,7 +19,7 @@ export default createStore({
   category: '',
   pageSize: 100,
   hasMore: true,
-  totalCount: 0,
+  totalCount: null as null | CountInfo,
   tweets: new Array<Tweet>(),
   selectedTweet: -1,
   topUsers: new Array<User>(),

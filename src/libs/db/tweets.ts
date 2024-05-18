@@ -147,16 +147,22 @@ export async function getRecord(id: string): Promise<Tweet | undefined> {
     }
   })
 }
-
 export async function countRecords(
   indexName?: string,
   value?: string,
-): Promise<number> {
+): Promise<{
+  total: number
+  image: number
+  video: number
+  gif: number
+  link: number
+  quote: number
+  long_text: number
+}> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db)
-
     let request
     if (indexName) {
       const index = objectStore.index(indexName)
@@ -165,9 +171,46 @@ export async function countRecords(
     } else {
       request = objectStore.count()
     }
-
-    request.onsuccess = (event: Event) => {
-      resolve((event.target as IDBRequest<number>).result)
+    const counts = {
+      total: 0,
+      image: 0,
+      video: 0,
+      gif: 0,
+      link: 0,
+      quote: 0,
+      long_text: 0,
+    }
+    request.onsuccess = async (event: Event) => {
+      const total = (event.target as IDBRequest<number>).result
+      if (indexName) {
+        counts.total = total
+        resolve(counts)
+      } else {
+        const cursorRequest = objectStore.openCursor()
+        cursorRequest.onsuccess = (cursorEvent: Event) => {
+          const cursor = (cursorEvent.target as IDBRequest<IDBCursorWithValue>)
+            .result
+          if (cursor) {
+            const record = cursor.value
+            counts.total++
+            if (record.has_image) counts.image++
+            if (record.has_video) counts.video++
+            if (record.has_gif) counts.gif++
+            if (record.has_link) counts.link++
+            if (record.has_quote) counts.quote++
+            if (record.is_long_text) counts.long_text++
+            cursor.continue()
+          } else {
+            resolve(counts)
+          }
+        }
+        cursorRequest.onerror = (cursorEvent: Event) => {
+          reject(
+            'Cursor error: ' +
+              (cursorEvent.target as IDBRequest).error?.toString(),
+          )
+        }
+      }
     }
     request.onerror = (event: Event) => {
       reject(

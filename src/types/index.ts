@@ -11,6 +11,16 @@ export * from './list'
 export * from './tweet'
 export * from './user'
 
+export interface CountInfo {
+  total: number
+  image: number
+  video: number
+  gif: number
+  link: number
+  quote: number
+  long_text: number
+}
+
 export interface FontSet {
   name: string
   url: string

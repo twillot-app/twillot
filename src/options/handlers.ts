@@ -178,7 +178,7 @@ export async function initFolders() {
   const folderInfo = new Map<string, number>()
   for (const folder of folders) {
     const count = await countRecords('folder', folder)
-    folderInfo[folder] = count
+    folderInfo[folder] = count.total
   }
   setStore('folderInfo', folderInfo)
 }

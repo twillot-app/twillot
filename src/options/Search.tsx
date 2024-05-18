@@ -1,51 +1,13 @@
 import { useNavigate } from '@solidjs/router'
-import { createEffect, createMemo, createSignal, For } from 'solid-js'
+import { createMemo } from 'solid-js'
 
 import dataStore from './store'
-import { IconArrowDown, IconSearch } from '../components/Icons'
-
-const allCategories = [
-  {
-    name: 'All',
-    value: '',
-  },
-  {
-    name: 'Image',
-    value: 'has_image',
-  },
-  {
-    name: 'Video',
-    value: 'has_video',
-  },
-  {
-    name: 'Gif',
-    value: 'has_gif',
-  },
-  {
-    name: 'Link',
-    value: 'has_link',
-  },
-  {
-    name: 'Quote',
-    value: 'has_quote',
-  },
-  {
-    name: 'Article',
-    value: 'is_long_text',
-  },
-]
+import { IconSearch } from '../components/Icons'
 
 export default function Search() {
-  const [isMenuVisible, setIsMenuVisible] = createSignal(false)
   const [store, setStore] = dataStore
   const navigate = useNavigate()
   const placeholder = createMemo(() => `Search ${store.totalCount} tweets`)
-  const category = createMemo(() =>
-    allCategories.find((c) => c.value === store.category),
-  )
-  const categories = createMemo(() =>
-    allCategories.filter((c) => c.value !== store.category),
-  )
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
@@ -55,51 +17,16 @@ export default function Search() {
     } catch (err) {}
   }
 
-  createEffect(() => {
-    if (typeof store.category) {
-      setIsMenuVisible(false)
-    }
-  })
-
   return (
     <form onSubmit={onSubmit} class="flex w-full">
       <div class="relative flex w-full">
-        <button
-          class="z-10 inline-flex w-24 flex-shrink-0 items-center rounded-s-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 "
-          type="button"
-          onClick={() => setIsMenuVisible(!isMenuVisible())}
-        >
-          {category().name} <IconArrowDown />
-        </button>
-        <div
-          class={`absolute left-0 top-12 z-10 w-24 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700 ${isMenuVisible() ? 'block' : 'hidden'}`}
-        >
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-            <For each={categories()}>
-              {(category) => {
-                return (
-                  <li>
-                    <button
-                      onClick={() => setStore('category', category.value)}
-                      type="button"
-                      class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      {category.name}
-                    </button>
-                  </li>
-                )
-              }}
-            </For>
-          </ul>
-        </div>
-
         <div class="relative w-full">
           <input
             type="search"
             placeholder={placeholder()}
             name="keyword"
             value={store.keyword}
-            class="z-20 block w-full rounded-e-lg border  border-gray-300 border-s-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 outline-0 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
+            class="z-20 block w-full rounded-lg border  border-gray-300  bg-gray-50 p-2.5 text-sm text-gray-900 outline-0 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
           />
           <button
             type="submit"

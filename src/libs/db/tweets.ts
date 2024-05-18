@@ -37,6 +37,7 @@ function meetsCriteria(
   tweet: Tweet,
   options: QueryOptions,
   category = '',
+  folder = '',
 ): boolean {
   return (
     (!options.keyword ||
@@ -44,8 +45,7 @@ function meetsCriteria(
     (!options.fromUser ||
       tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase()) &&
     (!category || tweet[category]) &&
-    (!options.folder ||
-      tweet.folder?.toLowerCase() === options.folder.toLowerCase())
+    (!folder || tweet.folder?.toLowerCase() === folder.toLowerCase())
   )
 }
 
@@ -66,6 +66,7 @@ function getRange(since?: number, until?: number): IDBKeyRange | null {
 export async function findRecords(
   keyword = '',
   category = '',
+  folder = '',
   lastId = '',
   pageSize = 100,
 ): Promise<Tweet[]> {
@@ -93,7 +94,7 @@ export async function findRecords(
       if (cursor) {
         const tweet = cursor.value as Tweet
         if (isStartLooking) {
-          const met = meetsCriteria(tweet, options, category)
+          const met = meetsCriteria(tweet, options, category, folder)
           if (met) {
             recordsFetched++
             if (recordsFetched <= pageSize) {

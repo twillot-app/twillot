@@ -37,13 +37,14 @@ import { readConfig, upsertConfig } from '../libs/db/configs'
 async function query(
   keyword = '',
   category = '',
+  folder = '',
   lastId = '',
   limit = 100,
   append = false,
 ) {
   const [_, setStore] = dataStore
   const start = new Date().getTime()
-  const tweets = await findRecords(keyword, category, lastId, limit)
+  const tweets = await findRecords(keyword, category, folder, lastId, limit)
   setStore('hasMore', tweets.length === limit)
   if (append) {
     if (tweets.length > 0) {
@@ -64,6 +65,7 @@ export async function queryByCondition(append = false) {
   query(
     store.keyword,
     store.category,
+    store.folder,
     append ? tweets[tweets.length - 1]?.tweet_id || '' : '',
     store.pageSize,
     append,

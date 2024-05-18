@@ -5,8 +5,6 @@ export function parseTwitterQuery(query) {
     fromUser: /from:(\w+)/g, // 使用g修饰符以匹配所有结果
     since: /since:(\d{4}-\d{2}-\d{2})/g,
     until: /until:(\d{4}-\d{2}-\d{2})/g,
-    // 数据库字段是数组，查询暂时只能单个匹配
-    folder: /folder:(\S+)/g,
   }
 
   const result: QueryOptions = {
@@ -14,7 +12,6 @@ export function parseTwitterQuery(query) {
     since: '',
     until: '',
     keyword: '',
-    folder: '',
   }
 
   // 检查每个模式并更新结果

@@ -195,8 +195,9 @@ export const Layout = (props) => {
                     return (
                       <li>
                         <A
-                          href={`/?q=folder:${folder}`}
+                          href="/"
                           class={`${folder === store.folder ? 'text-blue-500 dark:text-blue-300' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
+                          onClick={() => setStore('folder', folder)}
                         >
                           {folder}
                           <div class="ml-4 hidden flex-1 items-center justify-end group-hover:flex">

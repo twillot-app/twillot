@@ -39,4 +39,5 @@ export default createStore({
   timeline: new Array<TweetWithPosition>(),
   activeFont,
   fontSize,
+  theme: document.body.classList.contains('dark') ? 'dark' : 'light',
 })

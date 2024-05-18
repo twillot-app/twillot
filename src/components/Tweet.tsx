@@ -81,7 +81,7 @@ export const MediaItems = (props: { media_items: Media[] }) => {
                 : item.media_url_https.split('?')[0] + '?format=jpg&name=large'
             }
           />
-          <Show when={item.type === 'video'}>
+          <Show when={item.type !== 'photo'}>
             <div class="pointer-events-none absolute left-1/2 top-1/2 -ml-8 -mt-8 flex h-14 w-14 items-center justify-center rounded-full">
               <svg viewBox="0 0 60 61" aria-hidden="true">
                 <g>

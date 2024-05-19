@@ -11,7 +11,6 @@ import {
   IconExpand,
   IconQuote,
 } from '../components/Icons'
-import FolderDropDown from '../components/FolderDropDown'
 import TopN from '../components/TopN'
 import FolderSelect from '../components/FolderSelect'
 import { queryByCondition } from './handlers'
@@ -28,7 +27,7 @@ export const Home = () => {
 
   return (
     <div
-      class="mx-auto my-4 w-[48rem] flex-1 text-base text-black dark:text-white"
+      class="mx-auto my-4 w-[48rem] flex-1 text-base text-gray-700 dark:text-white"
       onClick={openPage}
       ref={listRef!}
     >
@@ -51,12 +50,7 @@ export const Home = () => {
 
       <div class="mb-4">
         <h3 class="mb-4 text-lg font-medium">
-          {store.keyword || store.category
-            ? `Search results:`
-            : 'Recent bookmarks:'}{' '}
-          <div class="relative float-right pr-2">
-            <FolderDropDown />
-          </div>
+          {store.keyword ? `Search results:` : 'Recent bookmarks:'}{' '}
         </h3>
         <For each={store.tweets}>
           {(tweet, index) => (
@@ -72,7 +66,7 @@ export const Home = () => {
                       />
                     </A>
                   </div>
-                  <p class="cursor-pointer text-base font-bold leading-6 text-black dark:text-white">
+                  <p class="cursor-pointer text-base font-bold leading-6">
                     <span data-text={`${Host}/${tweet.screen_name}/`}>
                       {tweet.username}&nbsp;
                     </span>

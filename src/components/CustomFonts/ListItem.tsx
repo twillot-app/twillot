@@ -39,7 +39,7 @@ const ListItem = (props: { font: FontSet }) => {
   })
 
   return (
-    <div class="flex flex-col items-start justify-center bg-white p-4 text-black shadow">
+    <div class="flex flex-col items-start justify-center bg-white p-4 text-gray-700 shadow">
       <div class="mb-4 flex w-full items-center justify-start border-b border-gray-300 pb-2 text-base">
         <div class="flex-1">{props.font.name}</div>
 

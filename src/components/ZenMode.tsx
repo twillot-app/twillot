@@ -34,7 +34,7 @@ export default function ZenMode() {
 
   return (
     <Show when={tweet()}>
-      <div class="relative flex h-full min-h-[400px] w-full flex-col bg-white text-black dark:bg-[#121212] dark:text-white">
+      <div class="relative flex h-full min-h-[400px] w-full flex-col bg-white text-gray-700 dark:bg-[#121212] dark:text-white">
         <header class="sticky top-0 mx-auto w-[40rem] bg-white py-4 dark:bg-[#121212]">
           <address class="flex items-center not-italic">
             <div class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">

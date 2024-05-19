@@ -69,8 +69,9 @@ export const IconClose = () => (
 
 export const IconExpand = () => (
   <svg
-    class="h-6 w-6"
     xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
     fill="none"
     viewBox="0 0 24 24"
   >
@@ -78,7 +79,7 @@ export const IconExpand = () => (
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="1"
+      stroke-width="2"
       d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"
     />
   </svg>
@@ -205,7 +206,7 @@ export const IconFolderPlus = () => (
 
 export const IconFolderMove = () => (
   <svg
-    class="h-6 w-6"
+    class="h-5 w-5"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -214,7 +215,7 @@ export const IconFolderMove = () => (
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="1"
+      stroke-width="2"
       d="M12.5 7H3m4 6h9m0 0-2-2m2 2-2 2M3 5v14a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-6.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H4a1 1 0 0 0-1 1Z"
     />
   </svg>

@@ -18,6 +18,7 @@ import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
 import {
   IconBookmark,
+  IconFolderMove,
   IconFolders,
   IconMoon,
   IconSun,
@@ -30,6 +31,8 @@ import { createStyleSheet } from '../libs/dom'
 import logo from '../../public/img/logo-128.png'
 import { FolderForm } from '../components/FolderDropDown'
 import { parseTwitterQuery } from '../libs/query-parser'
+import { reconcile, unwrap } from 'solid-js/store'
+import { addRecords } from '../libs/db/tweets'
 
 const allCategories = [
   {
@@ -61,6 +64,30 @@ const allCategories = [
 export const Layout = (props) => {
   const [searchParams] = useSearchParams()
   const [store, setStore] = dataStore
+  /**
+   * 仅移动没有分类的 tweets 到指定文件夹
+   * @param folder
+   */
+  const moveToFolder = async (folder: string) => {
+    try {
+      let tweets = unwrap(store.tweets)
+        .filter((x) => !x.folder)
+        .map((tweet) => ({
+          ...tweet,
+          folder,
+        }))
+      await addRecords(tweets)
+      await initFolders()
+      const newTweets = store.tweets.map((tweet) => ({
+        ...tweet,
+        folder: tweet.folder || folder,
+      }))
+      setStore('tweets', reconcile(newTweets))
+      alert(`${tweets.length} tweets has been moved to folder ${folder}`)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   createEffect(() => {
     if (searchParams.q) {
@@ -90,6 +117,7 @@ export const Layout = (props) => {
         theme === 'light' ? 'dark' : 'light',
         theme,
       )
+      localStorage.setItem('theme', theme)
     }
   })
 
@@ -102,7 +130,7 @@ export const Layout = (props) => {
   return (
     <>
       <nav
-        class={`text-gary-700 fixed top-0 z-50 w-full border-b border-gray-200 bg-white text-base text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+        class={`text-gary-700 fixed top-0 z-50 w-full border-b border-gray-200 bg-white text-base text-gray-700 dark:border-gray-700 dark:bg-[#121212] dark:text-white ${store.selectedTweet > -1 ? 'hidden' : ''}`}
       >
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
           <div class="flex items-center justify-between">
@@ -117,7 +145,7 @@ export const Layout = (props) => {
                   Twillot
                 </span>
               </a>
-              <div class="ml-[120px] flex min-w-[600px]">
+              <div class="ml-[130px] flex min-w-[600px]">
                 <Search />
               </div>
             </div>
@@ -143,9 +171,9 @@ export const Layout = (props) => {
       </nav>
 
       <aside
-        class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:translate-x-0 ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+        class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-[#121212] dark:text-white sm:translate-x-0 ${store.selectedTweet > -1 ? 'hidden' : ''}`}
       >
-        <div class="h-full overflow-y-auto bg-white px-3 pb-4 dark:bg-gray-800">
+        <div class="h-full overflow-y-auto px-3 pb-4 ">
           <ul class="space-y-1 font-medium">
             <li>
               <A
@@ -168,7 +196,7 @@ export const Layout = (props) => {
                       <li class="cursor-pointer">
                         <A
                           href="/"
-                          class={`flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  ${category.value === store.category ? 'text-blue-500 dark:text-blue-300' : ''}`}
+                          class={`flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  ${category.value === store.category ? 'text-blue-500' : ''}`}
                           onClick={() => setStore('category', category.value)}
                         >
                           {category.name}
@@ -200,11 +228,21 @@ export const Layout = (props) => {
                       <li>
                         <A
                           href="/"
-                          class={`${folder === store.folder ? 'text-blue-500 dark:text-blue-300' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
+                          class={`${folder === store.folder ? 'text-blue-500 ' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
                           onClick={() => setStore('folder', folder)}
                         >
                           {folder}
-                          <div class="ml-4 hidden flex-1 items-center justify-end group-hover:flex">
+                          <div class="ml-4 hidden flex-1 items-center justify-end gap-2 group-hover:flex">
+                            <Show when={store.keyword}>
+                              <span
+                                class="cursor-pointer"
+                                onClick={(e) => {
+                                  moveToFolder(folder)
+                                }}
+                              >
+                                <IconFolderMove />
+                              </span>
+                            </Show>
                             <span
                               class="cursor-pointer"
                               onClick={(e) => {
@@ -215,7 +253,7 @@ export const Layout = (props) => {
                               <IconTrash />
                             </span>
                           </div>
-                          <span class="mr-1 flex-1 items-center text-right text-xs opacity-60 group-hover:hidden">
+                          <span class="mr-1 flex-1 items-center text-right text-xs font-medium opacity-60 group-hover:hidden">
                             {store.folderInfo[folder] || 0}
                           </span>
                         </A>
@@ -267,7 +305,7 @@ export const Layout = (props) => {
                       <li>
                         Contact the{' '}
                         <a
-                          href="https://twitter.com/SiZapPaaiGwat"
+                          href="https://x.com/SiZapPaaiGwat"
                           target="_blank"
                           class="text-blue-500 underline"
                         >

@@ -1,4 +1,4 @@
-export const WEEKS = 53
+export const WEEKS = 54
 
 export const DAYS = WEEKS * 7
 

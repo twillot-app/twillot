@@ -104,7 +104,7 @@ export interface User {
   count: number
 }
 
-export const X_DOMAIN = 'twitter.com'
+export const X_DOMAIN = 'x.com'
 
 export const Host = `https://${X_DOMAIN}`
 

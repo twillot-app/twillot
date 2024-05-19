@@ -50,7 +50,7 @@ export default defineManifest({
       matches: [],
     },
   ],
-  host_permissions: ['https://twitter.com/*'],
+  host_permissions: ['https://x.com/*'],
   permissions: ['storage', 'webRequest', 'cookies', 'tabs'],
   // chrome_url_overrides: {
   //   newtab: 'pages/newtab.html',

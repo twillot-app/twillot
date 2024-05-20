@@ -6,5 +6,5 @@ const manifest = require('../build/manifest.json')
 
 gulp
   .src('build/**')
-  .pipe(zip(`${manifest.name.replaceAll(' ', '-')}-${manifest.version}.zip`))
+  .pipe(zip(`${manifest.version}.zip`))
   .pipe(gulp.dest('package'))

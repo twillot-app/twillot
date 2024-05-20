@@ -3,7 +3,7 @@
   "displayName": "Twillot - Twitter/X Copilot",
   "version": "0.6.0",
   "author": "simon@lionjs.com",
-  "description": "Search adn organize your Twitter/X bookmarks",
+  "description": "Search and organize your Twitter/X bookmarks",
   "type": "module",
   "license": "MIT",
   "keywords": [

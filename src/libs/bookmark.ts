@@ -23,7 +23,7 @@ function buildUrl(url: string, cursor?: string) {
   if (cursor) {
     variables.cursor = cursor
   }
-  return `${base}?variables=${encodeURIComponent(JSON.stringify(variables))}${query}`
+  return `${base.replace('twitter.com', Host)}?variables=${encodeURIComponent(JSON.stringify(variables))}${query}`
 }
 
 async function getBookmarks(headers: Header, cursor?: string) {

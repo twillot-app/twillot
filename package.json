@@ -3,7 +3,7 @@
   "displayName": "Twillot - Twitter/X Copilot",
   "version": "0.6.0",
   "author": "simon@lionjs.com",
-  "description": "Sync, search, tag, and export your Twitter/X bookmarks with AI and ease.",
+  "description": "Search adn organize your Twitter/X bookmarks",
   "type": "module",
   "license": "MIT",
   "keywords": [

@@ -1,9 +1,9 @@
 {
   "name": "Twillot",
-  "displayName": "Twillot - Twitter Copilot",
-  "version": "0.5.0",
+  "displayName": "Twillot - Twitter/X Copilot",
+  "version": "0.6.0",
   "author": "simon@lionjs.com",
-  "description": "Sync, search, tag, and export your Twitter bookmarks with AI and ease.",
+  "description": "Sync, search, tag, and export your Twitter/X bookmarks with AI and ease.",
   "type": "module",
   "license": "MIT",
   "keywords": [

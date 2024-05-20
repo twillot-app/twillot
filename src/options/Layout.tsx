@@ -136,7 +136,7 @@ export const Layout = (props) => {
       >
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
           <div class="flex items-center justify-between">
-            <div class="flex w-full flex-col items-center justify-start space-y-4 lg:flex-row lg:space-y-0 rtl:justify-end">
+            <div class="flex w-full flex-col items-center justify-start space-y-4 lg:w-auto lg:flex-row lg:space-y-0 rtl:justify-end">
               <a
                 href="https://twillot.com?utm_source=extension"
                 target="_blank"
@@ -151,7 +151,7 @@ export const Layout = (props) => {
                 <Search />
               </div>
             </div>
-            <div class="fixed right-4 top-4 items-center lg:flex">
+            <div class="fixed right-4 top-4 items-center lg:static lg:flex">
               <div class="ms-3 flex items-center">
                 <button
                   class="cursor-pointer"

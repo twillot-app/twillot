@@ -69,6 +69,16 @@ export async function getAuthInfo() {
     'csrf',
     'lastForceSynced',
   ])
+  if (auth) {
+    const url = new URL(auth.url)
+    /**
+     * 2024.5.19 twitter 域名正式使用 x.com
+     */
+    if (url.hostname !== X_DOMAIN) {
+      await chrome.storage.local.clear()
+      return null
+    }
+  }
 
   return auth
 }

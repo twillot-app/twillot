@@ -122,9 +122,11 @@ export const Layout = (props) => {
   })
 
   onMount(() => {
-    initHistory()
-    initSync(searchParams.q)
-    initFolders()
+    if (!store.isSidePanel) {
+      initHistory()
+      initSync(searchParams.q)
+      initFolders()
+    }
   })
 
   return (
@@ -134,7 +136,7 @@ export const Layout = (props) => {
       >
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
           <div class="flex items-center justify-between">
-            <div class="flex items-center justify-start rtl:justify-end">
+            <div class="flex w-full flex-col items-center justify-start space-y-4 lg:flex-row lg:space-y-0 rtl:justify-end">
               <a
                 href="https://twillot.com?utm_source=extension"
                 target="_blank"
@@ -145,11 +147,11 @@ export const Layout = (props) => {
                   Twillot
                 </span>
               </a>
-              <div class="ml-[130px] flex min-w-[600px]">
+              <div class="flex w-full lg:ml-[130px] lg:min-w-[600px]">
                 <Search />
               </div>
             </div>
-            <div class="flex items-center">
+            <div class="fixed right-4 top-4 items-center lg:flex">
               <div class="ms-3 flex items-center">
                 <button
                   class="cursor-pointer"
@@ -170,122 +172,126 @@ export const Layout = (props) => {
         </div>
       </nav>
 
-      <aside
-        class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-[#121212] dark:text-white sm:translate-x-0 ${store.selectedTweet > -1 ? 'hidden' : ''}`}
-      >
-        <div class="h-full overflow-y-auto px-3 pb-4 ">
-          <ul class="space-y-1 font-medium">
-            <li>
-              <A
-                href="/"
-                class="flex w-full items-center rounded-lg p-2  transition duration-75 hover:bg-gray-100  dark:hover:bg-gray-700"
-                onClick={resetQuery}
-              >
-                <IconBookmark />
-                <span class="ms-3 flex-1 whitespace-nowrap text-left rtl:text-right">
-                  Bookmarks
-                </span>
-                <span class="ms-3 inline-flex items-center justify-center rounded-full text-xs opacity-60">
-                  <Show when={store.totalCount}>{store.totalCount.total}</Show>
-                </span>
-              </A>
-              <ul class="space-y-1 py-1 text-base">
-                <For each={allCategories}>
-                  {(category) => {
-                    return (
-                      <li class="cursor-pointer">
-                        <A
-                          href="/"
-                          class={`flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  ${category.value === store.category ? 'text-blue-500' : ''}`}
-                          onClick={() => setStore('category', category.value)}
-                        >
-                          {category.name}
-                          <span class="mr-1 flex-1 items-center rounded-full text-right text-xs opacity-60">
-                            <Show when={store.totalCount}>
-                              {
-                                store.totalCount[
-                                  category.value.replace(/has_|is_/, '')
-                                ]
-                              }
-                            </Show>
-                          </span>
-                        </A>
-                      </li>
-                    )
-                  }}
-                </For>
-              </ul>
-            </li>
-            <li>
-              <div class="flex items-center rounded-lg p-2 hover:bg-gray-100  dark:hover:bg-gray-700">
-                <IconFolders />
-                <span class="ms-3 flex-1 whitespace-nowrap">Folders</span>
-              </div>
-              <ul class="space-y-1 py-1 text-base">
-                <For each={store.folders}>
-                  {(folder) => {
-                    return (
-                      <li>
-                        <A
-                          href="/"
-                          class={`${folder === store.folder ? 'text-blue-500 ' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
-                          onClick={() => setStore('folder', folder)}
-                        >
-                          {folder}
-                          <div class="ml-4 hidden flex-1 items-center justify-end gap-2 group-hover:flex">
-                            <Show when={store.keyword}>
+      <Show when={!store.isSidePanel}>
+        <aside
+          class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-[#121212] dark:text-white sm:translate-x-0 ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+        >
+          <div class="h-full overflow-y-auto px-3 pb-4 ">
+            <ul class="space-y-1 font-medium">
+              <li>
+                <A
+                  href="/"
+                  class="flex w-full items-center rounded-lg p-2  transition duration-75 hover:bg-gray-100  dark:hover:bg-gray-700"
+                  onClick={resetQuery}
+                >
+                  <IconBookmark />
+                  <span class="ms-3 flex-1 whitespace-nowrap text-left rtl:text-right">
+                    Bookmarks
+                  </span>
+                  <span class="ms-3 inline-flex items-center justify-center rounded-full text-xs opacity-60">
+                    <Show when={store.totalCount}>
+                      {store.totalCount.total}
+                    </Show>
+                  </span>
+                </A>
+                <ul class="space-y-1 py-1 text-base">
+                  <For each={allCategories}>
+                    {(category) => {
+                      return (
+                        <li class="cursor-pointer">
+                          <A
+                            href="/"
+                            class={`flex w-full items-center rounded-lg p-1 pl-11 transition duration-75  ${category.value === store.category ? 'text-blue-500' : ''}`}
+                            onClick={() => setStore('category', category.value)}
+                          >
+                            {category.name}
+                            <span class="mr-1 flex-1 items-center rounded-full text-right text-xs opacity-60">
+                              <Show when={store.totalCount}>
+                                {
+                                  store.totalCount[
+                                    category.value.replace(/has_|is_/, '')
+                                  ]
+                                }
+                              </Show>
+                            </span>
+                          </A>
+                        </li>
+                      )
+                    }}
+                  </For>
+                </ul>
+              </li>
+              <li>
+                <div class="flex items-center rounded-lg p-2 hover:bg-gray-100  dark:hover:bg-gray-700">
+                  <IconFolders />
+                  <span class="ms-3 flex-1 whitespace-nowrap">Folders</span>
+                </div>
+                <ul class="space-y-1 py-1 text-base">
+                  <For each={store.folders}>
+                    {(folder) => {
+                      return (
+                        <li>
+                          <A
+                            href="/"
+                            class={`${folder === store.folder ? 'text-blue-500 ' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
+                            onClick={() => setStore('folder', folder)}
+                          >
+                            {folder}
+                            <div class="ml-4 hidden flex-1 items-center justify-end gap-2 group-hover:flex">
+                              <Show when={store.keyword}>
+                                <span
+                                  class="cursor-pointer"
+                                  onClick={(e) => {
+                                    moveToFolder(folder)
+                                  }}
+                                >
+                                  <IconFolderMove />
+                                </span>
+                              </Show>
                               <span
                                 class="cursor-pointer"
                                 onClick={(e) => {
-                                  moveToFolder(folder)
+                                  e.preventDefault()
+                                  removeFolder(folder)
                                 }}
                               >
-                                <IconFolderMove />
+                                <IconTrash />
                               </span>
-                            </Show>
-                            <span
-                              class="cursor-pointer"
-                              onClick={(e) => {
-                                e.preventDefault()
-                                removeFolder(folder)
-                              }}
-                            >
-                              <IconTrash />
+                            </div>
+                            <span class="mr-1 flex-1 items-center text-right text-xs font-medium opacity-60 group-hover:hidden">
+                              {store.folderInfo[folder] || 0}
                             </span>
-                          </div>
-                          <span class="mr-1 flex-1 items-center text-right text-xs font-medium opacity-60 group-hover:hidden">
-                            {store.folderInfo[folder] || 0}
-                          </span>
-                        </A>
-                      </li>
-                    )
-                  }}
-                </For>
-                <li>
-                  <div class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75">
-                    <FolderForm />
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <div class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700">
-                <IconTag />
-                <span class="ms-3 flex-1 whitespace-nowrap">Tags</span>
-                <span class="ms-3 inline-flex items-center justify-center text-xs ">
-                  Coming Soon
-                </span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </aside>
+                          </A>
+                        </li>
+                      )
+                    }}
+                  </For>
+                  <li>
+                    <div class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75">
+                      <FolderForm />
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <div class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <IconTag />
+                  <span class="ms-3 flex-1 whitespace-nowrap">Tags</span>
+                  <span class="ms-3 inline-flex items-center justify-center text-xs ">
+                    Coming Soon
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </Show>
 
       <main class=" bg-white text-gray-700 dark:bg-[#121212] dark:text-white">
         <div
-          class={`flex-col items-center pt-[64px] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+          class={`flex-col items-center pt-28 lg:pt-[64px] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
         >
-          <div class="mx-auto w-[48rem]">
+          <div class="mx-auto hidden lg:block lg:w-[48rem]">
             <Show when={store.isAuthFailed}>
               <Authenticate />
             </Show>

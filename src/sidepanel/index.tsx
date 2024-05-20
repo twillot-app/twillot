@@ -1,7 +1,6 @@
 /* @refresh reload */
 import { render } from 'solid-js/web'
 
-import './index.css'
-import { Sidepanel } from './Sidepanel'
+import getRoot from '../components/Root'
 
-render(() => <Sidepanel />, (document.getElementById('app') as HTMLElement) ?? document.body)
+render(getRoot, document.getElementById('app') ?? document.body)

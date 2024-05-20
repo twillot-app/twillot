@@ -27,36 +27,40 @@ export const Home = () => {
 
   return (
     <div
-      class="mx-auto my-4 w-[48rem] flex-1 text-base text-gray-700 dark:text-white"
+      class="mx-auto my-4 w-full flex-1 text-base text-gray-700 dark:text-white lg:w-[48rem]"
       onClick={openPage}
       ref={listRef!}
     >
-      <div class="mb-4">
-        <Contribution />
-      </div>
-
-      <div class="relative mb-6 rounded-md py-4">
-        <h3 class="text-lg font-medium">Top 10 Authors from your bookmarks</h3>
-
-        <div class="flex justify-center">
-          <Show
-            when={store.topUsers.length > 0}
-            fallback={<div class="h-[480px] w-[480px]"></div>}
-          >
-            <TopN users={store.topUsers} stageSize={480} />
-          </Show>
+      <Show when={!store.isSidePanel}>
+        <div class="mb-4">
+          <Contribution />
         </div>
-      </div>
+
+        <div class="relative mb-6 rounded-md py-4">
+          <h3 class="text-lg font-medium">
+            Top 10 Authors from your bookmarks
+          </h3>
+
+          <div class="flex justify-center">
+            <Show
+              when={store.topUsers.length > 0}
+              fallback={<div class="h-[480px] w-[480px]"></div>}
+            >
+              <TopN users={store.topUsers} stageSize={480} />
+            </Show>
+          </div>
+        </div>
+      </Show>
 
       <div class="mb-4">
-        <h3 class="mb-4 text-lg font-medium">
+        <h3 class="mb-4 hidden text-lg font-medium lg:block">
           {store.keyword ? `Search results:` : 'Recent bookmarks:'}{' '}
         </h3>
         <For each={store.tweets}>
           {(tweet, index) => (
             <div class="rounded-md p-2 hover:bg-[#121212] hover:bg-opacity-5">
               <div class="flex flex-shrink-0 pb-0">
-                <div class="flex w-full items-start ">
+                <div class="flex w-full items-start">
                   <div class="mr-2">
                     <A href={`/?q=from:${tweet.screen_name}`}>
                       <img
@@ -66,7 +70,7 @@ export const Home = () => {
                       />
                     </A>
                   </div>
-                  <p class="cursor-pointer text-base font-bold leading-6">
+                  <p class="flex-1 cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap text-base font-bold leading-6">
                     <span data-text={`${Host}/${tweet.screen_name}/`}>
                       {tweet.username}&nbsp;
                     </span>
@@ -82,20 +86,22 @@ export const Home = () => {
                       </span>
                     </span>
                   </p>
-                  <div class="flex flex-1 items-center justify-end gap-4 *:cursor-pointer">
-                    <span>
-                      <FolderSelect tweet={tweet} />
-                    </span>
-                    <span
-                      onClick={() =>
-                        setStore({
-                          selectedTweet: index(),
-                        })
-                      }
-                    >
-                      <IconExpand />
-                    </span>
-                  </div>
+                  <Show when={!store.isSidePanel}>
+                    <div class="flex items-center justify-end gap-4 *:cursor-pointer">
+                      <span>
+                        <FolderSelect tweet={tweet} />
+                      </span>
+                      <span
+                        onClick={() =>
+                          setStore({
+                            selectedTweet: index(),
+                          })
+                        }
+                      >
+                        <IconExpand />
+                      </span>
+                    </div>
+                  </Show>
                 </div>
               </div>
               <div class="-mt-2 pl-12 text-[rgb(15,20,25)] dark:text-white">

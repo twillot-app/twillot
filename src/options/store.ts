@@ -42,4 +42,5 @@ export default createStore({
   activeFont,
   fontSize,
   theme: localStorage.getItem('theme') || 'light',
+  isSidePanel: location.pathname.endsWith('sidepanel.html'),
 })

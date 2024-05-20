@@ -36,9 +36,9 @@ export default defineManifest({
   //     run_at: 'document_start',
   //   },
   // ],
-  // side_panel: {
-  //   default_path: 'pages/sidepanel.html',
-  // },
+  side_panel: {
+    default_path: 'pages/sidepanel.html',
+  },
   web_accessible_resources: [
     {
       resources: [
@@ -51,7 +51,7 @@ export default defineManifest({
     },
   ],
   host_permissions: ['https://x.com/*', 'https://twitter.com/*'],
-  permissions: ['storage', 'webRequest', 'cookies', 'tabs'],
+  permissions: ['storage', 'webRequest', 'cookies', 'tabs', 'sidePanel'],
   // chrome_url_overrides: {
   //   newtab: 'pages/newtab.html',
   // },

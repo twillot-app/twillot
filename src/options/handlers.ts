@@ -10,7 +10,6 @@ import {
   clearFolder,
   countRecords,
   findRecords,
-  getRandomTweet,
   getRencentTweets,
   getTopUsers,
 } from '../libs/db/tweets'

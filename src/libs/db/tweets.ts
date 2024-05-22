@@ -37,13 +37,11 @@ export async function addRecords(
         }
 
         const getRequest = objectStore.get(record.tweet_id)
-
         getRequest.onsuccess = () => {
           if (!getRequest.result) {
             objectStore.put(record)
           }
         }
-
         getRequest.onerror = (event: Event) => {
           console.error(
             'Get request error: ' +

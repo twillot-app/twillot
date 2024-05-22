@@ -69,7 +69,7 @@ export async function getAuthInfo() {
     'csrf',
     'lastForceSynced',
   ])
-  if (auth) {
+  if (auth && auth.url) {
     const url = new URL(auth.url)
     /**
      * 2024.5.19 twitter 域名正式使用 x.com

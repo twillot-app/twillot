@@ -1,3 +1,1 @@
-import { onContentMessage } from '../libs/browser'
-
-onContentMessage()
+console.log('content script running')

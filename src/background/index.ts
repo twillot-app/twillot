@@ -19,3 +19,5 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
     await chrome.tabs.create({ url: newURL })
   }
 })
+
+console.log('background script loaded')

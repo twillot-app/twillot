@@ -1,5 +1,20 @@
 import { Host, X_DOMAIN } from '../types'
 
+export async function getIdsToSave(): Promise<string[]> {
+  const ids = await getLocalItem('idsToSave')
+  return ids || []
+}
+
+export async function setIdToSave(id: string) {
+  let ids = await getIdsToSave()
+  ids.push(id)
+  await addLocalItem('idsToSave', ids)
+}
+
+export function removeIdToSave() {
+  return chrome.storage.local.remove('idsToSave')
+}
+
 export function openNewTab(url: string, active = true) {
   return chrome.tabs.create({
     url,
@@ -81,12 +96,11 @@ export async function getAuthInfo() {
   return auth
 }
 
-export async function addLocalItem(key: string, value: string) {
+export async function addLocalItem(key: string, value: string | string[]) {
   if (value && value.length > 0) {
     await chrome.storage.local.set({
       [key]: value,
     })
-    return value.trim()
   }
 }
 

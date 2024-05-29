@@ -2,6 +2,20 @@
 
 > Sync, search, tag, and export your Twitter bookmarks with AI and ease.
 
+## Changelog
+
+### May 29, 2024 Update
+
+Omnibox Support
+
+We're excited to announce that you can now use tt for quick searches in the Omnibox. To use this feature, follow these steps:
+
+- Type tt in the Omnibox.
+- Press the Tab key.
+- Input your keyword.
+
+By doing this, you'll be taken directly to Twillot search results, enhancing your search efficiency.
+
 ## Features
 
 - Folder Management Without Premium: Organize your Twitter bookmarks effortlessly using folders, a feature traditionally reserved for Twitter Premium subscribers.

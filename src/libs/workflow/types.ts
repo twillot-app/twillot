@@ -6,7 +6,9 @@ import { Endpoint } from '../../types'
 export enum TriggerNames {
   CreateBookmark = 'Create a bookmark',
   DeleteBookmark = 'Delete a bookmark',
-  CreateTweet = 'Create a tweet',
+  CreateTweet = 'Post',
+  CreateReply = 'Reply',
+  CreateRetweet = 'Repost',
   // CreateNoteTweet = 'Create a note tweet',
   // CreateScheduledTweet = 'Create a scheduled tweet',
   // ReplyTweet = 'Reply to a tweet',
@@ -17,11 +19,18 @@ export enum TiggerUrls {
   CreateBookmark = Endpoint.CREATE_BOOKMARK,
   DeleteBookmark = Endpoint.DELETE_BOOKMARK,
   CreateTweet = Endpoint.CREATE_TWEET,
+  CreateReply = Endpoint.CREATE_REPLY,
+  CreateRetweet = 'Repost',
   // CreateNoteTweet = 'Create a note tweet',
   // CreateScheduledTweet = 'Create a scheduled tweet',
   // ReplyTweet = 'Reply to a tweet',
   // FavoriteTweet = 'Favorite a tweet',
 }
+
+console.assert(
+  Object.keys(TriggerNames).length === Object.keys(TiggerUrls).length,
+  'Missing trigger or url in TriggerNames or TiggerUrls',
+)
 
 export type Trigger = keyof typeof TriggerNames
 
@@ -33,10 +42,15 @@ export enum ActionNames {
 
 export type Action = keyof typeof ActionNames
 
+export interface TriggerReponse {
+  tweetId: string
+  replyToTweetId?: string
+}
+
 export interface TriggerReponsePayload {
   trigger: Trigger
   request: { method: string; url: string; body: any }
-  response: { status: number; statusText: string; body: any }
+  response: { status: number; statusText: string; body: TriggerReponse }
 }
 
 export interface ActionContext extends TriggerReponsePayload {

@@ -4,27 +4,52 @@
 
 import { TweetBase } from '../../types'
 import { getWorkflows } from '.'
-import { Action, ActionHandler, TriggerReponsePayload, Workflow } from './types'
+import {
+  Action,
+  ActionHandler,
+  TriggerReponse,
+  TriggerReponsePayload,
+  Workflow,
+} from './types'
+
+const parseResponse = async function (
+  responseText: string,
+): Promise<TriggerReponse> {
+  try {
+    const json = JSON.parse(responseText)
+    const tweet = json.data.create_tweet.tweet_results.result as TweetBase
+    return {
+      tweetId: tweet.rest_id,
+      replyToTweetId: tweet.legacy.in_reply_to_status_id_str,
+    }
+  } catch (error) {
+    console.error('parse CreateTweet error', error)
+    return {
+      tweetId: '',
+      replyToTweetId: '',
+    }
+  }
+}
 
 export const triggerResponseRetriever = {
   /**
    * 依赖于回复返回的  id
    */
-  CreateTweet: async function (
+  CreateTweet: parseResponse,
+  CreateReply: parseResponse,
+  CreateRetweet: async function (
     responseText: string,
-  ): Promise<{ tweetId: string; replyToTweetId: string }> {
+  ): Promise<TriggerReponse> {
     try {
       const json = JSON.parse(responseText)
-      const tweet = json.data.create_tweet.tweet_results.result as TweetBase
+      const tweet = json.data.create_retweet.retweet_results.result as TweetBase
       return {
         tweetId: tweet.rest_id,
-        replyToTweetId: tweet.legacy.in_reply_to_status_id_str,
       }
     } catch (error) {
-      console.error('CreateTweet error', error)
+      console.error('parse CreateRetweet error', error)
       return {
         tweetId: '',
-        replyToTweetId: '',
       }
     }
   },

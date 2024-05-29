@@ -224,7 +224,7 @@ export async function createTweet({ text = '', replyTweetId = '' }) {
 
   const variables = {
     tweet_text: text,
-    batch_compose: 'BatchSubsequent',
+    // batch_compose: 'BatchSubsequent',
     dark_request: false,
     media: {
       media_entities: [],
@@ -238,11 +238,9 @@ export async function createTweet({ text = '', replyTweetId = '' }) {
       exclude_reply_user_ids: [],
     }
   }
-  return request(replyTweetId ? Endpoint.CREATE_REPLY : Endpoint.CREATE_TWEET, {
+  return request(Endpoint.CREATE_TWEET, {
     body: JSON.stringify({
-      queryId: replyTweetId
-        ? EndpointQuery.CREATE_REPLY
-        : EndpointQuery.CREATE_TWEET,
+      queryId: EndpointQuery.CREATE_TWEET,
       variables,
       features: {
         communities_web_enable_tweet_community_results_fetch: true,

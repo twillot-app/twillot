@@ -7,10 +7,36 @@ import { getWorkflows } from '.'
 import {
   Action,
   ActionHandler,
+  Trigger,
   TriggerReponse,
   TriggerReponsePayload,
+  TriggerReuqestBody,
   Workflow,
 } from './types'
+
+export function getRealTrigger(
+  trigger: Trigger,
+  body: TriggerReuqestBody,
+): Trigger {
+  // post / quote / reply
+  if (trigger === 'CreateTweet') {
+    const { attachment_url, reply } = body.variables
+    // qoute
+    if (attachment_url) {
+      return 'CreateQuote'
+    }
+
+    // reply
+    if (reply) {
+      return 'CreateReply'
+    }
+
+    // post
+    return 'CreateTweet'
+  }
+
+  return trigger
+}
 
 const parseResponse = async function (
   responseText: string,
@@ -71,30 +97,30 @@ export class TriggerMonitor {
   }
 
   register(action: Action, fn: ActionHandler) {
-    this.handlers[action] = fn
+    this.handlers[typeof action === 'object' ? action.name : action] = fn
   }
 
   async emit(payload: TriggerReponsePayload) {
     const { request, response, trigger } = payload
-    if (request.body && typeof request.body === 'string') {
-      request.body = JSON.parse(request.body)
-    }
-    const actions = this.workflows.filter((w) => w.when === trigger)
-    actions.forEach(async (w) => {
-      const context = {
-        request,
-        response,
-        trigger,
-        prevActionResponse: null,
-      }
+    const workflows = this.workflows.filter((w) => w.when === trigger)
+    for (const w of workflows) {
+      let prevActionResponse = null
       for (const action of w.thenList) {
-        // TODO 为 action 添加自定义参数
-        const handler = this.handlers[action]
+        const handler =
+          this.handlers[typeof action === 'object' ? action.name : action]
         if (handler) {
-          context.prevActionResponse = await handler(context)
-          console.log(`Workflow: ${w.when} -> ${action}`, context)
+          const context = {
+            request,
+            response,
+            trigger,
+            action,
+            prevActionResponse,
+          }
+          console.log(`Workflow starts`, context)
+          prevActionResponse = await handler(context)
+          console.log(`Workflow ends`, prevActionResponse)
         }
       }
-    })
+    }
   }
 }

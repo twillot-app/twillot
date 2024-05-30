@@ -9,6 +9,7 @@ import { TimelineUser } from './user'
 export * from './list'
 export * from './tweet'
 export * from './user'
+export * from './configs'
 
 export interface CountInfo {
   total: number
@@ -24,17 +25,6 @@ export interface FontSet {
   name: string
   url: string
   preview?: string[]
-}
-
-export enum OptionName {
-  FOLDER = 'folder',
-  RULE = 'rule',
-  WORKFLOW = 'workflow',
-}
-
-export interface Config {
-  option_name: OptionName
-  option_value: any
 }
 
 export interface Tweet extends TweetQuoted {

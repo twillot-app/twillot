@@ -17,7 +17,7 @@ window.addEventListener('message', (event) => {
   }
 
   console.log('contentScript received message', { event })
-  chrome.runtime.sendMessage<Message>(event.data)
+  // chrome.runtime.sendMessage<Message>(event.data)
 })
 
 /**

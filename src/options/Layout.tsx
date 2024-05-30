@@ -220,31 +220,12 @@ export const Layout = (props) => {
               </li>
               <li>
                 <div class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <IconTag />
-                  <span class="ms-3 flex-1 whitespace-nowrap">Tags</span>
+                  <IconBranch />
+                  <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
                   <span class="ms-3 inline-flex items-center justify-center text-xs ">
                     Coming Soon
                   </span>
                 </div>
-              </li>
-              <li>
-                <a
-                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
-                  href="/workflows"
-                >
-                  <IconBranch />
-                  <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
-                </a>
-                <ul class="space-y-1 py-1 text-base">
-                  <li>
-                    <A
-                      href="/workflows/settings"
-                      class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75"
-                    >
-                      Settings
-                    </A>
-                  </li>
-                </ul>
               </li>
             </ul>
           </div>

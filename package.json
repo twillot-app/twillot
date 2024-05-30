@@ -1,7 +1,7 @@
 {
   "name": "Twillot",
   "displayName": "Twillot - X/Twitter Copilot",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "author": "simon@lionjs.com",
   "description": "Organize X/Twitter bookmarks, streamline X/Twitter workflow experience.",

@@ -9,12 +9,13 @@ import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from '.'
 import {
   Action,
-  ActionNames,
+  ActionKey,
   CommentTemplate,
   Trigger,
   TriggerNames,
   Workflow,
 } from './types'
+import { useNavigate } from '@solidjs/router'
 
 const [store] = dataStore
 
@@ -24,14 +25,22 @@ const defaultWorkflows: Workflow[] = [
     name: 'Auto unroll threads when a bookmark is created',
     editable: false,
     when: 'CreateBookmark',
-    thenList: ['UnrollThread'],
+    thenList: [{ name: 'UnrollThread' }],
   },
   {
     id: '1',
     name: 'Delete from local when a bookmark is deleted',
     editable: false,
     when: 'DeleteBookmark',
-    thenList: ['DeleteBookmark'],
+    thenList: [{ name: 'DeleteBookmark' }],
+  },
+]
+const defaultTemplates: CommentTemplate[] = [
+  {
+    id: new Date().getTime().toString(16),
+    name: 'Default - A twillot welcome post',
+    content: 'Proudly posted by Twillot, check out https://twillot.com.',
+    createdAt: Math.floor(Date.now() / 1000),
   },
 ]
 
@@ -41,19 +50,6 @@ export const getUnusedWhen = () => {
     (action: Trigger) => !usedWhens.has(action),
   )
   return (unusedWhens.length > 0 ? unusedWhens[0] : 'CreateBookmark') as Trigger
-}
-
-export const getUsedThens = (currentThens: Action[]) => {
-  return new Set(currentThens)
-}
-
-export const getUnusedThen = (currentThens: Action[]) => {
-  const usedThens = getUsedThens(currentThens)
-  const allThens = Object.keys(ActionNames)
-  const unusedThens = allThens.filter(
-    (action) => !usedThens.has(action as Action),
-  )
-  return (unusedThens.length > 0 ? unusedThens[0] : 'translate') as Action
 }
 
 export const isWorkflowUnchanged = async (index: number) => {
@@ -170,6 +166,13 @@ export const getWorkflows = async () => {
 export const getTemplates = async () => {
   const dbRecords = await readConfig(OptionName.COMMENT_TEMPLATE)
   let templates = (dbRecords?.option_value || []) as CommentTemplate[]
+  if (!templates || !templates.length) {
+    templates = [...defaultTemplates]
+    await upsertConfig({
+      option_name: OptionName.COMMENT_TEMPLATE,
+      option_value: templates,
+    })
+  }
   mutateStore((state) => {
     state.templates = templates
   })
@@ -184,16 +187,16 @@ export const updateWhen = (workflowIndex: number, newWhen: Trigger) => {
   })
 }
 
+/**
+ * 仅添加到内存中，还没有同步到数据库
+ */
 export const addThen = (index: number) => {
-  const workflow = store.workflows[index]
-  if (workflow.thenList.length === Object.keys(ActionNames).length) {
-    console.warn('No action to add')
-    return
-  }
-
   mutateStore(async (state) => {
     const current = state.workflows[index]
-    current.thenList.push(getUnusedThen(workflow.thenList))
+    current.thenList.push({
+      name: 'AutoComment',
+      inputs: [store.templates[0]?.content || ''],
+    })
     current.unchanged = await isWorkflowUnchanged(index)
   })
 }
@@ -214,15 +217,40 @@ export const removeThen = (workflowIndex: number, thenIndex: number) => {
 export const updateThen = (
   workflowIndex: number,
   thenIndex: number,
-  newThen: Action,
+  actionKey: ActionKey,
 ) => {
+  let newThen: Action
+  if (actionKey === 'AutoComment') {
+    newThen = {
+      name: 'AutoComment',
+      inputs: [store.templates[0].content],
+    }
+  } else {
+    newThen = {
+      name: actionKey,
+    }
+  }
+
   mutateStore(async (state) => {
     const current = state.workflows[workflowIndex]
-    const index = current.thenList.indexOf(newThen)
+    // 一个 workflow 只能加一个同类型 action
+    const index = current.thenList.findIndex((t) => t.name === newThen.name)
     current.thenList[thenIndex] = newThen
     if (index > -1) {
       state.workflows[workflowIndex].thenList.splice(index, 1)
     }
+    current.unchanged = await isWorkflowUnchanged(workflowIndex)
+  })
+}
+
+export const updateAction = (
+  workflowIndex: number,
+  thenIndex: number,
+  content: string,
+) => {
+  mutateStore(async (state) => {
+    const current = state.workflows[workflowIndex]
+    current.thenList[thenIndex].inputs = [content]
     current.unchanged = await isWorkflowUnchanged(workflowIndex)
   })
 }

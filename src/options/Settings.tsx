@@ -19,12 +19,10 @@ const Settings = () => {
 
   createEffect(async () => {
     const templates = store.templates.map((t) => ({ ...t }))
-    if (templates.length) {
-      await upsertConfig({
-        option_name: OptionName.COMMENT_TEMPLATE,
-        option_value: templates,
-      })
-    }
+    await upsertConfig({
+      option_name: OptionName.COMMENT_TEMPLATE,
+      option_value: templates,
+    })
   })
 
   const addTemplate = (e) => {

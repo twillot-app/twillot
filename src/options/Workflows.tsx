@@ -12,23 +12,28 @@ import {
   saveWorkflow,
   updateThen,
   updateWhen,
+  getTemplates,
+  updateAction,
 } from '../libs/workflow/store'
 import { sendWorkflows } from '../libs/workflow/options'
 import {
-  Action,
+  ActionKey,
   ActionNames,
   Trigger,
   TriggerNames,
 } from '../libs/workflow/types'
+import { useNavigate } from '@solidjs/router'
 
 const [store] = dataStore
 
 const WorkflowConfigurator = () => {
+  const navigate = useNavigate()
   /**
    * 每次加载时将本地存储的工作流发送到 background
    */
   onMount(async () => {
     sendWorkflows(await getWorkflows())
+    await getTemplates()
   })
 
   return (
@@ -77,7 +82,7 @@ const WorkflowConfigurator = () => {
             </div>
 
             <div class="mb-4 flex w-full items-center overflow-x-auto">
-              <div class="w-56 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
+              <div class="w-64 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
                 <div class="group flex rounded-t-lg border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">
                   <h3 class="ml-6 flex-1 text-center font-semibold text-gray-900 dark:text-white">
                     Trigger
@@ -91,7 +96,7 @@ const WorkflowConfigurator = () => {
                     </button>
                   </Show>
                 </div>
-                <div class="p-4">
+                <div class="flex min-h-36 items-center p-4">
                   <select
                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     onInput={(e) =>
@@ -117,10 +122,10 @@ const WorkflowConfigurator = () => {
               <For each={workflow.thenList}>
                 {(thenAction, thenIndex) => (
                   <>
-                    <div class="text-gray-500 dark:text-gray-400">
+                    <div class="mt-8 text-gray-500 dark:text-gray-400">
                       <IconArrow class="w-15 h-6" />
                     </div>
-                    <div class="w-56 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                    <div class="w-64 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
                       <div class="group flex rounded-t-lg border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">
                         <h3 class="ml-6 flex-1 text-center font-semibold text-gray-900 dark:text-white">
                           Action
@@ -137,7 +142,7 @@ const WorkflowConfigurator = () => {
                           </button>
                         </Show>
                       </div>
-                      <div class="p-4">
+                      <div class="flex min-h-36 flex-col items-center justify-center space-y-4 p-4">
                         <select
                           disabled={!workflow.editable}
                           class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -145,19 +150,44 @@ const WorkflowConfigurator = () => {
                             updateThen(
                               workflowIndex(),
                               thenIndex(),
-                              e.currentTarget.value as Action,
+                              e.currentTarget.value as ActionKey,
                             )
                           }
                         >
                           {Object.keys(ActionNames).map((action) => (
                             <option
                               value={action}
-                              selected={action === thenAction}
+                              selected={action === thenAction.name}
                             >
                               {ActionNames[action]}
                             </option>
                           ))}
                         </select>
+                        <Show when={thenAction.name === 'AutoComment'}>
+                          <select
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            onChange={(e) => {
+                              if (e.currentTarget.value === '') {
+                                navigate('/workflows/settings')
+                                return
+                              }
+                              updateAction(
+                                workflowIndex(),
+                                thenIndex(),
+                                e.currentTarget.value,
+                              )
+                            }}
+                          >
+                            <option value="">Add a new template</option>
+                            <For each={store.templates}>
+                              {(template) => (
+                                <option value={template.content}>
+                                  {template.name}
+                                </option>
+                              )}
+                            </For>
+                          </select>
+                        </Show>
                       </div>
                     </div>
                   </>

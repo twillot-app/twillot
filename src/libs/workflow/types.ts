@@ -37,12 +37,12 @@ export enum ActionNames {
   AutoComment = 'Auto comment',
 }
 
-export type Action =
-  | keyof typeof ActionNames
-  | {
-      name: string
-      inputs: string[]
-    }
+export type ActionKey = keyof typeof ActionNames
+
+export type Action = {
+  name: ActionKey
+  inputs?: string[]
+}
 
 export interface TriggerReponse {
   tweetId: string
@@ -80,7 +80,8 @@ export interface Workflow {
 
 export interface Task {
   id: string
-  name: Action
+  name: ActionKey
+  inputs?: string[]
   tweetId?: string
 }
 

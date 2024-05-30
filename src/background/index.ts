@@ -5,7 +5,7 @@ import {
 } from '../libs/browser'
 import { TriggerMonitor } from '../libs/workflow/trigger'
 import {
-  Action,
+  ActionKey,
   Message,
   MessageType,
   TriggerReponsePayload,
@@ -32,7 +32,7 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
 function initWorkflows() {
   const monitor = new TriggerMonitor()
   for (const [key, value] of Object.entries(actions)) {
-    monitor.register(key as Action, value)
+    monitor.register(key as ActionKey, value)
   }
 
   chrome.runtime.onMessage.addListener((message: Message) => {

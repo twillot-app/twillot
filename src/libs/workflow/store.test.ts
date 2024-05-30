@@ -5,7 +5,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import {
   addThen,
   addWorkflow,
-  getUnusedThen,
   getUnusedWhen,
   getUsedThens,
   renameWorkflow,
@@ -29,15 +28,9 @@ describe('Workflow Store Module', () => {
   })
 
   it('getUsedThens should return a set of current thens', () => {
-    const currentThens = ['UnrollThread'] as Action[]
+    const currentThens = [{ name: 'UnrollThread' }] as Action[]
     const usedThens = getUsedThens(currentThens)
     expect(usedThens).toEqual(new Set(currentThens))
-  })
-
-  it('getUnusedThen should return the first unused action', () => {
-    const currentThens = ['UnrollThread']
-    const unusedThen = getUnusedThen(currentThens as Action[])
-    expect(unusedThen).toBe('DeleteBookmark')
   })
 
   it('addWorkflow should add a new workflow to the store', () => {

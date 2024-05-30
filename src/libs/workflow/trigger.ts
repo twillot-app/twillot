@@ -5,8 +5,8 @@
 import { TweetBase } from '../../types'
 import { getWorkflows } from '.'
 import {
-  Action,
   ActionHandler,
+  ActionKey,
   Trigger,
   TriggerReponse,
   TriggerReponsePayload,
@@ -96,8 +96,8 @@ export class TriggerMonitor {
     this.workflows = await getWorkflows()
   }
 
-  register(action: Action, fn: ActionHandler) {
-    this.handlers[typeof action === 'object' ? action.name : action] = fn
+  register(action: ActionKey, fn: ActionHandler) {
+    this.handlers[action] = fn
   }
 
   async emit(payload: TriggerReponsePayload) {

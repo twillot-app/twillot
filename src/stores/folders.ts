@@ -3,27 +3,44 @@ import dataStore, { mutateStore } from '../options/store'
 import { addRecords, clearFolder, countRecords } from '../libs/db/tweets'
 import { unwrap } from 'solid-js/store'
 import { readConfig, upsertConfig } from '../libs/db/configs'
+import { getFolders } from '../libs/api/twitter'
 
 const [store, setStore] = dataStore
 
 export async function initFolders() {
   const config = await readConfig(OptionName.FOLDER)
+  let folders = []
   if (!config || !config.option_value) {
-    return
+    try {
+      const xFolders = await getFolders()
+      folders =
+        xFolders.data.viewer.user_results.result.bookmark_collections_slice.items.map(
+          (f) => f.name,
+        )
+      await upsertConfig({
+        option_name: OptionName.FOLDER,
+        option_value: folders,
+      })
+    } catch (error) {}
+  } else {
+    folders = config.option_value as string[]
   }
 
-  const folders = (config.option_value as string[]).map((f: string) => ({
-    name: f,
-    count: 0,
-  }))
   if (folders.length < 1) {
     return
   }
 
-  for (const folder of folders) {
-    folder.count = (await countRecords('folder', folder.name)).total
-  }
+  folders = folders.map((f: string) => ({
+    name: f,
+    count: 0,
+  }))
   setStore('folders', folders)
+  for (const [index, folder] of Object.entries(folders)) {
+    const count = (await countRecords('folder', folder.name)).total
+    mutateStore((state) => {
+      state.folders[index].count = count
+    })
+  }
 }
 
 export async function removeFolder(folder: string) {

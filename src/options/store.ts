@@ -8,7 +8,7 @@ import {
   type CountInfo,
 } from '../types'
 import { DAYS } from '../libs/date'
-import { Workflow } from '../libs/workflow/types'
+import { CommentTemplate, Workflow } from '../libs/workflow/types'
 
 const activeFont = JSON.parse(
   localStorage.getItem('activeFont') || 'null',
@@ -43,6 +43,7 @@ export const defaultState = () => ({
   theme: localStorage.getItem('theme') || 'light',
   isSidePanel: location.pathname.endsWith('sidepanel.html'),
   workflows: new Array<Workflow>(),
+  templates: new Array<CommentTemplate>(),
 })
 
 const store = createStore(defaultState())

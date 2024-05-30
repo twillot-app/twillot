@@ -235,6 +235,16 @@ export const Layout = (props) => {
                   <IconBranch />
                   <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
                 </a>
+                <ul class="space-y-1 py-1 text-base">
+                  <li>
+                    <A
+                      href="/workflows/settings"
+                      class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75"
+                    >
+                      Settings
+                    </A>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

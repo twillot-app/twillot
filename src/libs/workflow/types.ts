@@ -94,3 +94,10 @@ export enum MessageType {
   GetTriggerResponse = 'get_trigger_response',
   SyncTasks = 'sync_tasks',
 }
+
+export interface CommentTemplate {
+  id: string
+  name: string
+  content: string
+  createdAt: number
+}

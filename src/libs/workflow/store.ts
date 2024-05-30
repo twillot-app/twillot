@@ -7,7 +7,14 @@ import { sendWorkflows } from './options'
 import { getTweetConversations } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from '.'
-import { Action, ActionNames, Trigger, TriggerNames, Workflow } from './types'
+import {
+  Action,
+  ActionNames,
+  CommentTemplate,
+  Trigger,
+  TriggerNames,
+  Workflow,
+} from './types'
 
 const [store] = dataStore
 
@@ -158,6 +165,15 @@ export const getWorkflows = async () => {
     state.workflows = workflows
   })
   return workflows
+}
+
+export const getTemplates = async () => {
+  const dbRecords = await readConfig(OptionName.COMMENT_TEMPLATE)
+  let templates = (dbRecords?.option_value || []) as CommentTemplate[]
+  mutateStore((state) => {
+    state.templates = templates
+  })
+  return templates
 }
 
 export const updateWhen = (workflowIndex: number, newWhen: Trigger) => {

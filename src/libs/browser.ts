@@ -13,46 +13,48 @@ export function openOptionsPageWhenIconClicked() {
   })
 }
 
-export async function onSendHeaders(
-  details: chrome.webRequest.WebRequestHeadersDetails,
-) {
-  const { url } = details
-  if (!url.includes('/Bookmarks?')) {
-    return
-  }
-
-  let csrf = '',
-    token = ''
-
-  for (const { name: t, value: o } of details.requestHeaders || []) {
-    if (csrf && token) {
-      break
-    }
-
-    if (t === 'x-csrf-token') {
-      csrf = o || ''
-    } else if (t === 'authorization') {
-      token = o || ''
-    }
-  }
-
-  if (csrf && token) {
-    const cookies = await chrome.cookies.getAll({ domain: X_DOMAIN })
-    const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
-    await chrome.storage.local.set({
-      cookie: cookiesStr,
-      csrf,
-      token,
-    })
-    // NOTE 加了这一句获取登录态不稳定，导致登录失败，暂时注释掉
-    // chrome.webRequest.onSendHeaders.removeListener(onSendHeaders)
-  }
-}
-
 export function authTwitter() {
   chrome.webRequest.onSendHeaders.addListener(
-    onSendHeaders,
+    async (details) => {
+      const { url } = details
+      if (
+        /**
+         * 会员与非会员界面不一样
+         * 会员先请求文件夹，普通用户直接请求书签
+         */
+        !url.includes('/Bookmarks') &&
+        !url.includes('/BookmarkFoldersSlice')
+      ) {
+        return
+      }
+
+      let csrf = '',
+        token = ''
+
+      for (const { name: t, value: o } of details.requestHeaders || []) {
+        if (csrf && token) {
+          break
+        }
+
+        if (t === 'x-csrf-token') {
+          csrf = o || ''
+        } else if (t === 'authorization') {
+          token = o || ''
+        }
+      }
+
+      if (csrf && token) {
+        const cookies = await chrome.cookies.getAll({ domain: X_DOMAIN })
+        const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
+        await chrome.storage.local.set({
+          cookie: cookiesStr,
+          csrf,
+          token,
+        })
+      }
+    },
     {
+      types: ['xmlhttprequest'],
       urls: [`${Host}/i/api/graphql/*`],
     },
     ['requestHeaders'],

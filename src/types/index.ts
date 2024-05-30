@@ -100,7 +100,6 @@ export const X_DOMAIN = 'x.com'
 export const Host = `https://${X_DOMAIN}`
 
 export enum ActionPage {
-  DEL_BOOKMARK = `${Host}/i/bookmarks?twillot=delete-bookmark`,
   AUTHENTICATE = `${Host}/i/bookmarks?twillot=reauth`,
 }
 

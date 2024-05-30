@@ -34,7 +34,7 @@ export type Trigger = keyof typeof TriggerNames
 export enum ActionNames {
   UnrollThread = 'Unroll this thread',
   DeleteBookmark = 'Delete from local',
-  AutoComment = 'Auto comment with a templated message',
+  AutoComment = 'Auto comment',
 }
 
 export type Action =

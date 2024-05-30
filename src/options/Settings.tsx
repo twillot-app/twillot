@@ -34,6 +34,7 @@ const Settings = () => {
       return
     }
     const newTemplate = {
+      id: new Date().getTime().toString(16),
       name: `Untitled ${store.templates.length + 1}`,
       content,
       createdAt: Math.floor(new Date().getTime() / 1000),

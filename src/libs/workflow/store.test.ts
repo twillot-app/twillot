@@ -6,7 +6,6 @@ import {
   addThen,
   addWorkflow,
   getUnusedWhen,
-  getUsedThens,
   renameWorkflow,
   saveWorkflow,
 } from './store'
@@ -25,12 +24,6 @@ describe('Workflow Store Module', () => {
   it('getUnusedWhen should return the first unused trigger', () => {
     const unusedWhen = getUnusedWhen()
     expect(unusedWhen).toBe('CreateBookmark')
-  })
-
-  it('getUsedThens should return a set of current thens', () => {
-    const currentThens = [{ name: 'UnrollThread' }] as Action[]
-    const usedThens = getUsedThens(currentThens)
-    expect(usedThens).toEqual(new Set(currentThens))
   })
 
   it('addWorkflow should add a new workflow to the store', () => {

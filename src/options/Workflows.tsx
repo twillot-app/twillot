@@ -181,7 +181,12 @@ const WorkflowConfigurator = () => {
                             <option value="">Add a new template</option>
                             <For each={store.templates}>
                               {(template) => (
-                                <option value={template.content}>
+                                <option
+                                  value={template.content}
+                                  selected={
+                                    template.content === thenAction.inputs[0]
+                                  }
+                                >
                                   {template.name}
                                 </option>
                               )}

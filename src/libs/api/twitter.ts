@@ -202,6 +202,12 @@ async function request(url: string, options: RequestInit) {
     },
   })
   const data = await res.json()
+  if (res.status === 403) {
+    const error = new Error('Forbidden')
+    error.name = FetchError.IdentityError
+    throw error
+  }
+
   if ('errors' in data) {
     const t = res.headers.get('X-Rate-Limit-Reset')
     const leftTime = t

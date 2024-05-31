@@ -17,7 +17,7 @@ function getContextTweetId(context: ActionContext): string {
     /**
      * 获取引用推文 id
      */
-    return attachment_url.splice('/').pop()
+    return attachment_url.split('/').pop()
   } else if (trigger === 'CreateReply') {
     /**
      * 回复时获取(被)回复推文 id

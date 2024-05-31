@@ -80,7 +80,12 @@ export const addWorkflow = () => {
     editable: true,
     unchanged: true,
     when: getUnusedWhen(),
-    thenList: [],
+    thenList: [
+      {
+        name: 'AutoComment',
+        inputs: [store.templates[0].content],
+      },
+    ],
   }
   mutateStore((state) => {
     state.workflows.unshift(newWorkflow)

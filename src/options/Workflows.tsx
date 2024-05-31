@@ -81,8 +81,8 @@ const WorkflowConfigurator = () => {
               </Show>
             </div>
 
-            <div class="mb-4 flex w-full items-center overflow-x-auto">
-              <div class="w-64 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
+            <div class="mb-4 flex w-full items-stretch overflow-x-auto">
+              <div class="flex w-72 flex-col rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
                 <div class="group flex rounded-t-lg border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">
                   <h3 class="ml-6 flex-1 text-center font-semibold text-gray-900 dark:text-white">
                     Trigger
@@ -96,7 +96,7 @@ const WorkflowConfigurator = () => {
                     </button>
                   </Show>
                 </div>
-                <div class="flex min-h-36 items-center p-4">
+                <div class="flex flex-1 items-center px-4 py-8">
                   <select
                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     onInput={(e) =>
@@ -122,10 +122,10 @@ const WorkflowConfigurator = () => {
               <For each={workflow.thenList}>
                 {(thenAction, thenIndex) => (
                   <>
-                    <div class="mt-8 text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center pt-6 text-gray-500 dark:text-gray-400">
                       <IconArrow class="w-15 h-6" />
                     </div>
-                    <div class="w-64 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                    <div class="w-72 rounded-lg border border-gray-200 text-sm text-gray-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
                       <div class="group flex rounded-t-lg border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">
                         <h3 class="ml-6 flex-1 text-center font-semibold text-gray-900 dark:text-white">
                           Action
@@ -142,7 +142,7 @@ const WorkflowConfigurator = () => {
                           </button>
                         </Show>
                       </div>
-                      <div class="flex min-h-36 flex-col items-center justify-center space-y-4 p-4">
+                      <div class="flex flex-col items-center justify-center space-y-4 px-4 py-8">
                         <select
                           disabled={!workflow.editable}
                           class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -198,7 +198,7 @@ const WorkflowConfigurator = () => {
                   </>
                 )}
               </For>
-              <Show when={workflow.editable}>
+              <Show when={workflow.thenList.length < 1}>
                 <button class="ml-4" onClick={() => addThen(workflowIndex())}>
                   <IconPlus />
                 </button>

@@ -28,10 +28,16 @@ XMLHttpRequest.prototype.send = function (data) {
       const body =
         this.responseText && parse ? await parse(this.responseText) : {}
       const reqBody = data && typeof data === 'string' ? JSON.parse(data) : {}
+      const id = Math.floor(new Date().getTime() / 1000)
+        .toString(16)
+        .toUpperCase()
+      console.log('trigger response:', id, trigger, body)
       window.postMessage(
         {
+          id,
           type: MessageType.GetTriggerResponse,
           payload: {
+            id,
             trigger: getRealTrigger(trigger, reqBody),
             request: { method: this._method, url: this._url, body: reqBody },
             response: {

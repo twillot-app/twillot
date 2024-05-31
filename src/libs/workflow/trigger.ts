@@ -82,10 +82,9 @@ export const triggerResponseRetriever = {
 }
 
 export class TriggerMonitor {
-  requestBody = { variables: null as any, features: null as any }
-  url = ''
   workflows = [] as Workflow[]
   handlers = {}
+  triggers = new Set<string>()
 
   /**
    * 获取所有的工作流
@@ -101,7 +100,13 @@ export class TriggerMonitor {
   }
 
   async emit(payload: TriggerReponsePayload) {
-    const { request, response, trigger } = payload
+    const { request, response, trigger, id } = payload
+    if (this.triggers.has(id)) {
+      console.log(`Workflow already triggered`, payload)
+      return
+    }
+
+    this.triggers.add(id)
     const workflows = this.workflows.filter((w) => w.when === trigger)
     for (const w of workflows) {
       let prevActionResponse = null

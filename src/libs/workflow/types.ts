@@ -55,7 +55,6 @@ export interface TriggerReuqestBody {
 }
 
 export interface TriggerReponsePayload {
-  id: string
   trigger: Trigger
   action: Action
   request: { method: string; url: string; body: any }

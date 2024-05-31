@@ -8,23 +8,16 @@ if (location.host === oldDomain) {
   location.href = location.href.replace(oldDomain, X_DOMAIN)
 }
 
-const triggered = new Set<string>()
-
 window.addEventListener('message', (event) => {
-  const { data } = event
-  if (event.origin !== Host || data.type !== MessageType.GetTriggerResponse) {
+  if (
+    event.origin !== Host ||
+    event.data.type !== MessageType.GetTriggerResponse
+  ) {
     return
   }
 
-  const { id } = data
-  if (!id || triggered.has(id)) {
-    console.log('Ignored message', { id, data })
-    return
-  }
-
-  triggered.add(id)
   console.log('contentScript received message', { event })
-  chrome.runtime.sendMessage<Message>(data)
+  chrome.runtime.sendMessage<Message>(event.data)
 })
 
 /**

@@ -15,7 +15,6 @@ import {
   TriggerNames,
   Workflow,
 } from './types'
-import { useNavigate } from '@solidjs/router'
 
 const [store] = dataStore
 

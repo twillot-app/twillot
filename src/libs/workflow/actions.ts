@@ -6,14 +6,23 @@ import { ActionContext } from './types'
  * 获取 Context 对象的 tweet_id
  */
 function getContextTweetId(context: ActionContext): string {
-  const { trigger, request } = context
+  const { trigger, request, response } = context
   const { attachment_url, reply, tweet_id } = request.body.variables
+  /**
+   * 发推时获取新发表推文的 id
+   */
   if (trigger === 'CreateTweet') {
-    return ''
+    return response.body.tweetId
   } else if (trigger === 'CreateQuote') {
+    /**
+     * 获取引用推文 id
+     */
     return attachment_url.splice('/').pop()
   } else if (trigger === 'CreateReply') {
-    return reply.in_reply_to_tweet_id
+    /**
+     * 回复时获取(被)回复推文 id
+     */
+    return response.body.tweetId || reply.in_reply_to_tweet_id
   } else if (
     trigger === 'CreateRetweet' ||
     trigger === 'CreateBookmark' ||

@@ -70,9 +70,11 @@ export function getGridDates(): {
   }
 
   colIndexes.unshift(0)
-  const weekWidth = colIndexes.map((col, index) => {
-    return (colIndexes[index + 1] || WEEKS) - col
-  })
+  const weekWidth = colIndexes
+    .map((col, index) => {
+      return (colIndexes[index + 1] || WEEKS) - col
+    })
+    .slice(colIndexes.length - MONTH_NAMES.length)
   return { dates, colIndexes, weekWidth }
 }
 

@@ -13,6 +13,7 @@ export * from './configs'
 
 export interface CountInfo {
   total: number
+  unsorted: number
   image: number
   video: number
   gif: number

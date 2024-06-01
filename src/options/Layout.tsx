@@ -171,6 +171,27 @@ export const Layout = (props) => {
                   <span class="ms-3 flex-1 whitespace-nowrap">Folders</span>
                 </div>
                 <ul class="space-y-1 py-1 text-base">
+                  <Show when={store.totalCount}>
+                    <li>
+                      <A
+                        href="/"
+                        class={`${'Unsorted' === store.folder ? 'text-blue-500 ' : ''} flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
+                        onClick={() => setStore('folder', 'Unsorted')}
+                      >
+                        Unsorted
+                        <div class="ml-4 hidden flex-1 items-center justify-end gap-2">
+                          <Show when={store.keyword}>
+                            <span class="cursor-pointer">
+                              <IconFolderMove />
+                            </span>
+                          </Show>
+                        </div>
+                        <span class="mr-1 flex-1 items-center text-right text-xs font-medium opacity-60">
+                          {store.totalCount.unsorted}
+                        </span>
+                      </A>
+                    </li>
+                  </Show>
                   <For each={store.folders}>
                     {(folder) => {
                       return (

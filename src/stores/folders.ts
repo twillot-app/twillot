@@ -76,6 +76,12 @@ export async function moveTweetToFolder(folder: string, tweet: Tweet) {
     state.folders[folderIndex].count += 1
     if (oldFolderIndex > -1) {
       state.folders[oldFolderIndex].count -= 1
+    } else {
+      // 未分类存储在 total
+      state.totalCount.unsorted -= 1
+    }
+    if (store.folder && folder !== store.folder) {
+      state.tweets.splice(index, 1)
     }
   })
 }

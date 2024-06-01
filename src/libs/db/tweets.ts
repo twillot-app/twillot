@@ -1,4 +1,4 @@
-import { Tweet, TweetWithPosition, QueryOptions } from '../../types'
+import { Tweet, TweetWithPosition, QueryOptions, CountInfo } from '../../types'
 import { parseTwitterQuery } from '../query-parser'
 import { openDb, getObjectStore } from './index'
 
@@ -49,13 +49,21 @@ function meetsCriteria(
   category = '',
   folder = '',
 ): boolean {
+  let folderFilter = false
+  // 指定 folder 为 null 表示查询没有 unsorted 的记录
+  if (folder === 'Unsorted') {
+    folderFilter = !tweet.folder
+  } else {
+    folderFilter =
+      !folder || tweet.folder?.toLowerCase() === folder.toLowerCase()
+  }
   return (
     (!options.keyword ||
       tweet.full_text.toLowerCase().includes(options.keyword.toLowerCase())) &&
     (!options.fromUser ||
       tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase()) &&
     (!category || tweet[category]) &&
-    (!folder || tweet.folder?.toLowerCase() === folder.toLowerCase())
+    folderFilter
   )
 }
 
@@ -184,15 +192,7 @@ export async function deleteRecord(id: string): Promise<Tweet | undefined> {
 export async function countRecords(
   indexName?: string,
   value?: string,
-): Promise<{
-  total: number
-  image: number
-  video: number
-  gif: number
-  link: number
-  quote: number
-  long_text: number
-}> {
+): Promise<CountInfo> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
@@ -207,6 +207,8 @@ export async function countRecords(
     }
     const counts = {
       total: 0,
+      // 不属于任何文件夹
+      unsorted: 0,
       image: 0,
       video: 0,
       gif: 0,
@@ -233,6 +235,7 @@ export async function countRecords(
             if (record.has_link) counts.link++
             if (record.has_quote) counts.quote++
             if (record.is_long_text) counts.long_text++
+            if (!record.folder) counts.unsorted++
             cursor.continue()
           } else {
             resolve(counts)

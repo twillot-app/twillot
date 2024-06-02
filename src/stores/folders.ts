@@ -30,10 +30,12 @@ export async function initFolders() {
     return
   }
 
-  folders = folders.map((f: string) => ({
-    name: f,
-    count: 0,
-  }))
+  folders = folders
+    .filter((f) => !!f)
+    .map((f: string) => ({
+      name: f,
+      count: 0,
+    }))
   setStore('folders', folders)
   for (const [index, folder] of Object.entries(folders)) {
     const count = (await countRecords('folder', folder.name)).total

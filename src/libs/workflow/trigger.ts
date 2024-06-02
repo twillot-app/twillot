@@ -8,7 +8,6 @@ import {
   ActionHandler,
   ActionKey,
   Trigger,
-  TriggerReponse,
   TriggerReponsePayload,
   TriggerReuqestBody,
   Workflow,
@@ -107,18 +106,15 @@ export class TriggerMonitor {
   }
 
   async emit(payload: TriggerReponsePayload) {
-    const { request, response, trigger } = payload
+    const { trigger } = payload
     const workflows = this.workflows.filter((w) => w.when === trigger)
     for (const w of workflows) {
       let prevActionResponse = null
       for (const action of w.thenList) {
-        const handler =
-          this.handlers[typeof action === 'object' ? action.name : action]
+        const handler = this.handlers[action.name]
         if (handler) {
           const context = {
-            request,
-            response,
-            trigger,
+            ...payload,
             action,
             prevActionResponse,
           }

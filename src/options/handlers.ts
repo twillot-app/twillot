@@ -3,7 +3,7 @@ import { untrack } from 'solid-js/web'
 import { getAuthInfo } from '../libs/browser'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
-import { AuthStatus, Header } from '../types'
+import { AuthStatus } from '../types'
 import {
   countRecords,
   findRecords,

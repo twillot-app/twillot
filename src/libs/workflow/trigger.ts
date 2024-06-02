@@ -38,47 +38,53 @@ export function getRealTrigger(
   return trigger
 }
 
-const parseResponse = async function (
-  responseText: string,
-): Promise<TriggerReponse> {
+export function parseTriggerContext(
+  trigger: Trigger,
+  request: any,
+  response: any,
+): {
+  source?: string
+  destination?: string
+} {
   try {
-    const json = JSON.parse(responseText)
-    const tweet = json.data.create_tweet.tweet_results.result as TweetBase
-    return {
-      tweetId: tweet.rest_id,
-      replyToTweetId: tweet.legacy.in_reply_to_status_id_str,
+    if (trigger === 'CreateTweet') {
+      const tweet = response.data.create_tweet.tweet_results.result as TweetBase
+      return {
+        destination: tweet.rest_id,
+      }
+    } else if (trigger === 'CreateReply') {
+      const tweet = response.data.create_tweet.tweet_results.result as TweetBase
+      return {
+        source: request.variables.reply.in_reply_to_tweet_id,
+        destination: tweet.rest_id,
+      }
+    } else if (trigger === 'CreateQuote') {
+      const tweet = response.data.create_tweet.tweet_results.result as TweetBase
+      return {
+        source: request.variables.attachment_url.split('/').pop(),
+        destination: tweet.rest_id,
+      }
+    } else if (trigger === 'CreateRetweet') {
+      const tweet = response.data.create_retweet.retweet_results
+        .result as TweetBase
+      return {
+        source: request.variables.tweet_id,
+        destination: tweet.rest_id,
+      }
+    } else if (trigger === 'DeleteBookmark') {
+      return {
+        source: request.variables.tweet_id,
+      }
+    } else if (trigger === 'CreateBookmark') {
+      return {
+        source: request.variables.tweet_id,
+      }
     }
-  } catch (error) {
-    console.error('parse CreateTweet error', error)
-    return {
-      tweetId: '',
-      replyToTweetId: '',
-    }
-  }
-}
 
-export const triggerResponseRetriever = {
-  /**
-   * 依赖于回复返回的  id
-   */
-  CreateTweet: parseResponse,
-  CreateReply: parseResponse,
-  CreateRetweet: async function (
-    responseText: string,
-  ): Promise<TriggerReponse> {
-    try {
-      const json = JSON.parse(responseText)
-      const tweet = json.data.create_retweet.retweet_results.result as TweetBase
-      return {
-        tweetId: tweet.rest_id,
-      }
-    } catch (error) {
-      console.error('parse CreateRetweet error', error)
-      return {
-        tweetId: '',
-      }
-    }
-  },
+    throw new Error(`Unsupported trigger ${trigger}`)
+  } catch (e) {
+    console.error('parseTriggerContext error', e)
+  }
 }
 
 export class TriggerMonitor {

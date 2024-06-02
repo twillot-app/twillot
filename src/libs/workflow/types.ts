@@ -41,6 +41,8 @@ export enum ActionNames {
 export type ActionKey = keyof typeof ActionNames
 
 export type Action = {
+  // NOTE 默认值 source，暂时不支持自定义
+  target?: 'source' | 'destination'
   name: ActionKey
   inputs?: string[]
 }
@@ -59,7 +61,11 @@ export interface TriggerReponsePayload {
   trigger: Trigger
   action: Action
   request: { method: string; url: string; body: any }
-  response: { status: number; statusText: string; body: TriggerReponse }
+  response: { status: number; statusText: string }
+  // 源推 id
+  source: string
+  // 目标推 id
+  destination: string
 }
 
 export interface ActionContext extends TriggerReponsePayload {

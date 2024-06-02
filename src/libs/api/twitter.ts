@@ -28,7 +28,7 @@ function replaceWithExpandedUrl(text: string, urls: EntityURL[]) {
   return text
 }
 
-function getTweet(tweet?: TweetUnion): TweetBase | null {
+export function getTweet(tweet?: TweetUnion): TweetBase | null {
   if (!tweet) {
     return null
   }

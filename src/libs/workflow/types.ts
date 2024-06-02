@@ -35,6 +35,7 @@ export enum ActionNames {
   UnrollThread = 'Unroll this thread',
   DeleteBookmark = 'Delete from local',
   AutoComment = 'Auto comment',
+  DownloadVideo = 'Download video',
 }
 
 export type ActionKey = keyof typeof ActionNames

@@ -59,6 +59,7 @@ export default defineManifest({
     'sidePanel',
     'declarativeNetRequest',
     'declarativeNetRequestWithHostAccess',
+    'downloads',
   ],
   declarative_net_request: {
     rule_resources: [

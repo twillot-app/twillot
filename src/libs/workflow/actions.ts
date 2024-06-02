@@ -1,6 +1,7 @@
-import { createTweet } from '../api/twitter'
+import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
 import { addTask } from '.'
 import { ActionContext } from './types'
+import { TimelineTweet } from '../../types'
 
 /**
  * 获取 Context 对象的 tweet_id
@@ -60,5 +61,29 @@ export default {
       text: action.inputs[0],
       replyTweetId,
     })
+  },
+  DownloadVideo: async (context: ActionContext) => {
+    try {
+      const tweet_id = context.request.body.variables.tweet_id
+      const json = await getTweetDetails(tweet_id)
+      const tweet = toRecord(
+        json.data.threaded_conversation_with_injections_v2.instructions[0]
+          .entries[0].content.itemContent as TimelineTweet,
+        '',
+      )
+      const item = tweet.media_items.find((item) => item.type === 'video')
+      if (item) {
+        const { url } =
+          item.video_info.variants[item.video_info.variants.length - 1]
+        chrome.downloads.download({
+          url: url,
+          filename: `${tweet_id}.mp4`,
+        })
+      } else {
+        console.warn('No video found in tweet', tweet)
+      }
+    } catch (error) {
+      console.error('Failed to download video', error)
+    }
   },
 }

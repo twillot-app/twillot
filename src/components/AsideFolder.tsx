@@ -1,23 +1,49 @@
 import { A } from '@solidjs/router'
-import { For, Show, onCleanup, onMount } from 'solid-js'
+import { For, Show, createSignal } from 'solid-js'
 
 import { IconFolderMove, IconTrash } from './Icons'
 import { moveTweetsToFolder, removeFolder } from '../stores/folders'
 import { FolderForm } from './FolderDropDown'
-import dataStore, { mutateStore } from '../options/store'
+import dataStore from '../options/store'
 import { upsertConfig } from '../libs/db/configs'
 import { OptionName } from '../types'
 
 export default function AsideFolder() {
   const [store, setStore] = dataStore
-  let sortableContainer
+  const [draggingIndex, setDraggingIndex] = createSignal<number | null>(null)
+  const handleDragStart = (index: number) => {
+    setDraggingIndex(index)
+  }
+  const handleDragOver = async (index: number, event: DragEvent) => {
+    event.preventDefault()
+    const draggingItemIndex = draggingIndex()
+    if (draggingItemIndex === null || draggingItemIndex === index) return
+    const newItems = [...store.folders]
+    const draggedItem = newItems.splice(draggingItemIndex, 1)[0]
+    newItems.splice(index, 0, draggedItem)
+    setStore('folders', newItems)
+    setDraggingIndex(index)
+    await upsertConfig({
+      option_name: OptionName.FOLDER,
+      option_value: newItems.map((folder) => folder.name),
+    })
+  }
+  const handleDragEnd = () => {
+    setDraggingIndex(null)
+  }
 
   return (
-    <ul class="space-y-1 py-1 text-base" ref={sortableContainer}>
+    <ul class="space-y-1 py-1 text-base">
       <For each={store.folders}>
-        {(folder) => {
+        {(folder, index) => {
           return (
-            <li>
+            <li
+              draggable
+              onDragStart={() => handleDragStart(index())}
+              onDragOver={(event) => handleDragOver(index(), event)}
+              onDragEnd={handleDragEnd}
+              class="select-none"
+            >
               <A
                 href="/"
                 class={`${folder.name === store.folder ? 'text-blue-500 ' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}

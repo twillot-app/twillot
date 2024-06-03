@@ -7,14 +7,8 @@ import { sendWorkflows } from './options'
 import { getTweetConversations } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from '.'
-import {
-  Action,
-  ActionKey,
-  CommentTemplate,
-  Trigger,
-  TriggerNames,
-  Workflow,
-} from './types'
+import { Action, ActionKey, CommentTemplate, Trigger, Workflow } from './types'
+import { TRIGGER_LIST } from './trigger'
 
 const [store] = dataStore
 
@@ -45,7 +39,7 @@ const defaultTemplates: CommentTemplate[] = [
 
 export const getUnusedWhen = () => {
   const usedWhens = new Set(store.workflows.map((w) => w.when))
-  const unusedWhens = Object.keys(TriggerNames).filter(
+  const unusedWhens = TRIGGER_LIST.map((t) => t.name).filter(
     (action: Trigger) => !usedWhens.has(action),
   )
   return (unusedWhens.length > 0 ? unusedWhens[0] : 'CreateBookmark') as Trigger

@@ -3,12 +3,11 @@ import {
   getOptionsPageTab,
   openOptionsPageWhenIconClicked,
 } from '../libs/browser'
-import { TriggerMonitor } from '../libs/workflow/trigger'
+import { TriggerContext, Emitter } from '../libs/workflow/trigger'
 import {
   ActionKey,
   Message,
   MessageType,
-  TriggerReponsePayload,
   Workflow,
 } from '../libs/workflow/types'
 import actions from '../libs/workflow/actions'
@@ -30,14 +29,14 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
 })
 
 function initWorkflows() {
-  const monitor = new TriggerMonitor()
+  const monitor = new Emitter()
   for (const [key, value] of Object.entries(actions)) {
     monitor.register(key as ActionKey, value)
   }
 
   chrome.runtime.onMessage.addListener((message: Message) => {
     if (message.type === MessageType.GetTriggerResponse) {
-      monitor.emit(message.payload as TriggerReponsePayload)
+      monitor.emit(message.payload as TriggerContext)
     } else if (message.type === MessageType.GetWorkflows) {
       const workflows = message.payload as Workflow[]
       if (!workflows || workflows.length === 0) {

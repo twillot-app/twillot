@@ -1,35 +1,6 @@
-import { Endpoint } from '../../types'
+import { type Trigger, type TriggerContext } from './trigger'
 
-/**
- * NOTE: 注意顺序可能影响单元测试
- */
-export enum TriggerNames {
-  CreateBookmark = 'Create a bookmark',
-  DeleteBookmark = 'Delete a bookmark',
-  CreateTweet = 'Post',
-  CreateReply = 'Reply',
-  CreateRetweet = 'Repost',
-  CreateQuote = 'Quote',
-  // CreateNoteTweet = 'Create a note tweet',
-  // CreateScheduledTweet = 'Create a scheduled tweet',
-  // ReplyTweet = 'Reply to a tweet',
-  // FavoriteTweet = 'Favorite a tweet',
-}
-
-export enum TiggerUrls {
-  CreateBookmark = Endpoint.CREATE_BOOKMARK,
-  DeleteBookmark = Endpoint.DELETE_BOOKMARK,
-  CreateTweet = Endpoint.CREATE_TWEET,
-  CreateReply = Endpoint.CREATE_TWEET,
-  CreateQuote = Endpoint.CREATE_TWEET,
-  CreateRetweet = Endpoint.CREATE_RETWEET,
-  // CreateNoteTweet = 'Create a note tweet',
-  // CreateScheduledTweet = 'Create a scheduled tweet',
-  // ReplyTweet = 'Reply to a tweet',
-  // FavoriteTweet = 'Favorite a tweet',
-}
-
-export type Trigger = keyof typeof TriggerNames
+export { type Trigger } from './trigger'
 
 export enum ActionNames {
   UnrollThread = 'Unroll this thread',
@@ -47,28 +18,7 @@ export type Action = {
   inputs?: string[]
 }
 
-export interface TriggerReponse {
-  tweetId: string
-  replyToTweetId?: string
-}
-
-export interface TriggerReuqestBody {
-  variables: any
-  features: any
-}
-
-export interface TriggerReponsePayload {
-  trigger: Trigger
-  action: Action
-  request: { method: string; url: string; body: any }
-  response: { status: number; statusText: string }
-  // 源推 id
-  source: string
-  // 目标推 id
-  destination: string
-}
-
-export interface ActionContext extends TriggerReponsePayload {
+export interface ActionContext extends TriggerContext {
   prevActionResponse: any
 }
 

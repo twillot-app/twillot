@@ -8,13 +8,13 @@ export default {
     await addTask({
       id: Date.now().toString(16),
       name: 'UnrollThread',
-      tweetId: context.request.body.variables.tweet_id,
+      tweetId: context.source,
     }),
   DeleteBookmark: async (context: ActionContext) =>
     await addTask({
       id: Date.now().toString(16),
       name: 'DeleteBookmark',
-      tweetId: context.request.body.variables.tweet_id,
+      tweetId: context.source,
     }),
   AutoComment: async (context: ActionContext) => {
     const tweet_id = context.source || context.destination

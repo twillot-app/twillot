@@ -2,93 +2,181 @@
  * This module is for backgrounded workflow processing.
  */
 
-import { TweetBase } from '../../types'
+import { Host, TweetBase } from '../../types'
 import { getWorkflows } from '.'
 import {
   ActionHandler,
   ActionKey,
-  Trigger,
-  TriggerReponsePayload,
-  TriggerReuqestBody,
+  Action,
+  MessageType,
   Workflow,
 } from './types'
 
-export function getRealTrigger(
-  trigger: Trigger,
-  body: TriggerReuqestBody,
-): Trigger {
-  // post / quote / reply
-  if (trigger === 'CreateTweet') {
-    const { attachment_url, reply } = body.variables
-    // qoute
-    if (attachment_url) {
-      return 'CreateQuote'
-    }
+export const TRIGGER_LIST = [
+  {
+    name: 'CreateBookmark',
+    desc: 'Create a bookmark',
+  },
+  {
+    name: 'DeleteBookmark',
+    desc: 'Delete a bookmark',
+  },
+  {
+    name: 'CreateTweet',
+    desc: 'Post',
+  },
+  {
+    name: 'CreateReply',
+    desc: 'Reply',
+  },
+  {
+    name: 'CreateRetweet',
+    desc: 'Repost',
+  },
+  {
+    name: 'CreateQuote',
+    desc: 'Quote',
+  },
+] as const
 
-    // reply
-    if (reply) {
-      return 'CreateReply'
-    }
+export type Trigger = (typeof TRIGGER_LIST)[number]['name']
 
-    // post
-    return 'CreateTweet'
-  }
-
-  return trigger
+export interface TriggerReuqestBody {
+  variables: any
+  features: any
 }
 
-export function parseTriggerContext(
-  trigger: Trigger,
-  request: any,
-  response: any,
-): {
-  source?: string
-  destination?: string
-} {
-  try {
+interface TriggerResponseBody {
+  data: any
+}
+
+export interface TriggerContext {
+  trigger: Trigger
+  action: Action
+  request: { method: string; url: string; body: string }
+  response: { status: number; statusText: string; body: string }
+  // 源推 id
+  source: string
+  // 目标推 id
+  destination: string
+}
+
+export class Monitor {
+  static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {
+    // post / quote / reply
     if (trigger === 'CreateTweet') {
-      const tweet = response.data.create_tweet.tweet_results.result as TweetBase
-      return {
-        destination: tweet.rest_id,
+      const { attachment_url, reply } = body.variables
+      // qoute
+      if (attachment_url) {
+        return 'CreateQuote'
       }
-    } else if (trigger === 'CreateReply') {
-      const tweet = response.data.create_tweet.tweet_results.result as TweetBase
-      return {
-        source: request.variables.reply.in_reply_to_tweet_id,
-        destination: tweet.rest_id,
+
+      // reply
+      if (reply) {
+        return 'CreateReply'
       }
-    } else if (trigger === 'CreateQuote') {
-      const tweet = response.data.create_tweet.tweet_results.result as TweetBase
-      return {
-        source: request.variables.attachment_url.split('/').pop(),
-        destination: tweet.rest_id,
-      }
-    } else if (trigger === 'CreateRetweet') {
-      const tweet = response.data.create_retweet.retweet_results
-        .result as TweetBase
-      return {
-        source: request.variables.tweet_id,
-        destination: tweet.rest_id,
-      }
-    } else if (trigger === 'DeleteBookmark') {
-      return {
-        source: request.variables.tweet_id,
-      }
-    } else if (trigger === 'CreateBookmark') {
-      return {
-        source: request.variables.tweet_id,
-      }
+
+      // post
+      return 'CreateTweet'
     }
 
-    throw new Error(`Unsupported trigger ${trigger}`)
-  } catch (e) {
-    console.error('parseTriggerContext error', e)
+    return trigger
+  }
+
+  static getContext(
+    trigger: Trigger,
+    request: TriggerReuqestBody,
+    response: TriggerResponseBody,
+  ): {
+    source?: string
+    destination?: string
+  } {
+    try {
+      if (trigger === 'CreateTweet') {
+        const tweet = response.data.create_tweet.tweet_results
+          .result as TweetBase
+        return {
+          destination: tweet.rest_id,
+        }
+      } else if (trigger === 'CreateReply') {
+        const tweet = response.data.create_tweet.tweet_results
+          .result as TweetBase
+        return {
+          source: request.variables.reply.in_reply_to_tweet_id,
+          destination: tweet.rest_id,
+        }
+      } else if (trigger === 'CreateQuote') {
+        const tweet = response.data.create_tweet.tweet_results
+          .result as TweetBase
+        return {
+          source: request.variables.attachment_url.split('/').pop(),
+          destination: tweet.rest_id,
+        }
+      } else if (trigger === 'CreateRetweet') {
+        const tweet = response.data.create_retweet.retweet_results
+          .result as TweetBase
+        return {
+          source: request.variables.tweet_id,
+          destination: tweet.rest_id,
+        }
+      } else if (trigger === 'DeleteBookmark') {
+        return {
+          source: request.variables.tweet_id,
+        }
+      } else if (trigger === 'CreateBookmark') {
+        return {
+          source: request.variables.tweet_id,
+        }
+      }
+
+      throw new Error(`Unsupported trigger ${trigger}`)
+    } catch (e) {
+      console.error('parseTriggerContext error', e)
+    }
+  }
+
+  /**
+   * 将网页中的请求和响应组织成上下文发送给 content script
+   */
+  static postMessage(
+    trigger: Trigger,
+    request: TriggerContext['request'],
+    response: TriggerContext['response'],
+  ) {
+    const reqBody =
+      request.body && typeof request.body === 'string'
+        ? JSON.parse(request.body)
+        : {}
+    const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
+    const { source, destination } = Monitor.getContext(
+      realTrigger,
+      reqBody,
+      JSON.parse(response.body),
+    )
+    window.postMessage(
+      {
+        type: MessageType.GetTriggerResponse,
+        payload: {
+          trigger: realTrigger,
+          request: {
+            ...request,
+            body: reqBody,
+          },
+          response: {
+            ...response,
+            // 一般不需要 response body 的内容
+            body: null,
+          },
+          source,
+          destination,
+        } as TriggerContext,
+      },
+      Host,
+    )
   }
 }
 
-export class TriggerMonitor {
-  requestBody = { variables: null as any, features: null as any }
-  url = ''
+export class Emitter {
   workflows = [] as Workflow[]
   handlers = {}
 
@@ -105,7 +193,7 @@ export class TriggerMonitor {
     this.handlers[action] = fn
   }
 
-  async emit(payload: TriggerReponsePayload) {
+  async emit(payload: TriggerContext) {
     const { trigger } = payload
     const workflows = this.workflows.filter((w) => w.when === trigger)
     for (const w of workflows) {

@@ -1,11 +1,5 @@
-import {
-  MessageType,
-  Trigger,
-  TriggerNames,
-  TriggerReponsePayload,
-} from '../libs/workflow/types'
-import { Host } from '../types'
-import { getRealTrigger, parseTriggerContext } from '../libs/workflow/trigger'
+import { type Trigger } from '../libs/workflow/types'
+import { Monitor } from '../libs/workflow/trigger'
 
 const origOpen = XMLHttpRequest.prototype.open
 XMLHttpRequest.prototype.open = function (method: string, url: string) {
@@ -16,37 +10,24 @@ XMLHttpRequest.prototype.open = function (method: string, url: string) {
 }
 
 const origSend = XMLHttpRequest.prototype.send
-XMLHttpRequest.prototype.send = function (data) {
+XMLHttpRequest.prototype.send = function (data: string | null) {
   const url = this._url
   const trigger = url.split('/').pop() as Trigger
-  if (trigger && trigger in TriggerNames) {
+  if (trigger) {
     this.addEventListener('load', async function () {
-      const reqBody = data && typeof data === 'string' ? JSON.parse(data) : {}
-      const realTrigger = getRealTrigger(trigger, reqBody)
-      const { source, destination } = parseTriggerContext(
-        realTrigger,
-        reqBody,
-        JSON.parse(this.responseText),
-      )
-      window.postMessage(
+      Monitor.postMessage(
+        trigger,
+        { method: this._method, url, body: data },
         {
-          type: MessageType.GetTriggerResponse,
-          payload: {
-            trigger: realTrigger,
-            request: { method: this._method, url: this._url, body: reqBody },
-            response: {
-              status: this.status,
-              statusText: this.statusText,
-            },
-            source,
-            destination,
-          } as TriggerReponsePayload,
+          status: this.status,
+          statusText: this.statusText,
+          body: this.responseText,
         },
-        Host,
       )
     })
   }
 
+  // TODO 获取需要改写请求的工作流，改写 data
   origSend.apply(this, [data])
 }
 

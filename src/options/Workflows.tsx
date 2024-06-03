@@ -16,13 +16,9 @@ import {
   updateAction,
 } from '../libs/workflow/store'
 import { sendWorkflows } from '../libs/workflow/options'
-import {
-  ActionKey,
-  ActionNames,
-  Trigger,
-  TriggerNames,
-} from '../libs/workflow/types'
+import { ActionKey, ActionNames, Trigger } from '../libs/workflow/types'
 import { useNavigate } from '@solidjs/router'
+import { TRIGGER_LIST } from '../libs/workflow/trigger'
 
 const [store] = dataStore
 
@@ -107,12 +103,12 @@ const WorkflowConfigurator = () => {
                     }
                     disabled={!workflow.editable}
                   >
-                    {Object.keys(TriggerNames).map((trigger) => (
+                    {TRIGGER_LIST.map((trigger) => (
                       <option
-                        value={trigger}
-                        selected={trigger === workflow.when}
+                        value={trigger.name}
+                        selected={trigger.name === workflow.when}
                       >
-                        {TriggerNames[trigger]}
+                        {trigger.desc}
                       </option>
                     ))}
                   </select>

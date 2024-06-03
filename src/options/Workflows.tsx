@@ -15,10 +15,10 @@ import {
   getTemplates,
   updateAction,
 } from '../libs/workflow/store'
-import { sendWorkflows } from '../libs/workflow/options'
-import { ActionKey, ActionNames, Trigger } from '../libs/workflow/types'
 import { useNavigate } from '@solidjs/router'
-import { TRIGGER_LIST } from '../libs/workflow/trigger'
+import { Trigger, TRIGGER_LIST } from '../libs/workflow/trigger'
+import { ACTION_LIST, ActionKey } from '../libs/workflow/actions'
+import { sendWorkflows } from '../libs/workflow'
 
 const [store] = dataStore
 
@@ -150,12 +150,12 @@ const WorkflowConfigurator = () => {
                             )
                           }
                         >
-                          {Object.keys(ActionNames).map((action) => (
+                          {ACTION_LIST.map((action) => (
                             <option
-                              value={action}
-                              selected={action === thenAction.name}
+                              value={action.name}
+                              selected={action.name === thenAction.name}
                             >
-                              {ActionNames[action]}
+                              {action.desc}
                             </option>
                           ))}
                         </select>

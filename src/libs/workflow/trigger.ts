@@ -4,13 +4,8 @@
 
 import { Host, TweetBase } from '../../types'
 import { getWorkflows } from '.'
-import {
-  ActionHandler,
-  ActionKey,
-  Action,
-  MessageType,
-  Workflow,
-} from './types'
+import { MessageType, Workflow, Message } from './types'
+import { ActionHandler, ActionKey } from './actions'
 
 export const TRIGGER_LIST = [
   {
@@ -52,7 +47,6 @@ interface TriggerResponseBody {
 
 export interface TriggerContext {
   trigger: Trigger
-  action: Action
   request: { method: string; url: string; body: string }
   response: { status: number; statusText: string; body: string }
   // 源推 id
@@ -173,6 +167,20 @@ export class Monitor {
       },
       Host,
     )
+  }
+
+  static onMessage() {
+    window.addEventListener('message', (event) => {
+      if (
+        event.origin !== Host ||
+        event.data.type !== MessageType.GetTriggerResponse
+      ) {
+        return
+      }
+
+      console.log('contentScript received message', { event })
+      chrome.runtime.sendMessage<Message>(event.data)
+    })
   }
 }
 

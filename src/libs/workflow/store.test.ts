@@ -11,7 +11,6 @@ import {
 } from './store'
 import dataStore, { defaultState, mutateStore } from '../../options/store'
 import { readConfig } from '../db/configs'
-import { Action } from './types'
 
 const [store, setStore] = dataStore
 

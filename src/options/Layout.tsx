@@ -23,8 +23,8 @@ import { createStyleSheet } from '../libs/dom'
 import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
-import { startTasksLitening } from '../libs/workflow/options'
 import AsideFolder from '../components/AsideFolder'
+import { MessageType } from '../libs/workflow/types'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -63,7 +63,11 @@ export const Layout = (props) => {
       initHistory()
       initSync()
       initFolders()
-      startTasksLitening()
+      chrome.runtime.onMessage.addListener(async (request) => {
+        if (request.type === MessageType.SyncTasks) {
+          await initSync()
+        }
+      })
     }
   })
 

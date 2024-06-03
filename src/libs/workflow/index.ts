@@ -5,7 +5,9 @@
  */
 
 import { sendMessageToOptions } from '../browser'
-import { MessageType, Task, Workflow } from './types'
+import { ACTION_LIST } from './actions'
+import { Emitter, TriggerContext } from './trigger'
+import { Message, MessageType, Task, Workflow } from './types'
 
 /**
  * 同时向 options 页面发送消息，通知任务已添加
@@ -54,4 +56,41 @@ export async function removeTask(id: string) {
 export async function getWorkflows(): Promise<Workflow[]> {
   const item = await chrome.storage.local.get('workflows')
   return item.workflows || []
+}
+
+/**
+ * Options 页面同步工作流数据到 bg
+ */
+export function sendWorkflows(workflows: Workflow[]) {
+  chrome.runtime.sendMessage({
+    type: MessageType.GetWorkflows,
+    payload: workflows,
+  })
+}
+
+/**
+ * Init workflows in bg
+ */
+export function initWorkflows() {
+  const monitor = new Emitter()
+  ACTION_LIST.forEach((action) => {
+    monitor.register(action.name, action.handler)
+  })
+
+  chrome.runtime.onMessage.addListener((message: Message) => {
+    if (message.type === MessageType.GetTriggerResponse) {
+      monitor.emit(message.payload as TriggerContext)
+    } else if (message.type === MessageType.GetWorkflows) {
+      const workflows = message.payload as Workflow[]
+      if (!workflows || workflows.length === 0) {
+        return
+      }
+
+      chrome.storage.local.set({ workflows })
+      monitor.workflows = workflows
+    } else {
+      console.log('Unknown message type:', message)
+    }
+  })
+  monitor.init()
 }

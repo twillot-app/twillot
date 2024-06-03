@@ -103,7 +103,8 @@ export async function getOptionsPageTab(
     windowType: 'normal',
     currentWindow: true,
   })
-  let tab = tabs.find((t) => t.url.includes('pages/options.html'))
+  const pageUrl = chrome.runtime.getURL('pages/options.html')
+  let tab = tabs.find((t) => t.url.includes(pageUrl))
   if (!tab && useNewTab) {
     tab = tabs.find((tab) => tab.url.includes('newtab'))
   }
@@ -111,16 +112,8 @@ export async function getOptionsPageTab(
 }
 
 export async function sendMessageToOptions(message: any) {
-  const windows = await chrome.windows.getAll({ populate: true })
-  for (let i = 0; i < windows.length; i++) {
-    let tabs = windows[i].tabs
-    if (tabs) {
-      for (let j = 0; j < tabs.length; j++) {
-        if (tabs[j].url && tabs[j].url.includes('options.html')) {
-          await chrome.tabs.sendMessage(tabs[j].id, message)
-          return
-        }
-      }
-    }
+  const tab = await getOptionsPageTab()
+  if (tab) {
+    await chrome.tabs.sendMessage(tab.id, message)
   }
 }

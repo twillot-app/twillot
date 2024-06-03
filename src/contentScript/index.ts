@@ -1,5 +1,5 @@
-import { Message, MessageType } from '../libs/workflow/types'
-import { Host, X_DOMAIN } from '../types'
+import { Monitor } from '../libs/workflow/trigger'
+import { X_DOMAIN } from '../types'
 //@ts-ignore
 import mainWorld from './injected?script&module'
 
@@ -8,17 +8,7 @@ if (location.host === oldDomain) {
   location.href = location.href.replace(oldDomain, X_DOMAIN)
 }
 
-window.addEventListener('message', (event) => {
-  if (
-    event.origin !== Host ||
-    event.data.type !== MessageType.GetTriggerResponse
-  ) {
-    return
-  }
-
-  console.log('contentScript received message', { event })
-  chrome.runtime.sendMessage<Message>(event.data)
-})
+Monitor.onMessage()
 
 /**
  * NOTE:HMR 无效

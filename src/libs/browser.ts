@@ -109,10 +109,3 @@ export async function getOptionsPageTab(
   }
   return tab
 }
-
-export async function sendMessageToOptions(message: any) {
-  const tab = await getOptionsPageTab()
-  if (tab) {
-    await chrome.tabs.sendMessage(tab.id, message)
-  }
-}

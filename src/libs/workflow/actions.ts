@@ -5,6 +5,15 @@ import { TriggerContext } from './trigger'
 
 export { type Trigger } from './trigger'
 
+/**
+ * NOTE
+ * 对于一些操作需要与 Options 页面交互
+ * 1）先添加 Task
+ * 2）消息发送给 Options 页面（防止 Options 页面未打开）
+ * 3）Options 页面执行特定操作。
+ *
+ * 无需 Options 页面执行操作的可以直接执行。
+ */
 export const ACTION_LIST = [
   {
     name: 'UnrollThread',

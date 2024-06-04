@@ -5,7 +5,7 @@ import dataStore, { mutateStore } from '../../options/store'
 import { OptionName } from '../../types'
 import { getTweetConversations } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
-import { getTasks, removeTask, sendWorkflows } from '.'
+import { getTasks, removeTask } from '.'
 import { CommentTemplate, Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger'
 import { Action, ActionKey } from './actions'
@@ -135,7 +135,7 @@ export const saveWorkflow = async (index: number) => {
   })
 
   console.log('Workflow saved to database', workflows)
-  sendWorkflows(workflows)
+  await chrome.storage.local.set({ workflows })
 }
 
 export const removeWorkflow = async (index: number) => {
@@ -143,14 +143,15 @@ export const removeWorkflow = async (index: number) => {
   const dbRecords = await readConfig(OptionName.WORKFLOW)
   const dbWorkflows = (dbRecords?.option_value || []) as Workflow[]
   const isDbItem = dbWorkflows.some((w) => w.id === id)
-  mutateStore((state) => {
+  mutateStore(async (state) => {
     state.workflows.splice(index, 1)
     if (isDbItem) {
       const items = unwrap(state.workflows)
-      upsertConfig({
+      await upsertConfig({
         option_name: OptionName.WORKFLOW,
         option_value: items,
       })
+      await chrome.storage.local.set({ workflows: items })
     }
   })
 }
@@ -171,6 +172,7 @@ export const getWorkflows = async () => {
   mutateStore((state) => {
     state.workflows = workflows
   })
+  await chrome.storage.local.set({ workflows })
   return workflows
 }
 

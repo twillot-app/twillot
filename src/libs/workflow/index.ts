@@ -4,7 +4,6 @@
  * 实际执行在 options 页面
  */
 
-import { sendMessageToOptions } from '../browser'
 import { ACTION_LIST } from './actions'
 import { Emitter, TriggerContext } from './trigger'
 import { Message, MessageType, Task, Workflow } from './types'
@@ -30,7 +29,6 @@ export async function addTask(task: Task) {
   tasks.push(task)
   console.log('Current tasks:', tasks)
   await saveTasks(tasks)
-  await sendMessageToOptions({ type: MessageType.SyncTasks, payload: task })
 }
 
 export async function getTasks(): Promise<Task[]> {
@@ -59,19 +57,9 @@ export async function getWorkflows(): Promise<Workflow[]> {
 }
 
 /**
- * Options 页面同步工作流数据到 bg
- */
-export function sendWorkflows(workflows: Workflow[]) {
-  chrome.runtime.sendMessage({
-    type: MessageType.GetWorkflows,
-    payload: workflows,
-  })
-}
-
-/**
  * Init workflows in bg
  */
-export function initWorkflows() {
+export async function initWorkflows() {
   const monitor = new Emitter()
   ACTION_LIST.forEach((action) => {
     // @ts-ignore
@@ -81,16 +69,17 @@ export function initWorkflows() {
   chrome.runtime.onMessage.addListener((message: Message) => {
     if (message.type === MessageType.GetTriggerResponse) {
       monitor.emit(message.payload as TriggerContext)
-    } else if (message.type === MessageType.GetWorkflows) {
-      const workflows = message.payload as Workflow[]
-      if (!workflows || workflows.length === 0) {
-        return
-      }
-
-      chrome.storage.local.set({ workflows })
-      monitor.workflows = workflows
     } else {
       console.log('Unknown message type:', message)
+    }
+  })
+
+  const workflows = await getWorkflows()
+  monitor.workflows = workflows
+
+  chrome.storage.local.onChanged.addListener((changes) => {
+    if ('workflows' in changes) {
+      monitor.workflows = changes.workflows.newValue
     }
   })
   monitor.init()

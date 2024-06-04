@@ -63,9 +63,9 @@ export const Layout = (props) => {
       initHistory()
       initSync()
       initFolders()
-      chrome.runtime.onMessage.addListener(async (request) => {
-        if (request.type === MessageType.SyncTasks) {
-          await initSync()
+      chrome.storage.local.onChanged.addListener((changes) => {
+        if (changes['tasks']) {
+          initSync()
         }
       })
     }

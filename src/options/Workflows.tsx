@@ -18,7 +18,6 @@ import {
 import { useNavigate } from '@solidjs/router'
 import { Trigger, TRIGGER_LIST } from '../libs/workflow/trigger'
 import { ACTION_LIST, ActionKey } from '../libs/workflow/actions'
-import { sendWorkflows } from '../libs/workflow'
 
 const [store] = dataStore
 
@@ -27,9 +26,9 @@ const WorkflowConfigurator = () => {
   /**
    * 每次加载时将本地存储的工作流发送到 background
    */
-  onMount(async () => {
-    sendWorkflows(await getWorkflows())
-    await getTemplates()
+  onMount(() => {
+    getWorkflows()
+    getTemplates()
   })
 
   return (

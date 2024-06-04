@@ -173,6 +173,21 @@ export class Monitor {
   }
 
   static onContentScriptMessage() {
+    const sendWorkflows2ClientPage = async () => {
+      const workflows = await getWorkflows()
+      const payload = workflows.filter((w) =>
+        w.thenList.some((a) => ClientActions.includes(a.name)),
+      )
+      if (payload.length) {
+        const event = new CustomEvent(MessageType.GetClientWorkflows, {
+          detail: payload,
+        })
+        window.dispatchEvent(event)
+      } else {
+        console.log('No client workflows found')
+      }
+    }
+
     window.addEventListener('message', async (event) => {
       if (event.origin !== Host) {
         return
@@ -182,18 +197,14 @@ export class Monitor {
       if (data.type === MessageType.GetTriggerResponse) {
         chrome.runtime.sendMessage<Message>(data)
       } else if (data.type === MessageType.GetClientWorkflows) {
-        const workflows = await getWorkflows()
-        const payload = workflows.filter((w) =>
-          w.thenList.some((a) => ClientActions.includes(a.name)),
-        )
-        if (payload.length) {
-          const event = new CustomEvent(MessageType.GetClientWorkflows, {
-            detail: payload,
-          })
-          window.dispatchEvent(event)
-        } else {
-          console.log('No client workflows found')
-        }
+        sendWorkflows2ClientPage()
+      }
+    })
+
+    chrome.storage.local.onChanged.addListener(async (changes) => {
+      if (changes['workflows']) {
+        console.log('Workflows changed', changes['workflows'])
+        sendWorkflows2ClientPage()
       }
     })
   }

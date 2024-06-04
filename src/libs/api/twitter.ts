@@ -14,6 +14,7 @@ import {
 } from '../../types'
 import { getAuthInfo } from '../browser'
 import { URL_REG } from '../text'
+import { TriggerReuqestBody } from '../workflow/trigger'
 import fetchWithTimeout, { FetchError } from '../xfetch'
 
 function replaceWithExpandedUrl(text: string, urls: EntityURL[]) {
@@ -223,7 +224,16 @@ async function request(url: string, options: RequestInit) {
   return data
 }
 
-export async function createTweet({ text = '', replyTweetId = '' }) {
+export async function createTweet(
+  args: { text: string; replyTweetId?: string } | TriggerReuqestBody,
+) {
+  if ('variables' in args) {
+    return request(args.queryId, {
+      body: JSON.stringify(args),
+    })
+  }
+
+  const { text, replyTweetId } = args
   if (!text) {
     throw new Error('Text is required')
   }

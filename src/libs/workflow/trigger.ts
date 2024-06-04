@@ -41,6 +41,7 @@ export const TriggerKeys = TRIGGER_LIST.map((t) => t.name)
 export interface TriggerReuqestBody {
   variables: any
   features: any
+  queryId?: string
 }
 
 interface TriggerResponseBody {

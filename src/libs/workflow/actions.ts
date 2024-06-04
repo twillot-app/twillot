@@ -1,7 +1,12 @@
-import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
+import {
+  createTweet,
+  deleteTweet,
+  getTweetDetails,
+  toRecord,
+} from '../api/twitter'
 import { addTask } from '.'
 import { TimelineTweet } from '../../types'
-import { TriggerContext } from './trigger'
+import { TriggerContext, TriggerReuqestBody } from './trigger'
 
 export { type Trigger } from './trigger'
 
@@ -89,6 +94,18 @@ export const ACTION_LIST = [
       } catch (error) {
         console.error('Failed to download video', context, error)
       }
+    },
+  },
+  {
+    name: 'AutoTranslate',
+    desc: 'Auto translate',
+    handler: async (context: ActionContext) => {
+      await deleteTweet(context.destination)
+      const data = JSON.parse(context.request.body) as TriggerReuqestBody
+      if (data.variables.tweet_text) {
+        data.variables.tweet_text += '(translated by Twillot)'
+      }
+      await createTweet(data)
     },
   },
 ] as const

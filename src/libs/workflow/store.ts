@@ -37,6 +37,17 @@ const defaultTemplates: CommentTemplate[] = [
   },
 ]
 
+function isSameAction(action1: Action, action2: Action) {
+  if (action1.name !== action2.name) {
+    return false
+  }
+
+  const inputs1 = action1.inputs || []
+  const inputs2 = action2.inputs || []
+
+  return inputs1.join(',') === inputs2.join(',')
+}
+
 export const getUnusedWhen = () => {
   const usedWhens = new Set(store.workflows.map((w) => w.when))
   const unusedWhens = TRIGGER_LIST.map((t) => t.name).filter(
@@ -55,7 +66,9 @@ export const isWorkflowUnchanged = async (index: number) => {
       .split(',')
       .every((key) =>
         key === 'thenList'
-          ? workflow[key].join(',') === dbWorkflow[key].join(',')
+          ? workflow.thenList.every((t, i) =>
+              isSameAction(t, dbWorkflow.thenList[i]),
+            )
           : workflow[key] === dbWorkflow[key],
       )
   } else {

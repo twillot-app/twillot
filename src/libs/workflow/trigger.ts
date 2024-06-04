@@ -4,7 +4,7 @@
 
 import { Host, TweetBase } from '../../types'
 import { getWorkflows } from '.'
-import { MessageType, Workflow, Message } from './types'
+import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
 import { ActionHandler, ActionKey, ClientActions } from './actions'
 
 export const TRIGGER_LIST = [
@@ -135,7 +135,7 @@ export class Monitor {
   /**
    * 将网页中的请求和响应组织成上下文发送给 content script
    */
-  static postTriggerMessage(
+  static postContentScriptMessage(
     trigger: Trigger,
     request: TriggerContext['request'],
     response: TriggerContext['response'],
@@ -172,51 +172,59 @@ export class Monitor {
     )
   }
 
-  static onContentMessage() {
-    window.addEventListener('message', (event) => {
+  static onContentScriptMessage() {
+    window.addEventListener('message', async (event) => {
       if (event.origin !== Host) {
         return
       }
 
       const { data } = event
       if (data.type === MessageType.GetTriggerResponse) {
-        console.log('contentScript received message', { event })
         chrome.runtime.sendMessage<Message>(data)
+      } else if (data.type === MessageType.GetClientWorkflows) {
+        const workflows = await getWorkflows()
+        const payload = workflows.filter((w) =>
+          w.thenList.some((a) => ClientActions.includes(a.name)),
+        )
+        if (payload.length) {
+          const event = new CustomEvent(MessageType.GetClientWorkflows, {
+            detail: payload,
+          })
+          window.dispatchEvent(event)
+        } else {
+          console.log('No client workflows found')
+        }
       }
     })
   }
 
-  /**
-   * 同步 modify_request 的 workflow
-   */
-  static syncWorkflows() {
-    window.addEventListener('load', async () => {
-      const workflows = await getWorkflows()
-      const payload = workflows.filter((w) =>
-        w.thenList.some((a) => ClientActions.includes(a.name)),
-      )
-      console.log('workflows from content', payload)
-      if (payload.length) {
-        const event = new CustomEvent(MessageType.GetClientWorkflows, {
-          detail: payload,
-        })
-        window.dispatchEvent(event)
-        console.log('Event dispatched', payload)
-        return
-      }
-
-      console.log('No need to sync workflows')
-    })
-  }
-
-  static onClientMessage() {
+  static onClientPageMessage() {
     window.addEventListener(MessageType.GetClientWorkflows, (event: any) => {
-      console.log('onClientMessage', { event })
       if (event.type === MessageType.GetClientWorkflows) {
-        localStorage.setItem('twillot_workflows', JSON.stringify(event.detail))
-        console.log('client workflows updated')
+        if (!event.detail || !event.detail.length) {
+          localStorage.removeItem(WF_KEY_FOR_CLIET_PAGE)
+        } else {
+          localStorage.setItem(
+            WF_KEY_FOR_CLIET_PAGE,
+            JSON.stringify(event.detail),
+          )
+        }
+        console.log('Client workflows updated', event.detail)
       }
     })
+    /**
+     * 主动获取客户端的工作流
+     * NOTE 目前只支持单一工作流
+     * 多步骤工作流的难点：
+     * 1）多个 action 的交互场景
+     * 2）夹杂客户端 action
+     */
+    window.postMessage(
+      {
+        type: MessageType.GetClientWorkflows,
+      },
+      Host,
+    )
   }
 }
 

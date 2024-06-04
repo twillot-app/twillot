@@ -10,8 +10,7 @@ if (location.host === oldDomain) {
   location.href = location.href.replace(oldDomain, X_DOMAIN)
 }
 
-Monitor.onContentMessage()
-Monitor.syncWorkflows()
+Monitor.onContentScriptMessage()
 
 /**
  * NOTE:HMR 无效

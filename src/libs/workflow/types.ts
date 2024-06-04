@@ -37,3 +37,5 @@ export interface CommentTemplate {
   content: string
   createdAt: number
 }
+
+export const WF_KEY_FOR_CLIET_PAGE = 'twillot_workflows'

@@ -1,6 +1,6 @@
 import { ACTION_LIST } from '../libs/workflow/actions'
 import { Monitor, Trigger, TriggerKeys } from '../libs/workflow/trigger'
-import { Workflow } from '../libs/workflow/types'
+import { WF_KEY_FOR_CLIET_PAGE, Workflow } from '../libs/workflow/types'
 
 const origOpen = XMLHttpRequest.prototype.open
 XMLHttpRequest.prototype.open = function (method: string, url: string) {
@@ -15,8 +15,8 @@ XMLHttpRequest.prototype.send = async function (data: string | null) {
   const url = this._url
   const trigger = url.split('/').pop() as Trigger
   if (trigger && TriggerKeys.includes(trigger)) {
-    const workflows: Workflow[] = localStorage.getItem('twillot_workflows')
-      ? JSON.parse(localStorage.getItem('twillot_workflows') as string)
+    const workflows: Workflow[] = localStorage.getItem(WF_KEY_FOR_CLIET_PAGE)
+      ? JSON.parse(localStorage.getItem(WF_KEY_FOR_CLIET_PAGE) as string)
       : []
     console.log('workflows', workflows)
     if (workflows.length) {
@@ -32,7 +32,7 @@ XMLHttpRequest.prototype.send = async function (data: string | null) {
       }
     }
     this.addEventListener('load', async function () {
-      Monitor.postTriggerMessage(
+      Monitor.postContentScriptMessage(
         trigger,
         { method: this._method, url, body: data },
         {
@@ -47,6 +47,6 @@ XMLHttpRequest.prototype.send = async function (data: string | null) {
   origSend.apply(this, [data])
 }
 
-Monitor.onClientMessage()
+Monitor.onClientPageMessage()
 
 export default {}

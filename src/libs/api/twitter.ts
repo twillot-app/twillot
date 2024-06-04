@@ -11,6 +11,7 @@ import {
   TweetBase,
   TweetUnion,
   EntityURL,
+  getEndpoint,
 } from '../../types'
 import { getAuthInfo } from '../browser'
 import { URL_REG } from '../text'
@@ -228,7 +229,7 @@ export async function createTweet(
   args: { text: string; replyTweetId?: string } | TriggerReuqestBody,
 ) {
   if ('variables' in args) {
-    return request(args.queryId, {
+    return request(getEndpoint(args.queryId, 'CreateTweet'), {
       body: JSON.stringify(args),
     })
   }

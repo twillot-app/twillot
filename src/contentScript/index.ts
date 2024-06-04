@@ -3,6 +3,8 @@ import { X_DOMAIN } from '../types'
 //@ts-ignore
 import mainWorld from './injected?script&module'
 
+console.log('content script loaded')
+
 const oldDomain = 'twitter.com'
 if (location.host === oldDomain) {
   location.href = location.href.replace(oldDomain, X_DOMAIN)

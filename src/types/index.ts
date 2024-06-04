@@ -292,3 +292,7 @@ export enum Endpoint {
   USER_TWEETS = `${BASE_PATH}${EndpointQuery.USER_TWEETS}/UserTweets`,
   GET_FOLDERS = `${BASE_PATH}${EndpointQuery.GET_FOLDERS}/BookmarkFoldersSlice`,
 }
+
+export function getEndpoint(queryId: string, name: string): string {
+  return `${BASE_PATH}${queryId}/${name}`
+}

@@ -50,8 +50,8 @@ interface TriggerResponseBody {
 
 export interface TriggerContext {
   trigger: Trigger
-  request: { method: string; url: string; body: string }
-  response: { status: number; statusText: string; body: string }
+  request: { method: string; url: string; body: string | TriggerReuqestBody }
+  response: { status: number; statusText: string; body?: string }
   // 源推 id
   source: string
   // 目标推 id

@@ -101,7 +101,10 @@ export const ACTION_LIST = [
     desc: 'Auto translate',
     handler: async (context: ActionContext) => {
       await deleteTweet(context.destination)
-      const data = JSON.parse(context.request.body) as TriggerReuqestBody
+      const data =
+        typeof context.request.body === 'string'
+          ? (JSON.parse(context.request.body) as TriggerReuqestBody)
+          : context.request.body
       if (data.variables.tweet_text) {
         data.variables.tweet_text += '(translated by Twillot)'
       }

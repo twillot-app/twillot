@@ -5,7 +5,7 @@
 import { Host, TweetBase } from '../../types'
 import { getWorkflows } from '.'
 import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
-import { ActionHandler, ActionKey, ClientActions } from './actions'
+import { ACTION_LIST, ActionHandler, ActionKey, ClientActions } from './actions'
 
 export const TRIGGER_LIST = [
   {
@@ -225,6 +225,29 @@ export class Monitor {
       },
       Host,
     )
+  }
+
+  static async transformClientPageReuqest(
+    trigger: Trigger,
+    data: string | null,
+  ) {
+    const text = localStorage.getItem(WF_KEY_FOR_CLIET_PAGE)
+    const workflows: Workflow[] = text ? JSON.parse(text) : []
+    if (workflows.length) {
+      // NOTE 仅支持一个包含 client action 的工作流
+      const workflow = workflows.find((w) => w.when === trigger)
+      if (workflow) {
+        for (const action of workflow.thenList) {
+          // NOTE 仅支持一个 client action
+          const item = ACTION_LIST.find((h) => h.name === action.name)
+          // @ts-ignore
+          const newData = await item.handler(data)
+          return newData
+        }
+      }
+    }
+
+    return data
   }
 }
 

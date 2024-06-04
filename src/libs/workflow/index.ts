@@ -4,9 +4,7 @@
  * 实际执行在 options 页面
  */
 
-import { ACTION_LIST } from './actions'
-import { Emitter, TriggerContext } from './trigger'
-import { Message, MessageType, Task, Workflow } from './types'
+import { Task, Workflow } from './types'
 
 /**
  * 同时向 options 页面发送消息，通知任务已添加
@@ -54,33 +52,4 @@ export async function removeTask(id: string) {
 export async function getWorkflows(): Promise<Workflow[]> {
   const item = await chrome.storage.local.get('workflows')
   return item.workflows || []
-}
-
-/**
- * Init workflows in bg
- */
-export async function initWorkflows() {
-  const monitor = new Emitter()
-  ACTION_LIST.forEach((action) => {
-    // @ts-ignore
-    monitor.register(action.name, action.handler)
-  })
-
-  chrome.runtime.onMessage.addListener((message: Message) => {
-    if (message.type === MessageType.GetTriggerResponse) {
-      monitor.emit(message.payload as TriggerContext)
-    } else {
-      console.log('Unknown message type:', message)
-    }
-  })
-
-  const workflows = await getWorkflows()
-  monitor.workflows = workflows
-
-  chrome.storage.local.onChanged.addListener((changes) => {
-    if ('workflows' in changes) {
-      monitor.workflows = changes.workflows.newValue
-    }
-  })
-  monitor.init()
 }

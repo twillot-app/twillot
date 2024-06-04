@@ -3,7 +3,7 @@ import {
   getOptionsPageTab,
   openOptionsPageWhenIconClicked,
 } from '../libs/browser'
-import { initWorkflows } from '../libs/workflow'
+import { Emitter } from '../libs/workflow/trigger'
 
 openOptionsPageWhenIconClicked()
 authTwitter()
@@ -21,4 +21,5 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
   }
 })
 
-initWorkflows()
+const emitter = new Emitter()
+emitter.start()

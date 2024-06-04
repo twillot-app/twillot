@@ -266,15 +266,6 @@ export class Emitter {
   workflows = [] as Workflow[]
   handlers = {}
 
-  /**
-   * 获取所有的工作流
-   * 1) 第一次启动时，从本地存储中获取所有的工作流
-   * 2) 监听 chrome.runtime.onMessage 事件，获取新的工作流, 并更新本地存储
-   */
-  async init() {
-    this.workflows = await getWorkflows()
-  }
-
   register(action: ActionKey, fn: ActionHandler) {
     this.handlers[action] = fn
   }
@@ -298,5 +289,28 @@ export class Emitter {
         }
       }
     }
+  }
+
+  async start() {
+    this.workflows = await getWorkflows()
+
+    ACTION_LIST.forEach((action) => {
+      // @ts-ignore
+      this.register(action.name, action.handler)
+    })
+
+    chrome.runtime.onMessage.addListener((message: Message) => {
+      if (message.type === MessageType.GetTriggerResponse) {
+        this.emit(message.payload as TriggerContext)
+      } else {
+        console.log('Unknown message type:', message)
+      }
+    })
+
+    chrome.storage.local.onChanged.addListener((changes) => {
+      if ('workflows' in changes) {
+        this.workflows = changes.workflows.newValue
+      }
+    })
   }
 }

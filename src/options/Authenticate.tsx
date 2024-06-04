@@ -12,7 +12,7 @@ export default function Authenticate() {
   const title = document.title
   const checkAuth = async () => {
     const auth = await getAuthInfo()
-    const authenticated = !!(auth && auth.cookie)
+    const authenticated = !!(auth && auth.token)
     setStore('isAuthFailed', !authenticated)
     if (authenticated) {
       clearInterval(timerId)

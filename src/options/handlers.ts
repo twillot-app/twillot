@@ -62,7 +62,7 @@ export async function initSync() {
     setStore('totalCount', await countRecords())
 
     const auth = await getAuthInfo()
-    if (!auth || !auth.cookie) {
+    if (!auth || !auth.token) {
       throw new Error(AuthStatus.AUTH_FAILED)
     }
 

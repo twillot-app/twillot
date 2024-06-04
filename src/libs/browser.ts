@@ -44,10 +44,10 @@ export function authTwitter() {
       }
 
       if (csrf && token) {
-        const cookies = await chrome.cookies.getAll({ domain: X_DOMAIN })
-        const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
+        // const cookies = await chrome.cookies.getAll({ domain: X_DOMAIN })
+        // const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
         await chrome.storage.local.set({
-          cookie: cookiesStr,
+          // cookie: cookiesStr,
           csrf,
           token,
         })
@@ -65,7 +65,6 @@ export async function getAuthInfo() {
   const auth = await chrome.storage.local.get([
     'token',
     'url',
-    'cookie',
     'csrf',
     'lastForceSynced',
   ])

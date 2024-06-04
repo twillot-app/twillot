@@ -72,7 +72,6 @@ export interface Header {
   url: string
   token: string
   csrf: string
-  cookie: string
 }
 
 export interface QueryOptions {

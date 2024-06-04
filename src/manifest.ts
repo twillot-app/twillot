@@ -54,7 +54,6 @@ export default defineManifest({
   permissions: [
     'storage',
     'webRequest',
-    'cookies',
     'tabs',
     'sidePanel',
     'declarativeNetRequest',

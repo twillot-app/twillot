@@ -1,4 +1,4 @@
-import { Monitor, Trigger } from '../libs/workflow/trigger'
+import { Monitor, Trigger, TriggerKeys } from '../libs/workflow/trigger'
 
 const origOpen = XMLHttpRequest.prototype.open
 XMLHttpRequest.prototype.open = function (method: string, url: string) {
@@ -12,7 +12,7 @@ const origSend = XMLHttpRequest.prototype.send
 XMLHttpRequest.prototype.send = function (data: string | null) {
   const url = this._url
   const trigger = url.split('/').pop() as Trigger
-  if (trigger) {
+  if (trigger && TriggerKeys.includes(trigger)) {
     this.addEventListener('load', async function () {
       Monitor.postMessage(
         trigger,

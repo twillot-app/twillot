@@ -36,6 +36,8 @@ export const TRIGGER_LIST = [
 
 export type Trigger = (typeof TRIGGER_LIST)[number]['name']
 
+export const TriggerKeys = TRIGGER_LIST.map((t) => t.name)
+
 export interface TriggerReuqestBody {
   variables: any
   features: any

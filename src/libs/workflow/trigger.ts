@@ -5,7 +5,7 @@
 import { Host, TweetBase } from '../../types'
 import { getWorkflows } from '.'
 import { MessageType, Workflow, Message } from './types'
-import { ActionHandler, ActionKey } from './actions'
+import { ActionHandler, ActionKey, ClientActions } from './actions'
 
 export const TRIGGER_LIST = [
   {
@@ -135,7 +135,7 @@ export class Monitor {
   /**
    * 将网页中的请求和响应组织成上下文发送给 content script
    */
-  static postMessage(
+  static postTriggerMessage(
     trigger: Trigger,
     request: TriggerContext['request'],
     response: TriggerContext['response'],
@@ -172,17 +172,50 @@ export class Monitor {
     )
   }
 
-  static onMessage() {
+  static onContentMessage() {
     window.addEventListener('message', (event) => {
-      if (
-        event.origin !== Host ||
-        event.data.type !== MessageType.GetTriggerResponse
-      ) {
+      if (event.origin !== Host) {
         return
       }
 
-      console.log('contentScript received message', { event })
-      chrome.runtime.sendMessage<Message>(event.data)
+      const { data } = event
+      if (data.type === MessageType.GetTriggerResponse) {
+        console.log('contentScript received message', { event })
+        chrome.runtime.sendMessage<Message>(data)
+      }
+    })
+  }
+
+  /**
+   * 同步 modify_request 的 workflow
+   */
+  static syncWorkflows() {
+    window.addEventListener('load', async () => {
+      const workflows = await getWorkflows()
+      const payload = workflows.filter((w) =>
+        w.thenList.some((a) => ClientActions.includes(a.name)),
+      )
+      console.log('workflows from content', payload)
+      if (payload.length) {
+        const event = new CustomEvent(MessageType.GetClientWorkflows, {
+          detail: payload,
+        })
+        window.dispatchEvent(event)
+        console.log('Event dispatched', payload)
+        return
+      }
+
+      console.log('No need to sync workflows')
+    })
+  }
+
+  static onClientMessage() {
+    window.addEventListener(MessageType.GetClientWorkflows, (event: any) => {
+      console.log('onClientMessage', { event })
+      if (event.type === MessageType.GetClientWorkflows) {
+        localStorage.setItem('twillot_workflows', JSON.stringify(event.detail))
+        console.log('client workflows updated')
+      }
     })
   }
 }

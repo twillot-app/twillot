@@ -74,6 +74,7 @@ export function sendWorkflows(workflows: Workflow[]) {
 export function initWorkflows() {
   const monitor = new Emitter()
   ACTION_LIST.forEach((action) => {
+    // @ts-ignore
     monitor.register(action.name, action.handler)
   })
 

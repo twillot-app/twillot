@@ -1,14 +1,27 @@
-import {
-  createTweet,
-  deleteTweet,
-  getTweetDetails,
-  toRecord,
-} from '../api/twitter'
+import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
 import { addTask } from '.'
 import { TimelineTweet } from '../../types'
 import { TriggerContext, TriggerReuqestBody } from './trigger'
 
 export { type Trigger } from './trigger'
+
+function createClientAction(
+  name: string,
+  desc: string,
+  transformer: (text: string) => Promise<string>,
+) {
+  return {
+    name,
+    desc,
+    is_client: true,
+    handler: async (text: string) => {
+      const body = JSON.parse(text) as TriggerReuqestBody
+      const transformed = await transformer(body.variables.tweet_text)
+      body.variables.tweet_text = transformed
+      return JSON.stringify(body)
+    },
+  }
+}
 
 /**
  * NOTE
@@ -23,6 +36,7 @@ export const ACTION_LIST = [
   {
     name: 'UnrollThread',
     desc: 'Unroll this thread',
+    is_client: false,
     handler: async (context: ActionContext) =>
       await addTask({
         id: Date.now().toString(16),
@@ -33,6 +47,7 @@ export const ACTION_LIST = [
   {
     name: 'DeleteBookmark',
     desc: 'Delete from local',
+    is_client: false,
     handler: async (context: ActionContext) =>
       await addTask({
         id: Date.now().toString(16),
@@ -43,6 +58,7 @@ export const ACTION_LIST = [
   {
     name: 'AutoComment',
     desc: 'Auto comment',
+    is_client: false,
     handler: async (context: ActionContext) => {
       const tweet_id = context.source || context.destination
       if (!tweet_id) {
@@ -67,6 +83,7 @@ export const ACTION_LIST = [
   {
     name: 'DownloadVideo',
     desc: 'Download video',
+    is_client: false,
     handler: async (context: ActionContext) => {
       try {
         const tweet_id = context.source
@@ -96,21 +113,10 @@ export const ACTION_LIST = [
       }
     },
   },
-  {
-    name: 'AutoTranslate',
-    desc: 'Auto translate',
-    handler: async (context: ActionContext) => {
-      await deleteTweet(context.destination)
-      const data =
-        typeof context.request.body === 'string'
-          ? (JSON.parse(context.request.body) as TriggerReuqestBody)
-          : context.request.body
-      if (data.variables.tweet_text) {
-        data.variables.tweet_text += '(translated by Twillot)'
-      }
-      await createTweet(data)
-    },
-  },
+  // TODO auto translate service
+  createClientAction('AutoTranslate', 'Auto translate', async (text) => {
+    return text + ' (translated by Twillot)'
+  }),
 ] as const
 
 export type ActionKey = (typeof ACTION_LIST)[number]['name']
@@ -121,6 +127,10 @@ export type Action = {
   name: ActionKey
   inputs?: string[]
 }
+
+export const ClientActions = ACTION_LIST.filter((a) => a.is_client).map(
+  (a) => a.name,
+)
 
 export interface ActionContext extends TriggerContext {
   action: Action

@@ -26,6 +26,7 @@ export interface Message {
 
 export enum MessageType {
   GetWorkflows = 'get_workflows',
+  GetClientWorkflows = 'get_client_workflows',
   GetTriggerResponse = 'get_trigger_response',
   SyncTasks = 'sync_tasks',
 }

@@ -185,9 +185,8 @@ export class Monitor {
       const payload = workflows.filter((w) =>
         w.thenList.some((a) => ClientActions.includes(a.name)),
       )
-      if (payload.length) {
-        Monitor.postClientPageMessage(payload)
-      } else {
+      Monitor.postClientPageMessage(payload)
+      if (!payload.length) {
         console.log('No client workflows found')
       }
     }
@@ -215,17 +214,17 @@ export class Monitor {
 
   static onClientPageMessage() {
     window.addEventListener(MessageType.ClientPageEvent, (event: any) => {
-      if (event.type === MessageType.GetClientWorkflows) {
-        if (!event.detail || !event.detail.length) {
-          localStorage.removeItem(WF_KEY_FOR_CLIET_PAGE)
-        } else {
-          localStorage.setItem(
-            WF_KEY_FOR_CLIET_PAGE,
-            JSON.stringify(event.detail),
-          )
-        }
-        console.log('Client workflows updated', event.detail)
+      // if (event.type === MessageType.GetClientWorkflows) {
+      if (!event.detail || !event.detail.length) {
+        localStorage.removeItem(WF_KEY_FOR_CLIET_PAGE)
+      } else {
+        localStorage.setItem(
+          WF_KEY_FOR_CLIET_PAGE,
+          JSON.stringify(event.detail),
+        )
       }
+      console.log('Client workflows updated', event.detail)
+      // }
     })
     /**
      * 主动获取客户端的工作流

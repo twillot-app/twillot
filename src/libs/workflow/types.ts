@@ -25,6 +25,7 @@ export interface Message {
 }
 
 export enum MessageType {
+  ClientPageEvent = 'client_page_event',
   GetWorkflows = 'get_workflows',
   GetClientWorkflows = 'get_client_workflows',
   GetTriggerResponse = 'get_trigger_response',

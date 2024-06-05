@@ -57,10 +57,10 @@ export const ACTION_LIST = [
   },
   {
     name: 'AutoComment',
-    desc: 'Auto comment',
+    desc: 'Auto comment source post',
     is_client: false,
     handler: async (context: ActionContext) => {
-      const tweet_id = context.source || context.destination
+      const tweet_id = context.source
       if (!tweet_id) {
         console.error('No tweet id found in context', context)
         return
@@ -73,10 +73,29 @@ export const ACTION_LIST = [
 
       await createTweet({
         text: action.inputs[0],
-        replyTweetId:
-          action.target === 'destination'
-            ? context.destination
-            : context.source,
+        replyTweetId: context.source,
+      })
+    },
+  },
+  {
+    name: 'AutoCommentMine',
+    desc: 'Auto comment reply / repost / quote',
+    is_client: false,
+    handler: async (context: ActionContext) => {
+      const tweet_id = context.destination
+      if (!tweet_id) {
+        console.error('No tweet id found in context', context)
+        return
+      }
+      const { action } = context
+      if (typeof action !== 'object' || !action.inputs?.[0]) {
+        console.error('This action is configured incorrectly', context)
+        return
+      }
+
+      await createTweet({
+        text: action.inputs[0],
+        replyTweetId: context.destination,
       })
     },
   },

@@ -172,6 +172,13 @@ export class Monitor {
     )
   }
 
+  static postClientPageMessage(payload: any) {
+    const event = new CustomEvent(MessageType.ClientPageEvent, {
+      detail: payload,
+    })
+    window.dispatchEvent(event)
+  }
+
   static onContentScriptMessage() {
     const sendWorkflows2ClientPage = async () => {
       const workflows = await getWorkflows()
@@ -179,10 +186,7 @@ export class Monitor {
         w.thenList.some((a) => ClientActions.includes(a.name)),
       )
       if (payload.length) {
-        const event = new CustomEvent(MessageType.GetClientWorkflows, {
-          detail: payload,
-        })
-        window.dispatchEvent(event)
+        Monitor.postClientPageMessage(payload)
       } else {
         console.log('No client workflows found')
       }
@@ -210,7 +214,7 @@ export class Monitor {
   }
 
   static onClientPageMessage() {
-    window.addEventListener(MessageType.GetClientWorkflows, (event: any) => {
+    window.addEventListener(MessageType.ClientPageEvent, (event: any) => {
       if (event.type === MessageType.GetClientWorkflows) {
         if (!event.detail || !event.detail.length) {
           localStorage.removeItem(WF_KEY_FOR_CLIET_PAGE)

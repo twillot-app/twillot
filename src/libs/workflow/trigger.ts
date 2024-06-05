@@ -242,11 +242,12 @@ export class Monitor {
     trigger: Trigger,
     data: string | null,
   ) {
+    const realTrigger = Monitor.getRealTrigger(trigger, JSON.parse(data))
     const text = localStorage.getItem(WF_KEY_FOR_CLIET_PAGE)
     const workflows: Workflow[] = text ? JSON.parse(text) : []
     if (workflows.length) {
       // NOTE 仅支持一个包含 client action 的工作流
-      const workflow = workflows.find((w) => w.when === trigger)
+      const workflow = workflows.find((w) => w.when === realTrigger)
       if (workflow) {
         for (const action of workflow.thenList) {
           // NOTE 仅支持一个 client action

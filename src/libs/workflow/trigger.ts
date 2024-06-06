@@ -257,7 +257,7 @@ export class Monitor {
           const item = ACTION_LIST.find((h) => h.name === action.name)
           // @ts-ignore
           const newData = await item.handler(data)
-          return newData
+          return newData || ''
         }
       }
     }

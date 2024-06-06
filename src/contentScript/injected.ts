@@ -13,24 +13,21 @@ XMLHttpRequest.prototype.send = async function (data: string | null) {
   const url = this._url
   const trigger = url.split('/').pop() as Trigger
   if (trigger && TriggerKeys.includes(trigger)) {
-    const sendData = await Monitor.transformClientPageReuqest(trigger, data)
-    if (sendData === data) {
-      this.addEventListener('load', async function () {
-        Monitor.postContentScriptMessage(
-          trigger,
-          { method: this._method, url, body: data },
-          {
-            status: this.status,
-            statusText: this.statusText,
-            body: this.responseText,
-          },
-        )
-      })
-      origSend.apply(this, [data])
-    } else {
-      origSend.apply(this, [sendData])
-    }
+    data = await Monitor.transformClientPageReuqest(trigger, data)
+    this.addEventListener('load', async function () {
+      Monitor.postContentScriptMessage(
+        trigger,
+        { method: this._method, url, body: data },
+        {
+          status: this.status,
+          statusText: this.statusText,
+          body: this.responseText,
+        },
+      )
+    })
   }
+
+  origSend.apply(this, [data])
 }
 
 Monitor.onClientPageMessage()

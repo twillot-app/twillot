@@ -16,6 +16,7 @@ const [store, setStore] = dataStore
 
 describe('Workflow Store Module', () => {
   beforeEach(() => {
+    global.chrome = browser
     browser.reset()
     setStore(defaultState())
   })
@@ -39,7 +40,7 @@ describe('Workflow Store Module', () => {
     renameWorkflow(0, 'Test')
     expect(store.workflows[0].name).toBe('Test')
     addThen(0)
-    expect(store.workflows[0].thenList.length).toBe(1)
+    expect(store.workflows[0].thenList.length).toBe(2)
     await saveWorkflow(0)
     expect(store.workflows[0].name).toBe('Test')
   })

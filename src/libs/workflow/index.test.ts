@@ -2,21 +2,10 @@ import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
-import {
-  addTask,
-  getTasks,
-  saveTasks,
-  removeTask,
-  getWorkflows,
-  getClientWorkflows,
-} from './index'
+import { getWorkflows, getClientWorkflows } from './index'
+import { addTask, removeTask, getTasks, saveTasks } from './task'
 import { Task, Workflow } from './types'
-import {
-  ACTION_LIST,
-  CLIENT_ACTION_LIST,
-  ClientActions,
-  Trigger,
-} from './actions'
+import { ACTION_LIST, CLIENT_ACTION_LIST } from './actions'
 
 describe('Task Manager between options page and background script', () => {
   beforeEach(() => {

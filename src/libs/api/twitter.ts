@@ -17,11 +17,7 @@ import { getAuthInfo } from '../browser'
 import { URL_REG } from '../text'
 import { TriggerReuqestBody } from '../workflow/trigger'
 import fetchWithTimeout, { FetchError } from '../xfetch'
-import {
-  BOOKMARK_FEATURES,
-  CREATE_TWEET_FEATURES,
-  TWEET_DETAIL_FEATURES,
-} from './twitter-features'
+import { BOOKMARK_FEATURES, COMMON_FEATURES } from './twitter-features'
 
 function replaceWithExpandedUrl(text: string, urls: EntityURL[]) {
   if (urls.length === 0) {
@@ -203,7 +199,7 @@ export async function createTweet(
     body: JSON.stringify({
       queryId: EndpointQuery.CREATE_TWEET,
       variables,
-      features: CREATE_TWEET_FEATURES,
+      features: COMMON_FEATURES,
     }),
   })
 }
@@ -278,7 +274,7 @@ export function getTweetDetails(tweetId: string, cursor?: string) {
 
   const params = {
     variables: variables,
-    features: TWEET_DETAIL_FEATURES,
+    features: COMMON_FEATURES,
     fieldToggles: {
       withArticleRichContentState: true,
       withArticlePlainText: false,

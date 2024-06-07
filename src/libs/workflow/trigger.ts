@@ -97,7 +97,6 @@ export class Monitor {
     source?: string
     destination?: string
   } {
-    debugger
     try {
       if (trigger === 'CreateTweet') {
         const tweet = response.data.create_tweet.tweet_results

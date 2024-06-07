@@ -21,3 +21,4 @@
 
 # secrets
 secrets.*.js
+.aider*

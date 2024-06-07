@@ -114,6 +114,9 @@ export const renameWorkflow = (index: number, value: string) => {
  * 保存到数据库，仅更新一条记录
  */
 export const saveWorkflow = async (index: number) => {
+  if (store.workflows.length === 0) {
+    return
+  }
   const workflow = unwrap(store.workflows[index])
   const dbRecords = await readConfig(OptionName.WORKFLOW)
   let workflows = []

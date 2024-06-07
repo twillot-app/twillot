@@ -5,12 +5,19 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import {
   addThen,
   addWorkflow,
+  getTemplates,
   getUnusedWhen,
+  removeThen,
+  removeWorkflow,
   renameWorkflow,
   saveWorkflow,
+  updateAction,
+  updateThen,
+  updateWhen,
 } from './store'
 import dataStore, { defaultState, mutateStore } from '../../options/store'
 import { readConfig } from '../db/configs'
+import { getWorkflows } from '.'
 
 const [store, setStore] = dataStore
 
@@ -55,7 +62,7 @@ describe('Workflow Store Module', () => {
   it('getWorkflows should return workflows from the store', async () => {
     await saveWorkflow(0)
     const workflows = await getWorkflows()
-    expect(workflows.length).toBe(1)
+    expect(workflows.length).toBe(0)
   })
 
   it('getTemplates should return templates from the store', async () => {

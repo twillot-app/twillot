@@ -152,14 +152,14 @@ export class Monitor {
     const reqBody: TriggerReuqestBody =
       request.body && typeof request.body === 'string'
         ? JSON.parse(request.body)
-        : {}
+        : request.body || {}
     const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
     const { source, destination } = Monitor.getContext(
       realTrigger,
       reqBody,
       typeof response.body === 'string'
         ? JSON.parse(response.body)
-        : response.body,
+        : response.body || {},
     )
     window.postMessage(
       {

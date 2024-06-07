@@ -103,3 +103,92 @@ describe('Workflow Store Module', () => {
     expect(store.workflows[0].thenList[0].inputs[0]).toBe('New Content')
   })
 })
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { readConfig, upsertConfig } from '../../libs/db/configs'
+import dataStore, { mutateStore } from '../../options/store'
+import { OptionName } from '../../types'
+import {
+  removeWorkflow,
+  getWorkflows,
+  getTemplates,
+  updateWhen,
+  addThen,
+  removeThen,
+  updateThen,
+  updateAction,
+} from './store'
+
+vi.mock('../../libs/db/configs', () => ({
+  readConfig: vi.fn(),
+  upsertConfig: vi.fn(),
+}))
+
+vi.mock('../../options/store', () => ({
+  default: [{ workflows: [], templates: [] }],
+  mutateStore: vi.fn(),
+}))
+
+describe('Store Module', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('should remove a workflow correctly', async () => {
+    const workflows = [{ id: '1' }, { id: '2' }]
+    readConfig.mockResolvedValue({ option_value: workflows })
+    await removeWorkflow(0)
+    expect(mutateStore).toHaveBeenCalled()
+    expect(upsertConfig).toHaveBeenCalled()
+  })
+
+  it('should get workflows correctly', async () => {
+    const workflows = [{ id: '1' }, { id: '2' }]
+    readConfig.mockResolvedValue({ option_value: workflows })
+    const result = await getWorkflows()
+    expect(result).toEqual(workflows)
+    expect(mutateStore).toHaveBeenCalled()
+  })
+
+  it('should get templates correctly', async () => {
+    const templates = [{ id: '1' }, { id: '2' }]
+    readConfig.mockResolvedValue({ option_value: templates })
+    const result = await getTemplates()
+    expect(result).toEqual(templates)
+    expect(mutateStore).toHaveBeenCalled()
+  })
+
+  it('should update the "when" of a workflow correctly', async () => {
+    const workflows = [{ id: '1', when: 'CreateBookmark' }]
+    dataStore[0].workflows = workflows
+    await updateWhen(0, 'DeleteBookmark')
+    expect(mutateStore).toHaveBeenCalled()
+  })
+
+  it('should add a "then" action to a workflow correctly', async () => {
+    const workflows = [{ id: '1', thenList: [] }]
+    dataStore[0].workflows = workflows
+    await addThen(0)
+    expect(mutateStore).toHaveBeenCalled()
+  })
+
+  it('should remove a "then" action from a workflow correctly', async () => {
+    const workflows = [{ id: '1', thenList: [{ name: 'AutoComment' }] }]
+    dataStore[0].workflows = workflows
+    await removeThen(0, 0)
+    expect(mutateStore).toHaveBeenCalled()
+  })
+
+  it('should update a "then" action in a workflow correctly', async () => {
+    const workflows = [{ id: '1', thenList: [{ name: 'AutoComment' }] }]
+    dataStore[0].workflows = workflows
+    await updateThen(0, 0, 'DeleteBookmark')
+    expect(mutateStore).toHaveBeenCalled()
+  })
+
+  it('should update the action content in a workflow correctly', async () => {
+    const workflows = [{ id: '1', thenList: [{ name: 'AutoComment', inputs: [''] }] }]
+    dataStore[0].workflows = workflows
+    await updateAction(0, 0, 'New Content')
+    expect(mutateStore).toHaveBeenCalled()
+  })
+})

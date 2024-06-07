@@ -50,7 +50,11 @@ export default defineManifest({
       matches: [],
     },
   ],
-  host_permissions: ['https://x.com/*', 'https://twitter.com/*'],
+  host_permissions: [
+    'https://x.com/*',
+    'https://twitter.com/*',
+    'https://*.twillot.com/*',
+  ],
   permissions: [
     'storage',
     'webRequest',

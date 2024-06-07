@@ -134,6 +134,10 @@ function get_headers(token: string, csrf: string) {
 }
 
 async function request(url: string, options: RequestInit) {
+  if (!chrome || !chrome.storage) {
+    throw new Error('You are running this function in client page environment.')
+  }
+
   const { token, csrf } = await getAuthInfo()
   const res = await fetchWithTimeout(url, {
     method: 'POST',

@@ -99,6 +99,8 @@ export const X_DOMAIN = 'x.com'
 
 export const Host = `https://${X_DOMAIN}`
 
+export const API_HOST = `https://api.twillot.com`
+
 export enum ActionPage {
   AUTHENTICATE = `${Host}/i/bookmarks?twillot=reauth`,
 }

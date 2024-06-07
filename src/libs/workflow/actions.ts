@@ -1,13 +1,16 @@
 import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
 import { addTask } from './task'
-import { TimelineTweet } from '../../types'
-import { TriggerContext, TriggerReuqestBody } from './trigger'
+import { API_HOST, TimelineTweet } from '../../types'
+import { Monitor, Trigger, TriggerContext, TriggerReuqestBody } from './trigger'
 
 export { type Trigger } from './trigger'
 
 export type ActionHandler = (context: ActionContext) => Promise<any>
 
-export type ClientActionHandler = (body: TriggerReuqestBody) => Promise<string>
+export type ClientActionHandler = (
+  trigger: Trigger,
+  body: TriggerReuqestBody,
+) => Promise<string>
 
 export type ActionConfig = {
   name: string
@@ -26,17 +29,17 @@ export type ClientActionConfig = {
 function createClientAction(
   name: string,
   desc: string,
-  transformer: (text: string) => Promise<string>,
+  transformer: (trigger: Trigger, body: TriggerReuqestBody) => Promise<string>,
 ): ClientActionConfig {
   return {
     name,
     desc,
     is_client: true,
-    handler: async (body: TriggerReuqestBody) => {
+    handler: async (trigger: Trigger, body: TriggerReuqestBody) => {
       if (!body?.variables?.tweet_text) {
         console.error('No tweet text found in body', body)
       } else {
-        const transformed = await transformer(body.variables.tweet_text)
+        const transformed = await transformer(trigger, body)
         body.variables.tweet_text = transformed
       }
       return JSON.stringify(body)
@@ -45,10 +48,30 @@ function createClientAction(
 }
 
 export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
-  // TODO auto translate service
-  createClientAction('AutoTranslate', 'Auto translate', async (text) => {
-    return text + ' (translated by Twillot)'
-  }),
+  createClientAction(
+    'AutoTranslate',
+    'Auto translate',
+    async (trigger, body) => {
+      let text = body.variables.tweet_text
+      try {
+        let { source } = Monitor.getContext(trigger, body)
+        const json: any = await Monitor.proxyClientPageRequest({
+          url: API_HOST + '/translate',
+          // TODO 确定翻译参数
+          body: {
+            user_id: 'twillot',
+            tweet_id: source || 'empty',
+            text,
+            target_lang: 'en',
+          },
+        })
+        return json.data.text
+      } catch (error) {
+        console.error('Failed to auto translate', error)
+        return text
+      }
+    },
+  ),
   createClientAction('AppendSignature', 'Append a signature', async (text) => {
     return (
       text + '\n----\nThis message was sent from Twillot, https://twillot.com'

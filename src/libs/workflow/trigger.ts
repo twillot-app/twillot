@@ -92,38 +92,38 @@ export class Monitor {
   static getContext(
     trigger: Trigger,
     request: TriggerReuqestBody,
-    response: TriggerResponseBody,
+    response?: TriggerResponseBody,
   ): {
     source?: string
     destination?: string
   } {
     try {
       if (trigger === 'CreateTweet') {
-        const tweet = response.data.create_tweet.tweet_results
+        const tweet = response?.data.create_tweet.tweet_results
           .result as TweetBase
         return {
-          destination: tweet.rest_id,
+          destination: tweet?.rest_id,
         }
       } else if (trigger === 'CreateReply') {
-        const tweet = response.data.create_tweet.tweet_results
+        const tweet = response?.data.create_tweet.tweet_results
           .result as TweetBase
         return {
           source: request.variables.reply.in_reply_to_tweet_id,
-          destination: tweet.rest_id,
+          destination: tweet?.rest_id,
         }
       } else if (trigger === 'CreateQuote') {
-        const tweet = response.data.create_tweet.tweet_results
+        const tweet = response?.data.create_tweet.tweet_results
           .result as TweetBase
         return {
           source: request.variables.attachment_url.split('/').pop(),
-          destination: tweet.rest_id,
+          destination: tweet?.rest_id,
         }
       } else if (trigger === 'CreateRetweet') {
-        const tweet = response.data.create_retweet.retweet_results
+        const tweet = response?.data.create_retweet.retweet_results
           .result as TweetBase
         return {
           source: request.variables.tweet_id,
-          destination: tweet.rest_id,
+          destination: tweet?.rest_id,
         }
       } else if (trigger === 'DeleteBookmark') {
         return {
@@ -182,8 +182,11 @@ export class Monitor {
     )
   }
 
-  static postClientPageMessage(payload: any) {
-    const event = new CustomEvent(MessageType.ClientPageEvent, {
+  static postClientPageMessage(
+    payload: any,
+    type = MessageType.ClientPageEvent,
+  ) {
+    const event = new CustomEvent(type, {
       detail: payload,
     })
     window.dispatchEvent(event)
@@ -208,6 +211,17 @@ export class Monitor {
         chrome.runtime.sendMessage<Message>(data)
       } else if (data.type === MessageType.GetClientWorkflows) {
         sendWorkflows2ClientPage()
+      } else if (data.type === MessageType.ClientPageRequest) {
+        const { url, body } = data.payload
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+        const msg = await res.json()
+        Monitor.postClientPageMessage(msg, MessageType.ClientPageRequest)
       }
     })
 
@@ -216,6 +230,27 @@ export class Monitor {
         console.log('Workflows changed', changes['workflows'])
         sendWorkflows2ClientPage()
       }
+    })
+  }
+
+  static proxyClientPageRequest(payload) {
+    window.postMessage({ type: MessageType.ClientPageRequest, payload }, Host)
+
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Request timed out'))
+        window.removeEventListener(MessageType.ClientPageRequest, handleMessage)
+      }, 10000)
+
+      function handleMessage(event) {
+        console.log('Client page response:', event)
+        resolve(event.detail)
+        clearTimeout(timeout)
+        window.removeEventListener(MessageType.ClientPageRequest, handleMessage)
+      }
+
+      // 添加事件监听
+      window.addEventListener(MessageType.ClientPageRequest, handleMessage)
     })
   }
 
@@ -267,7 +302,7 @@ export class Monitor {
            * TODO 一个 trigger 下可以支持多个 client actions
            */
           const item = CLIENT_ACTION_LIST.find((h) => h.name === action.name)
-          const newData = await item.handler(reqBody)
+          const newData = await item.handler(realTrigger, reqBody)
           return newData || ''
         }
       }

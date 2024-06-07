@@ -44,4 +44,55 @@ describe('Workflow Store Module', () => {
     await saveWorkflow(0)
     expect(store.workflows[0].name).toBe('Test')
   })
+  it('removeWorkflow should remove a workflow from the store', async () => {
+    addWorkflow()
+    expect(store.workflows.length).toBe(1)
+    await saveWorkflow(0)
+    await removeWorkflow(0)
+    expect(store.workflows.length).toBe(0)
+  })
+
+  it('getWorkflows should return workflows from the store', async () => {
+    await saveWorkflow(0)
+    const workflows = await getWorkflows()
+    expect(workflows.length).toBe(1)
+  })
+
+  it('getTemplates should return templates from the store', async () => {
+    const templates = await getTemplates()
+    expect(templates.length).toBe(1)
+    expect(templates[0].name).toBe('Default - A twillot welcome post')
+  })
+
+  it('updateWhen should update the when property of a workflow', async () => {
+    addWorkflow()
+    updateWhen(0, 'DeleteBookmark')
+    expect(store.workflows[0].when).toBe('DeleteBookmark')
+  })
+
+  it('addThen should add a new then action to a workflow', async () => {
+    addWorkflow()
+    addThen(0)
+    expect(store.workflows[0].thenList.length).toBe(2)
+  })
+
+  it('removeThen should remove a then action from a workflow', async () => {
+    addWorkflow()
+    addThen(0)
+    expect(store.workflows[0].thenList.length).toBe(2)
+    removeThen(0, 1)
+    expect(store.workflows[0].thenList.length).toBe(1)
+  })
+
+  it('updateThen should update a then action in a workflow', async () => {
+    addWorkflow()
+    updateThen(0, 0, 'DeleteBookmark')
+    expect(store.workflows[0].thenList[0].name).toBe('DeleteBookmark')
+  })
+
+  it('updateAction should update the inputs of a then action in a workflow', async () => {
+    addWorkflow()
+    updateAction(0, 0, 'New Content')
+    expect(store.workflows[0].thenList[0].inputs[0]).toBe('New Content')
+  })
 })

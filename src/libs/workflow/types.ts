@@ -1,4 +1,4 @@
-import { Action, ActionKey } from './actions'
+import { Action, ActionKey, ClientActionKey } from './actions'
 import { type Trigger } from './trigger'
 
 export interface Workflow {
@@ -14,7 +14,7 @@ export interface Workflow {
 
 export interface Task {
   id: string
-  name: ActionKey
+  name: ActionKey | ClientActionKey
   inputs?: string[]
   tweetId?: string
 }

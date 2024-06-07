@@ -17,7 +17,12 @@ import {
 } from '../libs/workflow/store'
 import { useNavigate } from '@solidjs/router'
 import { Trigger, TRIGGER_LIST } from '../libs/workflow/trigger'
-import { ACTION_LIST, ActionKey } from '../libs/workflow/actions'
+import {
+  ACTION_LIST,
+  ActionKey,
+  CLIENT_ACTION_LIST,
+  ClientActionKey,
+} from '../libs/workflow/actions'
 
 const [store] = dataStore
 
@@ -145,18 +150,22 @@ const WorkflowConfigurator = () => {
                             updateThen(
                               workflowIndex(),
                               thenIndex(),
-                              e.currentTarget.value as ActionKey,
+                              e.currentTarget.value as
+                                | ActionKey
+                                | ClientActionKey,
                             )
                           }
                         >
-                          {ACTION_LIST.map((action) => (
-                            <option
-                              value={action.name}
-                              selected={action.name === thenAction.name}
-                            >
-                              {action.desc}
-                            </option>
-                          ))}
+                          {[...ACTION_LIST, ...CLIENT_ACTION_LIST].map(
+                            (action) => (
+                              <option
+                                value={action.name}
+                                selected={action.name === thenAction.name}
+                              >
+                                {action.desc}
+                              </option>
+                            ),
+                          )}
                         </select>
                         <Show when={thenAction.name === 'AutoComment'}>
                           <select

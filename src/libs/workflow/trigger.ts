@@ -3,9 +3,14 @@
  */
 
 import { Host, TweetBase } from '../../types'
-import { getWorkflows } from '.'
+import { getClientWorkflows, getWorkflows } from '.'
 import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
-import { ACTION_LIST, ActionHandler, ActionKey, ClientActions } from './actions'
+import {
+  ACTION_LIST,
+  ActionHandler,
+  ActionKey,
+  CLIENT_ACTION_LIST,
+} from './actions'
 
 export const TRIGGER_LIST = [
   {
@@ -51,7 +56,11 @@ interface TriggerResponseBody {
 export interface TriggerContext {
   trigger: Trigger
   request: { method: string; url: string; body: string | TriggerReuqestBody }
-  response: { status: number; statusText: string; body?: string }
+  response: {
+    status: number
+    statusText: string
+    body?: string | TriggerResponseBody
+  }
   // 源推 id
   source: string
   // 目标推 id
@@ -88,6 +97,7 @@ export class Monitor {
     source?: string
     destination?: string
   } {
+    debugger
     try {
       if (trigger === 'CreateTweet') {
         const tweet = response.data.create_tweet.tweet_results
@@ -140,7 +150,7 @@ export class Monitor {
     request: TriggerContext['request'],
     response: TriggerContext['response'],
   ) {
-    const reqBody =
+    const reqBody: TriggerReuqestBody =
       request.body && typeof request.body === 'string'
         ? JSON.parse(request.body)
         : {}
@@ -148,7 +158,9 @@ export class Monitor {
     const { source, destination } = Monitor.getContext(
       realTrigger,
       reqBody,
-      JSON.parse(response.body),
+      typeof response.body === 'string'
+        ? JSON.parse(response.body)
+        : response.body,
     )
     window.postMessage(
       {
@@ -162,7 +174,6 @@ export class Monitor {
           response: {
             ...response,
             // 一般不需要 response body 的内容
-            body: null,
           },
           source,
           destination,
@@ -181,14 +192,11 @@ export class Monitor {
 
   static onContentScriptMessage() {
     const sendWorkflows2ClientPage = async () => {
-      const workflows = await getWorkflows()
-      const payload = workflows.filter((w) =>
-        w.thenList.some((a) => ClientActions.includes(a.name)),
-      )
-      Monitor.postClientPageMessage(payload)
-      if (!payload.length) {
+      const workflows = await getClientWorkflows()
+      if (!workflows.length) {
         console.log('No client workflows found')
       }
+      Monitor.postClientPageMessage(workflows)
     }
 
     window.addEventListener('message', async (event) => {
@@ -245,18 +253,23 @@ export class Monitor {
     trigger: Trigger,
     data: string | null,
   ) {
-    const realTrigger = Monitor.getRealTrigger(trigger, JSON.parse(data))
+    const reqBody: TriggerReuqestBody = data ? JSON.parse(data) : {}
+    const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
     const text = localStorage.getItem(WF_KEY_FOR_CLIET_PAGE)
     const workflows: Workflow[] = text ? JSON.parse(text) : []
+
     if (workflows.length) {
-      // NOTE 仅支持一个包含 client action 的工作流
+      /**
+       * TODO 添加的时候验证同一个 trigger 仅能添加一个 client workflow
+       */
       const workflow = workflows.find((w) => w.when === realTrigger)
       if (workflow) {
         for (const action of workflow.thenList) {
-          // NOTE 仅支持一个 client action
-          const item = ACTION_LIST.find((h) => h.name === action.name)
-          // @ts-ignore
-          const newData = await item.handler(data)
+          /**
+           * TODO 一个 trigger 下可以支持多个 client actions
+           */
+          const item = CLIENT_ACTION_LIST.find((h) => h.name === action.name)
+          const newData = await item.handler(reqBody)
           return newData || ''
         }
       }
@@ -277,8 +290,10 @@ export class Emitter {
   async emit(payload: TriggerContext) {
     const { trigger } = payload
     const workflows = this.workflows.filter((w) => w.when === trigger)
+    console.log('Workflows:', workflows)
     for (const w of workflows) {
       let prevActionResponse = null
+      console.log(`Workflow starts`, payload)
       for (const action of w.thenList) {
         const handler = this.handlers[action.name]
         if (handler) {
@@ -287,19 +302,25 @@ export class Emitter {
             action,
             prevActionResponse,
           }
-          console.log(`Workflow starts`, context)
           prevActionResponse = await handler(context)
-          console.log(`Workflow ends`, prevActionResponse)
+        } else {
+          console.log(
+            `No handler for action ${action.name}, maybe it is a client action`,
+          )
         }
       }
+      console.log(`Workflow ends`)
     }
   }
 
   async start() {
     this.workflows = await getWorkflows()
+    console.log('Workflows:', this.workflows)
 
     ACTION_LIST.forEach((action) => {
-      // @ts-ignore
+      /**
+       * Client workflow 不需要注册到 content script
+       */
       this.register(action.name, action.handler)
     })
 

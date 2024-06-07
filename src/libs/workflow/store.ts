@@ -8,7 +8,7 @@ import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from '.'
 import { CommentTemplate, Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger'
-import { Action, ActionKey } from './actions'
+import { Action, ActionKey, ClientActionKey } from './actions'
 
 const [store] = dataStore
 
@@ -230,7 +230,7 @@ export const removeThen = (workflowIndex: number, thenIndex: number) => {
 export const updateThen = (
   workflowIndex: number,
   thenIndex: number,
-  actionKey: ActionKey,
+  actionKey: ActionKey | ClientActionKey,
 ) => {
   let newThen: Action
   if (actionKey === 'AutoComment') {

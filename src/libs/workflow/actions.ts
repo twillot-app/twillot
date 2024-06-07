@@ -5,23 +5,60 @@ import { TriggerContext, TriggerReuqestBody } from './trigger'
 
 export { type Trigger } from './trigger'
 
+export type ActionHandler = (context: ActionContext) => Promise<any>
+
+export type ClientActionHandler = (body: TriggerReuqestBody) => Promise<string>
+
+export type ActionConfig = {
+  name: string
+  desc: string
+  is_client: boolean
+  handler: ActionHandler
+}
+
+export type ClientActionConfig = {
+  name: string
+  desc: string
+  is_client: true
+  handler: ClientActionHandler
+}
+
 function createClientAction(
   name: string,
   desc: string,
   transformer: (text: string) => Promise<string>,
-) {
+): ClientActionConfig {
   return {
     name,
     desc,
     is_client: true,
-    handler: async (text: string) => {
-      const body = JSON.parse(text) as TriggerReuqestBody
-      const transformed = await transformer(body.variables.tweet_text)
-      body.variables.tweet_text = transformed
+    handler: async (body: TriggerReuqestBody) => {
+      if (!body?.variables?.tweet_text) {
+        console.error('No tweet text found in body', body)
+      } else {
+        const transformed = await transformer(body.variables.tweet_text)
+        body.variables.tweet_text = transformed
+      }
       return JSON.stringify(body)
     },
   }
 }
+
+export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
+  // TODO auto translate service
+  createClientAction('AutoTranslate', 'Auto translate', async (text) => {
+    return text + ' (translated by Twillot)'
+  }),
+  createClientAction('AppendSignature', 'Append a signature', async (text) => {
+    return (
+      text + '\n----\nThis message was sent from Twillot, https://twillot.com'
+    )
+  }),
+]
+
+export type ClientActionKey = (typeof CLIENT_ACTION_LIST)[number]['name']
+
+export const ClientActions = CLIENT_ACTION_LIST.map((a) => a.name)
 
 /**
  * NOTE
@@ -32,7 +69,7 @@ function createClientAction(
  *
  * 无需 Options 页面执行操作的可以直接执行。
  */
-export const ACTION_LIST = [
+export const ACTION_LIST: ActionConfig[] = [
   {
     name: 'UnrollThread',
     desc: 'Unroll this thread',
@@ -57,45 +94,26 @@ export const ACTION_LIST = [
   },
   {
     name: 'AutoComment',
-    desc: 'Auto comment source post',
+    desc: 'Auto comment',
     is_client: false,
     handler: async (context: ActionContext) => {
-      const tweet_id = context.source
-      if (!tweet_id) {
-        console.error('No tweet id found in context', context)
-        return
-      }
       const { action } = context
       if (typeof action !== 'object' || !action.inputs?.[0]) {
         console.error('This action is configured incorrectly', context)
         return
       }
-
-      await createTweet({
-        text: action.inputs[0],
-        replyTweetId: context.source,
-      })
-    },
-  },
-  {
-    name: 'AutoCommentMine',
-    desc: 'Auto comment reply / repost / quote',
-    is_client: false,
-    handler: async (context: ActionContext) => {
-      const tweet_id = context.destination
+      let tweet_id = context.source
+      if (context.trigger === 'CreateTweet') {
+        tweet_id = context.destination
+      }
       if (!tweet_id) {
         console.error('No tweet id found in context', context)
         return
       }
-      const { action } = context
-      if (typeof action !== 'object' || !action.inputs?.[0]) {
-        console.error('This action is configured incorrectly', context)
-        return
-      }
 
       await createTweet({
         text: action.inputs[0],
-        replyTweetId: context.destination,
+        replyTweetId: tweet_id,
       })
     },
   },
@@ -132,28 +150,18 @@ export const ACTION_LIST = [
       }
     },
   },
-  // TODO auto translate service
-  createClientAction('AutoTranslate', 'Auto translate', async (text) => {
-    return text + ' (translated by Twillot)'
-  }),
-] as const
+]
 
 export type ActionKey = (typeof ACTION_LIST)[number]['name']
 
 export type Action = {
   // NOTE 默认值 source，暂时不支持自定义
   target?: 'source' | 'destination'
-  name: ActionKey
+  name: ActionKey | ClientActionKey
   inputs?: string[]
 }
-
-export const ClientActions = ACTION_LIST.filter((a) => a.is_client).map(
-  (a) => a.name,
-)
 
 export interface ActionContext extends TriggerContext {
   action: Action
   prevActionResponse: any
 }
-
-export type ActionHandler = (context: ActionContext) => Promise<any>

@@ -221,7 +221,6 @@ export class Monitor {
 
   static onClientPageMessage() {
     window.addEventListener(MessageType.ClientPageEvent, (event: any) => {
-      // if (event.type === MessageType.GetClientWorkflows) {
       if (!event.detail || !event.detail.length) {
         localStorage.removeItem(WF_KEY_FOR_CLIET_PAGE)
       } else {

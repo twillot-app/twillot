@@ -1,5 +1,5 @@
 import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
-import { addTask } from '.'
+import { addTask } from './task'
 import { TimelineTweet } from '../../types'
 import { TriggerContext, TriggerReuqestBody } from './trigger'
 

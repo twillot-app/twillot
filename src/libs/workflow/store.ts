@@ -5,7 +5,7 @@ import dataStore, { mutateStore } from '../../options/store'
 import { OptionName } from '../../types'
 import { getTweetConversations } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
-import { getTasks, removeTask } from '.'
+import { getTasks, removeTask } from './task'
 import { CommentTemplate, Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger'
 import { Action, ActionKey, ClientActionKey } from './actions'
@@ -58,8 +58,8 @@ export const getUnusedWhen = () => {
 
 export const isWorkflowUnchanged = async (index: number) => {
   const workflow = store.workflows[index]
-  const workflowsDB = (await readConfig(OptionName.WORKFLOW))
-    .option_value as Workflow[]
+  const workflowsDB = ((await readConfig(OptionName.WORKFLOW))?.option_value ||
+    []) as Workflow[]
   const dbWorkflow = workflowsDB.find((wDB) => wDB.id === workflow.id)
   if (dbWorkflow) {
     return 'name,when,thenList'
@@ -89,7 +89,11 @@ export const addWorkflow = () => {
     thenList: [
       {
         name: 'AutoComment',
-        inputs: [store.templates[0].content],
+        inputs: [
+          store.templates.length > 0
+            ? store.templates[0].content
+            : defaultTemplates[0].content,
+        ],
       },
     ],
   }

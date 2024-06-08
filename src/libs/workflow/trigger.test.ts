@@ -1,9 +1,9 @@
 import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { Monitor, Emitter, TriggerReuqestBody, TriggerContext } from './trigger'
-import { MessageType, Workflow } from './types'
-import { ACTION_LIST } from './actions'
+
+import { Monitor, Emitter } from './trigger'
+import { TriggerContext, TriggerReuqestBody } from './trigger.type'
 
 describe('Trigger Module', () => {
   beforeEach(() => {

@@ -1,9 +1,8 @@
 import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
 import { addTask } from './task'
 import { API_HOST, TimelineTweet } from '../../types'
-import { Monitor, Trigger, TriggerContext, TriggerReuqestBody } from './trigger'
-
-export { type Trigger } from './trigger'
+import { Monitor } from './trigger'
+import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
 
 export type ActionHandler = (context: ActionContext) => Promise<any>
 
@@ -26,7 +25,7 @@ export type ClientActionConfig = {
   handler: ClientActionHandler
 }
 
-function createClientAction(
+export function createClientAction(
   name: string,
   desc: string,
   transformer: (trigger: Trigger, body: TriggerReuqestBody) => Promise<string>,

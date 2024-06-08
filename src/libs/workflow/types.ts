@@ -1,5 +1,5 @@
 import { Action, ActionKey, ClientActionKey } from './actions'
-import { type Trigger } from './trigger'
+import { type Trigger } from './trigger.type'
 
 export interface Workflow {
   id: string

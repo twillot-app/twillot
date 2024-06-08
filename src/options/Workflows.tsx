@@ -16,7 +16,7 @@ import {
   updateAction,
 } from '../libs/workflow/store'
 import { useNavigate } from '@solidjs/router'
-import { Trigger, TRIGGER_LIST } from '../libs/workflow/trigger'
+import { type Trigger, TRIGGER_LIST } from '../libs/workflow/trigger.type'
 import {
   ACTION_LIST,
   ActionKey,

@@ -11,61 +11,12 @@ import {
   ActionKey,
   CLIENT_ACTION_LIST,
 } from './actions'
-
-export const TRIGGER_LIST = [
-  {
-    name: 'CreateBookmark',
-    desc: 'Create a bookmark',
-  },
-  {
-    name: 'DeleteBookmark',
-    desc: 'Delete a bookmark',
-  },
-  {
-    name: 'CreateTweet',
-    desc: 'Post',
-  },
-  {
-    name: 'CreateReply',
-    desc: 'Reply',
-  },
-  {
-    name: 'CreateRetweet',
-    desc: 'Repost',
-  },
-  {
-    name: 'CreateQuote',
-    desc: 'Quote',
-  },
-] as const
-
-export type Trigger = (typeof TRIGGER_LIST)[number]['name']
-
-export const TriggerKeys = TRIGGER_LIST.map((t) => t.name)
-
-export interface TriggerReuqestBody {
-  variables: any
-  features: any
-  queryId?: string
-}
-
-interface TriggerResponseBody {
-  data: any
-}
-
-export interface TriggerContext {
-  trigger: Trigger
-  request: { method: string; url: string; body: string | TriggerReuqestBody }
-  response: {
-    status: number
-    statusText: string
-    body?: string | TriggerResponseBody
-  }
-  // 源推 id
-  source: string
-  // 目标推 id
-  destination: string
-}
+import {
+  Trigger,
+  TriggerReuqestBody,
+  TriggerResponseBody,
+  TriggerContext,
+} from './trigger.type'
 
 export class Monitor {
   static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {
@@ -173,6 +124,7 @@ export class Monitor {
           response: {
             ...response,
             // 一般不需要 response body 的内容
+            body: null,
           },
           source,
           destination,
@@ -249,7 +201,6 @@ export class Monitor {
         window.removeEventListener(MessageType.ClientPageRequest, handleMessage)
       }
 
-      // 添加事件监听
       window.addEventListener(MessageType.ClientPageRequest, handleMessage)
     })
   }

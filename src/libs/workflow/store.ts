@@ -7,7 +7,7 @@ import { getTweetConversations } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from './task'
 import { CommentTemplate, Workflow } from './types'
-import { TRIGGER_LIST, Trigger } from './trigger'
+import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
 
 const [store] = dataStore

@@ -15,7 +15,7 @@ import {
 } from '../../types'
 import { getAuthInfo } from '../browser'
 import { URL_REG } from '../text'
-import { TriggerReuqestBody } from '../workflow/trigger'
+import { TriggerReuqestBody } from '../workflow/trigger.type'
 import fetchWithTimeout, { FetchError } from '../xfetch'
 import { BOOKMARK_FEATURES, COMMON_FEATURES } from './twitter-features'
 

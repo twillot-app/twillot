@@ -1,4 +1,5 @@
-import { Monitor, Trigger, TriggerKeys } from '../libs/workflow/trigger'
+import { Monitor } from '../libs/workflow/trigger'
+import { Trigger, TriggerKeys } from '../libs/workflow/trigger.type'
 
 const origOpen = XMLHttpRequest.prototype.open
 XMLHttpRequest.prototype.open = function (method: string, url: string) {

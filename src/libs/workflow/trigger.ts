@@ -2,7 +2,12 @@
  * This module is for backgrounded workflow processing.
  */
 
-import { Host, TweetBase } from '../../types'
+import {
+  Host,
+  TimelineAddEntriesInstruction,
+  TimelineTweet,
+  TweetBase,
+} from '../../types'
 import { getClientWorkflows, getWorkflows } from '.'
 import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
 import {
@@ -17,6 +22,7 @@ import {
   TriggerResponseBody,
   TriggerContext,
 } from './trigger.type'
+import { getTweet, getTweetDetails } from '../api/twitter'
 
 export class Monitor {
   static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {
@@ -165,6 +171,18 @@ export class Monitor {
         sendWorkflows2ClientPage()
       } else if (data.type === MessageType.ClientPageRequest) {
         const { url, body } = data.payload
+        if (body.source.id) {
+          const json = await getTweetDetails(body.source.id)
+          const entry = json.data.threaded_conversation_with_injections_v2
+            .instructions[0] as TimelineAddEntriesInstruction<TimelineTweet>
+          const content = entry.entries[0].content
+          if (content.entryType === 'TimelineTimelineItem') {
+            const tweet = getTweet(content.itemContent.tweet_results.result)
+            if (tweet) {
+              body.source.lang = tweet.legacy.lang
+            }
+          }
+        }
         const res = await fetch(url, {
           method: 'POST',
           headers: {

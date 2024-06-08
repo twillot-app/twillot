@@ -56,12 +56,19 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
         let { source } = Monitor.getContext(trigger, body)
         const json: any = await Monitor.proxyClientPageRequest({
           url: API_HOST + '/translate',
-          // TODO 确定翻译参数
+          /**
+           * 尽量标准化输入参数
+           */
           body: {
-            user_id: 'twillot',
-            tweet_id: source || 'empty',
-            text,
-            target_lang: 'en',
+            source: {
+              id: source || '',
+              lang: 'en',
+            },
+            user: {
+              id: 'twillot',
+              browser: navigator.language,
+            },
+            input: [text],
           },
         })
         return json.data.text

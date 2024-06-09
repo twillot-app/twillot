@@ -316,8 +316,6 @@ export class Emitter {
   }
 
   async start() {
-    console.log('Emitter started');
-    console.log('Emitter started');
     this.workflows = await getWorkflows()
     console.log('Workflows:', this.workflows)
 

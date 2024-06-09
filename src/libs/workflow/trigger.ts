@@ -10,12 +10,7 @@ import {
 } from '../../types'
 import { getClientWorkflows, getWorkflows } from '.'
 import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
-import {
-  ACTION_LIST,
-  ActionHandler,
-  ActionKey,
-  CLIENT_ACTION_LIST,
-} from './actions'
+import { ACTION_LIST, CLIENT_ACTION_LIST } from './actions'
 import {
   Trigger,
   TriggerReuqestBody,
@@ -237,11 +232,11 @@ export class Monitor {
       // }
     })
     /**
-     * 主动获取客户端的工作流
-     * NOTE 目前只支持单一工作流
-     * 多步骤工作流的难点：
-     * 1）多个 action 的交互场景
-     * 2）夹杂客户端 action
+     * Actively fetch client workflows
+     * NOTE: Currently only supports single workflows.
+     * Challenges with multi-step workflows:
+     * 1) Interaction scenarios with multiple actions
+     * 2) Mixing client actions
      */
     window.postMessage(
       {
@@ -282,22 +277,26 @@ export class Monitor {
 }
 
 export class Emitter {
-  workflows = [] as Workflow[]
-  handlers = {}
-
-  register(action: ActionKey, fn: ActionHandler) {
-    this.handlers[action] = fn
-  }
-
-  async emit(payload: TriggerContext) {
+  static async emit(payload: TriggerContext) {
     const { trigger } = payload
-    const workflows = this.workflows.filter((w) => w.when === trigger)
+    let workflows = await getWorkflows()
+    workflows = workflows.filter((w) => w.when === trigger)
+    if (workflows.length === 0) {
+      console.warn(`No workflows found for trigger ${trigger}`)
+      return
+    }
+
+    const handlers = {}
+    ACTION_LIST.forEach((action) => {
+      handlers[action.name] = action.handler
+    })
+
     console.log('Workflows:', workflows)
     for (const w of workflows) {
       let prevActionResponse = null
       console.log(`Workflow starts`, payload)
       for (const action of w.thenList) {
-        const handler = this.handlers[action.name]
+        const handler = handlers[action.name]
         if (handler) {
           const context = {
             ...payload,
@@ -313,31 +312,5 @@ export class Emitter {
       }
       console.log(`Workflow ends`)
     }
-  }
-
-  async start() {
-    this.workflows = await getWorkflows()
-    console.log('Workflows:', this.workflows)
-
-    ACTION_LIST.forEach((action) => {
-      /**
-       * Client workflow 不需要注册到 content script
-       */
-      this.register(action.name, action.handler)
-    })
-
-    chrome.runtime.onMessage.addListener((message: Message) => {
-      if (message.type === MessageType.GetTriggerResponse) {
-        this.emit(message.payload as TriggerContext)
-      } else {
-        console.log('Unknown message type:', message)
-      }
-    })
-
-    chrome.storage.local.onChanged.addListener((changes) => {
-      if ('workflows' in changes) {
-        this.workflows = changes.workflows.newValue
-      }
-    })
   }
 }

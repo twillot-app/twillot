@@ -1,5 +1,3 @@
-import { Host, X_DOMAIN } from '../types'
-
 export function openNewTab(url: string, active = true) {
   return chrome.tabs.create({
     url,
@@ -7,78 +5,12 @@ export function openNewTab(url: string, active = true) {
   })
 }
 
-export function openOptionsPageWhenIconClicked() {
-  chrome.action.onClicked.addListener(function () {
-    chrome.runtime.openOptionsPage()
-  })
-}
-
-export function authTwitter() {
-  chrome.webRequest.onSendHeaders.addListener(
-    async (details) => {
-      const { url } = details
-      if (
-        /**
-         * 会员与非会员界面不一样
-         * 会员先请求文件夹，普通用户直接请求书签
-         */
-        !url.includes('/Bookmarks') &&
-        !url.includes('/BookmarkFoldersSlice')
-      ) {
-        return
-      }
-
-      let csrf = '',
-        token = ''
-
-      for (const { name: t, value: o } of details.requestHeaders || []) {
-        if (csrf && token) {
-          break
-        }
-
-        if (t === 'x-csrf-token') {
-          csrf = o || ''
-        } else if (t === 'authorization') {
-          token = o || ''
-        }
-      }
-
-      if (csrf && token) {
-        // const cookies = await chrome.cookies.getAll({ domain: X_DOMAIN })
-        // const cookiesStr = cookies.map((c) => c.name + '=' + c.value).join('; ')
-        await chrome.storage.local.set({
-          // cookie: cookiesStr,
-          csrf,
-          token,
-        })
-      }
-    },
-    {
-      types: ['xmlhttprequest'],
-      urls: [`${Host}/i/api/graphql/*`],
-    },
-    ['requestHeaders'],
-  )
-}
-
 export async function getAuthInfo() {
   const auth = await chrome.storage.local.get([
     'token',
-    'url',
     'csrf',
     'lastForceSynced',
   ])
-  if (auth && auth.url) {
-    const url = new URL(auth.url)
-    /**
-     * 2024.5.19 twitter 域名正式使用 x.com
-     */
-    if (url.hostname !== X_DOMAIN) {
-      await chrome.storage.local.clear()
-      return null
-    }
-  }
-
   return auth
 }
 

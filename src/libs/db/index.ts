@@ -1,4 +1,5 @@
 import { IndexedDbIndexItem } from '../../types'
+import { getUserId } from '../storage'
 
 export const DB_VERSION = 10
 
@@ -36,14 +37,21 @@ export function createSchema(
   })
 }
 
-export function openDb(): Promise<IDBDatabase> {
+export async function openDb(): Promise<IDBDatabase> {
+  const user_id = await getUserId()
+  if (!user_id) {
+    throw new Error('User ID is not set')
+  }
+
+  const dbName = `${DB_NAME}_${user_id}`
+
   return new Promise((resolve, reject) => {
     if (!window.indexedDB) {
       reject('IndexedDB is not supported by this browser.')
       return
     }
 
-    const request = window.indexedDB.open(DB_NAME, DB_VERSION)
+    const request = window.indexedDB.open(dbName, DB_VERSION)
     request.onerror = (event: Event) => {
       reject(
         'Database error: ' +

@@ -2,12 +2,7 @@
  * This module is for backgrounded workflow processing.
  */
 
-import {
-  Host,
-  TimelineAddEntriesInstruction,
-  TimelineTweet,
-  TweetBase,
-} from '../../types'
+import { Host, TweetBase } from '../../types'
 import { getClientWorkflows, getWorkflows } from '.'
 import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
 import { ACTION_LIST, CLIENT_ACTION_LIST } from './actions'
@@ -17,7 +12,6 @@ import {
   TriggerResponseBody,
   TriggerContext,
 } from './trigger.type'
-import { getTweet, getTweetDetails } from '../api/twitter'
 
 export class Monitor {
   static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {

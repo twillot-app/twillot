@@ -367,3 +367,14 @@ export async function getTweetLanguage(
     }
   }
 }
+
+export async function getTweetVideoUrl(weetId: string) {
+  const json = await getTweetDetails(weetId)
+  const tweet = toRecord(
+    json.data.threaded_conversation_with_injections_v2.instructions[0]
+      .entries[0].content.itemContent as TimelineTweet,
+    '',
+  )
+  const item = tweet.media_items.find((item) => item.type === 'video')
+  return item?.video_info.variants[item.video_info.variants.length - 1].url
+}

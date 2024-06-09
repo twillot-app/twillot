@@ -1,16 +1,14 @@
-import {
-  createTweet,
-  getTweet,
-  getTweetDetails,
-  getTweetLanguage,
-  toRecord,
-} from '../api/twitter'
+/**
+ * Note:
+ * ClienAction 和 Action 的区别
+ * 1）运行环境不同，前者运行在网页中，受到 CORS 和 CSP 策略影响
+ * 2）后者运行在 Content Script / Background Script / Options Page
+ * 3）ClientAction 支持 tweet 相关接口调用，需要手动传入 headers
+ */
+
+import { createTweet, getTweetLanguage, getTweetVideoUrl } from '../api/twitter'
 import { addTask } from './task'
-import {
-  API_HOST,
-  TimelineAddEntriesInstruction,
-  TimelineTweet,
-} from '../../types'
+import { API_HOST } from '../../types'
 import { Monitor } from './trigger'
 import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
 
@@ -182,22 +180,14 @@ export const ACTION_LIST: ActionConfig[] = [
           console.error(context)
           throw new Error('No tweet id found in context')
         }
-        const json = await getTweetDetails(tweet_id)
-        const tweet = toRecord(
-          json.data.threaded_conversation_with_injections_v2.instructions[0]
-            .entries[0].content.itemContent as TimelineTweet,
-          '',
-        )
-        const item = tweet.media_items.find((item) => item.type === 'video')
-        if (item) {
-          const { url } =
-            item.video_info.variants[item.video_info.variants.length - 1]
+        const videoUrl = await getTweetVideoUrl(tweet_id)
+        if (videoUrl) {
           chrome.downloads.download({
-            url: url,
+            url: videoUrl,
             filename: `${tweet_id}.mp4`,
           })
         } else {
-          console.warn('No video found in tweet', tweet)
+          console.warn('No video found in tweet', tweet_id)
         }
       } catch (error) {
         console.error('Failed to download video', context, error)

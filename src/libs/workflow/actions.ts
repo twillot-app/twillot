@@ -1,6 +1,16 @@
-import { createTweet, getTweetDetails, toRecord } from '../api/twitter'
+import {
+  createTweet,
+  getTweet,
+  getTweetDetails,
+  getTweetLanguage,
+  toRecord,
+} from '../api/twitter'
 import { addTask } from './task'
-import { API_HOST, TimelineTweet } from '../../types'
+import {
+  API_HOST,
+  TimelineAddEntriesInstruction,
+  TimelineTweet,
+} from '../../types'
 import { Monitor } from './trigger'
 import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
 
@@ -9,6 +19,7 @@ export type ActionHandler = (context: ActionContext) => Promise<any>
 export type ClientActionHandler = (
   trigger: Trigger,
   body: TriggerReuqestBody,
+  headers: any,
 ) => Promise<string>
 
 export type ActionConfig = {
@@ -28,17 +39,25 @@ export type ClientActionConfig = {
 export function createClientAction(
   name: string,
   desc: string,
-  transformer: (trigger: Trigger, body: TriggerReuqestBody) => Promise<string>,
+  transformer: (
+    trigger: Trigger,
+    body: TriggerReuqestBody,
+    headers: any,
+  ) => Promise<string>,
 ): ClientActionConfig {
   return {
     name,
     desc,
     is_client: true,
-    handler: async (trigger: Trigger, body: TriggerReuqestBody) => {
+    handler: async (
+      trigger: Trigger,
+      body: TriggerReuqestBody,
+      headers: any,
+    ) => {
       if (!body?.variables?.tweet_text) {
         console.error('No tweet text found in body', body)
       } else {
-        const transformed = await transformer(trigger, body)
+        const transformed = await transformer(trigger, body, headers)
         body.variables.tweet_text = transformed
       }
       return JSON.stringify(body)
@@ -50,26 +69,32 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
   createClientAction(
     'AutoTranslate',
     'Auto translate',
-    async (trigger, body) => {
+    async (trigger, body, headers) => {
       let text = body.variables.tweet_text
       try {
         let { source } = Monitor.getContext(trigger, body)
+        /**
+         * 标准化输入参数
+         */
+        const apiBody = {
+          source: {
+            id: source || '',
+            lang: 'en',
+          },
+          user: {
+            id: 'twillot',
+            browser: navigator.language,
+          },
+          input: [text],
+        }
+        let lang = await getTweetLanguage(source, headers)
+        if (apiBody.user.browser.includes(lang) || lang === 'qme') {
+          console.log('Skip auto translate for same language', lang)
+          return text
+        }
         const json: any = await Monitor.proxyClientPageRequest({
           url: API_HOST + '/translate',
-          /**
-           * 尽量标准化输入参数
-           */
-          body: {
-            source: {
-              id: source || '',
-              lang: 'en',
-            },
-            user: {
-              id: 'twillot',
-              browser: navigator.language,
-            },
-            input: [text],
-          },
+          body: apiBody,
         })
         return json.data.text
       } catch (error) {

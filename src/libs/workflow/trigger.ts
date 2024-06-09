@@ -166,34 +166,6 @@ export class Monitor {
         sendWorkflows2ClientPage()
       } else if (data.type === MessageType.ClientPageRequest) {
         const { url, body } = data.payload
-        if (body.source.id) {
-          const json = await getTweetDetails(body.source.id)
-          const entry = json.data.threaded_conversation_with_injections_v2
-            .instructions[0] as TimelineAddEntriesInstruction<TimelineTweet>
-          const content = entry.entries[0].content
-          if (content.entryType === 'TimelineTimelineItem') {
-            const tweet = getTweet(content.itemContent.tweet_results.result)
-            if (tweet) {
-              const lang = tweet.legacy.lang
-              // 纯表情或者语言相同无需调用翻译接口
-              if (
-                body.user.browser.includes(tweet.legacy.lang) ||
-                lang === 'qme'
-              ) {
-                Monitor.postClientPageMessage(
-                  {
-                    data: {
-                      text: body.input[0],
-                    },
-                  },
-                  MessageType.ClientPageRequest,
-                )
-                return
-              }
-              body.source.lang = lang
-            }
-          }
-        }
         const res = await fetch(url, {
           method: 'POST',
           headers: {
@@ -265,6 +237,7 @@ export class Monitor {
   static async transformClientPageReuqest(
     trigger: Trigger,
     data: string | null,
+    headers,
   ) {
     const reqBody: TriggerReuqestBody = data ? JSON.parse(data) : {}
     const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
@@ -282,7 +255,7 @@ export class Monitor {
            * TODO 一个 trigger 下可以支持多个 client actions
            */
           const item = CLIENT_ACTION_LIST.find((h) => h.name === action.name)
-          const newData = await item.handler(realTrigger, reqBody)
+          const newData = await item.handler(realTrigger, reqBody, headers)
           return newData || ''
         }
       }

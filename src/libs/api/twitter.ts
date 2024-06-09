@@ -134,18 +134,18 @@ function get_headers(token: string, csrf: string) {
 }
 
 async function request(url: string, options: RequestInit) {
-  if (!chrome || !chrome.storage) {
-    throw new Error('You are running this function in client page environment.')
+  let headers = options.headers
+  if (!options.headers?.['authorization']) {
+    const { token, csrf } = await getAuthInfo()
+    headers = {
+      ...options.headers,
+      ...get_headers(token, csrf),
+    }
   }
-
-  const { token, csrf } = await getAuthInfo()
   const res = await fetchWithTimeout(url, {
     method: 'POST',
     ...options,
-    headers: {
-      ...options.headers,
-      ...get_headers(token, csrf),
-    },
+    headers,
   })
   const data = await res.json()
   if (res.status === 403) {
@@ -260,7 +260,11 @@ export async function getBookmarks(cursor?: string) {
   }
 }
 
-export function getTweetDetails(tweetId: string, cursor?: string) {
+export function getTweetDetails(
+  tweetId: string,
+  cursor?: string,
+  headers?: any,
+) {
   const variables = {
     focalTweetId: tweetId,
     with_rux_injections: false,
@@ -288,6 +292,7 @@ export function getTweetDetails(tweetId: string, cursor?: string) {
   return request(`${Endpoint.TWEET_DETAIL}?${flatten(params)}`, {
     method: 'GET',
     body: null,
+    headers,
   })
 }
 
@@ -345,4 +350,20 @@ export function getFolders() {
     body: null,
     method: 'GET',
   })
+}
+
+export async function getTweetLanguage(
+  tweetId: string,
+  headers?: any,
+): Promise<string | undefined> {
+  let json = await getTweetDetails(tweetId, '', headers)
+  const entry = json.data.threaded_conversation_with_injections_v2
+    .instructions[0] as TimelineAddEntriesInstruction<TimelineTweet>
+  const content = entry.entries[0].content
+  if (content.entryType === 'TimelineTimelineItem') {
+    const tweet = getTweet(content.itemContent.tweet_results.result)
+    if (tweet) {
+      return tweet.legacy.lang
+    }
+  }
 }

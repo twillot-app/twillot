@@ -174,7 +174,23 @@ export class Monitor {
           if (content.entryType === 'TimelineTimelineItem') {
             const tweet = getTweet(content.itemContent.tweet_results.result)
             if (tweet) {
-              body.source.lang = tweet.legacy.lang
+              const lang = tweet.legacy.lang
+              // 纯表情或者语言相同无需调用翻译接口
+              if (
+                body.user.browser.includes(tweet.legacy.lang) ||
+                lang === 'qme'
+              ) {
+                Monitor.postClientPageMessage(
+                  {
+                    data: {
+                      text: body.input[0],
+                    },
+                  },
+                  MessageType.ClientPageRequest,
+                )
+                return
+              }
+              body.source.lang = lang
             }
           }
         }

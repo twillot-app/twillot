@@ -23,6 +23,7 @@ export default function Authenticate() {
     return authenticated
   }
   const startAuth = async (e: Event) => {
+    await chrome.storage.local.clear()
     e.stopPropagation()
     const authed = await checkAuth()
     if (authed) return

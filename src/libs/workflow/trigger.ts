@@ -149,7 +149,7 @@ export class Monitor {
     }
 
     window.addEventListener('message', async (event) => {
-      if (event.origin !== Host) {
+      if (event.origin !== Host || event.source !== window) {
         return
       }
 

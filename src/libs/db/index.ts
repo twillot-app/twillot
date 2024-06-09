@@ -9,11 +9,18 @@ export const TWEETS_TABLE_NAME = 'tweets'
 
 export const CONFIGS_TABLE_NAME = 'configs'
 
-export function getObjectStore(db: IDBDatabase, tableName = TWEETS_TABLE_NAME) {
-  const transaction = db.transaction([tableName], 'readwrite')
+let user_id = ''
+
+function getTableName(tbName: string) {
+  return `${tbName}_${user_id}`
+}
+
+export function getObjectStore(db: IDBDatabase, tableName: string) {
+  const realTbName = getTableName(tableName)
+  const transaction = db.transaction([realTbName], 'readwrite')
   return {
     transaction,
-    objectStore: transaction.objectStore(tableName),
+    objectStore: transaction.objectStore(realTbName),
   }
 }
 
@@ -24,9 +31,10 @@ export function createSchema(
   keyPath: string,
   indexes: IndexedDbIndexItem[],
 ) {
-  let objectStore = db.objectStoreNames.contains(tableName)
-    ? transaction.objectStore(tableName)
-    : db.createObjectStore(tableName, {
+  const realTbName = getTableName(tableName)
+  let objectStore = db.objectStoreNames.contains(realTbName)
+    ? transaction.objectStore(realTbName)
+    : db.createObjectStore(realTbName, {
         keyPath: keyPath,
       })
 
@@ -38,12 +46,10 @@ export function createSchema(
 }
 
 export async function openDb(): Promise<IDBDatabase> {
-  const user_id = await getUserId()
+  user_id = await getUserId()
   if (!user_id) {
     throw new Error('User ID is not set')
   }
-
-  const dbName = `${DB_NAME}_${user_id}`
 
   return new Promise((resolve, reject) => {
     if (!window.indexedDB) {
@@ -51,7 +57,7 @@ export async function openDb(): Promise<IDBDatabase> {
       return
     }
 
-    const request = window.indexedDB.open(dbName, DB_VERSION)
+    const request = window.indexedDB.open(DB_NAME, DB_VERSION)
     request.onerror = (event: Event) => {
       reject(
         'Database error: ' +

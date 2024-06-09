@@ -276,7 +276,7 @@ export const updateAction = (
 }
 
 /**
- * 任务执行前置条件，同步最新的书签数据（主要是 sortIndex 字段）
+ * Precondition for task execution: sync the latest bookmark data (mainly the sortIndex field)
  */
 export async function executeAllTasks() {
   const tasks = await getTasks()
@@ -284,7 +284,7 @@ export async function executeAllTasks() {
   for (const task of tasks) {
     console.log('execute task', task)
     /**
-     * 自动同步 threads
+     * Automatically sync threads
      */
     if (task.name === 'UnrollThread') {
       const dbItem = await getRecord(task.tweetId)

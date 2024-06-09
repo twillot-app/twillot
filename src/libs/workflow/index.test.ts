@@ -60,7 +60,7 @@ describe('Task Manager between options page and background script', () => {
     expect(tasks.filter((t) => t.id === '123').length).toBe(1)
     expect(tasks).toEqual(initialTasks.concat(existingTask))
 
-    // name 和 tweetId 相同的任务也属于同一个任务
+    // Tasks with the same name and tweetId are considered the same task
     const task2 = {
       id: '456',
       name: 'LikeTweet',

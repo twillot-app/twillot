@@ -1,9 +1,3 @@
-/**
- * bg 任务
- * 通常 bg 只是记录任务，并不执行具体的操作
- * 实际执行在 options 页面
- */
-
 import { ClientActions } from './actions'
 import { Workflow } from './types'
 

@@ -90,13 +90,13 @@ export type ClientActionKey = (typeof CLIENT_ACTION_LIST)[number]['name']
 export const ClientActions = CLIENT_ACTION_LIST.map((a) => a.name)
 
 /**
- * NOTE
- * 对于一些操作需要与 Options 页面交互
- * 1）先添加 Task
- * 2）消息发送给 Options 页面（防止 Options 页面未打开）
- * 3）Options 页面执行特定操作。
+ * NOTE:
+ * For some operations, interaction with the Options page is required:
+ * 1) Add Task first
+ * 2) Send message to Options page (in case the Options page is not open)
+ * 3) Options page performs specific operations.
  *
- * 无需 Options 页面执行操作的可以直接执行。
+ * Operations that do not require the Options page can be executed directly.
  */
 export const ACTION_LIST: ActionConfig[] = [
   {

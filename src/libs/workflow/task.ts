@@ -12,8 +12,8 @@ import { Task } from './types'
 export async function addTask(task: Task) {
   let tasks = await getTasks()
   /**
-   * 先取消删除再收藏会导致数据数据被删
-   * 对任务做些过滤以及合并
+   * Canceling deletion before bookmarking can cause data to be deleted.
+   * Filter and merge tasks accordingly.
    */
   if (task.name === 'UnrollThread') {
     tasks = tasks.filter(

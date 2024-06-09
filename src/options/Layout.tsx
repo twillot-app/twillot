@@ -25,6 +25,7 @@ import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
 import { MessageType } from '../libs/workflow/types'
+import { onLocalChanged } from '../libs/storage'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -63,11 +64,7 @@ export const Layout = (props) => {
       initHistory()
       initSync()
       initFolders()
-      chrome.storage.local.onChanged.addListener((changes) => {
-        if (changes['tasks']) {
-          initSync()
-        }
-      })
+      onLocalChanged('tasks', initSync)
     }
   })
 

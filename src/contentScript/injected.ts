@@ -29,11 +29,7 @@ XMLHttpRequest.prototype.send = async function (data: string | null) {
   const url = this._url
   const trigger = url.split('/').pop() as Trigger
   if (trigger && TriggerKeys.includes(trigger)) {
-    data = await Monitor.transformClientPageReuqest(
-      trigger,
-      data,
-      this._headers,
-    )
+    data = await Monitor.execClientPageWorkflows(trigger, data, this._headers)
     this.addEventListener('load', async function () {
       Monitor.postContentScriptMessage(
         trigger,

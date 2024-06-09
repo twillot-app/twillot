@@ -12,6 +12,7 @@ import {
   TriggerResponseBody,
   TriggerContext,
 } from './trigger.type'
+import { onLocalChanged } from '../storage'
 
 export class Monitor {
   static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {
@@ -172,12 +173,7 @@ export class Monitor {
       }
     })
 
-    chrome.storage.local.onChanged.addListener(async (changes) => {
-      if (changes['workflows']) {
-        console.log('Workflows changed', changes['workflows'])
-        sendWorkflows2ClientPage()
-      }
-    })
+    onLocalChanged('workflows', sendWorkflows2ClientPage)
   }
 
   static proxyClientPageRequest(payload) {
@@ -228,7 +224,7 @@ export class Monitor {
     )
   }
 
-  static async transformClientPageReuqest(
+  static async execClientPageWorkflows(
     trigger: Trigger,
     data: string | null,
     headers,
@@ -274,7 +270,7 @@ export class Emitter {
       handlers[action.name] = action.handler
     })
 
-    console.log('Workflows:', workflows)
+    console.log('Matched workflows:', workflows)
     for (const w of workflows) {
       let prevActionResponse = null
       console.log(`Workflow starts`, payload)

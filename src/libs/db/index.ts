@@ -97,7 +97,30 @@ export async function openDb(): Promise<IDBDatabase> {
 
     request.onsuccess = (event: Event) => {
       const db = (event.target as IDBOpenDBRequest).result
-      resolve(db)
+
+      // Check if a database named {DB_NAME} exists and modify its name to {dbName}
+      const existingDbRequest = window.indexedDB.open(DB_NAME, DB_VERSION)
+      existingDbRequest.onsuccess = () => {
+        const existingDb = existingDbRequest.result
+        const renameTransaction = existingDb.transaction(
+          [TWEETS_TABLE_NAME, CONFIGS_TABLE_NAME],
+          'readwrite',
+        )
+        renameTransaction.oncomplete = () => {
+          existingDb.close()
+          window.indexedDB.deleteDatabase(DB_NAME)
+          resolve(db)
+        }
+        renameTransaction.onerror = (event) => {
+          reject(
+            'Database rename error: ' +
+              (event.target as IDBOpenDBRequest).error?.toString(),
+          )
+        }
+      }
+      existingDbRequest.onerror = () => {
+        resolve(db)
+      }
     }
   })
 }

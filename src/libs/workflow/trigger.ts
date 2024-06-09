@@ -313,12 +313,10 @@ export class Emitter {
       }
       console.log(`Workflow ends`)
     }
-    await this.saveWorkflows()
   }
 
   async start() {
-    const storedWorkflows = await chrome.storage.local.get('workflows')
-    this.workflows = storedWorkflows.workflows || await getWorkflows()
+    this.workflows = await getWorkflows()
     console.log('Workflows:', this.workflows)
 
     ACTION_LIST.forEach((action) => {
@@ -341,9 +339,5 @@ export class Emitter {
         this.workflows = changes.workflows.newValue
       }
     })
-  }
-
-  async saveWorkflows() {
-    await chrome.storage.local.set({ workflows: this.workflows })
   }
 }

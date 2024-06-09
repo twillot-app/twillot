@@ -1,8 +1,9 @@
+import { getLocal } from '../storage'
 import { ClientActions } from './actions'
 import { Workflow } from './types'
 
 export async function getWorkflows(): Promise<Workflow[]> {
-  const item = await chrome.storage.local.get('workflows')
+  const item = await getLocal('workflows')
   let workflows: Workflow[] = item.workflows || []
   return workflows
 }

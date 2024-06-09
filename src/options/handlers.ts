@@ -13,6 +13,7 @@ import {
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
+import { setLocal } from '../libs/storage'
 
 async function query(
   keyword = '',
@@ -86,7 +87,7 @@ export async function initSync() {
       setStore('isForceSyncing', false)
       setStore('topUsers', reconcile(await getTopUsers(10)))
       const syncedTime = Math.floor(Date.now() / 1000)
-      await chrome.storage.local.set({
+      await setLocal({
         lastForceSynced: syncedTime,
       })
     } else {

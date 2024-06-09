@@ -10,6 +10,15 @@ if (location.host === oldDomain) {
   location.href = location.href.replace(oldDomain, X_DOMAIN)
 }
 
+for (const item of document.cookie.split(';')) {
+  const [key, value] = item.split('=')
+  if (key.includes('twid')) {
+    chrome.storage.local.set({
+      current_user_id: value.replace('u%3D', ''),
+    })
+    break
+  }
+}
 Monitor.onContentScriptMessage()
 
 /**

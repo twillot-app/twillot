@@ -1,3 +1,5 @@
+import { getLocal, setLocal } from './storage'
+
 export function openNewTab(url: string, active = true) {
   return chrome.tabs.create({
     url,
@@ -6,24 +8,20 @@ export function openNewTab(url: string, active = true) {
 }
 
 export async function getAuthInfo() {
-  const auth = await chrome.storage.local.get([
-    'token',
-    'csrf',
-    'lastForceSynced',
-  ])
+  const auth = await getLocal(['token', 'csrf', 'lastForceSynced'])
   return auth
 }
 
 export async function addLocalItem(key: string, value: string | string[]) {
   if (value && value.length > 0) {
-    await chrome.storage.local.set({
+    await setLocal({
       [key]: value,
     })
   }
 }
 
 export async function getLocalItem(key: string) {
-  const item = await chrome.storage.local.get(key)
+  const item = await getLocal(key)
   return item && item[key]
 }
 

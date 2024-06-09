@@ -9,6 +9,7 @@ import { getTasks, removeTask } from './task'
 import { CommentTemplate, Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
+import { setLocal } from '../storage'
 
 const [store] = dataStore
 
@@ -142,7 +143,7 @@ export const saveWorkflow = async (index: number) => {
   })
 
   console.log('Workflow saved to database', workflows)
-  await chrome.storage.local.set({ workflows })
+  await setLocal({ workflows })
 }
 
 export const removeWorkflow = async (index: number) => {
@@ -158,7 +159,7 @@ export const removeWorkflow = async (index: number) => {
         option_name: OptionName.WORKFLOW,
         option_value: items,
       })
-      await chrome.storage.local.set({ workflows: items })
+      await setLocal({ workflows: items })
     }
   })
 }
@@ -179,7 +180,7 @@ export const getWorkflows = async () => {
   mutateStore((state) => {
     state.workflows = workflows
   })
-  await chrome.storage.local.set({ workflows })
+  await setLocal({ workflows })
   return workflows
 }
 

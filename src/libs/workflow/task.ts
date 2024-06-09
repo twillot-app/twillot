@@ -4,6 +4,7 @@
  * 实际执行在 options 页面
  */
 
+import { getLocal, setLocal } from '../storage'
 import { Task } from './types'
 
 /**
@@ -30,12 +31,12 @@ export async function addTask(task: Task) {
 }
 
 export async function getTasks(): Promise<Task[]> {
-  const obj = await chrome.storage.local.get('tasks')
+  const obj = await getLocal('tasks')
   return obj.tasks || []
 }
 
 export async function saveTasks(tasks: Task[]) {
-  await chrome.storage.local.set({ tasks })
+  await setLocal({ tasks })
 }
 
 export async function removeTask(id: string) {

@@ -313,12 +313,9 @@ export async function getTweetConversations(tweetId: string) {
   }
 
   // 这是原推
-  let originalTweetEntry = instructions.entries[0] as TimelineEntry<
-    TimelineTweet,
-    TimelineTimelineItem<TimelineTweet>
-  > | null
-  if (!originalTweetEntry) {
-    console.error('Tweet not found in response')
+  let index = instructions.entries.findIndex((i) => i.entryId.includes(tweetId))
+  if (index > 0) {
+    console.error('No conversation found in response')
     return null
   }
 
@@ -332,17 +329,18 @@ export async function getTweetConversations(tweetId: string) {
     return null
   }
 
-  const items = entry.content.items.filter(
-    (i) =>
-      i.item.itemContent.itemType === 'TimelineTweet' &&
-      i.item.itemContent.tweetDisplayType === 'SelfThread',
-  )
+  const items =
+    entry.content.items?.filter(
+      (i) =>
+        i.item.itemContent.itemType === 'TimelineTweet' &&
+        i.item.itemContent.tweetDisplayType === 'SelfThread',
+    ) || []
 
   for (const i of items) {
     conversations.push(toRecord(i.item.itemContent, ''))
   }
 
-  return conversations
+  return conversations.length > 0 ? conversations : null
 }
 
 export function getFolders() {
@@ -359,7 +357,10 @@ export async function getTweetLanguage(
   let json = await getTweetDetails(tweetId, '', headers)
   const entry = json.data.threaded_conversation_with_injections_v2
     .instructions[0] as TimelineAddEntriesInstruction<TimelineTweet>
-  const content = entry.entries[0].content
+  const content = entry.entries.find(
+    (i: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>) =>
+      i.entryId.includes(tweetId),
+  ).content
   if (content.entryType === 'TimelineTimelineItem') {
     const tweet = getTweet(content.itemContent.tweet_results.result)
     if (tweet) {
@@ -368,11 +369,13 @@ export async function getTweetLanguage(
   }
 }
 
-export async function getTweetVideoUrl(weetId: string) {
-  const json = await getTweetDetails(weetId)
+export async function getTweetVideoUrl(tweetId: string) {
+  const json = await getTweetDetails(tweetId)
   const tweet = toRecord(
-    json.data.threaded_conversation_with_injections_v2.instructions[0]
-      .entries[0].content.itemContent as TimelineTweet,
+    json.data.threaded_conversation_with_injections_v2.instructions[0].entries.find(
+      (i: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>) =>
+        i.entryId.includes(tweetId),
+    ).content.itemContent as TimelineTweet,
     '',
   )
   const item = tweet.media_items.find((item) => item.type === 'video')

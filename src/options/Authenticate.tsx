@@ -5,6 +5,7 @@ import { getAuthInfo, openNewTab } from '../libs/browser'
 import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
 import { ActionPage } from '../types'
+import { clearCurrentLocal } from '../libs/storage'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
@@ -23,7 +24,7 @@ export default function Authenticate() {
     return authenticated
   }
   const startAuth = async (e: Event) => {
-    await chrome.storage.local.clear()
+    await clearCurrentLocal()
     e.stopPropagation()
     const authed = await checkAuth()
     if (authed) return

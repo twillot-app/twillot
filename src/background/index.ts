@@ -1,4 +1,5 @@
 import { getOptionsPageTab } from '../libs/browser'
+import { setLocal } from '../libs/storage'
 import { Emitter } from '../libs/workflow/trigger'
 import { TriggerContext } from '../libs/workflow/trigger.type'
 import { Message, MessageType } from '../libs/workflow/types'
@@ -10,7 +11,12 @@ chrome.action.onClicked.addListener(function () {
 
 chrome.webRequest.onSendHeaders.addListener(
   async (details: chrome.webRequest.WebRequestHeadersDetails) => {
-    const { url } = details
+    const { url, initiator } = details
+    // 当前页面不监听
+    if (initiator !== Host) {
+      return
+    }
+
     /**
      * The interface for members and non-members is different.
      * Members request folders first, while regular users directly request bookmarks.
@@ -34,11 +40,23 @@ chrome.webRequest.onSendHeaders.addListener(
       }
     }
 
-    if (csrf && token) {
+    const { current_user_id = '' } =
+      await chrome.storage.local.get('current_user_id')
+
+    if (current_user_id) {
       await chrome.storage.local.set({
-        csrf,
-        token,
+        current_user_id,
       })
+      if (csrf && token) {
+        await setLocal({
+          csrf,
+          token,
+        })
+      } else {
+        console.error('csrf or token not found', url)
+      }
+    } else {
+      console.error('current_user_id not found')
     }
   },
   {

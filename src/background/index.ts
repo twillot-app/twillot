@@ -22,4 +22,6 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
 })
 
 const emitter = new Emitter()
+console.log('Initializing Emitter');
+console.log('Initializing Emitter');
 emitter.start()

@@ -12,8 +12,8 @@ chrome.webRequest.onSendHeaders.addListener(
   async (details: chrome.webRequest.WebRequestHeadersDetails) => {
     const { url } = details
     /**
-     * 会员与非会员界面不一样
-     * 会员先请求文件夹，普通用户直接请求书签
+     * The interface for members and non-members is different.
+     * Members request folders first, while regular users directly request bookmarks.
      */
     if (!url.includes('/Bookmarks') && !url.includes('/BookmarkFoldersSlice')) {
       return

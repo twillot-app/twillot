@@ -1,21 +1,16 @@
 import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { getUserId, getStorageKey, setLocal, getLocal, clearCurrentLocal, onLocalChanged } from './storage'
 
-vi.mock('webextension-polyfill', () => ({
-  storage: {
-    local: {
-      get: vi.fn(),
-      set: vi.fn(),
-      remove: vi.fn(),
-      clear: vi.fn(),
-      onChanged: {
-        addListener: vi.fn(),
-      },
-    },
-  },
-}))
+import {
+  getCurrentUserId,
+  getStorageKey,
+  setLocal,
+  getLocal,
+  clearCurrentLocal,
+  onLocalChanged,
+  setCurrentUserId,
+} from './storage'
 
 describe('Storage Module', () => {
   beforeEach(() => {
@@ -24,8 +19,8 @@ describe('Storage Module', () => {
   })
 
   it('getUserId should return the current user id', async () => {
-    browser.storage.local.get.mockResolvedValue({ current_user_id: '123' })
-    const userId = await getUserId()
+    await browser.storage.local.set({ current_user_id: '123' })
+    const userId = await getCurrentUserId()
     expect(userId).toBe('123')
   })
 
@@ -35,29 +30,51 @@ describe('Storage Module', () => {
   })
 
   it('setLocal should set items in local storage', async () => {
-    browser.storage.local.get.mockResolvedValue({ current_user_id: '123' })
+    await setCurrentUserId('123')
     await setLocal({ testKey: 'testValue' })
-    expect(browser.storage.local.set).toHaveBeenCalledWith({ 'user:123:testKey': 'testValue' })
+    const result = await browser.storage.local.get(
+      getStorageKey('testKey', '123'),
+    )
+    expect(result).toStrictEqual({
+      'user:123:testKey': 'testValue',
+    })
   })
 
   it('getLocal should get items from local storage', async () => {
-    browser.storage.local.get.mockResolvedValue({ 'user:123:testKey': 'testValue' })
     const result = await getLocal('testKey')
-    expect(result).toEqual({ testKey: 'testValue' })
+    expect(result.testKey).toBeUndefined()
+    setCurrentUserId('123')
+    await setLocal({ testKey: 'testValue' })
+    const result2 = await getLocal('testKey')
+    expect(result2.testKey).toBe('testValue')
   })
 
   it('clearCurrentLocal should clear current user local storage', async () => {
-    browser.storage.local.get.mockResolvedValue({ 'user:123:testKey': 'testValue' })
+    await setCurrentUserId('123')
+    await setLocal({ testKey: 'testValue' })
+    await setCurrentUserId('456')
+    await setLocal({ testKey2: 'testValue2' })
+
+    const result = await getLocal('testKey')
+    const result2 = await getLocal('testKey2')
+    expect(result.testKey).toBeUndefined()
+    expect(result2.testKey2).toBe('testValue2')
     await clearCurrentLocal()
-    expect(browser.storage.local.remove).toHaveBeenCalledWith(['user:123:testKey'])
+    const result3 = await getLocal('testKey')
+    const result4 = await getLocal('testKey2')
+    expect(result3.testKey).toBeUndefined()
+    expect(result4.testKey2).toBeUndefined()
+    await setCurrentUserId('123')
+    const result5 = await getLocal('testKey')
+    expect(result5.testKey).toBe('testValue')
   })
 
   it('onLocalChanged should call callback when local storage changes', async () => {
+    await setCurrentUserId('123')
+    await setLocal({ testKey: 'oldValue' })
     const callback = vi.fn()
     onLocalChanged('testKey', callback)
-    const changes = { 'user:123:testKey': { newValue: 'newValue' } }
-    const listener = browser.storage.local.onChanged.addListener.mock.calls[0][0]
-    await listener(changes)
+    await setLocal({ testKey: 'newValue' })
     expect(callback).toHaveBeenCalledWith('newValue')
   })
 })

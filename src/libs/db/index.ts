@@ -1,5 +1,5 @@
 import { IndexedDbIndexItem } from '../../types'
-import { getUserId } from '../storage'
+import { getCurrentUserId } from '../storage'
 
 export const DB_VERSION = 10
 
@@ -47,7 +47,7 @@ export function createSchema(
 
 export async function openDb(): Promise<IDBDatabase> {
   if (!user_id) {
-    user_id = await getUserId()
+    user_id = await getCurrentUserId()
   }
 
   return new Promise((resolve, reject) => {

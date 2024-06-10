@@ -1,6 +1,10 @@
-export async function getUserId(): Promise<string> {
+export async function getCurrentUserId(): Promise<string> {
   const item = await chrome.storage.local.get('current_user_id')
   return item.current_user_id || ''
+}
+
+export function setCurrentUserId(user_id: string) {
+  return chrome.storage.local.set({ current_user_id: user_id })
 }
 
 export function getStorageKey(key: string, user_id: string) {
@@ -12,7 +16,7 @@ export function getStorageKey(key: string, user_id: string) {
 }
 
 export async function setLocal(items: { [key: string]: any }) {
-  const user_id = await getUserId()
+  const user_id = await getCurrentUserId()
 
   let newItems
   if (user_id) {
@@ -28,7 +32,7 @@ export async function setLocal(items: { [key: string]: any }) {
 }
 
 export async function getLocal(key: string | string[]) {
-  const user_id = await getUserId()
+  const user_id = await getCurrentUserId()
   let result: any = {}
   if (Array.isArray(key)) {
     result = await chrome.storage.local.get(
@@ -48,7 +52,7 @@ export async function getLocal(key: string | string[]) {
 }
 
 export async function clearCurrentLocal() {
-  const user_id = await getUserId()
+  const user_id = await getCurrentUserId()
   const config = await chrome.storage.local.get()
 
   if (user_id) {
@@ -62,13 +66,13 @@ export async function clearCurrentLocal() {
 
 export function onLocalChanged(key: string, callback: (newValue: any) => void) {
   chrome.storage.local.onChanged.addListener(async (changes) => {
-    const item = await chrome.storage.local.get('current_user_id')
-    if (!item.current_user_id) {
+    const current_user_id = await getCurrentUserId()
+    if (!current_user_id) {
       console.error('current_user_id not found in storage')
       return
     }
 
-    const realKey = getStorageKey(key, item.current_user_id)
+    const realKey = getStorageKey(key, current_user_id)
     if (changes[realKey]) {
       callback(changes[realKey].newValue)
     }

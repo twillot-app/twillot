@@ -1,5 +1,5 @@
 import { getOptionsPageTab } from '../libs/browser'
-import { setLocal } from '../libs/storage'
+import { getCurrentUserId, setLocal } from '../libs/storage'
 import { Emitter } from '../libs/workflow/trigger'
 import { TriggerContext } from '../libs/workflow/trigger.type'
 import { Message, MessageType } from '../libs/workflow/types'
@@ -40,13 +40,8 @@ chrome.webRequest.onSendHeaders.addListener(
       }
     }
 
-    const { current_user_id = '' } =
-      await chrome.storage.local.get('current_user_id')
-
+    const current_user_id = await getCurrentUserId()
     if (current_user_id) {
-      await chrome.storage.local.set({
-        current_user_id,
-      })
       if (csrf && token) {
         await setLocal({
           csrf,

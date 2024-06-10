@@ -1,3 +1,4 @@
+import { setCurrentUserId } from '../libs/storage'
 import { Monitor } from '../libs/workflow/trigger'
 import { X_DOMAIN } from '../types'
 //@ts-ignore
@@ -13,9 +14,7 @@ if (location.host === oldDomain) {
 for (const item of document.cookie.split(';')) {
   const [key, value] = item.split('=')
   if (key.includes('twid')) {
-    chrome.storage.local.set({
-      current_user_id: value.replace('u%3D', ''),
-    })
+    setCurrentUserId(value.replace('u%3D', ''))
     break
   }
 }

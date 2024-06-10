@@ -4,15 +4,24 @@ export async function getUserId(): Promise<string> {
 }
 
 export function getStorageKey(key: string, user_id: string) {
+  if (!user_id) {
+    return key
+  }
+
   return `user:${user_id}:${key}`
 }
 
 export async function setLocal(items: { [key: string]: any }) {
   const user_id = await getUserId()
 
-  const newItems = {}
-  for (const key in items) {
-    newItems[getStorageKey(key, user_id)] = items[key]
+  let newItems
+  if (user_id) {
+    newItems = {}
+    for (const key in items) {
+      newItems[getStorageKey(key, user_id)] = items[key]
+    }
+  } else {
+    newItems = items
   }
 
   return chrome.storage.local.set(newItems)
@@ -29,8 +38,10 @@ export async function getLocal(key: string | string[]) {
     result = await chrome.storage.local.get(getStorageKey(key, user_id))
   }
 
-  for (const k in result) {
-    result[k.replace(`user:${user_id}:`, '')] = result[k]
+  if (user_id) {
+    for (const k in result) {
+      result[k.replace(`user:${user_id}:`, '')] = result[k]
+    }
   }
 
   return result
@@ -40,9 +51,13 @@ export async function clearCurrentLocal() {
   const user_id = await getUserId()
   const config = await chrome.storage.local.get()
 
-  return chrome.storage.local.remove(
-    Object.keys(config).filter((key) => key.startsWith(`user:${user_id}:`)),
-  )
+  if (user_id) {
+    return chrome.storage.local.remove(
+      Object.keys(config).filter((key) => key.startsWith(`user:${user_id}:`)),
+    )
+  }
+
+  return chrome.storage.local.clear()
 }
 
 export function onLocalChanged(key: string, callback: (newValue: any) => void) {

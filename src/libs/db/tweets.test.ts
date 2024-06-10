@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest'
+import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 
 import {
@@ -17,6 +18,7 @@ import TweetGenerator from '../../../__mocks__/tweet'
 
 describe('dbModule', () => {
   afterEach(async () => {
+    global.chrome = browser
     indexedDB = new IDBFactory()
   })
 

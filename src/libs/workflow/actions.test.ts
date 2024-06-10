@@ -27,7 +27,7 @@ describe('Actions Module', () => {
       async (text) => text + ' transformed',
     )
     const body = { variables: { tweet_text: 'Test tweet' }, features: {} }
-    const result = await action.handler('CreateTweet', body)
+    const result = await action.handler('CreateTweet', body, null)
     expect(result).toContain('transformed')
   })
 

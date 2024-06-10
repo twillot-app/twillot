@@ -46,9 +46,8 @@ export function createSchema(
 }
 
 export async function openDb(): Promise<IDBDatabase> {
-  user_id = await getUserId()
   if (!user_id) {
-    throw new Error('User ID is not set')
+    user_id = await getUserId()
   }
 
   return new Promise((resolve, reject) => {

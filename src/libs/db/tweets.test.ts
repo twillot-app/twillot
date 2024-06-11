@@ -13,33 +13,28 @@ import {
   getRencentTweets,
   clearFolder,
   getRandomTweet,
+  getPostId,
 } from './tweets'
 import TweetGenerator from '../../../__mocks__/tweet'
-import { openDb, getObjectStore, TWEETS_TABLE_NAME, TWEETS_TABLE_NAME_V2, CONFIGS_TABLE_NAME, CONFIGS_TABLE_NAME_V2, DB_NAME, DB_VERSION } from './index'
+import {
+  openDb,
+  getObjectStore,
+  TWEETS_TABLE_NAME,
+  TWEETS_TABLE_NAME_V2,
+  CONFIGS_TABLE_NAME,
+  CONFIGS_TABLE_NAME_V2,
+  migrateData,
+} from './index'
 import { getCurrentUserId } from '../storage'
 import { setCurrentUserId } from '../storage'
+import { Config, Tweet } from '../../types'
+import { getConfigId } from './configs'
 
 describe('dbModule', () => {
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     global.chrome = browser
     indexedDB = new IDBFactory()
     await setCurrentUserId('1234567890')
-    const request = indexedDB.open(DB_NAME, DB_VERSION)
-    request.onupgradeneeded = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result
-      if (!db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
-        db.createObjectStore(TWEETS_TABLE_NAME, { keyPath: 'tweet_id' })
-      }
-      if (!db.objectStoreNames.contains(CONFIGS_TABLE_NAME)) {
-        db.createObjectStore(CONFIGS_TABLE_NAME, { keyPath: 'option_name' })
-      }
-    }
-    request.onsuccess = () => {
-      done()
-    }
-    request.onerror = () => {
-      done(request.error)
-    }
   })
 
   describe('migrateData', () => {
@@ -53,26 +48,46 @@ describe('dbModule', () => {
       ]
 
       // Add data to old tables
-      const { objectStore: oldTweetStore } = getObjectStore(db, TWEETS_TABLE_NAME)
-      const { objectStore: oldConfigStore } = getObjectStore(db, CONFIGS_TABLE_NAME)
-      tweets.forEach(tweet => oldTweetStore.put(tweet))
-      configs.forEach(config => oldConfigStore.put(config))
+      const { objectStore: oldTweetStore } = getObjectStore(
+        db,
+        TWEETS_TABLE_NAME,
+      )
+      const { objectStore: oldConfigStore } = getObjectStore(
+        db,
+        CONFIGS_TABLE_NAME,
+      )
+      tweets.forEach((tweet) => oldTweetStore.put(tweet))
+      configs.forEach((config) => oldConfigStore.put(config))
 
       // Trigger migration
-      const transaction = db.transaction([TWEETS_TABLE_NAME_V2, CONFIGS_TABLE_NAME_V2], 'readwrite')
+      const transaction = db.transaction(
+        [
+          TWEETS_TABLE_NAME_V2,
+          CONFIGS_TABLE_NAME_V2,
+          TWEETS_TABLE_NAME,
+          CONFIGS_TABLE_NAME,
+        ],
+        'readwrite',
+      )
       await migrateData(db, transaction)
 
       // Verify data in new tables
-      const { objectStore: newTweetStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
-      const { objectStore: newConfigStore } = getObjectStore(db, CONFIGS_TABLE_NAME_V2)
+      const { objectStore: newTweetStore } = getObjectStore(
+        db,
+        TWEETS_TABLE_NAME_V2,
+      )
+      const { objectStore: newConfigStore } = getObjectStore(
+        db,
+        CONFIGS_TABLE_NAME_V2,
+      )
 
-      const migratedTweets = await new Promise((resolve, reject) => {
+      const migratedTweets: Tweet[] = await new Promise((resolve, reject) => {
         const request = newTweetStore.getAll()
         request.onsuccess = () => resolve(request.result)
         request.onerror = () => reject(request.error)
       })
 
-      const migratedConfigs = await new Promise((resolve, reject) => {
+      const migratedConfigs: Config[] = await new Promise((resolve, reject) => {
         const request = newConfigStore.getAll()
         request.onsuccess = () => resolve(request.result)
         request.onerror = () => reject(request.error)
@@ -82,12 +97,12 @@ describe('dbModule', () => {
       expect(migratedConfigs.length).toBe(configs.length)
 
       migratedTweets.forEach((tweet, index) => {
-        expect(tweet.id).toBe(userId + '_' + tweets[index].tweet_id)
+        expect(tweet.id).toBe(getPostId(userId, tweet.tweet_id))
         expect(tweet.owner_id).toBe(userId)
       })
 
       migratedConfigs.forEach((config, index) => {
-        expect(config.id).toBe(configs[index].option_name + '_' + userId)
+        expect(config.id).toBe(getConfigId(userId, config.option_name))
         expect(config.owner_id).toBe(userId)
       })
     })

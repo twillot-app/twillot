@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import {
   addThen,
@@ -15,16 +15,17 @@ import {
   updateThen,
   updateWhen,
 } from './store'
-import dataStore, { defaultState, mutateStore } from '../../options/store'
-import { readConfig } from '../db/configs'
+import dataStore, { defaultState } from '../../options/store'
 import { getWorkflows } from '.'
+import { setCurrentUserId } from '../storage'
 
 const [store, setStore] = dataStore
 
 describe('Workflow Store Module', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     global.chrome = browser
     browser.reset()
+    await setCurrentUserId('123')
     setStore(defaultState())
   })
 

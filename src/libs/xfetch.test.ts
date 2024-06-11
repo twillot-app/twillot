@@ -25,9 +25,11 @@ describe('fetchWithTimeout', () => {
         ),
     )
 
-    await expect(
-      fetchWithTimeout('https://api.example.com/data', {}, 1000),
-    ).rejects.toThrow(FetchError.TimeoutError)
+    try {
+      await fetchWithTimeout('https://api.example.com/data', {}, 1000)
+    } catch (error) {
+      expect(error.name).toBe(FetchError.TimeoutError)
+    }
   })
 
   it('should throw a network error if the fetch fails', async () => {

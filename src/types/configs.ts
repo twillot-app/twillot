@@ -7,6 +7,9 @@ export enum OptionName {
 }
 
 export interface Config {
+  id: string
+  owner_id: string
+  updated_at: number
   option_name: OptionName
   option_value: any
 }

@@ -29,6 +29,8 @@ export interface FontSet {
 }
 
 export interface Tweet extends TweetQuoted {
+  id: string
+  owner_id: string
   title?: string
   note?: string
   tags?: string[]

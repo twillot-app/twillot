@@ -80,7 +80,7 @@ async function migrateData(db: IDBDatabase, transaction: IDBTransaction) {
   console.log('Database migration complete.')
 }
 
-async function createSchema(
+function createSchema(
   db: IDBDatabase,
   transaction: IDBTransaction | null,
   realTbName: string,
@@ -101,8 +101,8 @@ async function createSchema(
 }
 
 async function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
-  await createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
-  await createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, null, [])
+  createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
+  createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, 'id', [])
   await migrateData(db, transaction)
 }
 

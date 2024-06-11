@@ -1,14 +1,29 @@
 import { Tweet, TweetWithPosition, QueryOptions, CountInfo } from '../../types'
 import { parseTwitterQuery } from '../query-parser'
-import { openDb, getObjectStore, TWEETS_TABLE_NAME } from './index'
+import { getCurrentUserId } from '../storage'
+import { openDb, getObjectStore, TWEETS_TABLE_NAME_V2 } from './index'
+
+function getPostKey(user_id: string, tweet_id: string) {
+  if (!user_id || !tweet_id) {
+    console.error('Invalid user_id or tweet_id', user_id, tweet_id)
+    throw new Error('Invalid user_id or tweet_id')
+  }
+
+  return user_id + '_' + tweet_id
+}
 
 export async function addRecords(
   records: Tweet[],
   overwrite = false,
 ): Promise<void> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
+
   return new Promise((resolve, reject) => {
-    const { transaction, objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { transaction, objectStore } = getObjectStore(
+      db,
+      TWEETS_TABLE_NAME_V2,
+    )
     transaction.oncomplete = () => {
       resolve()
     }
@@ -20,12 +35,16 @@ export async function addRecords(
 
     records.forEach((record) => {
       if (record) {
+        const key = getPostKey(user_id, record.tweet_id)
+        record.id = key
+        record.owner_id = user_id
+
         if (overwrite) {
           objectStore.put(record)
           return
         }
 
-        const getRequest = objectStore.get(record.tweet_id)
+        const getRequest = objectStore.get(key)
         getRequest.onsuccess = () => {
           if (!getRequest.result) {
             objectStore.put(record)
@@ -102,7 +121,7 @@ export async function findRecords(
   const indexName = since || until ? 'created_at' : 'sort_index' // 选择索引
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index(indexName)
     const range = getRange(since, until) // 创建时间范围
     const request = index.openCursor(range, 'prev')
@@ -144,16 +163,18 @@ export async function findRecords(
   })
 }
 
-export async function getRecord(id: string): Promise<Tweet | undefined> {
-  if (!id) {
+export async function getRecord(tweetId: string): Promise<Tweet | undefined> {
+  if (!tweetId) {
     return Promise.resolve(undefined)
   }
 
   const db = await openDb()
+  const user_id = await getCurrentUserId()
+  const key = getPostKey(user_id, tweetId)
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
-    const request = objectStore.get(id)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
+    const request = objectStore.get(key)
 
     request.onsuccess = (event: Event) => {
       resolve((event.target as IDBRequest<Tweet>).result)
@@ -176,7 +197,7 @@ export async function deleteRecord(id: string): Promise<Tweet | undefined> {
   const record = await getRecord(id)
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const request = objectStore.delete(id)
     request.onsuccess = (event: Event) => {
       resolve(record)
@@ -196,7 +217,7 @@ export async function countRecords(
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     let request
     if (indexName) {
       const index = objectStore.index(indexName)
@@ -268,7 +289,7 @@ export async function aggregateUsers(): Promise<
   const userInfo = {}
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('sort_index')
     const request = index.openCursor()
 
@@ -307,7 +328,7 @@ export async function getTimeline(): Promise<TweetWithPosition[]> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('sort_index')
     const request = index.openCursor(null, 'next')
     const results: TweetWithPosition[] = []
@@ -345,7 +366,7 @@ export async function getRencentTweets(days: number): Promise<{
 }> {
   const db = await openDb()
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('created_at')
     const oneYearAgo = Math.floor(
       (Date.now() - days * 24 * 60 * 60 * 1000) / 1000,
@@ -389,7 +410,7 @@ export async function clearFolder(folder: string): Promise<void> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
-    const store = getObjectStore(db, 'tweets').objectStore
+    const store = getObjectStore(db, TWEETS_TABLE_NAME_V2).objectStore
     const index = store.index('folder')
     const request = index.openCursor(IDBKeyRange.only(folder))
 
@@ -418,7 +439,7 @@ export async function getRandomTweet(skip: number): Promise<Tweet | undefined> {
   const db = await openDb()
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const request = objectStore.openCursor()
     let skipped = false
 

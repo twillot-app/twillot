@@ -9,6 +9,10 @@ export const TWEETS_TABLE_NAME = 'tweets'
 
 export const CONFIGS_TABLE_NAME = 'configs'
 
+export const TWEETS_TABLE_NAME_V2 = 'posts'
+
+export const CONFIGS_TABLE_NAME_V2 = 'settings'
+
 const indexFields =
   'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
     .split(',')
@@ -29,35 +33,13 @@ indexFields.push({
 
 let user_id = ''
 
-function getTableName(tbName: string) {
-  if (!user_id) {
-    return tbName
-  }
-
-  if (tbName.includes(user_id)) {
-    return tbName
-  }
-
-  return `${tbName}_${user_id}`
-}
-
-export function getObjectStore(db: IDBDatabase, tableName: string) {
-  const realTbName = getTableName(tableName)
-  const transaction = db.transaction([realTbName], 'readwrite')
-  return {
-    transaction,
-    objectStore: transaction.objectStore(realTbName),
-  }
-}
-
-export function createSchema(
+function createSchema(
   db: IDBDatabase,
   transaction: IDBTransaction | null,
-  tableName: string,
+  realTbName: string,
   keyPath: string,
   indexes: IndexedDbIndexItem[],
 ) {
-  const realTbName = getTableName(tableName)
   let objectStore = db.objectStoreNames.contains(realTbName)
     ? transaction.objectStore(realTbName)
     : db.createObjectStore(realTbName, {
@@ -71,21 +53,17 @@ export function createSchema(
   })
 }
 
-export function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
-  createSchema(
-    db,
+function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
+  createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
+  createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, 'id', [])
+}
+
+export function getObjectStore(db: IDBDatabase, realTbName: string) {
+  const transaction = db.transaction([realTbName], 'readwrite')
+  return {
     transaction,
-    getTableName(TWEETS_TABLE_NAME),
-    'tweet_id',
-    indexFields,
-  )
-  createSchema(
-    db,
-    transaction,
-    getTableName(CONFIGS_TABLE_NAME),
-    'option_name',
-    [],
-  )
+    objectStore: transaction.objectStore(realTbName),
+  }
 }
 
 export async function openDb(): Promise<IDBDatabase> {
@@ -123,68 +101,10 @@ export async function openDb(): Promise<IDBDatabase> {
   })
 }
 
-function isTableMigrationNeeded(db: IDBDatabase, oldTableName: string) {
-  return user_id && !db.objectStoreNames.contains(getTableName(oldTableName))
-}
-
-async function migrateTable(
-  db: IDBDatabase,
-  oldTableName: string,
-  newTableName: string,
-) {
-  return new Promise<void>((resolve, reject) => {
-    if (!db.objectStoreNames.contains(oldTableName)) {
-      console.log(`Table ${oldTableName} does not exist. Skipping migration.`)
-      resolve()
-      return
-    }
-
-    const transaction = db.transaction(
-      [oldTableName, newTableName],
-      'readwrite',
-    )
-    const oldStore = transaction.objectStore(oldTableName)
-    const newStore = transaction.objectStore(newTableName)
-
-    const request = oldStore.openCursor()
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        newStore.put(cursor.value).onsuccess = () => {
-          cursor.continue()
-        }
-      } else {
-        // Remove the old table after migration
-        db.deleteObjectStore(oldTableName)
-        resolve()
-      }
-    }
-    request.onerror = (event) => {
-      reject(
-        new Error(
-          'Migration error: ' + (event.target as IDBRequest).error?.toString(),
-        ),
-      )
-    }
-  })
-}
-
-export async function isDBMigrationNeeded() {
-  const db = await openDb()
-  return [TWEETS_TABLE_NAME, CONFIGS_TABLE_NAME].some((name) =>
-    isTableMigrationNeeded(db, name),
-  )
-}
-
 export async function migrateDb() {
   console.log('Starting database migration...')
   const db = await openDb()
   console.log('current user id:', user_id)
-  if (isTableMigrationNeeded(db, TWEETS_TABLE_NAME)) {
-    await migrateTable(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME))
-  }
-  if (isTableMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
-    await migrateTable(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME))
-  }
+  // TODO mark by created_by
   console.log('Database migration complete.')
 }

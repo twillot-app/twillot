@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 
@@ -15,11 +15,13 @@ import {
   getRandomTweet,
 } from './tweets'
 import TweetGenerator from '../../../__mocks__/tweet'
+import { setCurrentUserId } from '../storage'
 
 describe('dbModule', () => {
-  afterEach(async () => {
+  beforeEach(async () => {
     global.chrome = browser
     indexedDB = new IDBFactory()
+    await setCurrentUserId('1234567890')
   })
 
   describe('addRecords', () => {

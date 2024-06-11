@@ -45,90 +45,41 @@ export function createSchema(
   })
 }
 
-async function migrateData(db: IDBDatabase, oldTableName: string, newTableName: string) {
+async function migrateData(
+  db: IDBDatabase,
+  oldTableName: string,
+  newTableName: string,
+) {
   return new Promise<void>((resolve, reject) => {
-    const transaction = db.transaction([oldTableName, newTableName], 'readwrite');
-    const oldStore = transaction.objectStore(oldTableName);
-    const newStore = transaction.objectStore(newTableName);
+    const transaction = db.transaction(
+      [oldTableName, newTableName],
+      'readwrite',
+    )
+    const oldStore = transaction.objectStore(oldTableName)
+    const newStore = transaction.objectStore(newTableName)
 
-    const request = oldStore.openCursor();
+    const request = oldStore.openCursor()
     request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
         newStore.put(cursor.value).onsuccess = () => {
-          cursor.continue();
-        };
+          cursor.continue()
+        }
       } else {
-        resolve();
+        resolve()
       }
-    };
+    }
     request.onerror = (event) => {
-      reject('Migration error: ' + (event.target as IDBRequest).error?.toString());
-    };
-  });
+      reject(
+        new Error(
+          'Migration error: ' + (event.target as IDBRequest).error?.toString(),
+        ),
+      )
+    }
+  })
 }
 
 export async function openDb(): Promise<IDBDatabase> {
-  if (!user_id) {
-    user_id = await getCurrentUserId();
-  }
-
-  return new Promise((resolve, reject) => {
-    if (!window.indexedDB) {
-      reject('IndexedDB is not supported by this browser.');
-      return;
-    }
-
-    const request = window.indexedDB.open(DB_NAME, DB_VERSION);
-    request.onerror = (event: Event) => {
-      reject('Database error: ' + (event.target as IDBOpenDBRequest).error?.toString());
-    };
-    request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
-      const target = event.target as IDBOpenDBRequest;
-      const db = target.result;
-      // DO NOT create a new transaction here
-      const indexFields =
-        'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
-          .split(',')
-          .map((field) => ({
-            name: field,
-            options: {
-              unique: false,
-              multiEntry: false,
-            },
-          }));
-      indexFields.push({
-        name: 'tags',
-        options: {
-          unique: false,
-          multiEntry: true,
-        },
-      });
-      createSchema(
-        db,
-        target.transaction,
-        TWEETS_TABLE_NAME,
-        'tweet_id',
-        indexFields,
-      );
-      createSchema(
-        db,
-        target.transaction,
-        CONFIGS_TABLE_NAME,
-        'option_name',
-        [],
-      );
-
-      // Migrate data from old tables to new tables
-      await migrateData(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME));
-      await migrateData(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME));
-    };
-
-    request.onsuccess = (event: Event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      resolve(db);
-    };
-  });
   if (!user_id) {
     user_id = await getCurrentUserId()
   }
@@ -146,7 +97,7 @@ export async function openDb(): Promise<IDBDatabase> {
           (event.target as IDBOpenDBRequest).error?.toString(),
       )
     }
-    request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
+    request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
       const target = event.target as IDBOpenDBRequest
       const db = target.result
       // DO NOT create a new transaction here
@@ -180,6 +131,14 @@ export async function openDb(): Promise<IDBDatabase> {
         CONFIGS_TABLE_NAME,
         'option_name',
         [],
+      )
+
+      // Migrate data from old tables to new tables
+      await migrateData(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME))
+      await migrateData(
+        db,
+        CONFIGS_TABLE_NAME,
+        getTableName(CONFIGS_TABLE_NAME),
       )
     }
 

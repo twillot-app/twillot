@@ -45,38 +45,35 @@ export function createSchema(
   })
 }
 
-async function migrateData(
-  db: IDBDatabase,
-  oldTableName: string,
-  newTableName: string,
-) {
+async function migrateData(db: IDBDatabase, oldTableName: string, newTableName: string) {
   return new Promise<void>((resolve, reject) => {
-    const transaction = db.transaction(
-      [oldTableName, newTableName],
-      'readwrite',
-    )
-    const oldStore = transaction.objectStore(oldTableName)
-    const newStore = transaction.objectStore(newTableName)
+    if (!db.objectStoreNames.contains(oldTableName)) {
+      console.log(`Table ${oldTableName} does not exist. Skipping migration.`);
+      resolve();
+      return;
+    }
 
-    const request = oldStore.openCursor()
+    const transaction = db.transaction([oldTableName, newTableName], 'readwrite');
+    const oldStore = transaction.objectStore(oldTableName);
+    const newStore = transaction.objectStore(newTableName);
+
+    const request = oldStore.openCursor();
     request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
       if (cursor) {
         newStore.put(cursor.value).onsuccess = () => {
-          cursor.continue()
-        }
+          cursor.continue();
+        };
       } else {
-        resolve()
+        // Remove the old table after migration
+        db.deleteObjectStore(oldTableName);
+        resolve();
       }
-    }
+    };
     request.onerror = (event) => {
-      reject(
-        new Error(
-          'Migration error: ' + (event.target as IDBRequest).error?.toString(),
-        ),
-      )
-    }
-  })
+      reject(new Error('Migration error: ' + (event.target as IDBRequest).error?.toString()));
+    };
+  });
 }
 
 export async function openDb(): Promise<IDBDatabase> {

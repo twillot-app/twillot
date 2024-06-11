@@ -106,15 +106,18 @@ export async function openDb(): Promise<IDBDatabase> {
           (event.target as IDBOpenDBRequest).error?.toString(),
       )
     }
-    request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
+    request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
       const target = event.target as IDBOpenDBRequest
       // DO NOT create a new transaction here
-      upgradeDb(target.result, target.transaction)
+      const db = target.result
+      const transaction = target.transaction
+      if (transaction) {
+        upgradeDb(db, transaction)
+      }
     }
 
     request.onsuccess = (event: Event) => {
       const db = (event.target as IDBOpenDBRequest).result
-      upgradeDb(db, null)
       resolve(db)
     }
   })

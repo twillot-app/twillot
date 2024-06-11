@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 
@@ -15,6 +15,8 @@ import {
   getRandomTweet,
 } from './tweets'
 import TweetGenerator from '../../../__mocks__/tweet'
+import { openDb, getObjectStore, TWEETS_TABLE_NAME, TWEETS_TABLE_NAME_V2, CONFIGS_TABLE_NAME, CONFIGS_TABLE_NAME_V2 } from './index'
+import { getCurrentUserId } from '../storage'
 import { setCurrentUserId } from '../storage'
 
 describe('dbModule', () => {
@@ -22,6 +24,57 @@ describe('dbModule', () => {
     global.chrome = browser
     indexedDB = new IDBFactory()
     await setCurrentUserId('1234567890')
+  })
+
+  describe('migrateData', () => {
+    it('should migrate data from old tables to new tables', async () => {
+      const db = await openDb()
+      const userId = await getCurrentUserId()
+      const tweets = TweetGenerator.generateTweets(5)
+      const configs = [
+        { option_name: 'config1', option_value: 'value1' },
+        { option_name: 'config2', option_value: 'value2' },
+      ]
+
+      // Add data to old tables
+      const { objectStore: oldTweetStore } = getObjectStore(db, TWEETS_TABLE_NAME)
+      const { objectStore: oldConfigStore } = getObjectStore(db, CONFIGS_TABLE_NAME)
+      tweets.forEach(tweet => oldTweetStore.put(tweet))
+      configs.forEach(config => oldConfigStore.put(config))
+
+      // Trigger migration
+      const transaction = db.transaction([TWEETS_TABLE_NAME_V2, CONFIGS_TABLE_NAME_V2], 'readwrite')
+      await migrateData(db, transaction)
+
+      // Verify data in new tables
+      const { objectStore: newTweetStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
+      const { objectStore: newConfigStore } = getObjectStore(db, CONFIGS_TABLE_NAME_V2)
+
+      const migratedTweets = await new Promise((resolve, reject) => {
+        const request = newTweetStore.getAll()
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+
+      const migratedConfigs = await new Promise((resolve, reject) => {
+        const request = newConfigStore.getAll()
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+
+      expect(migratedTweets.length).toBe(tweets.length)
+      expect(migratedConfigs.length).toBe(configs.length)
+
+      migratedTweets.forEach((tweet, index) => {
+        expect(tweet.id).toBe(userId + '_' + tweets[index].tweet_id)
+        expect(tweet.owner_id).toBe(userId)
+      })
+
+      migratedConfigs.forEach((config, index) => {
+        expect(config.id).toBe(configs[index].option_name + '_' + userId)
+        expect(config.owner_id).toBe(userId)
+      })
+    })
   })
 
   describe('addRecords', () => {

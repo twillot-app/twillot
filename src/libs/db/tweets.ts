@@ -9,7 +9,7 @@ export function getPostId(user_id: string, tweet_id: string) {
     throw new Error('Invalid user_id or tweet_id')
   }
 
-  return user_id + '_' + tweet_id
+  return tweet_id.includes(user_id) ? tweet_id : user_id + '_' + tweet_id
 }
 
 export async function addRecords(
@@ -67,7 +67,12 @@ function meetsCriteria(
   options: QueryOptions,
   category = '',
   folder = '',
+  user_id = '',
 ): boolean {
+  if (tweet.owner_id !== user_id) {
+    return false
+  }
+
   let folderFilter = false
   // 指定 folder 为 null 表示查询没有 unsorted 的记录
   if (folder === 'Unsorted') {
@@ -76,6 +81,7 @@ function meetsCriteria(
     folderFilter =
       !folder || tweet.folder?.toLowerCase() === folder.toLowerCase()
   }
+
   return (
     (!options.keyword ||
       tweet.full_text.toLowerCase().includes(options.keyword.toLowerCase())) &&
@@ -108,6 +114,7 @@ export async function findRecords(
   pageSize = 100,
 ): Promise<Tweet[]> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
   const options = parseTwitterQuery(keyword)
   const results: Tweet[] = []
   let recordsFetched = 0 // 实际已获取的记录数
@@ -131,7 +138,7 @@ export async function findRecords(
       if (cursor) {
         const tweet = cursor.value as Tweet
         if (isStartLooking) {
-          const met = meetsCriteria(tweet, options, category, folder)
+          const met = meetsCriteria(tweet, options, category, folder, user_id)
           if (met) {
             recordsFetched++
             if (recordsFetched <= pageSize) {
@@ -194,11 +201,13 @@ export async function deleteRecord(id: string): Promise<Tweet | undefined> {
   }
 
   const db = await openDb()
-  const record = await getRecord(id)
+  const user_id = await getCurrentUserId()
+  const key = getPostId(user_id, id)
+  const record = await getRecord(key)
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
-    const request = objectStore.delete(id)
+    const request = objectStore.delete(key)
     request.onsuccess = (event: Event) => {
       resolve(record)
     }
@@ -219,6 +228,7 @@ export async function countRecords(
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     let request
+    // TODO filter by owner_id
     if (indexName) {
       const index = objectStore.index(indexName)
       const keyRange = IDBKeyRange.only(value)
@@ -291,6 +301,7 @@ export async function aggregateUsers(): Promise<
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('sort_index')
+    // TODO filter by owner_id
     const request = index.openCursor()
 
     request.onsuccess = (event) => {
@@ -324,42 +335,6 @@ export async function getTopUsers(num = 10) {
     .slice(0, num)
 }
 
-export async function getTimeline(): Promise<TweetWithPosition[]> {
-  const db = await openDb()
-
-  return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
-    const index = objectStore.index('sort_index')
-    const request = index.openCursor(null, 'next')
-    const results: TweetWithPosition[] = []
-    let count = 0
-    const targets = new Set([1, 100, 1000])
-
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        count++
-        if (
-          (count <= 1000 && targets.has(count)) ||
-          (count > 1000 && (count - 1000) % 1000 === 0)
-        ) {
-          results.unshift({
-            tweet: cursor.value,
-            position: count,
-          })
-        }
-        cursor.continue()
-      } else {
-        resolve(results)
-      }
-    }
-
-    request.onerror = (event) => {
-      reject((event.target as IDBRequest).error)
-    }
-  })
-}
-
 export async function getRencentTweets(days: number): Promise<{
   total: number
   data: { date: string; count: number }[]
@@ -368,6 +343,7 @@ export async function getRencentTweets(days: number): Promise<{
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('created_at')
+    // TODO filter by owner_id
     const oneYearAgo = Math.floor(
       (Date.now() - days * 24 * 60 * 60 * 1000) / 1000,
     )
@@ -412,6 +388,7 @@ export async function clearFolder(folder: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const store = getObjectStore(db, TWEETS_TABLE_NAME_V2).objectStore
     const index = store.index('folder')
+    // TODO filter by owner_id
     const request = index.openCursor(IDBKeyRange.only(folder))
 
     request.onsuccess = (event) => {
@@ -429,37 +406,6 @@ export async function clearFolder(folder: string): Promise<void> {
     request.onerror = (event) => {
       reject(
         'Failed to clear folder: ' +
-          (event.target as IDBRequest).error?.toString(),
-      )
-    }
-  })
-}
-
-export async function getRandomTweet(skip: number): Promise<Tweet | undefined> {
-  const db = await openDb()
-
-  return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
-    const request = objectStore.openCursor()
-    let skipped = false
-
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        if (skipped) {
-          resolve(cursor.value)
-          return
-        }
-        cursor.advance(skip)
-        skipped = true
-      } else {
-        resolve(null)
-      }
-    }
-
-    request.onerror = (event) => {
-      reject(
-        'Failed to get random tweet: ' +
           (event.target as IDBRequest).error?.toString(),
       )
     }

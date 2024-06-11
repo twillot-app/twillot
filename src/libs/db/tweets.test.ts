@@ -9,10 +9,8 @@ import {
   countRecords,
   aggregateUsers,
   getTopUsers,
-  getTimeline,
   getRencentTweets,
   clearFolder,
-  getRandomTweet,
   getPostId,
 } from './tweets'
 import TweetGenerator from '../../../__mocks__/tweet'
@@ -69,7 +67,7 @@ describe('dbModule', () => {
         ],
         'readwrite',
       )
-      await migrateData(db, transaction)
+      await migrateData()
 
       // Verify data in new tables
       const { objectStore: newTweetStore } = getObjectStore(
@@ -169,16 +167,6 @@ describe('dbModule', () => {
     })
   })
 
-  describe('getTimeline', () => {
-    it('should get a timeline of tweets', async () => {
-      const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
-      const timeline = await getTimeline()
-      expect(timeline).toBeInstanceOf(Array)
-      expect(timeline.length).toBeGreaterThan(0)
-    })
-  })
-
   describe('getRecentTweets', () => {
     it('should get recent tweets', async () => {
       const tweets = TweetGenerator.generateTweets(5)
@@ -197,16 +185,6 @@ describe('dbModule', () => {
       await clearFolder('testFolder')
       const results = await findRecords('', '', 'testFolder')
       expect(results.length).toBe(0)
-    })
-  })
-
-  describe('getRandomTweet', () => {
-    it('should get a random tweet', async () => {
-      const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
-      const randomTweet = await getRandomTweet(2)
-      expect(randomTweet).toBeDefined()
-      expect(tweets).toContainEqual(randomTweet)
     })
   })
 })

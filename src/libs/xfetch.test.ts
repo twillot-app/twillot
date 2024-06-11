@@ -1,15 +1,23 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 import fetchWithTimeout, { FetchError } from './xfetch'
 
+const fetch = vi.fn()
+
+global.fetch = fetch
+
 describe('fetchWithTimeout', () => {
   beforeEach(() => {
-    global.fetch = vi.fn()
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   it('should fetch data successfully', async () => {
     const mockResponse = new Response(JSON.stringify({ data: 'test' }))
-    (global.fetch as jest.Mock).mockResolvedValueOnce(mockResponse)
+    fetch.mockResolvedValueOnce(mockResponse)
 
     const response = await fetchWithTimeout('https://api.example.com/data', {})
     const data = await response.json()
@@ -18,7 +26,7 @@ describe('fetchWithTimeout', () => {
   })
 
   it('should throw a timeout error if the request takes too long', async () => {
-    (global.fetch as jest.Mock).mockImplementationOnce(
+    fetch.mockImplementationOnce(
       () =>
         new Promise((resolve) =>
           setTimeout(() => resolve(new Response()), 20000),
@@ -33,7 +41,7 @@ describe('fetchWithTimeout', () => {
   })
 
   it('should throw a network error if the fetch fails', async () => {
-    global.fetch.mockRejectedValueOnce(new Error('Network error'))
+    fetch.mockRejectedValueOnce(new Error('Network error'))
 
     await expect(
       fetchWithTimeout('https://api.example.com/data', {}),

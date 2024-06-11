@@ -113,7 +113,12 @@ export async function openDb(): Promise<IDBDatabase> {
 
     request.onsuccess = (event: Event) => {
       const db = (event.target as IDBOpenDBRequest).result
-      // TODO dynamic add user tables via upgrade function
+      const userTables = [getTableName(TWEETS_TABLE_NAME), getTableName(CONFIGS_TABLE_NAME)];
+      userTables.forEach((tableName) => {
+        if (!db.objectStoreNames.contains(tableName)) {
+          createSchema(db, target.transaction, tableName, tableName === getTableName(TWEETS_TABLE_NAME) ? 'tweet_id' : 'option_name', tableName === getTableName(TWEETS_TABLE_NAME) ? indexFields : []);
+        }
+      });
       resolve(db)
     }
   })

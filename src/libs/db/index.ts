@@ -1,7 +1,7 @@
-import { createUniqueId } from 'solid-js'
 import { Config, IndexedDbIndexItem, Tweet } from '../../types'
 import { getCurrentUserId } from '../storage'
 import { getConfigId } from './configs'
+import { getPostId } from './tweets'
 
 export const DB_VERSION = 13
 
@@ -55,7 +55,7 @@ export async function migrateData(
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
         const record = cursor.value as Tweet
-        record.id = userId + '_' + record.tweet_id
+        record.id = getPostId(userId, record.tweet_id)
         record.owner_id = userId
         newStore.put(record)
         cursor.continue()

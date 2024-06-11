@@ -1,5 +1,7 @@
-import { IndexedDbIndexItem } from '../../types'
+import { createUniqueId } from 'solid-js'
+import { Config, IndexedDbIndexItem, Tweet } from '../../types'
 import { getCurrentUserId } from '../storage'
+import { getConfigId } from './configs'
 
 export const DB_VERSION = 13
 
@@ -14,7 +16,7 @@ export const TWEETS_TABLE_NAME_V2 = 'posts'
 export const CONFIGS_TABLE_NAME_V2 = 'settings'
 
 const indexFields =
-  'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
+  'full_text,sort_index,screen_name,created_at,owner_id,has_image,has_video,has_link,has_quote,is_long_text,folder'
     .split(',')
     .map((field) => ({
       name: field,
@@ -33,11 +35,56 @@ indexFields.push({
 
 let user_id = ''
 
-function createSchema(
+async function migrateData(db: IDBDatabase, transaction: IDBTransaction) {
+  const userId = await getCurrentUserId()
+  if (!userId) {
+    console.error('Migration failed: user_id is not set.')
+    return
+  }
+
+  console.log('Starting database migration for user ' + userId)
+  if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
+    const oldStore = transaction.objectStore(TWEETS_TABLE_NAME)
+    const newStore = transaction.objectStore(TWEETS_TABLE_NAME_V2)
+
+    const request = oldStore.openCursor()
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        const record = cursor.value as Tweet
+        record.id = userId + '_' + record.tweet_id
+        record.owner_id = userId
+        newStore.put(record)
+        cursor.continue()
+      }
+    }
+  }
+
+  if (db.objectStoreNames.contains(CONFIGS_TABLE_NAME)) {
+    const oldStore = transaction.objectStore(CONFIGS_TABLE_NAME)
+    const newStore = transaction.objectStore(CONFIGS_TABLE_NAME_V2)
+
+    const request = oldStore.openCursor()
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        const record = cursor.value as Config
+        record.id = getConfigId(record.option_name, userId)
+        record.owner_id = userId
+        record.updated_at = Math.floor(Date.now() / 1000)
+        newStore.put(record)
+        cursor.continue()
+      }
+    }
+  }
+  console.log('Database migration complete.')
+}
+
+async function createSchema(
   db: IDBDatabase,
   transaction: IDBTransaction | null,
   realTbName: string,
-  keyPath: string,
+  keyPath: string | null,
   indexes: IndexedDbIndexItem[],
 ) {
   let objectStore = db.objectStoreNames.contains(realTbName)
@@ -53,9 +100,10 @@ function createSchema(
   })
 }
 
-function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
-  createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
-  createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, 'id', [])
+async function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
+  await createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
+  await createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, null, [])
+  await migrateData(db, transaction)
 }
 
 export function getObjectStore(db: IDBDatabase, realTbName: string) {
@@ -99,12 +147,4 @@ export async function openDb(): Promise<IDBDatabase> {
       resolve(db)
     }
   })
-}
-
-export async function migrateDb() {
-  console.log('Starting database migration...')
-  const db = await openDb()
-  console.log('current user id:', user_id)
-  // TODO mark by created_by
-  console.log('Database migration complete.')
 }

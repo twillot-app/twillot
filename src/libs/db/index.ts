@@ -3,7 +3,7 @@ import { getCurrentUserId } from '../storage'
 import { getConfigId } from './configs'
 import { getPostId } from './tweets'
 
-export const DB_VERSION = 13
+export const DB_VERSION = 17
 
 export const DB_NAME = 'twillot'
 
@@ -70,6 +70,7 @@ export async function migrateData(
     const request = oldStore.openCursor()
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      console.log(cursor.value)
       if (cursor) {
         const record = cursor.value as Config
         record.id = getConfigId(userId, record.option_name)

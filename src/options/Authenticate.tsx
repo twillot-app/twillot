@@ -6,7 +6,6 @@ import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
 import { ActionPage } from '../types'
 import { clearCurrentLocal, getCurrentUserId } from '../libs/storage'
-import { migrateDb } from '../libs/db'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
@@ -22,7 +21,6 @@ export default function Authenticate() {
     if (authenticated) {
       clearInterval(timerId)
       if (tab) chrome.tabs.remove(tab.id)
-      await migrateDb()
       location.reload()
     }
 

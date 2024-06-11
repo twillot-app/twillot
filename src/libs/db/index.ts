@@ -35,10 +35,8 @@ indexFields.push({
 
 let user_id = ''
 
-export async function migrateData(
-  db: IDBDatabase,
-  transaction: IDBTransaction,
-) {
+export async function migrateData() {
+  const db = await openDb()
   const userId = await getCurrentUserId()
   if (!userId) {
     console.error('Migration failed: user_id is not set.')
@@ -46,6 +44,19 @@ export async function migrateData(
   }
 
   console.log('Starting database migration for user ' + userId)
+  let transaction = db.transaction(
+    [
+      TWEETS_TABLE_NAME,
+      CONFIGS_TABLE_NAME,
+      TWEETS_TABLE_NAME_V2,
+      CONFIGS_TABLE_NAME_V2,
+    ],
+    'readwrite',
+  )
+  transaction.oncomplete = () => {
+    console.log('Database migration complete.')
+  }
+
   if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
     const oldStore = transaction.objectStore(TWEETS_TABLE_NAME)
     const newStore = transaction.objectStore(TWEETS_TABLE_NAME_V2)
@@ -80,7 +91,6 @@ export async function migrateData(
       }
     }
   }
-  console.log('Database migration complete.')
 }
 
 function createSchema(
@@ -114,7 +124,7 @@ async function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
   createSchema(db, transaction, CONFIGS_TABLE_NAME, 'option_name', [])
   createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
   createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, 'id', [])
-  await migrateData(db, transaction)
+  await migrateData()
 }
 
 export function getObjectStore(db: IDBDatabase, realTbName: string) {

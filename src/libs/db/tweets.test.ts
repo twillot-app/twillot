@@ -15,15 +15,31 @@ import {
   getRandomTweet,
 } from './tweets'
 import TweetGenerator from '../../../__mocks__/tweet'
-import { openDb, getObjectStore, TWEETS_TABLE_NAME, TWEETS_TABLE_NAME_V2, CONFIGS_TABLE_NAME, CONFIGS_TABLE_NAME_V2 } from './index'
+import { openDb, getObjectStore, TWEETS_TABLE_NAME, TWEETS_TABLE_NAME_V2, CONFIGS_TABLE_NAME, CONFIGS_TABLE_NAME_V2, DB_NAME, DB_VERSION } from './index'
 import { getCurrentUserId } from '../storage'
 import { setCurrentUserId } from '../storage'
 
 describe('dbModule', () => {
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     global.chrome = browser
     indexedDB = new IDBFactory()
     await setCurrentUserId('1234567890')
+    const request = indexedDB.open(DB_NAME, DB_VERSION)
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result
+      if (!db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
+        db.createObjectStore(TWEETS_TABLE_NAME, { keyPath: 'tweet_id' })
+      }
+      if (!db.objectStoreNames.contains(CONFIGS_TABLE_NAME)) {
+        db.createObjectStore(CONFIGS_TABLE_NAME, { keyPath: 'option_name' })
+      }
+    }
+    request.onsuccess = () => {
+      done()
+    }
+    request.onerror = () => {
+      done(request.error)
+    }
   })
 
   describe('migrateData', () => {

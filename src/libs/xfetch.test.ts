@@ -25,7 +25,20 @@ describe('fetchWithTimeout', () => {
     expect(data).toEqual({ data: 'test' })
   })
 
-  it('should throw a timeout error if the request takes too long', async () => {}, 10000)
+  it('should throw a timeout error if the request takes too long', async () => {
+    fetch.mockImplementationOnce(
+      () =>
+        new Promise((resolve) =>
+          setTimeout(() => resolve(new Response()), 20000),
+        ),
+    )
+
+    try {
+      await fetchWithTimeout('https://api.example.com/data', {}, 1000)
+    } catch (error) {
+      expect(error.name).toBe(FetchError.TimeoutError)
+    }
+  }, 10000)
     fetch.mockImplementationOnce(
       () =>
         new Promise((resolve) =>

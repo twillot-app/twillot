@@ -35,7 +35,10 @@ indexFields.push({
 
 let user_id = ''
 
-async function migrateData(db: IDBDatabase, transaction: IDBTransaction) {
+export async function migrateData(
+  db: IDBDatabase,
+  transaction: IDBTransaction,
+) {
   const userId = await getCurrentUserId()
   if (!userId) {
     console.error('Migration failed: user_id is not set.')
@@ -69,7 +72,7 @@ async function migrateData(db: IDBDatabase, transaction: IDBTransaction) {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
         const record = cursor.value as Config
-        record.id = getConfigId(record.option_name, userId)
+        record.id = getConfigId(userId, record.option_name)
         record.owner_id = userId
         record.updated_at = Math.floor(Date.now() / 1000)
         newStore.put(record)
@@ -101,6 +104,14 @@ function createSchema(
 }
 
 async function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
+  createSchema(
+    db,
+    transaction,
+    TWEETS_TABLE_NAME,
+    'tweet_id',
+    indexFields.filter((i) => i.name !== 'owner_id'),
+  )
+  createSchema(db, transaction, CONFIGS_TABLE_NAME, 'option_name', [])
   createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
   createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, 'id', [])
   await migrateData(db, transaction)

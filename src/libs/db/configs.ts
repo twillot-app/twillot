@@ -2,8 +2,12 @@ import { Config, OptionName } from '../../types'
 import { getCurrentUserId } from '../storage'
 import { openDb, getObjectStore, CONFIGS_TABLE_NAME_V2 } from './index'
 
-export function getConfigId(name: OptionName, user_id: string) {
-  return name.includes(user_id) ? name : `${name}_${user_id}`
+export function getConfigId(user_id: string, name: OptionName) {
+  if (!user_id || !name) {
+    throw new Error('Invalid user_id or name: ' + user_id + ', ' + name)
+  }
+
+  return name.includes(user_id) ? name : `${user_id}_${name}`
 }
 
 // 创建或更新配置项
@@ -14,7 +18,7 @@ export async function upsertConfig(config: Config) {
   return new Promise<void>((resolve, reject) => {
     config.updated_at = Math.floor(Date.now() / 1000)
     config.owner_id = user_id
-    config.id = getConfigId(config.option_name, user_id)
+    config.id = getConfigId(user_id, config.option_name)
     const request = objectStore.put(config)
     request.onsuccess = () => resolve()
     request.onerror = () => reject(request.error)
@@ -27,7 +31,7 @@ export async function readConfig(optionName: OptionName) {
   const user_id = await getCurrentUserId()
   const { objectStore } = getObjectStore(db, CONFIGS_TABLE_NAME_V2)
   return new Promise<Config | undefined>((resolve, reject) => {
-    const request = objectStore.get(getConfigId(optionName, user_id))
+    const request = objectStore.get(getConfigId(user_id, optionName))
     request.onsuccess = () => resolve(request.result)
     request.onerror = () => reject(request.error)
   })
@@ -39,7 +43,7 @@ export async function deleteConfig(optionName: OptionName) {
   const user_id = await getCurrentUserId()
   const { objectStore } = getObjectStore(db, CONFIGS_TABLE_NAME_V2)
   return new Promise<void>((resolve, reject) => {
-    const request = objectStore.delete(getConfigId(optionName, user_id))
+    const request = objectStore.delete(getConfigId(user_id, optionName))
     request.onsuccess = () => resolve()
     request.onerror = () => reject(request.error)
   })

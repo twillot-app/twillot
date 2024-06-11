@@ -3,7 +3,7 @@ import { parseTwitterQuery } from '../query-parser'
 import { getCurrentUserId } from '../storage'
 import { openDb, getObjectStore, TWEETS_TABLE_NAME_V2 } from './index'
 
-function getPostKey(user_id: string, tweet_id: string) {
+export function getPostId(user_id: string, tweet_id: string) {
   if (!user_id || !tweet_id) {
     console.error('Invalid user_id or tweet_id', user_id, tweet_id)
     throw new Error('Invalid user_id or tweet_id')
@@ -35,7 +35,7 @@ export async function addRecords(
 
     records.forEach((record) => {
       if (record) {
-        const key = getPostKey(user_id, record.tweet_id)
+        const key = getPostId(user_id, record.tweet_id)
         record.id = key
         record.owner_id = user_id
 
@@ -170,7 +170,7 @@ export async function getRecord(tweetId: string): Promise<Tweet | undefined> {
 
   const db = await openDb()
   const user_id = await getCurrentUserId()
-  const key = getPostKey(user_id, tweetId)
+  const key = getPostId(user_id, tweetId)
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)

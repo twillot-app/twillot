@@ -28,7 +28,7 @@ export function escapeRegExp(string: string): string {
  */
 export function highlight(html: string, reg: RegExp) {
   return html.replace(
-    new RegExp(`(?!<[^<>]*)${reg.source}(?![^<>]*>)`, 'gi'),
+    new RegExp(`(?!<[^<>]*)(${reg.source})(?![^<>]*>)`, 'gi'),
     '<mark>$1</mark>',
   )
 }

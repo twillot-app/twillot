@@ -1,9 +1,10 @@
-import { OptionName, Tweet } from '../types'
+import { AuthStatus, OptionName, Tweet } from '../types'
 import dataStore, { mutateStore } from '../options/store'
 import { addRecords, clearFolder, countRecords } from '../libs/db/tweets'
 import { unwrap } from 'solid-js/store'
 import { readConfig, upsertConfig } from '../libs/db/configs'
 import { getFolders } from '../libs/api/twitter'
+import { FetchError } from '../libs/xfetch'
 
 const [store, setStore] = dataStore
 
@@ -21,7 +22,14 @@ export async function initFolders() {
         option_name: OptionName.FOLDER,
         option_value: folders,
       })
-    } catch (error) {}
+    } catch (err) {
+      if (
+        err.name == FetchError.IdentityError ||
+        err.message == AuthStatus.AUTH_FAILED
+      ) {
+        setStore('isAuthFailed', true)
+      }
+    }
   } else {
     folders = config.option_value as string[]
   }

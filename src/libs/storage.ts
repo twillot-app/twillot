@@ -78,3 +78,19 @@ export function onLocalChanged(key: string, callback: (newValue: any) => void) {
     }
   })
 }
+
+export async function migrateStorage(user_id: string) {
+  if (!user_id) {
+    console.error('user_id is empty')
+    return
+  }
+
+  const keys = 'bookmark_cursor,lastForceSynced,token,csrf'.split(',')
+  const config = await getLocal(keys)
+  const newConfig = {}
+  for (const key in config) {
+    newConfig[getStorageKey(key, user_id)] = config[key]
+  }
+  await chrome.storage.local.set(newConfig)
+  await chrome.storage.local.remove(keys)
+}

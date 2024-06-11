@@ -24,8 +24,7 @@ import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
-import { onLocalChanged } from '../libs/storage'
-import { isDBMigrationNeeded, migrateDb } from '../libs/db'
+import { getCurrentUserId, onLocalChanged } from '../libs/storage'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -38,9 +37,7 @@ export const Layout = (props) => {
   })
 
   createEffect(() => {
-    if (!store.isDBMigrating) {
-      queryByCondition()
-    }
+    queryByCondition()
   })
 
   createEffect(() => {
@@ -63,14 +60,14 @@ export const Layout = (props) => {
 
   onMount(async () => {
     if (!store.isSidePanel) {
-      if (isDBMigrationNeeded()) {
-        await migrateDb()
-        setStore('isDBMigrating', false)
+      const user_id = await getCurrentUserId()
+      if (!user_id) {
+        setStore('isAuthFailed', true)
+        return
       }
-      initHistory()
-      initSync()
-      initFolders()
+
       onLocalChanged('tasks', initSync)
+      await Promise.all([initHistory(), initSync(), initFolders()])
     }
   })
 

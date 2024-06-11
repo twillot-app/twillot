@@ -5,20 +5,25 @@ import { getAuthInfo, openNewTab } from '../libs/browser'
 import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
 import { ActionPage } from '../types'
-import { clearCurrentLocal } from '../libs/storage'
+import { clearCurrentLocal, getCurrentUserId } from '../libs/storage'
+import { migrateDb } from '../libs/db'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
   let timerId, tab: chrome.tabs.Tab
   const title = document.title
   const checkAuth = async () => {
+    const user_id = await getCurrentUserId()
+    if (!user_id) return false
+
     const auth = await getAuthInfo()
     const authenticated = !!(auth && auth.token)
     setStore('isAuthFailed', !authenticated)
     if (authenticated) {
       clearInterval(timerId)
-      location.reload()
       if (tab) chrome.tabs.remove(tab.id)
+      await migrateDb()
+      location.reload()
     }
 
     return authenticated

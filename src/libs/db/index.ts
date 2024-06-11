@@ -70,7 +70,6 @@ export async function migrateData(
     const request = oldStore.openCursor()
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      console.log(cursor.value)
       if (cursor) {
         const record = cursor.value as Config
         record.id = getConfigId(userId, record.option_name)

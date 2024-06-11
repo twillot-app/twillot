@@ -46,6 +46,68 @@ export function createSchema(
   })
 }
 
+export async function openDb(): Promise<IDBDatabase> {
+  if (!user_id) {
+    user_id = await getCurrentUserId()
+  }
+
+  return new Promise((resolve, reject) => {
+    if (!window.indexedDB) {
+      reject('IndexedDB is not supported by this browser.')
+      return
+    }
+
+    const request = window.indexedDB.open(DB_NAME, DB_VERSION)
+    request.onerror = (event: Event) => {
+      reject(
+        'Database error: ' +
+          (event.target as IDBOpenDBRequest).error?.toString(),
+      )
+    }
+    request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
+      const target = event.target as IDBOpenDBRequest
+      const db = target.result
+      // DO NOT create a new transaction here
+      const indexFields =
+        'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
+          .split(',')
+          .map((field) => ({
+            name: field,
+            options: {
+              unique: false,
+              multiEntry: false,
+            },
+          }))
+      indexFields.push({
+        name: 'tags',
+        options: {
+          unique: false,
+          multiEntry: true,
+        },
+      })
+      createSchema(
+        db,
+        target.transaction,
+        getTableName(TWEETS_TABLE_NAME),
+        'tweet_id',
+        indexFields,
+      )
+      createSchema(
+        db,
+        target.transaction,
+        getTableName(CONFIGS_TABLE_NAME),
+        'option_name',
+        [],
+      )
+    }
+
+    request.onsuccess = (event: Event) => {
+      const db = (event.target as IDBOpenDBRequest).result
+      resolve(db)
+    }
+  })
+}
+
 async function isTableMigrationNeeded(db: IDBDatabase, oldTableName: string) {
   return db.objectStoreNames.contains(oldTableName)
 }
@@ -107,66 +169,4 @@ export async function migrateDb() {
   if (await isTableMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
     await migrateTable(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME))
   }
-}
-
-export async function openDb(): Promise<IDBDatabase> {
-  if (!user_id) {
-    user_id = await getCurrentUserId()
-  }
-
-  return new Promise((resolve, reject) => {
-    if (!window.indexedDB) {
-      reject('IndexedDB is not supported by this browser.')
-      return
-    }
-
-    const request = window.indexedDB.open(DB_NAME, DB_VERSION)
-    request.onerror = (event: Event) => {
-      reject(
-        'Database error: ' +
-          (event.target as IDBOpenDBRequest).error?.toString(),
-      )
-    }
-    request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
-      const target = event.target as IDBOpenDBRequest
-      const db = target.result
-      // DO NOT create a new transaction here
-      const indexFields =
-        'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
-          .split(',')
-          .map((field) => ({
-            name: field,
-            options: {
-              unique: false,
-              multiEntry: false,
-            },
-          }))
-      indexFields.push({
-        name: 'tags',
-        options: {
-          unique: false,
-          multiEntry: true,
-        },
-      })
-      createSchema(
-        db,
-        target.transaction,
-        getTableName(TWEETS_TABLE_NAME),
-        'tweet_id',
-        indexFields,
-      )
-      createSchema(
-        db,
-        target.transaction,
-        getTableName(CONFIGS_TABLE_NAME),
-        'option_name',
-        [],
-      )
-    }
-
-    request.onsuccess = (event: Event) => {
-      const db = (event.target as IDBOpenDBRequest).result
-      resolve(db)
-    }
-  })
 }

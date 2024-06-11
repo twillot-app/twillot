@@ -39,6 +39,7 @@ describe('fetchWithTimeout', () => {
       expect(error.name).toBe(FetchError.TimeoutError)
     }
   }, 10000)
+  it('should throw a timeout error if the request takes too long', async () => {
     fetch.mockImplementationOnce(
       () =>
         new Promise((resolve) =>
@@ -51,7 +52,7 @@ describe('fetchWithTimeout', () => {
     } catch (error) {
       expect(error.name).toBe(FetchError.TimeoutError)
     }
-  })
+  }, 10000)
 
   it('should throw a network error if the fetch fails', async () => {
     fetch.mockRejectedValueOnce(new Error('Network error'))

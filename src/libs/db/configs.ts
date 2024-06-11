@@ -11,15 +11,22 @@ export function getConfigId(user_id: string, name: OptionName) {
 }
 
 // 创建或更新配置项
-export async function upsertConfig(config: Config) {
+export async function upsertConfig(config: {
+  option_name: OptionName
+  option_value: any
+}) {
   const db = await openDb()
   const user_id = await getCurrentUserId()
   const { objectStore } = getObjectStore(db, CONFIGS_TABLE_NAME_V2)
   return new Promise<void>((resolve, reject) => {
-    config.updated_at = Math.floor(Date.now() / 1000)
-    config.owner_id = user_id
-    config.id = getConfigId(user_id, config.option_name)
-    const request = objectStore.put(config)
+    const item: Config = {
+      ...config,
+      updated_at: Math.floor(Date.now() / 1000),
+      owner_id: user_id,
+      id: getConfigId(user_id, config.option_name),
+    }
+
+    const request = objectStore.put(item)
     request.onsuccess = () => resolve()
     request.onerror = () => reject(request.error)
   })

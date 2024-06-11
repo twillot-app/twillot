@@ -20,10 +20,11 @@ describe('configManager', () => {
     const config = {
       option_name: OptionName.FOLDER,
       option_value: 'folder1',
-    } as Config
+    }
     await upsertConfig(config)
     const readResult = await readConfig(OptionName.FOLDER)
-    expect(readResult).toEqual(config)
+    expect(readResult.option_name).toEqual(config.option_name)
+    expect(readResult.option_value).toEqual(config.option_value)
     await deleteConfig(OptionName.FOLDER)
     const deletedResult = await readConfig(OptionName.FOLDER)
     expect(deletedResult).toBeUndefined()

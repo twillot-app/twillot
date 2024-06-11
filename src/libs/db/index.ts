@@ -45,6 +45,10 @@ export function createSchema(
   })
 }
 
+async function isMigrationNeeded(db: IDBDatabase, oldTableName: string): Promise<boolean> {
+  return db.objectStoreNames.contains(oldTableName);
+}
+
 async function migrateData(db: IDBDatabase, oldTableName: string, newTableName: string) {
   return new Promise<void>((resolve, reject) => {
     if (!db.objectStoreNames.contains(oldTableName)) {
@@ -130,13 +134,13 @@ export async function openDb(): Promise<IDBDatabase> {
         [],
       )
 
-      // Migrate data from old tables to new tables
-      await migrateData(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME))
-      await migrateData(
-        db,
-        CONFIGS_TABLE_NAME,
-        getTableName(CONFIGS_TABLE_NAME),
-      )
+      // Check if migration is needed and perform migration
+      if (await isMigrationNeeded(db, TWEETS_TABLE_NAME)) {
+        await migrateData(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME));
+      }
+      if (await isMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
+        await migrateData(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME));
+      }
     }
 
     request.onsuccess = (event: Event) => {

@@ -3,7 +3,7 @@ import { getCurrentUserId } from '../storage'
 import { getConfigId } from './configs'
 import { getPostId } from './tweets'
 
-export const DB_VERSION = 17
+export const DB_VERSION = 20
 
 export const DB_NAME = 'twillot'
 
@@ -58,6 +58,10 @@ export async function migrateData() {
   }
 
   if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
+    const transaction = db.transaction(
+      [TWEETS_TABLE_NAME, TWEETS_TABLE_NAME_V2],
+      'readwrite',
+    )
     const oldStore = transaction.objectStore(TWEETS_TABLE_NAME)
     const newStore = transaction.objectStore(TWEETS_TABLE_NAME_V2)
 
@@ -75,6 +79,10 @@ export async function migrateData() {
   }
 
   if (db.objectStoreNames.contains(CONFIGS_TABLE_NAME)) {
+    const transaction = db.transaction(
+      [CONFIGS_TABLE_NAME, CONFIGS_TABLE_NAME_V2],
+      'readwrite',
+    )
     const oldStore = transaction.objectStore(CONFIGS_TABLE_NAME)
     const newStore = transaction.objectStore(CONFIGS_TABLE_NAME_V2)
 

@@ -9,6 +9,24 @@ export const TWEETS_TABLE_NAME = 'tweets'
 
 export const CONFIGS_TABLE_NAME = 'configs'
 
+const indexFields =
+  'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
+    .split(',')
+    .map((field) => ({
+      name: field,
+      options: {
+        unique: false,
+        multiEntry: false,
+      },
+    }))
+indexFields.push({
+  name: 'tags',
+  options: {
+    unique: false,
+    multiEntry: true,
+  },
+})
+
 let user_id = ''
 
 function getTableName(tbName: string) {
@@ -34,7 +52,7 @@ export function getObjectStore(db: IDBDatabase, tableName: string) {
 
 export function createSchema(
   db: IDBDatabase,
-  transaction: IDBTransaction,
+  transaction: IDBTransaction | null,
   tableName: string,
   keyPath: string,
   indexes: IndexedDbIndexItem[],
@@ -54,23 +72,6 @@ export function createSchema(
 }
 
 export function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
-  const indexFields =
-    'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
-      .split(',')
-      .map((field) => ({
-        name: field,
-        options: {
-          unique: false,
-          multiEntry: false,
-        },
-      }))
-  indexFields.push({
-    name: 'tags',
-    options: {
-      unique: false,
-      multiEntry: true,
-    },
-  })
   createSchema(
     db,
     transaction,
@@ -113,19 +114,14 @@ export async function openDb(): Promise<IDBDatabase> {
 
     request.onsuccess = (event: Event) => {
       const db = (event.target as IDBOpenDBRequest).result
-      const userTables = [getTableName(TWEETS_TABLE_NAME), getTableName(CONFIGS_TABLE_NAME)];
-      userTables.forEach((tableName) => {
-        if (!db.objectStoreNames.contains(tableName)) {
-          createSchema(db, target.transaction, tableName, tableName === getTableName(TWEETS_TABLE_NAME) ? 'tweet_id' : 'option_name', tableName === getTableName(TWEETS_TABLE_NAME) ? indexFields : []);
-        }
-      });
+      upgradeDb(db, null)
       resolve(db)
     }
   })
 }
 
 function isTableMigrationNeeded(db: IDBDatabase, oldTableName: string) {
-  return user_id && db.objectStoreNames.contains(oldTableName)
+  return user_id && !db.objectStoreNames.contains(getTableName(oldTableName))
 }
 
 async function migrateTable(

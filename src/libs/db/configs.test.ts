@@ -1,11 +1,16 @@
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, beforeEach } from 'vitest'
 import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 
 import { deleteConfig, readConfig, upsertConfig } from './configs'
 import { Config, OptionName } from '../../types'
 
+import { openDb } from './index'
+
 describe('configManager', () => {
+  beforeEach(async () => {
+    await openDb()
+  })
   afterEach(() => {
     indexedDB = new IDBFactory()
     global.chrome = browser

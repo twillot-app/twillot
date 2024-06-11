@@ -12,7 +12,8 @@ export const CONFIGS_TABLE_NAME = 'configs'
 let user_id = ''
 
 function getTableName(tbName: string) {
-  return `${tbName}_${user_id}`
+  if (user_id) return `${tbName}_${user_id}`
+  else return tbName
 }
 
 export function getObjectStore(db: IDBDatabase, tableName: string) {

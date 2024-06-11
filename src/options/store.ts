@@ -44,6 +44,7 @@ export const defaultState = () => ({
   isSidePanel: location.pathname.endsWith('sidepanel.html'),
   workflows: new Array<Workflow>(),
   templates: new Array<CommentTemplate>(),
+  isDBMigrating: true,
 })
 
 const store = createStore(defaultState())

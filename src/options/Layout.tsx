@@ -24,8 +24,8 @@ import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
-import { MessageType } from '../libs/workflow/types'
 import { onLocalChanged } from '../libs/storage'
+import { isDBMigrationNeeded, migrateDb } from '../libs/db'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -38,7 +38,9 @@ export const Layout = (props) => {
   })
 
   createEffect(() => {
-    queryByCondition()
+    if (!store.isDBMigrating) {
+      queryByCondition()
+    }
   })
 
   createEffect(() => {
@@ -59,8 +61,12 @@ export const Layout = (props) => {
     }
   })
 
-  onMount(() => {
+  onMount(async () => {
     if (!store.isSidePanel) {
+      if (isDBMigrationNeeded()) {
+        await migrateDb()
+        setStore('isDBMigrating', false)
+      }
       initHistory()
       initSync()
       initFolders()

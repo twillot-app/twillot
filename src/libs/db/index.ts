@@ -45,39 +45,67 @@ export function createSchema(
   })
 }
 
-async function isMigrationNeeded(db: IDBDatabase, oldTableName: string): Promise<boolean> {
-  return db.objectStoreNames.contains(oldTableName);
+async function isTableMigrationNeeded(db: IDBDatabase, oldTableName: string) {
+  return db.objectStoreNames.contains(oldTableName)
 }
 
-async function migrateData(db: IDBDatabase, oldTableName: string, newTableName: string) {
+async function migrateTable(
+  db: IDBDatabase,
+  oldTableName: string,
+  newTableName: string,
+) {
   return new Promise<void>((resolve, reject) => {
     if (!db.objectStoreNames.contains(oldTableName)) {
-      console.log(`Table ${oldTableName} does not exist. Skipping migration.`);
-      resolve();
-      return;
+      console.log(`Table ${oldTableName} does not exist. Skipping migration.`)
+      resolve()
+      return
     }
 
-    const transaction = db.transaction([oldTableName, newTableName], 'readwrite');
-    const oldStore = transaction.objectStore(oldTableName);
-    const newStore = transaction.objectStore(newTableName);
+    const transaction = db.transaction(
+      [oldTableName, newTableName],
+      'readwrite',
+    )
+    const oldStore = transaction.objectStore(oldTableName)
+    const newStore = transaction.objectStore(newTableName)
 
-    const request = oldStore.openCursor();
+    const request = oldStore.openCursor()
     request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
         newStore.put(cursor.value).onsuccess = () => {
-          cursor.continue();
-        };
+          cursor.continue()
+        }
       } else {
         // Remove the old table after migration
-        db.deleteObjectStore(oldTableName);
-        resolve();
+        db.deleteObjectStore(oldTableName)
+        resolve()
       }
-    };
+    }
     request.onerror = (event) => {
-      reject(new Error('Migration error: ' + (event.target as IDBRequest).error?.toString()));
-    };
-  });
+      reject(
+        new Error(
+          'Migration error: ' + (event.target as IDBRequest).error?.toString(),
+        ),
+      )
+    }
+  })
+}
+
+export async function isDBMigrationNeeded() {
+  const db = await openDb()
+  return [TWEETS_TABLE_NAME, CONFIGS_TABLE_NAME].some((name) =>
+    isTableMigrationNeeded(db, name),
+  )
+}
+
+export async function migrateDb() {
+  const db = await openDb()
+  if (await isTableMigrationNeeded(db, TWEETS_TABLE_NAME)) {
+    await migrateTable(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME))
+  }
+  if (await isTableMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
+    await migrateTable(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME))
+  }
 }
 
 export async function openDb(): Promise<IDBDatabase> {
@@ -122,25 +150,17 @@ export async function openDb(): Promise<IDBDatabase> {
       createSchema(
         db,
         target.transaction,
-        TWEETS_TABLE_NAME,
+        getTableName(TWEETS_TABLE_NAME),
         'tweet_id',
         indexFields,
       )
       createSchema(
         db,
         target.transaction,
-        CONFIGS_TABLE_NAME,
+        getTableName(CONFIGS_TABLE_NAME),
         'option_name',
         [],
       )
-
-      // Check if migration is needed and perform migration
-      if (await isMigrationNeeded(db, TWEETS_TABLE_NAME)) {
-        await migrateData(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME));
-      }
-      if (await isMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
-        await migrateData(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME));
-      }
     }
 
     request.onsuccess = (event: Event) => {

@@ -224,11 +224,11 @@ export async function countRecords(
   value?: string,
 ): Promise<CountInfo> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     let request
-    // TODO filter by owner_id
     if (indexName) {
       const index = objectStore.index(indexName)
       const keyRange = IDBKeyRange.only(value)
@@ -259,14 +259,16 @@ export async function countRecords(
             .result
           if (cursor) {
             const record = cursor.value
-            counts.total++
-            if (record.has_image) counts.image++
-            if (record.has_video) counts.video++
-            if (record.has_gif) counts.gif++
-            if (record.has_link) counts.link++
-            if (record.has_quote) counts.quote++
-            if (record.is_long_text) counts.long_text++
-            if (!record.folder) counts.unsorted++
+            if (record.owner_id === user_id) {
+              counts.total++
+              if (record.has_image) counts.image++
+              if (record.has_video) counts.video++
+              if (record.has_gif) counts.gif++
+              if (record.has_link) counts.link++
+              if (record.has_quote) counts.quote++
+              if (record.is_long_text) counts.long_text++
+              if (!record.folder) counts.unsorted++
+            }
             cursor.continue()
           } else {
             resolve(counts)
@@ -296,28 +298,30 @@ export async function aggregateUsers(): Promise<
   >
 > {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
   const userInfo = {}
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('sort_index')
-    // TODO filter by owner_id
     const request = index.openCursor()
 
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
-        const userId = cursor.value.screen_name
-        if (!userInfo[userId]) {
-          userInfo[userId] = {
-            avatar_url: cursor.value.avatar_url,
-            username: cursor.value.username,
-            screen_name: cursor.value.screen_name,
-            count: 0,
+        const record = cursor.value
+        if (record.owner_id === user_id) {
+          const userId = record.screen_name
+          if (!userInfo[userId]) {
+            userInfo[userId] = {
+              avatar_url: record.avatar_url,
+              username: record.username,
+              screen_name: record.screen_name,
+              count: 0,
+            }
           }
+          userInfo[userId].count += 1
         }
-        userInfo[userId].count += 1
-
         cursor.continue()
       } else {
         resolve(userInfo)
@@ -340,10 +344,10 @@ export async function getRencentTweets(days: number): Promise<{
   data: { date: string; count: number }[]
 }> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('created_at')
-    // TODO filter by owner_id
     const oneYearAgo = Math.floor(
       (Date.now() - days * 24 * 60 * 60 * 1000) / 1000,
     )
@@ -356,12 +360,14 @@ export async function getRencentTweets(days: number): Promise<{
       const cursor = request.result
       if (cursor) {
         const tweet = cursor.value
-        const date = new Date(tweet.created_at * 1000).toLocaleDateString()
-        total += 1
-        if (dateCounts[date]) {
-          dateCounts[date] += 1
-        } else {
-          dateCounts[date] = 1
+        if (tweet.owner_id === user_id) {
+          const date = new Date(tweet.created_at * 1000).toLocaleDateString()
+          total += 1
+          if (dateCounts[date]) {
+            dateCounts[date] += 1
+          } else {
+            dateCounts[date] = 1
+          }
         }
         cursor.continue()
       } else {
@@ -384,19 +390,21 @@ export async function getRencentTweets(days: number): Promise<{
 
 export async function clearFolder(folder: string): Promise<void> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
 
   return new Promise((resolve, reject) => {
     const store = getObjectStore(db, TWEETS_TABLE_NAME_V2).objectStore
     const index = store.index('folder')
-    // TODO filter by owner_id
     const request = index.openCursor(IDBKeyRange.only(folder))
 
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
         const updateData = cursor.value
-        updateData.folder = ''
-        cursor.update(updateData)
+        if (updateData.owner_id === user_id) {
+          updateData.folder = ''
+          cursor.update(updateData)
+        }
         cursor.continue()
       } else {
         resolve()

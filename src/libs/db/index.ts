@@ -1,7 +1,7 @@
 import { IndexedDbIndexItem } from '../../types'
 import { getCurrentUserId } from '../storage'
 
-export const DB_VERSION = 10
+export const DB_VERSION = 13
 
 export const DB_NAME = 'twillot'
 
@@ -12,8 +12,15 @@ export const CONFIGS_TABLE_NAME = 'configs'
 let user_id = ''
 
 function getTableName(tbName: string) {
-  if (user_id) return `${tbName}_${user_id}`
-  else return tbName
+  if (!user_id) {
+    return tbName
+  }
+
+  if (tbName.includes(user_id)) {
+    return tbName
+  }
+
+  return `${tbName}_${user_id}`
 }
 
 export function getObjectStore(db: IDBDatabase, tableName: string) {
@@ -46,6 +53,40 @@ export function createSchema(
   })
 }
 
+export function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
+  const indexFields =
+    'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
+      .split(',')
+      .map((field) => ({
+        name: field,
+        options: {
+          unique: false,
+          multiEntry: false,
+        },
+      }))
+  indexFields.push({
+    name: 'tags',
+    options: {
+      unique: false,
+      multiEntry: true,
+    },
+  })
+  createSchema(
+    db,
+    transaction,
+    getTableName(TWEETS_TABLE_NAME),
+    'tweet_id',
+    indexFields,
+  )
+  createSchema(
+    db,
+    transaction,
+    getTableName(CONFIGS_TABLE_NAME),
+    'option_name',
+    [],
+  )
+}
+
 export async function openDb(): Promise<IDBDatabase> {
   if (!user_id) {
     user_id = await getCurrentUserId()
@@ -66,50 +107,20 @@ export async function openDb(): Promise<IDBDatabase> {
     }
     request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
       const target = event.target as IDBOpenDBRequest
-      const db = target.result
       // DO NOT create a new transaction here
-      const indexFields =
-        'full_text,sort_index,screen_name,created_at,has_image,has_video,has_link,has_quote,is_long_text,folder'
-          .split(',')
-          .map((field) => ({
-            name: field,
-            options: {
-              unique: false,
-              multiEntry: false,
-            },
-          }))
-      indexFields.push({
-        name: 'tags',
-        options: {
-          unique: false,
-          multiEntry: true,
-        },
-      })
-      createSchema(
-        db,
-        target.transaction,
-        getTableName(TWEETS_TABLE_NAME),
-        'tweet_id',
-        indexFields,
-      )
-      createSchema(
-        db,
-        target.transaction,
-        getTableName(CONFIGS_TABLE_NAME),
-        'option_name',
-        [],
-      )
+      upgradeDb(target.result, target.transaction)
     }
 
     request.onsuccess = (event: Event) => {
       const db = (event.target as IDBOpenDBRequest).result
+      // TODO dynamic add user tables via upgrade function
       resolve(db)
     }
   })
 }
 
-async function isTableMigrationNeeded(db: IDBDatabase, oldTableName: string) {
-  return db.objectStoreNames.contains(oldTableName)
+function isTableMigrationNeeded(db: IDBDatabase, oldTableName: string) {
+  return user_id && db.objectStoreNames.contains(oldTableName)
 }
 
 async function migrateTable(
@@ -162,11 +173,14 @@ export async function isDBMigrationNeeded() {
 }
 
 export async function migrateDb() {
+  console.log('Starting database migration...')
   const db = await openDb()
-  if (await isTableMigrationNeeded(db, TWEETS_TABLE_NAME)) {
+  console.log('current user id:', user_id)
+  if (isTableMigrationNeeded(db, TWEETS_TABLE_NAME)) {
     await migrateTable(db, TWEETS_TABLE_NAME, getTableName(TWEETS_TABLE_NAME))
   }
-  if (await isTableMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
+  if (isTableMigrationNeeded(db, CONFIGS_TABLE_NAME)) {
     await migrateTable(db, CONFIGS_TABLE_NAME, getTableName(CONFIGS_TABLE_NAME))
   }
+  console.log('Database migration complete.')
 }

@@ -9,6 +9,7 @@ import {
 } from '../types'
 import { DAYS } from '../libs/date'
 import { CommentTemplate, Workflow } from '../libs/workflow/types'
+import { License } from '../libs/license'
 
 const activeFont = JSON.parse(
   localStorage.getItem('activeFont') || 'null',
@@ -44,7 +45,7 @@ export const defaultState = () => ({
   isSidePanel: location.pathname.endsWith('sidepanel.html'),
   workflows: new Array<Workflow>(),
   templates: new Array<CommentTemplate>(),
-  isDBMigrating: true,
+  license_profile: null as null | License,
 })
 
 const store = createStore(defaultState())

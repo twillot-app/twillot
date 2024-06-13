@@ -14,6 +14,7 @@ import {
   IconBranch,
   IconFolderMove,
   IconFolders,
+  IconLicense,
   IconMoon,
   IconSun,
   IconUp,
@@ -209,6 +210,17 @@ export const Layout = (props) => {
                     </A>
                   </li>
                 </ul>
+              </li>
+              <li>
+                <a
+                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
+                  href="/license"
+                >
+                  <IconLicense />
+                  <span class="ms-3 flex-1 whitespace-nowrap">
+                    License Code
+                  </span>
+                </a>
               </li>
             </ul>
           </div>

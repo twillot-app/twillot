@@ -4,6 +4,15 @@ import packageData from '../package.json'
 //@ts-ignore
 const isDev = process.env.NODE_ENV == 'development'
 
+const host_permissions = ['https://x.com/*', 'https://twitter.com/*']
+// cloudflare workers
+if (isDev) {
+  host_permissions.push('http://localhost:8787/*')
+  host_permissions.push('http://127.0.0.1:8787/*')
+} else {
+  host_permissions.push('https://*.twillot.com/*')
+}
+
 export default defineManifest({
   name: `${packageData.displayName || packageData.name}${isDev ? ` ➡️ Dev` : ''}`,
   description: packageData.description,
@@ -50,11 +59,7 @@ export default defineManifest({
       matches: [],
     },
   ],
-  host_permissions: [
-    'https://x.com/*',
-    'https://twitter.com/*',
-    'https://*.twillot.com/*',
-  ],
+  host_permissions,
   permissions: [
     'storage',
     'webRequest',

@@ -2,15 +2,20 @@ import { unwrap } from 'solid-js/store'
 
 import { readConfig, upsertConfig } from '../../libs/db/configs'
 import dataStore, { mutateStore } from '../../options/store'
-import { OptionName } from '../../types'
+import { OptionName, OptionStoreField } from '../../types'
 import { getTweetConversations } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from './task'
-import { CommentTemplate, Workflow } from './types'
+import { Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
 import { setLocal } from '../storage'
-import { defaultTemplates, defaultWorkflows } from './defaults'
+import {
+  defaultTemplates,
+  defaultWorkflows,
+  defaultTail,
+  defaultSignatureTemplates,
+} from './defaults'
 
 const [store] = dataStore
 
@@ -160,18 +165,24 @@ export const getWorkflows = async () => {
   return workflows
 }
 
-export const getTemplates = async () => {
-  const dbRecords = await readConfig(OptionName.COMMENT_TEMPLATE)
-  let templates = (dbRecords?.option_value || []) as CommentTemplate[]
-  if (!templates || !templates.length) {
-    templates = [...defaultTemplates]
+export const getTemplates = async (option_key: string) => {
+  const option_name = OptionName[option_key]
+  const dbRecords = await readConfig(option_name)
+  let templates = dbRecords?.option_value || []
+  if (!templates.length) {
+    if (option_key === 'COMMENT_TEMPLATE') {
+      templates = [...defaultTemplates]
+    } else if (option_key === 'SIGNATURE_TEMPLATE') {
+      templates = [...defaultSignatureTemplates]
+    }
     await upsertConfig({
-      option_name: OptionName.COMMENT_TEMPLATE,
+      option_name,
       option_value: templates,
     })
   }
   mutateStore((state) => {
-    state.templates = templates
+    console.log('update templates', option_key, templates)
+    state[OptionStoreField[option_key]] = templates
   })
   return templates
 }

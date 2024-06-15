@@ -36,7 +36,7 @@ export enum ClientPageStorageKey {
   License = 'twillot_license',
 }
 
-export interface CommentTemplate {
+export interface Template {
   id: string
   name: string
   content: string

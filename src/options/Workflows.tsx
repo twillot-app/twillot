@@ -13,7 +13,6 @@ import {
   updateThen,
   updateWhen,
   getTemplates,
-  updateAction,
 } from '../libs/workflow/store'
 import { useNavigate } from '@solidjs/router'
 import { type Trigger, TRIGGER_LIST } from '../libs/workflow/trigger.type'
@@ -23,6 +22,8 @@ import {
   CLIENT_ACTION_LIST,
   ClientActionKey,
 } from '../libs/workflow/actions'
+import Settings from './Settings'
+import SettingsSelector from '../components/SettingsSelector'
 
 const [store] = dataStore
 
@@ -33,7 +34,8 @@ const WorkflowConfigurator = () => {
    */
   onMount(() => {
     getWorkflows()
-    getTemplates()
+    getTemplates('COMMENT_TEMPLATE')
+    getTemplates('SIGNATURE_TEMPLATE')
   })
 
   return (
@@ -168,34 +170,20 @@ const WorkflowConfigurator = () => {
                           )}
                         </select>
                         <Show when={thenAction.name === 'AutoComment'}>
-                          <select
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                            onChange={(e) => {
-                              if (e.currentTarget.value === '') {
-                                navigate('/workflows/settings')
-                                return
-                              }
-                              updateAction(
-                                workflowIndex(),
-                                thenIndex(),
-                                e.currentTarget.value,
-                              )
-                            }}
-                          >
-                            <option value="">Add a new template</option>
-                            <For each={store.templates}>
-                              {(template) => (
-                                <option
-                                  value={template.content}
-                                  selected={
-                                    template.content === thenAction.inputs[0]
-                                  }
-                                >
-                                  {template.name}
-                                </option>
-                              )}
-                            </For>
-                          </select>
+                          <SettingsSelector
+                            option_key="COMMENT_TEMPLATE"
+                            workflowIndex={workflowIndex()}
+                            thenIndex={thenIndex()}
+                            thenAction={thenAction}
+                          />
+                        </Show>
+                        <Show when={thenAction.name === 'AppendSignature'}>
+                          <SettingsSelector
+                            option_key="SIGNATURE_TEMPLATE"
+                            workflowIndex={workflowIndex()}
+                            thenIndex={thenIndex()}
+                            thenAction={thenAction}
+                          />
                         </Show>
                       </div>
                     </div>

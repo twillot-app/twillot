@@ -1,4 +1,4 @@
-import { type Workflow, type CommentTemplate } from './types'
+import { type Workflow, type Template } from './types'
 
 export const defaultWorkflows: Workflow[] = [
   {
@@ -17,7 +17,7 @@ export const defaultWorkflows: Workflow[] = [
   },
 ]
 
-export const defaultTemplates: CommentTemplate[] = [
+export const defaultTemplates: Template[] = [
   {
     id: new Date().getTime().toString(16),
     name: 'Default - A twillot welcome post',
@@ -28,3 +28,12 @@ export const defaultTemplates: CommentTemplate[] = [
 
 export const defaultTail =
   '\n\n----\nStreamlined by Twillot https://twillot.com'
+
+export const defaultSignatureTemplates: Template[] = [
+  {
+    id: new Date().getTime().toString(16),
+    name: 'Default Signature',
+    content: defaultTail,
+    createdAt: Math.floor(Date.now() / 1000),
+  },
+]

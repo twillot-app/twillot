@@ -18,6 +18,7 @@ export type ActionHandler = (context: ActionContext) => Promise<any>
 
 export type ClientActionContext = {
   trigger: Trigger
+  action: Action
   profile: License | null
   body: TriggerReuqestBody
   headers: any
@@ -110,14 +111,14 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     'AppendSignature',
     'Append a signature',
     async (context: ClientActionContext) => {
-      const { body, profile } = context
+      const { body, profile, action } = context
       if (isFreeLicense(profile)) {
         console.error('Free license does not support signature')
         return body.variables.tweet_text + defaultTail
       }
 
-      // TODO 签名内容
-      return body.variables.tweet_text
+      const signature = action.inputs?.[0] || ''
+      return body.variables.tweet_text + signature
     },
   ),
 ]

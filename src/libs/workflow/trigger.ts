@@ -247,45 +247,6 @@ export class Monitor {
       )
     })
   }
-
-  static async execClientPageWorkflows(
-    trigger: Trigger,
-    data: string | null,
-    headers,
-  ) {
-    const reqBody: TriggerReuqestBody = data ? JSON.parse(data) : {}
-    const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
-    const text = localStorage.getItem(ClientPageStorageKey.Workflows)
-    const workflows: Workflow[] = text ? JSON.parse(text) : []
-
-    if (workflows.length) {
-      /**
-       * TODO 添加的时候验证同一个 trigger 仅能添加一个 client workflow
-       */
-      const workflow = workflows.find((w) => w.when === realTrigger)
-      if (workflow) {
-        const license_str = localStorage.getItem(ClientPageStorageKey.License)
-        const license: License | null = license_str
-          ? JSON.parse(license_str)
-          : null
-        for (const action of workflow.thenList) {
-          /**
-           * TODO 一个 trigger 下可以支持多个 client actions
-           */
-          const item = CLIENT_ACTION_LIST.find((h) => h.name === action.name)
-          const newData = await item.handler({
-            trigger: realTrigger,
-            body: reqBody,
-            headers,
-            profile: license,
-          })
-          return newData || ''
-        }
-      }
-    }
-
-    return data
-  }
 }
 
 export class Emitter {
@@ -330,5 +291,45 @@ export class Emitter {
       }
       console.log(`Workflow ends`)
     }
+  }
+
+  static async emitClientWorkflows(
+    trigger: Trigger,
+    data: string | null,
+    headers,
+  ) {
+    const reqBody: TriggerReuqestBody = data ? JSON.parse(data) : {}
+    const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
+    const text = localStorage.getItem(ClientPageStorageKey.Workflows)
+    const workflows: Workflow[] = text ? JSON.parse(text) : []
+
+    if (workflows.length) {
+      /**
+       * TODO 添加的时候验证同一个 trigger 仅能添加一个 client workflow
+       */
+      const workflow = workflows.find((w) => w.when === realTrigger)
+      if (workflow) {
+        const license_str = localStorage.getItem(ClientPageStorageKey.License)
+        const license: License | null = license_str
+          ? JSON.parse(license_str)
+          : null
+        for (const action of workflow.thenList) {
+          /**
+           * TODO 一个 trigger 下可以支持多个 client actions
+           */
+          const item = CLIENT_ACTION_LIST.find((h) => h.name === action.name)
+          const newData = await item.handler({
+            trigger: realTrigger,
+            action,
+            body: reqBody,
+            headers,
+            profile: license,
+          })
+          return newData || ''
+        }
+      }
+    }
+
+    return data
   }
 }

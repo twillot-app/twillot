@@ -1,4 +1,4 @@
-import { Monitor } from '../libs/workflow/trigger'
+import { Monitor, Emitter } from '../libs/workflow/trigger'
 import { Trigger, TriggerKeys } from '../libs/workflow/trigger.type'
 
 const origOpen = XMLHttpRequest.prototype.open
@@ -29,7 +29,7 @@ XMLHttpRequest.prototype.send = async function (data: string | null) {
   const url = this._url
   const trigger = url.split('/').pop() as Trigger
   if (trigger && TriggerKeys.includes(trigger)) {
-    data = await Monitor.execClientPageWorkflows(trigger, data, this._headers)
+    data = await Emitter.emitClientWorkflows(trigger, data, this._headers)
     this.addEventListener('load', async function () {
       Monitor.postContentScriptMessage(
         trigger,

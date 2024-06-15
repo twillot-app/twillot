@@ -11,13 +11,20 @@ import { addTask } from './task'
 import { API_HOST } from '../../types'
 import { Monitor } from './trigger'
 import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
+import { License, MemberTier, getLevel } from '../license'
+import { defaultTail } from './defaults'
 
 export type ActionHandler = (context: ActionContext) => Promise<any>
 
+export type ClientActionContext = {
+  trigger: Trigger
+  profile?: License | null
+  body: TriggerReuqestBody
+  headers: any
+}
+
 export type ClientActionHandler = (
-  trigger: Trigger,
-  body: TriggerReuqestBody,
-  headers: any,
+  context: ClientActionContext,
 ) => Promise<string>
 
 export type ActionConfig = {
@@ -37,25 +44,18 @@ export type ClientActionConfig = {
 export function createClientAction(
   name: string,
   desc: string,
-  transformer: (
-    trigger: Trigger,
-    body: TriggerReuqestBody,
-    headers: any,
-  ) => Promise<string>,
+  transformer: (context: ClientActionContext) => Promise<string>,
 ): ClientActionConfig {
   return {
     name,
     desc,
     is_client: true,
-    handler: async (
-      trigger: Trigger,
-      body: TriggerReuqestBody,
-      headers: any,
-    ) => {
+    handler: async (context: ClientActionContext) => {
+      const { body } = context
       if (!body?.variables?.tweet_text) {
         console.error('No tweet text found in body', body)
       } else {
-        const transformed = await transformer(trigger, body, headers)
+        let transformed = await transformer(context)
         body.variables.tweet_text = transformed
       }
       return JSON.stringify(body)
@@ -67,7 +67,8 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
   createClientAction(
     'AutoTranslate',
     'Auto translate',
-    async (trigger, body, headers) => {
+    async (context: ClientActionContext) => {
+      const { trigger, body, headers } = context
       let text = body.variables.tweet_text
       try {
         let { source } = Monitor.getContext(trigger, body)
@@ -101,11 +102,13 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
       }
     },
   ),
-  createClientAction('AppendSignature', 'Append a signature', async (text) => {
-    return (
-      text + '\n----\nThis message was sent from Twillot, https://twillot.com'
-    )
-  }),
+  createClientAction(
+    'AppendSignature',
+    'Append a signature',
+    async (context: ClientActionContext) => {
+      return context.body.variables.tweet_text + defaultTail
+    },
+  ),
 ]
 
 export type ClientActionKey = (typeof CLIENT_ACTION_LIST)[number]['name']
@@ -207,5 +210,6 @@ export type Action = {
 
 export interface ActionContext extends TriggerContext {
   action: Action
+  profile: License | null
   prevActionResponse: any
 }

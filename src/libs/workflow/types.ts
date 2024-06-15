@@ -25,12 +25,15 @@ export interface Message {
 }
 
 export enum MessageType {
-  ClientPageEvent = 'client_page_event',
-  ClientPageRequest = 'client_page_request',
-  GetWorkflows = 'get_workflows',
-  GetClientWorkflows = 'get_client_workflows',
+  ClientPageProxyRequest = 'client_page_request',
+  ClientPageLicense = 'client_page_license',
+  ClientPageWorkflows = 'get_client_workflows',
   GetTriggerResponse = 'get_trigger_response',
-  SyncTasks = 'sync_tasks',
+}
+
+export enum ClientPageStorageKey {
+  Workflows = 'twillot_workflows',
+  License = 'twillot_license',
 }
 
 export interface CommentTemplate {
@@ -39,5 +42,3 @@ export interface CommentTemplate {
   content: string
   createdAt: number
 }
-
-export const WF_KEY_FOR_CLIET_PAGE = 'twillot_workflows'

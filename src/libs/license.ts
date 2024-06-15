@@ -27,6 +27,23 @@ export async function getLicense() {
   return item[LICENSE_CODE_KEY] as License | null
 }
 
+export function isValidLicense(license: License | null) {
+  if (!license) {
+    return false
+  }
+
+  const now = new Date().getTime()
+  return now < license.expires_at
+}
+
+export function getLevel(license: License | null) {
+  if (!license) {
+    return MemberTier.Free
+  }
+
+  return license.level
+}
+
 export async function activateLicense(license_code: string) {
   if (!license_code) {
     return

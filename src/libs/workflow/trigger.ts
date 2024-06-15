@@ -4,7 +4,7 @@
 
 import { Host, TweetBase } from '../../types'
 import { getClientWorkflows, getWorkflows } from '.'
-import { MessageType, Workflow, Message, WF_KEY_FOR_CLIET_PAGE } from './types'
+import { MessageType, Workflow, Message, ClientPageStorageKey } from './types'
 import { ACTION_LIST, CLIENT_ACTION_LIST } from './actions'
 import {
   Trigger,
@@ -13,6 +13,7 @@ import {
   TriggerContext,
 } from './trigger.type'
 import { onLocalChanged } from '../storage'
+import { getLicense } from '../license'
 
 export class Monitor {
   static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {
@@ -130,10 +131,7 @@ export class Monitor {
     )
   }
 
-  static postClientPageMessage(
-    payload: any,
-    type = MessageType.ClientPageEvent,
-  ) {
+  static postClientPageMessage(payload: any, type: MessageType) {
     const event = new CustomEvent(type, {
       detail: payload,
     })
@@ -146,7 +144,14 @@ export class Monitor {
       if (!workflows.length) {
         console.log('No client workflows found')
       }
-      Monitor.postClientPageMessage(workflows)
+      Monitor.postClientPageMessage(workflows, MessageType.ClientPageWorkflows)
+    }
+    const sendLicense2ClientPage = async () => {
+      const license = await getLicense()
+      if (!license) {
+        console.log('No license found')
+      }
+      Monitor.postClientPageMessage(license, MessageType.ClientPageLicense)
     }
 
     window.addEventListener('message', async (event) => {
@@ -157,9 +162,9 @@ export class Monitor {
       const { data } = event
       if (data.type === MessageType.GetTriggerResponse) {
         chrome.runtime.sendMessage<Message>(data)
-      } else if (data.type === MessageType.GetClientWorkflows) {
+      } else if (data.type === MessageType.ClientPageWorkflows) {
         sendWorkflows2ClientPage()
-      } else if (data.type === MessageType.ClientPageRequest) {
+      } else if (data.type === MessageType.ClientPageProxyRequest) {
         const { url, body } = data.payload
         const res = await fetch(url, {
           method: 'POST',
@@ -169,46 +174,46 @@ export class Monitor {
           body: JSON.stringify(body),
         })
         const msg = await res.json()
-        Monitor.postClientPageMessage(msg, MessageType.ClientPageRequest)
+        Monitor.postClientPageMessage(msg, MessageType.ClientPageProxyRequest)
+      } else if (data.type === MessageType.ClientPageLicense) {
+        sendLicense2ClientPage()
       }
     })
 
     onLocalChanged('workflows', sendWorkflows2ClientPage)
+    onLocalChanged('license_profile', sendLicense2ClientPage)
   }
 
   static proxyClientPageRequest(payload) {
-    window.postMessage({ type: MessageType.ClientPageRequest, payload }, Host)
+    window.postMessage(
+      { type: MessageType.ClientPageProxyRequest, payload },
+      Host,
+    )
 
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
         reject(new Error('Request timed out'))
-        window.removeEventListener(MessageType.ClientPageRequest, handleMessage)
+        window.removeEventListener(
+          MessageType.ClientPageProxyRequest,
+          handleMessage,
+        )
       }, 10000)
 
       function handleMessage(event) {
         console.log('Client page response:', event)
         resolve(event.detail)
         clearTimeout(timeout)
-        window.removeEventListener(MessageType.ClientPageRequest, handleMessage)
+        window.removeEventListener(
+          MessageType.ClientPageProxyRequest,
+          handleMessage,
+        )
       }
 
-      window.addEventListener(MessageType.ClientPageRequest, handleMessage)
+      window.addEventListener(MessageType.ClientPageProxyRequest, handleMessage)
     })
   }
 
   static onClientPageMessage() {
-    window.addEventListener(MessageType.ClientPageEvent, (event: any) => {
-      if (!event.detail || !event.detail.length) {
-        localStorage.removeItem(WF_KEY_FOR_CLIET_PAGE)
-      } else {
-        localStorage.setItem(
-          WF_KEY_FOR_CLIET_PAGE,
-          JSON.stringify(event.detail),
-        )
-      }
-      console.log('Client workflows updated', event.detail)
-      // }
-    })
     /**
      * Actively fetch client workflows
      * NOTE: Currently only supports single workflows.
@@ -216,12 +221,31 @@ export class Monitor {
      * 1) Interaction scenarios with multiple actions
      * 2) Mixing client actions
      */
-    window.postMessage(
-      {
-        type: MessageType.GetClientWorkflows,
-      },
-      Host,
-    )
+    const localSyncTasks = [
+      [MessageType.ClientPageWorkflows, ClientPageStorageKey.Workflows],
+      [MessageType.ClientPageLicense, ClientPageStorageKey.License],
+    ]
+    localSyncTasks.forEach(([eventName, storageKey]) => {
+      window.addEventListener(eventName, (event: any) => {
+        if (!event.detail || !event.detail.length) {
+          localStorage.removeItem(storageKey)
+        } else {
+          localStorage.setItem(storageKey, JSON.stringify(event.detail))
+        }
+        console.log(
+          'Client data synced to local storage',
+          eventName,
+          storageKey,
+          event.detail,
+        )
+      })
+      window.postMessage(
+        {
+          type: eventName,
+        },
+        Host,
+      )
+    })
   }
 
   static async execClientPageWorkflows(
@@ -231,7 +255,7 @@ export class Monitor {
   ) {
     const reqBody: TriggerReuqestBody = data ? JSON.parse(data) : {}
     const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
-    const text = localStorage.getItem(WF_KEY_FOR_CLIET_PAGE)
+    const text = localStorage.getItem(ClientPageStorageKey.Workflows)
     const workflows: Workflow[] = text ? JSON.parse(text) : []
 
     if (workflows.length) {
@@ -245,7 +269,11 @@ export class Monitor {
            * TODO 一个 trigger 下可以支持多个 client actions
            */
           const item = CLIENT_ACTION_LIST.find((h) => h.name === action.name)
-          const newData = await item.handler(realTrigger, reqBody, headers)
+          const newData = await item.handler({
+            trigger: realTrigger,
+            body: reqBody,
+            headers,
+          })
           return newData || ''
         }
       }
@@ -256,6 +284,10 @@ export class Monitor {
 }
 
 export class Emitter {
+  /**
+   * This method is running in background script.
+   * It will fetch workflows and execute them.
+   */
   static async emit(payload: TriggerContext) {
     const { trigger } = payload
     let workflows = await getWorkflows()
@@ -269,6 +301,7 @@ export class Emitter {
     ACTION_LIST.forEach((action) => {
       handlers[action.name] = action.handler
     })
+    const profile = await getLicense()
 
     console.log('Matched workflows:', workflows)
     for (const w of workflows) {
@@ -280,6 +313,7 @@ export class Emitter {
           const context = {
             ...payload,
             action,
+            profile,
             prevActionResponse,
           }
           prevActionResponse = await handler(context)

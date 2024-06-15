@@ -10,33 +10,9 @@ import { CommentTemplate, Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
 import { setLocal } from '../storage'
+import { defaultTemplates, defaultWorkflows } from './defaults'
 
 const [store] = dataStore
-
-const defaultWorkflows: Workflow[] = [
-  {
-    id: '0',
-    name: 'Auto unroll threads when a bookmark is created',
-    editable: false,
-    when: 'CreateBookmark',
-    thenList: [{ name: 'UnrollThread' }],
-  },
-  {
-    id: '1',
-    name: 'Delete from local when a bookmark is deleted',
-    editable: false,
-    when: 'DeleteBookmark',
-    thenList: [{ name: 'DeleteBookmark' }],
-  },
-]
-const defaultTemplates: CommentTemplate[] = [
-  {
-    id: new Date().getTime().toString(16),
-    name: 'Default - A twillot welcome post',
-    content: 'Proudly posted by Twillot, check out https://twillot.com.',
-    createdAt: Math.floor(Date.now() / 1000),
-  },
-]
 
 function isSameAction(action1: Action, action2: Action) {
   if (action1.name !== action2.name) {

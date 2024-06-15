@@ -111,12 +111,7 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     'AppendSignature',
     'Append a signature',
     async (context: ClientActionContext) => {
-      const { body, profile, action } = context
-      if (isFreeLicense(profile)) {
-        console.error('Free license does not support signature')
-        return body.variables.tweet_text + defaultTail
-      }
-
+      const { body, action } = context
       const signature = action.inputs?.[0] || ''
       return body.variables.tweet_text + signature
     },

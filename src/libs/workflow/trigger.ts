@@ -13,7 +13,7 @@ import {
   TriggerContext,
 } from './trigger.type'
 import { onLocalChanged } from '../storage'
-import { getLicense } from '../license'
+import { type License, getLicense } from '../license'
 
 export class Monitor {
   static getRealTrigger(trigger: Trigger, body: TriggerReuqestBody): Trigger {
@@ -264,6 +264,10 @@ export class Monitor {
        */
       const workflow = workflows.find((w) => w.when === realTrigger)
       if (workflow) {
+        const license_str = localStorage.getItem(ClientPageStorageKey.License)
+        const license: License | null = license_str
+          ? JSON.parse(license_str)
+          : null
         for (const action of workflow.thenList) {
           /**
            * TODO 一个 trigger 下可以支持多个 client actions
@@ -273,6 +277,7 @@ export class Monitor {
             trigger: realTrigger,
             body: reqBody,
             headers,
+            profile: license,
           })
           return newData || ''
         }

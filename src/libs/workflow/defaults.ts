@@ -26,4 +26,5 @@ export const defaultTemplates: CommentTemplate[] = [
   },
 ]
 
-export const defaultTail = '\n\nStreamlined by Twillot https://twillot.com'
+export const defaultTail =
+  '\n\n----\nStreamlined by Twillot https://twillot.com'

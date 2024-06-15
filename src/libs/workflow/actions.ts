@@ -18,7 +18,7 @@ export type ActionHandler = (context: ActionContext) => Promise<any>
 
 export type ClientActionContext = {
   trigger: Trigger
-  profile?: License | null
+  profile: License | null
   body: TriggerReuqestBody
   headers: any
 }
@@ -51,11 +51,15 @@ export function createClientAction(
     desc,
     is_client: true,
     handler: async (context: ClientActionContext) => {
-      const { body } = context
+      const { body, profile } = context
       if (!body?.variables?.tweet_text) {
         console.error('No tweet text found in body', body)
       } else {
         let transformed = await transformer(context)
+        if (!profile || getLevel(profile) === MemberTier.Free) {
+          // TODO 可能超过推文长度限制
+          transformed = transformed + defaultTail
+        }
         body.variables.tweet_text = transformed
       }
       return JSON.stringify(body)

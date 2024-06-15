@@ -13,9 +13,9 @@ import { setLocal } from '../storage'
 import {
   defaultTemplates,
   defaultWorkflows,
-  defaultTail,
   defaultSignatureTemplates,
 } from './defaults'
+import { getLicense, isFreeLicense } from '../license'
 
 const [store] = dataStore
 
@@ -99,6 +99,13 @@ export const saveWorkflow = async (index: number) => {
   if (store.workflows.length === 0) {
     return
   }
+
+  const license = await getLicense()
+  if (isFreeLicense(license)) {
+    alert('You need a paid license to enable this feature.')
+    return
+  }
+
   const workflow = unwrap(store.workflows[index])
   const dbRecords = await readConfig(OptionName.WORKFLOW)
   let workflows = []

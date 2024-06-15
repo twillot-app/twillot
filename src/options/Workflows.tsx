@@ -14,7 +14,6 @@ import {
   updateWhen,
   getTemplates,
 } from '../libs/workflow/store'
-import { useNavigate } from '@solidjs/router'
 import { type Trigger, TRIGGER_LIST } from '../libs/workflow/trigger.type'
 import {
   ACTION_LIST,
@@ -22,13 +21,11 @@ import {
   CLIENT_ACTION_LIST,
   ClientActionKey,
 } from '../libs/workflow/actions'
-import Settings from './Settings'
 import SettingsSelector from '../components/SettingsSelector'
 
 const [store] = dataStore
 
 const WorkflowConfigurator = () => {
-  const navigate = useNavigate()
   /**
    * 每次加载时将本地存储的工作流发送到 background
    */
@@ -49,6 +46,34 @@ const WorkflowConfigurator = () => {
         >
           Add
         </button>
+      </div>
+      <div
+        class="mb-4 flex items-center rounded-lg border border-blue-300 bg-blue-50 p-4 text-sm text-blue-800 dark:border-blue-800 dark:bg-gray-800 dark:text-blue-400"
+        role="alert"
+      >
+        <svg
+          class="me-3 inline h-4 w-4 flex-shrink-0"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <div>
+          To enable this feature, you will need a license code. <br />
+          You can currently obtain a free license code from
+          <a
+            href="https://ko-fi.com/s/b5bc05eba5"
+            target="_blank"
+            class="text-red-600"
+          >
+            &nbsp;Kofi
+          </a>
+          . <br />
+          Please note that this promotion will not be available indefinitely.
+          <br />
+        </div>
       </div>
 
       <For each={store.workflows}>

@@ -11,7 +11,7 @@ import { addTask } from './task'
 import { API_HOST } from '../../types'
 import { Monitor } from './trigger'
 import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
-import { License, MemberTier, getLevel } from '../license'
+import { License, isFreeLicense } from '../license'
 import { defaultTail } from './defaults'
 
 export type ActionHandler = (context: ActionContext) => Promise<any>
@@ -56,7 +56,7 @@ export function createClientAction(
         console.error('No tweet text found in body', body)
       } else {
         let transformed = await transformer(context)
-        if (!profile || getLevel(profile) === MemberTier.Free) {
+        if (isFreeLicense(profile)) {
           // TODO 可能超过推文长度限制
           transformed = transformed + defaultTail
         }
@@ -110,7 +110,14 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     'AppendSignature',
     'Append a signature',
     async (context: ClientActionContext) => {
-      return context.body.variables.tweet_text + defaultTail
+      const { body, profile } = context
+      if (isFreeLicense(profile)) {
+        console.error('Free license does not support signature')
+        return body.variables.tweet_text + defaultTail
+      }
+
+      // TODO 签名内容
+      return body.variables.tweet_text
     },
   ),
 ]
@@ -153,7 +160,7 @@ export const ACTION_LIST: ActionConfig[] = [
   },
   {
     name: 'AutoComment',
-    desc: 'Auto comment',
+    desc: 'Auto reply',
     is_client: false,
     handler: async (context: ActionContext) => {
       const { action } = context

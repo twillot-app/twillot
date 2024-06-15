@@ -44,6 +44,14 @@ export function getLevel(license: License | null) {
   return license.level
 }
 
+export function isFreeLicense(license: License | null) {
+  if (!license) {
+    return true
+  }
+
+  return !isValidLicense(license)
+}
+
 export async function activateLicense(license_code: string) {
   if (!license_code) {
     return

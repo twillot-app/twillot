@@ -52,15 +52,17 @@ export function createClientAction(
     desc,
     is_client: true,
     handler: async (context: ClientActionContext) => {
-      const { body, profile } = context
+      const { body } = context
       if (!body?.variables?.tweet_text) {
         console.error('No tweet text found in body', body)
       } else {
+        /**
+         * 不在外面统一处理，由 transformer 处理
+         * 根据用户身份信息自己判断
+         * 不然容易造成小尾巴重复添加
+         */
         let transformed = await transformer(context)
-        if (isFreeLicense(profile)) {
-          // TODO 可能超过推文长度限制
-          transformed = transformed + defaultTail
-        }
+        // TODO 可能超过推文长度限制
         body.variables.tweet_text = transformed
       }
       return JSON.stringify(body)
@@ -111,7 +113,11 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     'AppendSignature',
     'Append a signature',
     async (context: ClientActionContext) => {
-      const { body, action } = context
+      const { body, action, profile } = context
+      if (isFreeLicense(profile)) {
+        return body.variables.tweet_text + defaultTail
+      }
+
       const signature = action.inputs?.[0] || ''
       return body.variables.tweet_text + signature
     },

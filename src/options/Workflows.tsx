@@ -22,7 +22,6 @@ import {
   CLIENT_ACTION_LIST,
   ClientActionKey,
 } from '../libs/workflow/actions'
-import Settings from './Settings'
 import SettingsSelector from '../components/SettingsSelector'
 
 const [store] = dataStore

@@ -3,7 +3,6 @@ import { createEffect, createSignal, For, onMount } from 'solid-js'
 import dataStore, { mutateStore } from '../options/store'
 import { upsertConfig } from '../libs/db/configs'
 import { OptionName, OptionStoreField } from '../types'
-import { getLicense, isFreeLicense } from '../libs/license'
 
 const [store, setStore] = dataStore
 
@@ -28,16 +27,8 @@ const PanelSettings = (props: {
     })
   })
 
-  const addTemplate = async (e) => {
+  const addTemplate = (e) => {
     e.preventDefault()
-    if (props.option_name === 'SIGNATURE_TEMPLATE') {
-      const license = await getLicense()
-      if (isFreeLicense(license)) {
-        alert('You need a paid license to add signature template.')
-        return
-      }
-    }
-
     const content = newContent()
     const items = store[OptionStoreField[props.option_name]]
     if (!content || items.some((t) => t.content === content)) {

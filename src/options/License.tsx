@@ -38,13 +38,19 @@ const License = () => {
         <div class="relative overflow-x-auto sm:rounded-lg">
           <Show when={!store.license_profile}>
             <form onSubmit={activate}>
-              <div class="relative my-4">
+              <div class="relative my-4 flex items-center gap-4">
                 <input
                   type="text"
                   name="key"
-                  class="block w-80 rounded-lg border border-gray-300 bg-gray-50 py-2 pl-4 text-gray-900  outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  class="block w-1/3 rounded-lg border border-gray-300 bg-gray-50 py-2 pl-4 text-gray-900  outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   placeholder="Enter your license code to activate"
                 />
+                <button
+                  type="submit"
+                  class="me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Add
+                </button>
               </div>
             </form>
           </Show>

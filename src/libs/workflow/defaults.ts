@@ -37,3 +37,6 @@ export const defaultSignatureTemplates: Template[] = [
     createdAt: Math.floor(Date.now() / 1000),
   },
 ]
+
+export const defaultReply =
+  '🙌 This content is amazing! 🎉 Big thanks to @SiZapPaaiGwat for the awesome Chrome extension that makes downloading Twitter videos a breeze! Check it out: https://twillot.com'

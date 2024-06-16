@@ -12,7 +12,7 @@ import { API_HOST } from '../../types'
 import { Monitor } from './trigger'
 import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
 import { License, isFreeLicense } from '../license'
-import { defaultTail } from './defaults'
+import { defaultReply, defaultTail } from './defaults'
 
 export type ActionHandler = (context: ActionContext) => Promise<any>
 
@@ -75,7 +75,7 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     'AutoTranslate',
     'Auto translate',
     async (context: ClientActionContext) => {
-      const { trigger, body, headers } = context
+      const { trigger, body, headers, profile } = context
       let text = body.variables.tweet_text
       try {
         let { source } = Monitor.getContext(trigger, body)
@@ -102,7 +102,8 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
           url: API_HOST + '/translate',
           body: apiBody,
         })
-        return json.data.text
+        // TODO 多个 action 时最后统一处理
+        return json.data.text + (isFreeLicense(profile) ? defaultTail : '')
       } catch (error) {
         console.error('Failed to auto translate', error)
         return text
@@ -165,7 +166,7 @@ export const ACTION_LIST: ActionConfig[] = [
     desc: 'Auto reply',
     is_client: false,
     handler: async (context: ActionContext) => {
-      const { action } = context
+      const { action, profile } = context
       if (typeof action !== 'object' || !action.inputs?.[0]) {
         console.error('This action is configured incorrectly', context)
         return
@@ -177,6 +178,11 @@ export const ACTION_LIST: ActionConfig[] = [
       if (!tweet_id) {
         console.error('No tweet id found in context', context)
         return
+      }
+
+      let text = action.inputs[0]
+      if (isFreeLicense(profile)) {
+        text += defaultTail
       }
 
       await createTweet({
@@ -202,6 +208,12 @@ export const ACTION_LIST: ActionConfig[] = [
             url: videoUrl,
             filename: `${tweet_id}.mp4`,
           })
+          if (isFreeLicense(context.profile)) {
+            await createTweet({
+              text: defaultReply,
+              replyTweetId: tweet_id,
+            })
+          }
         } else {
           console.warn('No video found in tweet', tweet_id)
         }

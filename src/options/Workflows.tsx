@@ -22,6 +22,7 @@ import {
   ClientActionKey,
 } from '../libs/workflow/actions'
 import SettingsSelector from '../components/SettingsSelector'
+import { Alert, AlertType } from '../components/Alert'
 
 const [store] = dataStore
 
@@ -37,43 +38,37 @@ const WorkflowConfigurator = () => {
 
   return (
     <div class="container mx-auto p-4 text-base">
-      <div class="flex items-center gap-8">
-        <h1 class="mb-4 flex-1 text-2xl font-bold">Workflows</h1>
+      <div class="mb-4 flex items-center gap-8">
+        <h1 class="flex-1 text-2xl font-bold">Workflows</h1>
         <button
           onClick={addWorkflow}
           type="button"
-          class="mb-8 me-2 min-w-24 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="min-w-24 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Add
         </button>
       </div>
-      <div
-        class="mb-4 flex items-center rounded-lg border border-blue-300 bg-blue-50 p-4 text-sm text-blue-800 dark:border-blue-800 dark:bg-gray-800 dark:text-blue-400"
-        role="alert"
-      >
-        <svg
-          class="me-3 inline h-4 w-4 flex-shrink-0"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-        </svg>
-        <div>
-          To enable this feature, you will need a license code. <br />
-          You can currently obtain a free license code from
-          <a
-            href="https://ko-fi.com/s/b5bc05eba5"
-            target="_blank"
-            class="text-red-600"
-          >
-            &nbsp;Kofi
-          </a>
-          . <br />
-          Please note that this promotion will not be available indefinitely.
-          <br />
-        </div>
+      <div class="mb-4">
+        <Alert
+          type={AlertType.INFO}
+          message={
+            <>
+              To enable this feature, you will need a license code. <br />
+              You can currently obtain a free license code from
+              <a
+                href="https://ko-fi.com/s/b5bc05eba5"
+                target="_blank"
+                class="text-red-600"
+              >
+                &nbsp;Kofi
+              </a>
+              . <br />
+              Please note that this promotion will not be available
+              indefinitely.
+              <br />
+            </>
+          }
+        />
       </div>
 
       <For each={store.workflows}>

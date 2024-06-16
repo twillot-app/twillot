@@ -27,7 +27,13 @@ describe('Actions Module', () => {
       async (text) => text + ' transformed',
     )
     const body = { variables: { tweet_text: 'Test tweet' }, features: {} }
-    const result = await action.handler('CreateTweet', body, null)
+    const result = await action.handler({
+      trigger: 'CreateTweet',
+      body,
+      action: { inputs: ['Test tweet'], name: 'TestAction' },
+      profile: null,
+      headers: {},
+    })
     expect(result).toContain('transformed')
   })
 

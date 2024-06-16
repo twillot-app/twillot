@@ -67,7 +67,7 @@ describe('Workflow Store Module', () => {
   })
 
   it('getTemplates should return templates from the store', async () => {
-    const templates = await getTemplates()
+    const templates = await getTemplates('COMMENT_TEMPLATE')
     expect(templates.length).toBe(1)
     expect(templates[0].name).toBe('Default - A twillot welcome post')
   })

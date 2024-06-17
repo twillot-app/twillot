@@ -285,6 +285,7 @@ export enum EndpointQuery {
   DELETE_TWEET = 'VaenaVgh5q5ih7kvyVjgtg',
   USER_TWEETS = 'gQlOy4mD5C8M8fYxqa0FJg',
   GET_FOLDERS = 'i78YDd0Tza-dV4SYs58kRg',
+  USER_DETAIL = 'GazOglcBvgLigl3ywt6b3Q',
 }
 
 export enum Endpoint {
@@ -298,6 +299,7 @@ export enum Endpoint {
   DELETE_TWEET = `${BASE_PATH}${EndpointQuery.DELETE_TWEET}/DeleteTweet`,
   USER_TWEETS = `${BASE_PATH}${EndpointQuery.USER_TWEETS}/UserTweets`,
   GET_FOLDERS = `${BASE_PATH}${EndpointQuery.GET_FOLDERS}/BookmarkFoldersSlice`,
+  USER_DETAIL = `${BASE_PATH}${EndpointQuery.USER_DETAIL}/UserByRestId`,
 }
 
 export function getEndpoint(queryId: string, name: string): string {

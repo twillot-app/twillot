@@ -3,13 +3,13 @@ import { unwrap } from 'solid-js/store'
 import { readConfig, upsertConfig } from '../../libs/db/configs'
 import dataStore, { mutateStore } from '../../options/store'
 import { OptionName, OptionStoreField } from '../../types'
-import { getTweetConversations } from '../api/twitter'
+import { getTweetConversations, getUserById } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from './task'
 import { Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
-import { setLocal } from '../storage'
+import { getCurrentUserId, setLocal } from '../storage'
 import {
   defaultTemplates,
   defaultWorkflows,
@@ -180,7 +180,20 @@ export const getTemplates = async (option_key: string) => {
     if (option_key === 'COMMENT_TEMPLATE') {
       templates = [...defaultTemplates]
     } else if (option_key === 'SIGNATURE_TEMPLATE') {
-      templates = [...defaultSignatureTemplates]
+      if (isFreeLicense(await getLicense())) {
+        templates = [...defaultSignatureTemplates]
+      } else {
+        const userProfile = await getUserById(await getCurrentUserId())
+        templates = [
+          {
+            id: new Date().getTime().toString(16),
+            name: 'My Profile',
+            content:
+              '\n----\n' + userProfile.data.user.result.legacy.description,
+            createdAt: Math.floor(Date.now() / 1000),
+          },
+        ]
+      }
     }
     await upsertConfig({
       option_name,

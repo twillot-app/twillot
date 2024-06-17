@@ -9,7 +9,7 @@ import {
 } from '../types'
 import { DAYS } from '../libs/date'
 import { Template, Workflow } from '../libs/workflow/types'
-import { License } from '../libs/license'
+import { LICENSE_CODE_KEY, License } from '../libs/license'
 
 const activeFont = JSON.parse(
   localStorage.getItem('activeFont') || 'null',
@@ -46,7 +46,7 @@ export const defaultState = () => ({
   workflows: new Array<Workflow>(),
   templates: new Array<Template>(),
   signatures: new Array<Template>(),
-  license_profile: null as null | License,
+  [LICENSE_CODE_KEY]: null as null | License,
 })
 
 const store = createStore(defaultState())

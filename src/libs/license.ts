@@ -1,7 +1,7 @@
 import { API_HOST } from '../types'
 import { getCurrentUserId, getLocal, setLocal } from './storage'
 
-const LICENSE_CODE_KEY = 'license_code'
+export const LICENSE_CODE_KEY = 'license_code'
 
 export enum MemberTier {
   Free = 'free',
@@ -78,7 +78,7 @@ export async function activateLicense(license_code: string) {
       license_code,
       ...json.data,
     } as License
-    await setLocal({ license_profile: profile })
+    await setLocal({ [LICENSE_CODE_KEY]: profile })
     return profile
   }
 

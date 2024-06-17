@@ -45,7 +45,11 @@ export const Home = () => {
           <div class="flex justify-center">
             <Show
               when={store.topUsers.length > 0}
-              fallback={<div class="h-[480px] w-[480px]"></div>}
+              fallback={
+                <div class="flex h-[480px] w-[480px] items-center justify-center">
+                  Fetching bookmarks ...
+                </div>
+              }
             >
               <TopN users={store.topUsers} stageSize={480} />
             </Show>

@@ -80,8 +80,9 @@ export async function initSync() {
         if (store.tweets.length > 0) {
           setStore('totalCount', await countRecords())
         } else {
-          setStore('tweets', () => [...docs])
+          setStore('tweets', docs)
         }
+        await initHistory()
       }
 
       setStore('isForceSyncing', false)
@@ -107,6 +108,7 @@ export async function initSync() {
         }
         await query(store.keyword)
       }
+      await initHistory()
       setStore('isAutoSyncing', false)
     }
 

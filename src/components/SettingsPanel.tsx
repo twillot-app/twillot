@@ -178,7 +178,10 @@ const PanelSettings = (props: {
                           class="ml-4 font-medium text-red-600 hover:underline dark:text-red-500"
                           onClick={() => {
                             mutateStore((state) => {
-                              state[props.option_name].splice(index(), 1)
+                              state[OptionStoreField[props.option_name]].splice(
+                                index(),
+                                1,
+                              )
                             })
                           }}
                         >

@@ -4,7 +4,7 @@ import { ClientPageStorageKey, Workflow } from './types'
 
 export async function getWorkflows(): Promise<Workflow[]> {
   const item = await getLocal(ClientPageStorageKey.Workflows)
-  let workflows: Workflow[] = item.workflows || []
+  let workflows: Workflow[] = item[ClientPageStorageKey.Workflows] || []
   return workflows
 }
 

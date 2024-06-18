@@ -189,7 +189,7 @@ export const getTemplates = async (option_key: string) => {
             id: new Date().getTime().toString(16),
             name: 'My Profile',
             content:
-              '\n----\n' + userProfile.data.user.result.legacy.description,
+              '📢📢📢📢\n' + userProfile.data.user.result.legacy.description,
             createdAt: Math.floor(Date.now() / 1000),
           },
         ]

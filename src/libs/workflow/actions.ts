@@ -103,7 +103,9 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
           body: apiBody,
         })
         // TODO 多个 action 时最后统一处理
-        return json.data.text + (isFreeLicense(profile) ? defaultTail : '')
+        return (
+          json.data.text + (isFreeLicense(profile) ? '\n' + defaultTail : '')
+        )
       } catch (error) {
         console.error('Failed to auto translate', error)
         return text
@@ -116,11 +118,11 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     async (context: ClientActionContext) => {
       const { body, action, profile } = context
       if (isFreeLicense(profile)) {
-        return body.variables.tweet_text + defaultTail
+        return body.variables.tweet_text + '\n' + defaultTail
       }
 
       const signature = action.inputs?.[0] || ''
-      return body.variables.tweet_text + signature
+      return body.variables.tweet_text + '\n' + signature
     },
   ),
 ]
@@ -182,7 +184,7 @@ export const ACTION_LIST: ActionConfig[] = [
 
       let text = action.inputs[0]
       if (isFreeLicense(profile)) {
-        text += defaultTail
+        text += '\n' + defaultTail
       }
 
       await createTweet({

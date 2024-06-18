@@ -20,14 +20,14 @@ export const defaultWorkflows: Workflow[] = [
 export const defaultTemplates: Template[] = [
   {
     id: new Date().getTime().toString(16),
-    name: 'Default - A twillot welcome post',
-    content: 'Proudly posted by Twillot, check out https://twillot.com.',
+    name: 'Default Comment',
+    content:
+      '🚀 Crafted by Twillot 🚀\n⚡️ Boost your productivity: Organize your bookmarks and streamline your X/Twitter workflow: https://twillot.com ⏱️✨',
     createdAt: Math.floor(Date.now() / 1000),
   },
 ]
 
-export const defaultTail =
-  '\n\n----\nStreamlined by Twillot https://twillot.com'
+export const defaultTail = '\n🚀 Crafted by Twillot 🚀 https://twillot.com'
 
 export const defaultSignatureTemplates: Template[] = [
   {
@@ -39,4 +39,4 @@ export const defaultSignatureTemplates: Template[] = [
 ]
 
 export const defaultReply =
-  '🙌 This content is amazing! 🎉 Big thanks to @SiZapPaaiGwat for the awesome Chrome extension that makes downloading Twitter videos a breeze! Check it out: https://twillot.com'
+  '🙌 This content is amazing!\n🎉 Big thanks to @SiZapPaaiGwat for the awesome Chrome extension that makes downloading Twitter videos a breeze! \n🚀 Crafted by Twillot 🚀 https://twillot.com'

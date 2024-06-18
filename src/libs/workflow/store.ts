@@ -6,7 +6,7 @@ import { OptionName, OptionStoreField } from '../../types'
 import { getTweetConversations, getUserById } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
 import { getTasks, removeTask } from './task'
-import { Workflow } from './types'
+import { ClientPageStorageKey, Workflow } from './types'
 import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
 import { getCurrentUserId, setLocal } from '../storage'
@@ -131,7 +131,7 @@ export const saveWorkflow = async (index: number) => {
   })
 
   console.log('Workflow saved to database', workflows)
-  await setLocal({ workflows })
+  await setLocal({ [ClientPageStorageKey.Workflows]: workflows })
 }
 
 export const removeWorkflow = async (index: number) => {
@@ -147,7 +147,7 @@ export const removeWorkflow = async (index: number) => {
         option_name: OptionName.WORKFLOW,
         option_value: items,
       })
-      await setLocal({ workflows: items })
+      await setLocal({ [ClientPageStorageKey.Workflows]: items })
     }
   })
 }
@@ -168,7 +168,7 @@ export const getWorkflows = async () => {
   mutateStore((state) => {
     state.workflows = workflows
   })
-  await setLocal({ workflows })
+  await setLocal({ [ClientPageStorageKey.Workflows]: workflows })
   return workflows
 }
 

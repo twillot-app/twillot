@@ -29,6 +29,7 @@ export enum MessageType {
   ClientPageLicense = 'client_page_license',
   ClientPageWorkflows = 'get_client_workflows',
   GetTriggerResponse = 'get_trigger_response',
+  ValidateLicense = 'validate',
 }
 
 export enum ClientPageStorageKey {

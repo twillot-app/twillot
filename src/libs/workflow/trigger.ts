@@ -89,6 +89,18 @@ export class Monitor {
     }
   }
 
+  static startValidation() {
+    setInterval(
+      () => {
+        chrome.runtime.sendMessage<Message>({
+          type: MessageType.ValidateLicense,
+          payload: null,
+        })
+      },
+      1000 * 60 * 5,
+    )
+  }
+
   /**
    * 将网页中的请求和响应组织成上下文发送给 content script
    */

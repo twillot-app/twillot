@@ -37,7 +37,7 @@ export function getLevel(license: License | null) {
 
 export function isFreeLicense(license: License | null) {
   if (!license) {
-    return false
+    return true
   }
 
   const now = Math.floor(new Date().getTime() / 1000)

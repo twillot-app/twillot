@@ -1,9 +1,9 @@
 import { getLocal } from '../storage'
 import { ClientActions } from './actions'
-import { Workflow } from './types'
+import { ClientPageStorageKey, Workflow } from './types'
 
 export async function getWorkflows(): Promise<Workflow[]> {
-  const item = await getLocal('workflows')
+  const item = await getLocal(ClientPageStorageKey.Workflows)
   let workflows: Workflow[] = item.workflows || []
   return workflows
 }

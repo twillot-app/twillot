@@ -12,7 +12,7 @@ import {
   TriggerResponseBody,
   TriggerContext,
 } from './trigger.type'
-import { onLocalChanged } from '../storage'
+import { getCurrentUserId, onLocalChanged } from '../storage'
 import { type License, getLicense } from '../license'
 
 export class Monitor {
@@ -178,10 +178,16 @@ export class Monitor {
         sendWorkflows2ClientPage()
       } else if (data.type === MessageType.ClientPageProxyRequest) {
         const { url, body } = data.payload
+        const [user_id, profile] = await Promise.all([
+          getCurrentUserId(),
+          getLicense(),
+        ])
         const res = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'X-User-Id': user_id,
+            'X-License-Code': profile?.license_code,
           },
           body: JSON.stringify(body),
         })
@@ -192,8 +198,8 @@ export class Monitor {
       }
     })
 
-    onLocalChanged('workflows', sendWorkflows2ClientPage)
-    onLocalChanged('license_profile', sendLicense2ClientPage)
+    onLocalChanged(ClientPageStorageKey.Workflows, sendWorkflows2ClientPage)
+    onLocalChanged(ClientPageStorageKey.License, sendLicense2ClientPage)
   }
 
   static proxyClientPageRequest(payload) {

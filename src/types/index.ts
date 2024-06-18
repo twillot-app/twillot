@@ -70,12 +70,6 @@ export interface IndexedDbIndexItem {
   options: IDBIndexParameters
 }
 
-export interface Header {
-  url: string
-  token: string
-  csrf: string
-}
-
 export interface QueryOptions {
   keyword?: string
   fromUser?: string

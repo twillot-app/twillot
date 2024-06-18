@@ -198,8 +198,15 @@ export class Monitor {
       }
     })
 
-    onLocalChanged(ClientPageStorageKey.Workflows, sendWorkflows2ClientPage)
-    onLocalChanged(ClientPageStorageKey.License, sendLicense2ClientPage)
+    onLocalChanged(async (changes) => {
+      if (ClientPageStorageKey.Workflows in changes) {
+        sendWorkflows2ClientPage()
+      }
+
+      if (ClientPageStorageKey.License in changes) {
+        sendLicense2ClientPage()
+      }
+    })
   }
 
   static proxyClientPageRequest(payload) {

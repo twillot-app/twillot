@@ -64,7 +64,7 @@ export async function clearCurrentLocal() {
   return chrome.storage.local.clear()
 }
 
-export function onLocalChanged(key: string, callback: (newValue: any) => void) {
+export function onLocalChanged(callback: (changes: any) => void) {
   chrome.storage.local.onChanged.addListener(async (changes) => {
     const current_user_id = await getCurrentUserId()
     if (!current_user_id) {
@@ -72,10 +72,13 @@ export function onLocalChanged(key: string, callback: (newValue: any) => void) {
       return
     }
 
-    const realKey = getStorageKey(key, current_user_id)
-    if (changes[realKey]) {
-      callback(changes[realKey].newValue)
-    }
+    const originalKeys = Object.keys(changes)
+    const simpleKeys = originalKeys.map((key) => key.split(':').pop())
+    const newChanges = {}
+    simpleKeys.forEach((key, i) => {
+      newChanges[key] = changes[originalKeys[i]]
+    })
+    callback(newChanges)
   })
 }
 

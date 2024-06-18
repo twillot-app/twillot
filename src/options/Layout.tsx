@@ -67,7 +67,12 @@ export const Layout = (props) => {
         return
       }
 
-      onLocalChanged('tasks', initSync)
+      onLocalChanged(async (changes) => {
+        if ('tasks' in changes) {
+          await initSync()
+        }
+      })
+
       await Promise.all([initHistory(), initSync(), initFolders()])
     }
   })

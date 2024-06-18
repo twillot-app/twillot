@@ -7,7 +7,7 @@ import { OptionName, OptionStoreField } from '../types'
 const [store, setStore] = dataStore
 
 const PanelSettings = (props: {
-  option_name: string
+  option_key: string
   title: string
   placeholder: string
 }) => {
@@ -17,8 +17,8 @@ const PanelSettings = (props: {
   const [editingContent, setEditingContent] = createSignal('')
 
   createEffect(async () => {
-    const option_name = OptionName[props.option_name]
-    const templates = store[OptionStoreField[props.option_name]].map((t) => ({
+    const option_name = OptionName[props.option_key]
+    const templates = store[OptionStoreField[props.option_key]].map((t) => ({
       ...t,
     }))
     await upsertConfig({
@@ -30,7 +30,7 @@ const PanelSettings = (props: {
   const addTemplate = (e) => {
     e.preventDefault()
     const content = newContent()
-    const items = store[OptionStoreField[props.option_name]]
+    const items = store[OptionStoreField[props.option_key]]
     if (!content || items.some((t) => t.content === content)) {
       return
     }
@@ -41,14 +41,14 @@ const PanelSettings = (props: {
       content,
       createdAt: Math.floor(new Date().getTime() / 1000),
     }
-    setStore(OptionStoreField[props.option_name], [newTemplate, ...items])
+    setStore(OptionStoreField[props.option_key], [newTemplate, ...items])
     setNewContent('')
     setEditingIndex(-1)
   }
 
   const saveEdit = (index: number) => {
     const content = editingContent()
-    const key = OptionStoreField[props.option_name]
+    const key = OptionStoreField[props.option_key]
     const items = store[key]
     if (
       !content ||
@@ -105,7 +105,7 @@ const PanelSettings = (props: {
           </thead>
           <tbody>
             <For
-              each={store[OptionStoreField[props.option_name]]}
+              each={store[OptionStoreField[props.option_key]]}
               fallback={
                 <tr>
                   <td colSpan={4} class="p-8 text-center">
@@ -178,7 +178,7 @@ const PanelSettings = (props: {
                           class="ml-4 font-medium text-red-600 hover:underline dark:text-red-500"
                           onClick={() => {
                             mutateStore((state) => {
-                              state[OptionStoreField[props.option_name]].splice(
+                              state[OptionStoreField[props.option_key]].splice(
                                 index(),
                                 1,
                               )

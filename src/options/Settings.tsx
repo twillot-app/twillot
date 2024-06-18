@@ -15,12 +15,12 @@ const Settings = () => {
       </div>
 
       <SettingsPanel
-        option_name="COMMENT_TEMPLATE"
+        option_key="COMMENT_TEMPLATE"
         title="Reply Template"
         placeholder="Add a reply template"
       />
       <SettingsPanel
-        option_name="SIGNATURE_TEMPLATE"
+        option_key="SIGNATURE_TEMPLATE"
         title="Signature Template"
         placeholder="Add a signature template"
       />

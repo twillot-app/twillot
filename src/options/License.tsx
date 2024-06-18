@@ -84,7 +84,7 @@ const License = () => {
                     <td colspan="4">
                       <div class="flex justify-center p-8">
                         <a
-                          href="https://ko-fi.com/s/b5bc05eba5"
+                          href="https://s.twillot.com/get-free-trial"
                           target="_blank"
                           class="text-blue-500 hover:text-blue-700"
                         >

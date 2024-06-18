@@ -53,19 +53,16 @@ const WorkflowConfigurator = () => {
           type={AlertType.INFO}
           message={
             <>
-              To enable this feature, you will need a license code. <br />
-              You can currently obtain a free license code from
+              Looking to boost your X/Twitter influence?
+              <br />
+              Try Workflow with a 30-day money-back guarantee. <br />
               <a
-                href="https://ko-fi.com/s/b5bc05eba5"
+                href="https://s.twillot.com/get-basic-plan"
                 target="_blank"
                 class="text-red-600"
               >
-                &nbsp;Kofi
+                Get your license now!
               </a>
-              . <br />
-              Please note that this promotion will not be available
-              indefinitely.
-              <br />
             </>
           }
         />

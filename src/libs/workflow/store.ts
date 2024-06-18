@@ -100,12 +100,6 @@ export const saveWorkflow = async (index: number) => {
     return
   }
 
-  const license = await getLicense()
-  if (isFreeLicense(license)) {
-    alert('You need a paid license to enable this feature.')
-    return
-  }
-
   const workflow = unwrap(store.workflows[index])
   const dbRecords = await readConfig(OptionName.WORKFLOW)
   let workflows = []

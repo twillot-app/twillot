@@ -350,6 +350,21 @@ export function getFolders() {
   })
 }
 
+export function getFolderTweets(folderId: string, cursor?: string) {
+  const query = flatten({
+    variables: {
+      bookmark_collection_id: folderId,
+      cursor: cursor || '',
+      includePromotedContent: true,
+    },
+    features: COMMON_FEATURES,
+  })
+  return request(`${Endpoint.GET_FOLDER_TWEETS}?${query}`, {
+    body: null,
+    method: 'GET',
+  })
+}
+
 export async function getTweetLanguage(
   tweetId: string,
   headers?: any,

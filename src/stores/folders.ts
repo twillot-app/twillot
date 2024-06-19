@@ -1,10 +1,27 @@
-import { AuthStatus, OptionName, Tweet } from '../types'
+import {
+  AuthStatus,
+  OptionName,
+  TimelineAddEntriesInstruction,
+  TimelineInstructions,
+  TimelineTimelineCursor,
+  TimelineTweet,
+  TimelineEntry,
+  Tweet,
+  TimelineTimelineItem,
+  TweetBase,
+} from '../types'
 import dataStore, { mutateStore } from '../options/store'
-import { addRecords, clearFolder, countRecords } from '../libs/db/tweets'
+import {
+  addRecords,
+  clearFolder,
+  countRecords,
+  getPostId,
+} from '../libs/db/tweets'
 import { unwrap } from 'solid-js/store'
 import { readConfig, upsertConfig } from '../libs/db/configs'
-import { getFolders } from '../libs/api/twitter'
+import { getFolders, getFolderTweets } from '../libs/api/twitter'
 import { FetchError } from '../libs/xfetch'
+import { getCurrentUserId } from '../libs/storage'
 
 const [store, setStore] = dataStore
 
@@ -13,15 +30,17 @@ export async function initFolders() {
   let folders = []
   if (!config || !config.option_value) {
     try {
-      const xFolders = await getFolders()
-      folders =
-        xFolders.data.viewer.user_results.result.bookmark_collections_slice.items.map(
-          (f) => f.name,
-        )
+      const xFolders = (
+        await getFolders()
+      ).data.viewer.user_results.result.bookmark_collections_slice.items.map(
+        (f) => ({ name: f.name, id: f.id }),
+      )
+      folders = xFolders.map((f) => f.name)
       await upsertConfig({
         option_name: OptionName.FOLDER,
         option_value: folders,
       })
+      await syncXFolders(xFolders)
     } catch (err) {
       if (
         err.name == FetchError.IdentityError ||
@@ -138,5 +157,43 @@ export const addFolder = async (folderName: string) => {
     mutateStore((state) => {
       state.folders.push({ name: folderName, count: 0 })
     })
+  }
+}
+
+export const syncXFolders = async (folders: { name: string; id: string }[]) => {
+  const user_id = await getCurrentUserId()
+  for (const folder of folders) {
+    let cursor = ''
+    while (true) {
+      try {
+        const json = await getFolderTweets(folder.id, cursor)
+        const instructions = json.data.bookmark_collection_timeline.timeline
+          .instructions as TimelineInstructions
+        const entry = instructions.filter(
+          (i) => i.type === 'TimelineAddEntries',
+        )[0] as TimelineAddEntriesInstruction
+        if (!entry) {
+          break
+        }
+        const cursorEntry = entry.entries.filter(
+          (i) => i.content.entryType === 'TimelineTimelineCursor',
+        )[0] as TimelineEntry<TimelineTweet, TimelineTimelineCursor>
+        const tweetsEntry = entry.entries.filter(
+          (i) => i.content.entryType === 'TimelineTimelineItem',
+        ) as TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[]
+        if (tweetsEntry.length === 0) {
+          break
+        }
+        const ids = tweetsEntry.map((e) => {
+          const tweet = e.content.itemContent.tweet_results.result as TweetBase
+          return getPostId(user_id, tweet.rest_id)
+        })
+        cursor = cursorEntry.content.value
+      } catch (err) {
+        console.error(`syncXFolders error:`, folder)
+        console.error(err)
+        break
+      }
+    }
   }
 }

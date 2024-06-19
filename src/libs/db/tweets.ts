@@ -419,3 +419,45 @@ export async function clearFolder(folder: string): Promise<void> {
     }
   })
 }
+
+export async function updateFolder(
+  ids: string[],
+  folder: string,
+): Promise<number> {
+  const db = await openDb()
+  return new Promise((resolve, reject) => {
+    const { objectStore, transaction } = getObjectStore(
+      db,
+      TWEETS_TABLE_NAME_V2,
+    )
+
+    let count = 0
+
+    transaction.oncomplete = function () {
+      resolve(count)
+    }
+
+    transaction.onerror = function (err) {
+      reject(err)
+    }
+
+    ids.forEach((id) => {
+      // 获取记录
+      const request = objectStore.get(id)
+      request.onsuccess = function () {
+        const record = request.result
+        if (record) {
+          record.folder = folder
+          objectStore.put(record)
+          count += 1
+        } else {
+          console.log(`Record with id ${id} not found`)
+        }
+      }
+
+      request.onerror = function (err) {
+        console.error(`Error getting record with id ${id}:`, err)
+      }
+    })
+  })
+}

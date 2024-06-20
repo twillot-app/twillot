@@ -16,39 +16,35 @@ import {
   clearFolder,
   countRecords,
   getPostId,
+  updateFolder,
 } from '../libs/db/tweets'
 import { unwrap } from 'solid-js/store'
 import { readConfig, upsertConfig } from '../libs/db/configs'
 import { getFolders, getFolderTweets } from '../libs/api/twitter'
-import { FetchError } from '../libs/xfetch'
 import { getCurrentUserId } from '../libs/storage'
 
 const [store, setStore] = dataStore
 
 export async function initFolders() {
   const config = await readConfig(OptionName.FOLDER)
-  let folders = []
+  let folders = [],
+    xFolders: { name: string; id: string }[] = []
+  try {
+    xFolders = (
+      await getFolders()
+    ).data.viewer.user_results.result.bookmark_collections_slice.items.map(
+      (f) => ({ name: f.name, id: f.id }),
+    )
+  } catch (err) {
+    console.error(err)
+  }
+
   if (!config || !config.option_value) {
-    try {
-      const xFolders = (
-        await getFolders()
-      ).data.viewer.user_results.result.bookmark_collections_slice.items.map(
-        (f) => ({ name: f.name, id: f.id }),
-      )
-      folders = xFolders.map((f) => f.name)
-      await upsertConfig({
-        option_name: OptionName.FOLDER,
-        option_value: folders,
-      })
-      await syncXFolders(xFolders)
-    } catch (err) {
-      if (
-        err.name == FetchError.IdentityError ||
-        err.message == AuthStatus.AUTH_FAILED
-      ) {
-        setStore('isAuthFailed', true)
-      }
-    }
+    folders = xFolders.map((f) => f.name)
+    await upsertConfig({
+      option_name: OptionName.FOLDER,
+      option_value: folders,
+    })
   } else {
     folders = config.option_value as string[]
   }
@@ -57,6 +53,10 @@ export async function initFolders() {
     return
   }
 
+  /**
+   * 单向同步 X 的书签
+   */
+  const sharedFolders = xFolders.filter((f) => folders.includes(f.name))
   folders = folders
     .filter((f) => !!f)
     .map((f: string) => ({
@@ -70,6 +70,8 @@ export async function initFolders() {
       state.folders[index].count = count
     })
   }
+
+  await syncXFolders(sharedFolders)
 }
 
 export async function removeFolder(folder: string) {
@@ -161,6 +163,11 @@ export const addFolder = async (folderName: string) => {
 }
 
 export const syncXFolders = async (folders: { name: string; id: string }[]) => {
+  if (!folders.length) {
+    console.log('no shared folders')
+    return
+  }
+
   const user_id = await getCurrentUserId()
   for (const folder of folders) {
     let cursor = ''
@@ -188,6 +195,7 @@ export const syncXFolders = async (folders: { name: string; id: string }[]) => {
           const tweet = e.content.itemContent.tweet_results.result as TweetBase
           return getPostId(user_id, tweet.rest_id)
         })
+        await updateFolder(ids, folder.name)
         cursor = cursorEntry.content.value
       } catch (err) {
         console.error(`syncXFolders error:`, folder)

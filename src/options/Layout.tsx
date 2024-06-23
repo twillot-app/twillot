@@ -231,6 +231,35 @@ export const Layout = (props) => {
                 </a>
               </li>
             </ul>
+            <div
+              class="mt-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900"
+              role="alert"
+            >
+              <div class="mb-3 flex items-center">
+                <span class="me-2 rounded bg-orange-100 px-2.5 py-0.5 text-sm font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
+                  NOTE
+                </span>
+              </div>
+              <p class="mb-3 text-sm text-blue-800 dark:text-blue-400">
+                Workflows is an advanced feature currently in Beta. Features and
+                usability may change. You can apply for a free license to try it
+                for the best experience.
+              </p>
+              <a
+                class="mr-4 text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                href="https://twillot.com/docs/introduction?utm_source=extension"
+                target="_blank"
+              >
+                Docs
+              </a>
+              <a
+                class="text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                href="https://s.twillot.com/get-free-trial?utm_source=extension"
+                target="_blank"
+              >
+                Free License Code
+              </a>
+            </div>
           </div>
         </aside>
       </Show>

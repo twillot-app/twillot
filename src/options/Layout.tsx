@@ -204,6 +204,9 @@ export const Layout = (props) => {
                 >
                   <IconBranch />
                   <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
+                  <span class="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                    Beta
+                  </span>
                 </a>
                 <ul class="space-y-1 py-1 text-base">
                   <li>

@@ -55,13 +55,13 @@ const WorkflowConfigurator = () => {
             <>
               Looking to boost your X/Twitter influence?
               <br />
-              Try Workflow with a 30-day money-back guarantee. <br />
+              Try Workflow with a 30-day free trial. <br />
               <a
-                href="https://s.twillot.com/get-basic-plan"
+                href="https://s.twillot.com/get-free-trial"
                 target="_blank"
                 class="text-red-600"
               >
-                Get your license now!
+                Get your license code!
               </a>
             </>
           }

@@ -1,9 +1,12 @@
 import { getOptionsPageTab } from '../libs/browser'
-import { LICENSE_CODE_KEY } from '../libs/license'
 import { getCurrentUserId, getLocal, setLocal } from '../libs/storage'
 import { Emitter } from '../libs/workflow/trigger'
 import { TriggerContext } from '../libs/workflow/trigger.type'
-import { Message, MessageType } from '../libs/workflow/types'
+import {
+  ClientPageStorageKey,
+  Message,
+  MessageType,
+} from '../libs/workflow/types'
 import { API_HOST, Host } from '../types'
 
 chrome.action.onClicked.addListener(function () {
@@ -68,7 +71,7 @@ chrome.runtime.onMessage.addListener(async (message: Message) => {
   } else if (message.type === MessageType.ValidateLicense) {
     const [user_id, license_code] = await Promise.all([
       getCurrentUserId(),
-      getLocal(LICENSE_CODE_KEY),
+      getLocal(ClientPageStorageKey.License),
     ])
     if (!user_id) {
       console.error('current_user_id not found')
@@ -87,7 +90,7 @@ chrome.runtime.onMessage.addListener(async (message: Message) => {
     })
     const data = await res.json()
     if (data.message || data.exppires_at < Math.floor(Date.now() / 1000)) {
-      setLocal({ LICENSE_CODE_KEY: null })
+      setLocal({ [ClientPageStorageKey.License]: null })
     }
     console.warn(data.message)
   } else {

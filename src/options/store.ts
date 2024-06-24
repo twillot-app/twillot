@@ -8,8 +8,12 @@ import {
   type CountInfo,
 } from '../types'
 import { DAYS } from '../libs/date'
-import { Template, Workflow } from '../libs/workflow/types'
-import { LICENSE_CODE_KEY, License } from '../libs/license'
+import {
+  ClientPageStorageKey,
+  Template,
+  Workflow,
+} from '../libs/workflow/types'
+import { type License } from '../libs/license'
 
 const activeFont = JSON.parse(
   localStorage.getItem('activeFont') || 'null',
@@ -46,7 +50,7 @@ export const defaultState = () => ({
   workflows: new Array<Workflow>(),
   templates: new Array<Template>(),
   signatures: new Array<Template>(),
-  [LICENSE_CODE_KEY]: null as null | License,
+  [ClientPageStorageKey.License]: null as null | License,
 })
 
 const store = createStore(defaultState())

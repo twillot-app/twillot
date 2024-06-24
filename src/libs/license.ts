@@ -1,7 +1,6 @@
 import { API_HOST } from '../types'
 import { getCurrentUserId, getLocal, setLocal } from './storage'
-
-export const LICENSE_CODE_KEY = 'license_code'
+import { ClientPageStorageKey } from './workflow/types'
 
 export enum MemberTier {
   Free = 'free',
@@ -23,8 +22,8 @@ export async function getLicense() {
     return null
   }
 
-  const item = await getLocal(LICENSE_CODE_KEY)
-  return item[LICENSE_CODE_KEY] as License | null
+  const item = await getLocal(ClientPageStorageKey.License)
+  return item[ClientPageStorageKey.License] as License | null
 }
 
 export function getLevel(license: License | null) {
@@ -70,7 +69,7 @@ export async function activateLicense(license_code: string) {
       license_code,
       ...json.data,
     } as License
-    await setLocal({ [LICENSE_CODE_KEY]: profile })
+    await setLocal({ [ClientPageStorageKey.License]: profile })
     return profile
   }
 

@@ -1,8 +1,9 @@
 import { Show } from 'solid-js'
 import { For, onMount } from 'solid-js'
 import dataStore from './store'
-import { LICENSE_CODE_KEY, activateLicense, getLicense } from '../libs/license'
+import { activateLicense, getLicense } from '../libs/license'
 import { setLocal } from '../libs/storage'
+import { ClientPageStorageKey } from '../libs/workflow/types'
 
 const [store, setStore] = dataStore
 
@@ -16,17 +17,20 @@ const License = () => {
 
     try {
       const profile = await activateLicense(code)
-      setStore(LICENSE_CODE_KEY, profile || null)
+      setStore(ClientPageStorageKey.License, profile || null)
     } catch (error) {
       console.error(error)
       alert(error.message)
     }
   }
-  const items = () => (store[LICENSE_CODE_KEY] ? [store[LICENSE_CODE_KEY]] : [])
+  const items = () =>
+    store[ClientPageStorageKey.License]
+      ? [store[ClientPageStorageKey.License]]
+      : []
 
   onMount(async () => {
     const profile = await getLicense()
-    setStore(LICENSE_CODE_KEY, profile || null)
+    setStore(ClientPageStorageKey.License, profile || null)
   })
 
   return (
@@ -37,7 +41,7 @@ const License = () => {
         </div>
 
         <div class="relative overflow-x-auto sm:rounded-lg">
-          <Show when={!store[LICENSE_CODE_KEY]}>
+          <Show when={!store[ClientPageStorageKey.License]}>
             <form onSubmit={activate}>
               <div class="relative my-4 flex items-center gap-4">
                 <input
@@ -114,8 +118,10 @@ const License = () => {
                       <button
                         class="font-medium text-red-600 hover:underline dark:text-red-500"
                         onClick={async () => {
-                          await setLocal({ [LICENSE_CODE_KEY]: null })
-                          setStore(LICENSE_CODE_KEY, null)
+                          await setLocal({
+                            [ClientPageStorageKey.License]: null,
+                          })
+                          setStore(ClientPageStorageKey.License, null)
                         }}
                       >
                         Remove

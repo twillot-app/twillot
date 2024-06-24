@@ -252,7 +252,9 @@ export class Monitor {
     ]
     localSyncTasks.forEach(([eventName, storageKey]) => {
       window.addEventListener(eventName, (event: any) => {
-        if (!event.detail || !event.detail.length) {
+        const data = event.detail
+        const toRemove = Array.isArray(data) ? data.length === 0 : !data
+        if (toRemove) {
           localStorage.removeItem(storageKey)
         } else {
           localStorage.setItem(storageKey, JSON.stringify(event.detail))

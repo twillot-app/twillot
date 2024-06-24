@@ -4,8 +4,9 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 import { getWorkflows, getClientWorkflows } from './index'
 import { addTask, removeTask, getTasks, saveTasks } from './task'
-import { Task, Workflow } from './types'
+import { ClientPageStorageKey, Task, Workflow } from './types'
 import { ACTION_LIST, CLIENT_ACTION_LIST } from './actions'
+import { setLocal } from '../storage'
 
 describe('Task Manager between options page and background script', () => {
   beforeEach(() => {
@@ -111,7 +112,7 @@ describe('Task Manager between options page and background script', () => {
       },
     ]
 
-    await browser.storage.local.set({ workflows })
+    await setLocal({ [ClientPageStorageKey.Workflows]: workflows })
     const clientWorkflows = await getClientWorkflows()
     const allWorkflows = await getWorkflows()
     expect(clientWorkflows.length).toBe(1)

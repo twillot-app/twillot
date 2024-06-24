@@ -73,8 +73,10 @@ describe('Storage Module', () => {
     await setCurrentUserId('123')
     await setLocal({ testKey: 'oldValue' })
     const callback = vi.fn()
-    onLocalChanged('testKey', callback)
+    onLocalChanged(callback)
     await setLocal({ testKey: 'newValue' })
-    expect(callback).toHaveBeenCalledWith('newValue')
+    expect(callback).toHaveBeenCalledWith({
+      testKey: { oldValue: 'oldValue', newValue: 'newValue' },
+    })
   })
 })

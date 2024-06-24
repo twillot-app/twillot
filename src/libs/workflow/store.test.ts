@@ -18,6 +18,7 @@ import {
 import dataStore, { defaultState } from '../../options/store'
 import { getWorkflows } from '.'
 import { setCurrentUserId } from '../storage'
+import { defaultTemplates } from './defaults'
 
 const [store, setStore] = dataStore
 
@@ -69,7 +70,7 @@ describe('Workflow Store Module', () => {
   it('getTemplates should return templates from the store', async () => {
     const templates = await getTemplates('COMMENT_TEMPLATE')
     expect(templates.length).toBe(1)
-    expect(templates[0].name).toBe('Default - A twillot welcome post')
+    expect(templates[0].name).toBe(defaultTemplates[0].name)
   })
 
   it('updateWhen should update the when property of a workflow', async () => {

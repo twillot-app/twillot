@@ -19,7 +19,23 @@ describe('Trigger Module', () => {
     expect(trigger).toBe('CreateQuote')
   })
 
-  it('Monitor.getContext should return the correct context', () => {
+  it('Monitor.getRealTrigger should return the correct trigger for CreateReply', () => {
+    const body = {
+      variables: { reply: { in_reply_to_tweet_id: '123' } },
+    } as TriggerReuqestBody
+    const trigger = Monitor.getRealTrigger('CreateTweet', body)
+    expect(trigger).toBe('CreateReply')
+  })
+
+  it('Monitor.getRealTrigger should return the correct trigger for CreateTweet', () => {
+    const body = {
+      variables: {},
+    } as TriggerReuqestBody
+    const trigger = Monitor.getRealTrigger('CreateTweet', body)
+    expect(trigger).toBe('CreateTweet')
+  })
+
+  it('Monitor.getContext should return the correct context for CreateTweet', () => {
     const request = { variables: { tweet_id: '123' } } as TriggerReuqestBody
     const response = {
       data: { create_tweet: { tweet_results: { result: { rest_id: '456' } } } },

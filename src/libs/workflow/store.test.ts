@@ -105,29 +105,6 @@ describe('Workflow Store Module', () => {
     expect(store.workflows[0].thenList[0].inputs[0]).toBe('New Content')
   })
 })
-import browser from 'webextension-polyfill'
-import 'fake-indexeddb/auto'
-import { describe, it, expect, beforeEach } from 'vitest'
-
-import {
-  addThen,
-  addWorkflow,
-  getTemplates,
-  getUnusedWhen,
-  removeThen,
-  removeWorkflow,
-  renameWorkflow,
-  saveWorkflow,
-  updateAction,
-  updateThen,
-  updateWhen,
-} from './store'
-import dataStore, { defaultState } from '../../options/store'
-import { getWorkflows } from '.'
-import { setCurrentUserId } from '../storage'
-import { defaultTemplates } from './defaults'
-
-const [store, setStore] = dataStore
 
 describe('Workflow Store Module', () => {
   beforeEach(async () => {

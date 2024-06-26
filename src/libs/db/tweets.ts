@@ -1,4 +1,5 @@
 import { Tweet, TweetWithPosition, QueryOptions, CountInfo } from '../../types'
+import { formatDate } from '../date'
 import { parseTwitterQuery } from '../query-parser'
 import { getCurrentUserId } from '../storage'
 import { openDb, getObjectStore, TWEETS_TABLE_NAME_V2 } from './index'
@@ -361,7 +362,7 @@ export async function getRencentTweets(days: number): Promise<{
       if (cursor) {
         const tweet = cursor.value
         if (tweet.owner_id === user_id) {
-          const date = new Date(tweet.created_at * 1000).toLocaleDateString()
+          const date = formatDate(new Date(tweet.created_at * 1000))
           total += 1
           if (dateCounts[date]) {
             dateCounts[date] += 1

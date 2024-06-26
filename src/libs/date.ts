@@ -17,7 +17,7 @@ export function getLastNDaysDates(days: number) {
     const date = new Date(today)
     date.setDate(today.getDate() - i)
 
-    const formattedDate = date.toLocaleDateString()
+    const formattedDate = formatDate(date)
     dates.unshift(formattedDate)
   }
 
@@ -37,13 +37,13 @@ export function getLastSaturday(date: Date): Date {
   return getSpecificWeekday(date, 6)
 }
 
-export function formatDate(date: string) {
-  const d = new Date(date)
-  let month = '' + (d.getMonth() + 1)
-  let day = '' + d.getDate()
-  const year = d.getFullYear()
+export function formatDate(d: string | Date) {
+  const date = typeof d === 'string' ? new Date(d) : d
+  const year = date.getFullYear()
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+  const day = String(date.getUTCDate()).padStart(2, '0')
 
-  return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-')
+  return `${year}-${month}-${day}`
 }
 
 export function getGridDates(): {
@@ -59,7 +59,7 @@ export function getGridDates(): {
   currentDate = getLastSaturday(currentDate)
 
   for (let i = 0; i < DAYS; i++) {
-    dates.unshift(currentDate.toLocaleDateString())
+    dates.unshift(formatDate(currentDate))
 
     if (currentDate.getDate() === 1) {
       const index = DAYS - i

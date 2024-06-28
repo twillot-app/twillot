@@ -272,7 +272,7 @@ export const Layout = (props) => {
             <Show when={store.isAuthFailed}>
               <Authenticate />
             </Show>
-            <Show when={!store.isForceSyncTimedout}>
+            <Show when={store.isForceSyncTimedout}>
               <Alert
                 message={
                   <>

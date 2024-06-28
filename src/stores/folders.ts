@@ -38,6 +38,8 @@ export async function initFolders() {
     console.log('This account is not a premium user')
   }
 
+  // NOTE 注意这里需要在数据库升级之后，否则可能覆盖 folder 配置
+  // 这里刚好发起了 http 请求一次，所以可以先不考虑
   const config = await readConfig(OptionName.FOLDER)
   if (!config || !config.option_value) {
     folders = xFolders.map((f) => f.name)

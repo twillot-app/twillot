@@ -10,17 +10,6 @@ export function openNewTab(url: string, active = true) {
 export async function getAuthInfo() {
   const keys = ['token', 'csrf', 'lastForceSynced', 'bookmark_cursor']
   let auth = await getLocal(keys)
-  /**
-   * NOTE
-   * 同步旧版本的登录信息，同步完成后删除
-   */
-  if (!auth.token) {
-    auth = await chrome.storage.local.get(keys)
-    if (auth.token) {
-      await setLocal(auth)
-      await chrome.storage.local.remove(keys)
-    }
-  }
   return auth
 }
 

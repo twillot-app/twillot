@@ -88,12 +88,17 @@ export async function migrateStorage(user_id: string) {
     return
   }
 
-  const keys = 'bookmark_cursor,lastForceSynced,token,csrf'.split(',')
+  const keys = 'bookmark_cursor,lastForceSynced'.split(',')
   const config = await getLocal(keys)
   const newConfig = {}
   for (const key in config) {
     newConfig[getStorageKey(key, user_id)] = config[key]
   }
   await chrome.storage.local.set(newConfig)
-  await chrome.storage.local.remove(keys)
+  await chrome.storage.local.remove(keys.concat('cookie', 'token', 'csrf'))
+}
+
+export async function isMigrationNeeded(): Promise<boolean> {
+  const storage = await chrome.storage.local.get()
+  return 'token' in storage
 }

@@ -34,16 +34,15 @@ indexFields.push({
 })
 
 let user_id = ''
-export async function migrateData() {
-  const db = await openDb()
-  const userId = await getCurrentUserId()
+
+export async function migrateData(userId: string) {
   if (!userId) {
     console.error('Migration failed: user_id is not set.')
     return
   }
 
   console.log('Starting database migration for user ' + userId)
-
+  const db = await openDb()
   let transaction = db.transaction(
     [
       TWEETS_TABLE_NAME,

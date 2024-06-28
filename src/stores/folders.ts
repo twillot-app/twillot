@@ -36,7 +36,7 @@ export async function initFolders() {
       (f) => ({ name: f.name, id: f.id }),
     )
   } catch (err) {
-    console.error(err)
+    console.log('This account is not a premium user', err)
   }
 
   if (!config || !config.option_value) {

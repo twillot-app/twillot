@@ -7,6 +7,7 @@ import {
   defaultCommentTemplateName,
   defaultSignatureTemplateName,
 } from '../libs/workflow/defaults'
+import { getLicense, isFreeLicense } from '../libs/license'
 
 const [store, setStore] = dataStore
 
@@ -31,8 +32,13 @@ const PanelSettings = (props: {
     })
   })
 
-  const addTemplate = (e) => {
+  const addTemplate = async (e) => {
     e.preventDefault()
+    const profile = await getLicense()
+    if (isFreeLicense(profile)) {
+      alert('You need a license to add templates.')
+      return
+    }
     const content = newContent()
     const items = store[OptionStoreField[props.option_key]]
     if (!content || items.some((t) => t.content === content)) {
@@ -50,7 +56,13 @@ const PanelSettings = (props: {
     setEditingIndex(-1)
   }
 
-  const saveEdit = (index: number) => {
+  const saveEdit = async (index: number) => {
+    const profile = await getLicense()
+    if (isFreeLicense(profile)) {
+      alert('You need a license to edit templates.')
+      return
+    }
+
     const content = editingContent()
     const key = OptionStoreField[props.option_key]
     const items = store[key]

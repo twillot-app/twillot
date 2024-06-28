@@ -44,6 +44,7 @@ export async function migrateData() {
   }
 
   console.log('Starting database migration for user ' + userId)
+
   let transaction = db.transaction(
     [
       TWEETS_TABLE_NAME,
@@ -53,16 +54,15 @@ export async function migrateData() {
     ],
     'readwrite',
   )
+
   transaction.oncomplete = () => {
+    db.deleteObjectStore(TWEETS_TABLE_NAME)
+    db.deleteObjectStore(CONFIGS_TABLE_NAME)
     console.log('Database migration complete.')
     location.reload()
   }
 
   if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
-    const transaction = db.transaction(
-      [TWEETS_TABLE_NAME, TWEETS_TABLE_NAME_V2],
-      'readwrite',
-    )
     const oldStore = transaction.objectStore(TWEETS_TABLE_NAME)
     const newStore = transaction.objectStore(TWEETS_TABLE_NAME_V2)
 
@@ -80,10 +80,6 @@ export async function migrateData() {
   }
 
   if (db.objectStoreNames.contains(CONFIGS_TABLE_NAME)) {
-    const transaction = db.transaction(
-      [CONFIGS_TABLE_NAME, CONFIGS_TABLE_NAME_V2],
-      'readwrite',
-    )
     const oldStore = transaction.objectStore(CONFIGS_TABLE_NAME)
     const newStore = transaction.objectStore(CONFIGS_TABLE_NAME_V2)
 
@@ -122,7 +118,7 @@ function createSchema(
   })
 }
 
-async function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
+function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
   createSchema(
     db,
     transaction,
@@ -133,7 +129,6 @@ async function upgradeDb(db: IDBDatabase, transaction: IDBTransaction) {
   createSchema(db, transaction, CONFIGS_TABLE_NAME, 'option_name', [])
   createSchema(db, transaction, TWEETS_TABLE_NAME_V2, 'id', indexFields)
   createSchema(db, transaction, CONFIGS_TABLE_NAME_V2, 'id', [])
-  await migrateData()
 }
 
 export function getObjectStore(db: IDBDatabase, realTbName: string) {
@@ -162,7 +157,7 @@ export async function openDb(): Promise<IDBDatabase> {
           (event.target as IDBOpenDBRequest).error?.toString(),
       )
     }
-    request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
+    request.onupgradeneeded = async (event: IDBVersionChangeEvent) => {
       const target = event.target as IDBOpenDBRequest
       // DO NOT create a new transaction here
       const db = target.result
@@ -170,6 +165,7 @@ export async function openDb(): Promise<IDBDatabase> {
       if (transaction) {
         upgradeDb(db, transaction)
       }
+      await migrateData()
     }
 
     request.onsuccess = (event: Event) => {

@@ -45,7 +45,7 @@ Click on the Twillot icon in the Chrome toolbar to open the extension.
 
 ## Sponsors
 
-<a style="display:inline-block;margin-right: 16px;" href="https://twitter.com/nextify2024/"><img src="https://pbs.twimg.com/profile_images/1766283284370305025/QKXW5W3M_x96.jpg" style="width: 48px; border-radius: 100%;" /></a><a style="display:inline-block;"  href="https://twitter.com/Yayoi_no_yume/"><img src="https://pbs.twimg.com/profile_images/1783501461613387776/CnfVvoV2_x96.jpg" style="width: 48px; border-radius: 100%;" /></a>
+<a style="display:inline-block;margin-right: 16px;" href="https://twitter.com/nextify2024/"><img src="https://pbs.twimg.com/profile_images/1766283284370305025/QKXW5W3M_x96.jpg" style="width: 48px; border-radius: 100%;" /></a><a style="display:inline-block;"  href="https://twitter.com/Yayoi_no_yume/"><img src="https://pbs.twimg.com/profile_images/1800192519587954688/1R_TxAr1_400x400.jpg" style="width: 48px; border-radius: 100%;" /></a>
 
 You can support the development of Twillot by becoming a sponsor on Patreon or Ko-fi.
 

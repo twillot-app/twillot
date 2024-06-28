@@ -26,7 +26,6 @@ import { getCurrentUserId } from '../libs/storage'
 const [store, setStore] = dataStore
 
 export async function initFolders() {
-  const config = await readConfig(OptionName.FOLDER)
   let folders = [],
     xFolders: { name: string; id: string }[] = []
   try {
@@ -39,6 +38,7 @@ export async function initFolders() {
     console.log('This account is not a premium user')
   }
 
+  const config = await readConfig(OptionName.FOLDER)
   if (!config || !config.option_value) {
     folders = xFolders.map((f) => f.name)
     await upsertConfig({

@@ -55,6 +55,7 @@ export async function migrateData() {
   )
   transaction.oncomplete = () => {
     console.log('Database migration complete.')
+    location.reload()
   }
 
   if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {

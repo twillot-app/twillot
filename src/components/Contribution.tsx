@@ -3,19 +3,13 @@ import { useNavigate } from '@solidjs/router'
 
 import tooltip from './Tooltip'
 import dataStore from '../options/store'
-import {
-  WEEK_NAMES,
-  formatDate,
-  getGridDates,
-  getMonthNames,
-} from '../libs/date'
+import { WEEK_NAMES, formatDate, getGridDates } from '../libs/date'
 import { disabledColor, getColorForFavorites } from '../libs/color'
 
 export default function Contribution() {
   const [store] = dataStore
   const navigate = useNavigate()
-  const { dates, weekWidth } = getGridDates()
-  let monthNames = getMonthNames(new Date(dates[dates.length - 1]))
+  const { weekWidth, monthNames } = getGridDates()
   const gridTemplateColumns = weekWidth
     .map((w) => `calc(var(--week-width) * ${w})`)
     .join(' ')

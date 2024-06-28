@@ -46,17 +46,16 @@ export function formatDate(d: string | Date) {
   return `${year}-${month}-${day}`
 }
 
-export function getGridDates(): {
-  dates: string[]
-  colIndexes: number[]
+export function getGridDates(currentDate = new Date()): {
   weekWidth: number[]
+  monthNames: string[]
 } {
   const dates: string[] = []
   const colIndexes: number[] = []
-  let currentDate = new Date()
 
   // 获取当前日期所在周的最后一天（星期六）
   currentDate = getLastSaturday(currentDate)
+  let firstStartDate: Date
 
   for (let i = 0; i < DAYS; i++) {
     dates.unshift(formatDate(currentDate))
@@ -64,18 +63,25 @@ export function getGridDates(): {
     if (currentDate.getDate() === 1) {
       const index = DAYS - i
       const colIndex = Math.floor(index / 7)
-      colIndexes.unshift(colIndex)
+      colIndexes.unshift(colIndex - 1)
+      firstStartDate = new Date(currentDate)
     }
     currentDate.setDate(currentDate.getDate() - 1)
   }
 
-  colIndexes.unshift(0)
   const weekWidth = colIndexes
     .map((col, index) => {
       return (colIndexes[index + 1] || WEEKS) - col
     })
     .slice(colIndexes.length - MONTH_NAMES.length)
-  return { dates, colIndexes, weekWidth }
+
+  const monthNames = getMonthNames(firstStartDate)
+
+  if (colIndexes[0] !== 0) {
+    monthNames.unshift('')
+    weekWidth.unshift(colIndexes[0])
+  }
+  return { weekWidth, monthNames }
 }
 
 export function getMonthNames(date: Date) {

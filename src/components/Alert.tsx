@@ -27,11 +27,11 @@ const classNames = (type: AlertType) => {
 export const Alert = (props) => {
   return (
     <div
-      class={`flex mt-4 p-4 text-base rounded-lg ${classNames(props.type)}`}
+      class={`mt-4 flex rounded-lg p-4 text-base ${classNames(props.type)}`}
       role="alert"
     >
       <svg
-        class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]"
+        class="me-3 mt-[2px] inline h-4 w-4 flex-shrink-0"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"

@@ -13,6 +13,7 @@ export * from './configs'
 
 export interface CountInfo {
   total: number
+  unsorted: number
   image: number
   video: number
   gif: number
@@ -28,6 +29,8 @@ export interface FontSet {
 }
 
 export interface Tweet extends TweetQuoted {
+  id: string
+  owner_id: string
   title?: string
   note?: string
   tags?: string[]
@@ -67,13 +70,6 @@ export interface IndexedDbIndexItem {
   options: IDBIndexParameters
 }
 
-export interface Header {
-  url: string
-  token: string
-  csrf: string
-  cookie: string
-}
-
 export interface QueryOptions {
   keyword?: string
   fromUser?: string
@@ -98,6 +94,11 @@ export interface User {
 export const X_DOMAIN = 'x.com'
 
 export const Host = `https://${X_DOMAIN}`
+
+export const API_HOST =
+  process.env.NODE_ENV == 'development'
+    ? 'http://localhost:8787'
+    : `https://api.twillot.com`
 
 export enum ActionPage {
   AUTHENTICATE = `${Host}/i/bookmarks?twillot=reauth`,
@@ -278,6 +279,8 @@ export enum EndpointQuery {
   DELETE_TWEET = 'VaenaVgh5q5ih7kvyVjgtg',
   USER_TWEETS = 'gQlOy4mD5C8M8fYxqa0FJg',
   GET_FOLDERS = 'i78YDd0Tza-dV4SYs58kRg',
+  GET_FOLDER_TWEETS = 'e1T8IKkMr-8iQk7tNOyD_g',
+  USER_DETAIL = 'GazOglcBvgLigl3ywt6b3Q',
 }
 
 export enum Endpoint {
@@ -291,4 +294,10 @@ export enum Endpoint {
   DELETE_TWEET = `${BASE_PATH}${EndpointQuery.DELETE_TWEET}/DeleteTweet`,
   USER_TWEETS = `${BASE_PATH}${EndpointQuery.USER_TWEETS}/UserTweets`,
   GET_FOLDERS = `${BASE_PATH}${EndpointQuery.GET_FOLDERS}/BookmarkFoldersSlice`,
+  GET_FOLDER_TWEETS = `${BASE_PATH}${EndpointQuery.GET_FOLDER_TWEETS}/BookmarkFolderTimeline`,
+  USER_DETAIL = `${BASE_PATH}${EndpointQuery.USER_DETAIL}/UserByRestId`,
+}
+
+export function getEndpoint(queryId: string, name: string): string {
+  return `${BASE_PATH}${queryId}/${name}`
 }

@@ -14,23 +14,18 @@ import {
   IconBranch,
   IconFolderMove,
   IconFolders,
+  IconLicense,
   IconMoon,
   IconSun,
-  IconTag,
-  IconTrash,
   IconUp,
 } from '../components/Icons'
 import ZenMode from '../components/ZenMode'
 import { createStyleSheet } from '../libs/dom'
 import logo from '../../public/img/logo-128.png'
-import { FolderForm } from '../components/FolderDropDown'
 import { allCategories } from '../constants'
-import {
-  initFolders,
-  moveTweetsToFolder,
-  removeFolder,
-} from '../stores/folders'
-import { startTasksLitening } from '../libs/workflow/options'
+import { initFolders } from '../stores/folders'
+import AsideFolder from '../components/AsideFolder'
+import { getCurrentUserId, onLocalChanged } from '../libs/storage'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -64,12 +59,21 @@ export const Layout = (props) => {
     }
   })
 
-  onMount(() => {
+  onMount(async () => {
     if (!store.isSidePanel) {
-      initHistory()
-      initSync()
-      initFolders()
-      startTasksLitening()
+      const user_id = await getCurrentUserId()
+      if (!user_id) {
+        setStore('isAuthFailed', true)
+        return
+      }
+
+      onLocalChanged(async (changes) => {
+        if ('tasks' in changes) {
+          await initSync()
+        }
+      })
+
+      await Promise.all([initHistory(), initSync(), initFolders()])
     }
   })
 
@@ -170,64 +174,92 @@ export const Layout = (props) => {
                   <IconFolders />
                   <span class="ms-3 flex-1 whitespace-nowrap">Folders</span>
                 </div>
+                <Show when={store.totalCount}>
+                  <div class="text-base">
+                    <A
+                      href="/"
+                      class={`${'Unsorted' === store.folder ? 'text-blue-500 ' : ''} flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
+                      onClick={() => setStore('folder', 'Unsorted')}
+                    >
+                      Unsorted
+                      <div class="ml-4 hidden flex-1 items-center justify-end gap-2">
+                        <Show when={store.keyword}>
+                          <span class="cursor-pointer">
+                            <IconFolderMove />
+                          </span>
+                        </Show>
+                      </div>
+                      <span class="mr-1 flex-1 items-center text-right text-xs font-medium opacity-60">
+                        {store.totalCount.unsorted}
+                      </span>
+                    </A>
+                  </div>
+                </Show>
+                <AsideFolder />
+              </li>
+              <li>
+                <a
+                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
+                  href="/workflows"
+                >
+                  <IconBranch />
+                  <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
+                  <span class="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                    Beta
+                  </span>
+                </a>
                 <ul class="space-y-1 py-1 text-base">
-                  <For each={store.folders}>
-                    {(folder) => {
-                      return (
-                        <li>
-                          <A
-                            href="/"
-                            class={`${folder.name === store.folder ? 'text-blue-500 ' : ''} group flex w-full items-center rounded-lg p-1 pl-11 transition duration-75`}
-                            onClick={() => setStore('folder', folder.name)}
-                          >
-                            {folder.name}
-                            <div class="ml-4 hidden flex-1 items-center justify-end gap-2 group-hover:flex">
-                              <Show when={store.keyword}>
-                                <span
-                                  class="cursor-pointer"
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    moveTweetsToFolder(folder.name)
-                                  }}
-                                >
-                                  <IconFolderMove />
-                                </span>
-                              </Show>
-                              <span
-                                class="cursor-pointer"
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  removeFolder(folder.name)
-                                }}
-                              >
-                                <IconTrash />
-                              </span>
-                            </div>
-                            <span class="mr-1 flex-1 items-center text-right text-xs font-medium opacity-60 group-hover:hidden">
-                              {folder.count}
-                            </span>
-                          </A>
-                        </li>
-                      )
-                    }}
-                  </For>
                   <li>
-                    <div class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75">
-                      <FolderForm />
-                    </div>
+                    <A
+                      href="/workflows/settings"
+                      class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75"
+                    >
+                      Settings
+                    </A>
                   </li>
                 </ul>
               </li>
               <li>
-                <div class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <IconBranch />
-                  <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
-                  <span class="ms-3 inline-flex items-center justify-center text-xs ">
-                    Coming Soon
+                <a
+                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
+                  href="/license"
+                >
+                  <IconLicense />
+                  <span class="ms-3 flex-1 whitespace-nowrap">
+                    License Code
                   </span>
-                </div>
+                </a>
               </li>
             </ul>
+            <div
+              class="mt-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900"
+              role="alert"
+            >
+              <div class="mb-3 flex items-center">
+                <span class="me-2 rounded bg-orange-100 px-2.5 py-0.5 text-sm font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
+                  NOTE
+                </span>
+              </div>
+              <p class="mb-3 text-sm text-blue-800 dark:text-blue-400">
+                Workflows is an advanced feature currently in Beta. Features and
+                usability may change. You can apply for a free license to try it
+                for the best experience.
+              </p>
+              <a
+                class="mr-4 text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                href="https://twillot.com/docs/introduction?utm_source=extension"
+                target="_blank"
+              >
+                Docs
+              </a>
+              <a
+                class="text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                href="https://s.twillot.com/get-free-trial?utm_source=extension"
+                target="_blank"
+              >
+                Free License Code
+              </a>
+            </div>
           </div>
         </aside>
       </Show>
@@ -240,7 +272,7 @@ export const Layout = (props) => {
             <Show when={store.isAuthFailed}>
               <Authenticate />
             </Show>
-            <Show when={store.isForceSyncTimedout}>
+            <Show when={!store.isForceSyncTimedout}>
               <Alert
                 message={
                   <>
@@ -254,15 +286,15 @@ export const Layout = (props) => {
                         failed.
                       </li>
                       <li>
-                        Contact the{' '}
+                        If this problem persists, join our
                         <a
-                          href="https://x.com/SiZapPaaiGwat"
+                          href="https://x.com/i/communities/1796857620672008306"
                           target="_blank"
                           class="text-blue-500 underline"
                         >
-                          maker
-                        </a>{' '}
-                        of Twillot if the problem persists.
+                          &nbsp;community&nbsp;
+                        </a>
+                        to get help from developers.
                       </li>
                     </ul>
                   </>

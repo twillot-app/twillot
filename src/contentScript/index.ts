@@ -1,24 +1,25 @@
-import { Message, MessageType } from '../libs/workflow/types'
-import { Host, X_DOMAIN } from '../types'
+import { setCurrentUserId } from '../libs/storage'
+import { Monitor } from '../libs/workflow/trigger'
+import { X_DOMAIN } from '../types'
 //@ts-ignore
 import mainWorld from './injected?script&module'
+
+console.log('content script loaded')
 
 const oldDomain = 'twitter.com'
 if (location.host === oldDomain) {
   location.href = location.href.replace(oldDomain, X_DOMAIN)
 }
 
-window.addEventListener('message', (event) => {
-  if (
-    event.origin !== Host ||
-    event.data.type !== MessageType.GetTriggerResponse
-  ) {
-    return
+for (const item of document.cookie.split(';')) {
+  const [key, value] = item.split('=')
+  if (key.includes('twid')) {
+    setCurrentUserId(value.replace('u%3D', ''))
+    break
   }
-
-  console.log('contentScript received message', { event })
-  // chrome.runtime.sendMessage<Message>(event.data)
-})
+}
+Monitor.onContentScriptMessage()
+// Monitor.startValidation()
 
 /**
  * NOTE:HMR 无效

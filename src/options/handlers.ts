@@ -3,7 +3,7 @@ import { untrack } from 'solid-js/web'
 import { getAuthInfo } from '../libs/browser'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
-import { AuthStatus, Header } from '../types'
+import { AuthStatus } from '../types'
 import {
   countRecords,
   findRecords,
@@ -13,6 +13,7 @@ import {
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
+import { setLocal } from '../libs/storage'
 
 async function query(
   keyword = '',
@@ -62,7 +63,7 @@ export async function initSync() {
     setStore('totalCount', await countRecords())
 
     const auth = await getAuthInfo()
-    if (!auth || !auth.cookie) {
+    if (!auth || !auth.token) {
       throw new Error(AuthStatus.AUTH_FAILED)
     }
 
@@ -79,14 +80,15 @@ export async function initSync() {
         if (store.tweets.length > 0) {
           setStore('totalCount', await countRecords())
         } else {
-          setStore('tweets', () => [...docs])
+          setStore('tweets', docs)
         }
+        await initHistory()
       }
 
       setStore('isForceSyncing', false)
       setStore('topUsers', reconcile(await getTopUsers(10)))
       const syncedTime = Math.floor(Date.now() / 1000)
-      await chrome.storage.local.set({
+      await setLocal({
         lastForceSynced: syncedTime,
       })
     } else {
@@ -106,6 +108,7 @@ export async function initSync() {
         }
         await query(store.keyword)
       }
+      await initHistory()
       setStore('isAutoSyncing', false)
     }
 

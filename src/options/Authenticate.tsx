@@ -5,19 +5,35 @@ import { getAuthInfo, openNewTab } from '../libs/browser'
 import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
 import { ActionPage } from '../types'
+import {
+  getCurrentUserId,
+  isMigrationNeeded,
+  migrateStorage,
+} from '../libs/storage'
+import { migrateData } from '../libs/db'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore
   let timerId, tab: chrome.tabs.Tab
   const title = document.title
   const checkAuth = async () => {
+    const user_id = await getCurrentUserId()
+    if (!user_id) return false
+
     const auth = await getAuthInfo()
-    const authenticated = !!(auth && auth.cookie)
+
+    const authenticated = !!(auth && auth.token)
     setStore('isAuthFailed', !authenticated)
     if (authenticated) {
       clearInterval(timerId)
-      location.reload()
       if (tab) chrome.tabs.remove(tab.id)
+      // Always use the latest csrf & token
+      // Only migrate bookmark cursor and lastSyncedTime if needed
+      if (await isMigrationNeeded()) {
+        await migrateStorage(user_id)
+        await migrateData(user_id)
+      }
+      location.reload()
     }
 
     return authenticated

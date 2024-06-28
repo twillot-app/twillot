@@ -1,71 +1,5 @@
-import { Endpoint } from '../../types'
-
-/**
- * NOTE: 注意顺序可能影响单元测试
- */
-export enum TriggerNames {
-  CreateBookmark = 'Create a bookmark',
-  DeleteBookmark = 'Delete a bookmark',
-  CreateTweet = 'Post',
-  CreateReply = 'Reply',
-  CreateRetweet = 'Repost',
-  CreateQuote = 'Quote',
-  // CreateNoteTweet = 'Create a note tweet',
-  // CreateScheduledTweet = 'Create a scheduled tweet',
-  // ReplyTweet = 'Reply to a tweet',
-  // FavoriteTweet = 'Favorite a tweet',
-}
-
-export enum TiggerUrls {
-  CreateBookmark = Endpoint.CREATE_BOOKMARK,
-  DeleteBookmark = Endpoint.DELETE_BOOKMARK,
-  CreateTweet = Endpoint.CREATE_TWEET,
-  CreateReply = Endpoint.CREATE_TWEET,
-  CreateQuote = Endpoint.CREATE_TWEET,
-  CreateRetweet = Endpoint.CREATE_RETWEET,
-  // CreateNoteTweet = 'Create a note tweet',
-  // CreateScheduledTweet = 'Create a scheduled tweet',
-  // ReplyTweet = 'Reply to a tweet',
-  // FavoriteTweet = 'Favorite a tweet',
-}
-
-export type Trigger = keyof typeof TriggerNames
-
-export enum ActionNames {
-  UnrollThread = 'Unroll this thread',
-  DeleteBookmark = 'Delete from local',
-  AutoComment = 'Auto comment',
-}
-
-export type ActionKey = keyof typeof ActionNames
-
-export type Action = {
-  name: ActionKey
-  inputs?: string[]
-}
-
-export interface TriggerReponse {
-  tweetId: string
-  replyToTweetId?: string
-}
-
-export interface TriggerReuqestBody {
-  variables: any
-  features: any
-}
-
-export interface TriggerReponsePayload {
-  trigger: Trigger
-  action: Action
-  request: { method: string; url: string; body: any }
-  response: { status: number; statusText: string; body: TriggerReponse }
-}
-
-export interface ActionContext extends TriggerReponsePayload {
-  prevActionResponse: any
-}
-
-export type ActionHandler = (context: ActionContext) => Promise<any>
+import { Action, ActionKey, ClientActionKey } from './actions'
+import { type Trigger } from './trigger.type'
 
 export interface Workflow {
   id: string
@@ -80,7 +14,7 @@ export interface Workflow {
 
 export interface Task {
   id: string
-  name: ActionKey
+  name: ActionKey | ClientActionKey
   inputs?: string[]
   tweetId?: string
 }
@@ -91,12 +25,19 @@ export interface Message {
 }
 
 export enum MessageType {
-  GetWorkflows = 'get_workflows',
+  ClientPageProxyRequest = 'client_page_request',
+  ClientPageLicense = 'client_page_license',
+  ClientPageWorkflows = 'get_client_workflows',
   GetTriggerResponse = 'get_trigger_response',
-  SyncTasks = 'sync_tasks',
+  ValidateLicense = 'validate',
 }
 
-export interface CommentTemplate {
+export enum ClientPageStorageKey {
+  Workflows = 'twillot_workflows',
+  License = 'twillot_license',
+}
+
+export interface Template {
   id: string
   name: string
   content: string

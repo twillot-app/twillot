@@ -1,14 +1,30 @@
-import { Tweet, TweetWithPosition, QueryOptions } from '../../types'
+import { Tweet, TweetWithPosition, QueryOptions, CountInfo } from '../../types'
+import { formatDate } from '../date'
 import { parseTwitterQuery } from '../query-parser'
-import { openDb, getObjectStore } from './index'
+import { getCurrentUserId } from '../storage'
+import { openDb, getObjectStore, TWEETS_TABLE_NAME_V2 } from './index'
+
+export function getPostId(user_id: string, tweet_id: string) {
+  if (!user_id || !tweet_id) {
+    console.error('Invalid user_id or tweet_id', user_id, tweet_id)
+    throw new Error('Invalid user_id or tweet_id')
+  }
+
+  return tweet_id.includes(user_id) ? tweet_id : user_id + '_' + tweet_id
+}
 
 export async function addRecords(
   records: Tweet[],
   overwrite = false,
 ): Promise<void> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
+
   return new Promise((resolve, reject) => {
-    const { transaction, objectStore } = getObjectStore(db)
+    const { transaction, objectStore } = getObjectStore(
+      db,
+      TWEETS_TABLE_NAME_V2,
+    )
     transaction.oncomplete = () => {
       resolve()
     }
@@ -20,12 +36,16 @@ export async function addRecords(
 
     records.forEach((record) => {
       if (record) {
+        const key = getPostId(user_id, record.tweet_id)
+        record.id = key
+        record.owner_id = user_id
+
         if (overwrite) {
           objectStore.put(record)
           return
         }
 
-        const getRequest = objectStore.get(record.tweet_id)
+        const getRequest = objectStore.get(key)
         getRequest.onsuccess = () => {
           if (!getRequest.result) {
             objectStore.put(record)
@@ -48,14 +68,28 @@ function meetsCriteria(
   options: QueryOptions,
   category = '',
   folder = '',
+  user_id = '',
 ): boolean {
+  if (tweet.owner_id !== user_id) {
+    return false
+  }
+
+  let folderFilter = false
+  // 指定 folder 为 null 表示查询没有 unsorted 的记录
+  if (folder === 'Unsorted') {
+    folderFilter = !tweet.folder
+  } else {
+    folderFilter =
+      !folder || tweet.folder?.toLowerCase() === folder.toLowerCase()
+  }
+
   return (
     (!options.keyword ||
       tweet.full_text.toLowerCase().includes(options.keyword.toLowerCase())) &&
     (!options.fromUser ||
       tweet.screen_name.toLowerCase() === options.fromUser.toLowerCase()) &&
     (!category || tweet[category]) &&
-    (!folder || tweet.folder?.toLowerCase() === folder.toLowerCase())
+    folderFilter
   )
 }
 
@@ -81,6 +115,7 @@ export async function findRecords(
   pageSize = 100,
 ): Promise<Tweet[]> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
   const options = parseTwitterQuery(keyword)
   const results: Tweet[] = []
   let recordsFetched = 0 // 实际已获取的记录数
@@ -94,7 +129,7 @@ export async function findRecords(
   const indexName = since || until ? 'created_at' : 'sort_index' // 选择索引
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index(indexName)
     const range = getRange(since, until) // 创建时间范围
     const request = index.openCursor(range, 'prev')
@@ -104,7 +139,7 @@ export async function findRecords(
       if (cursor) {
         const tweet = cursor.value as Tweet
         if (isStartLooking) {
-          const met = meetsCriteria(tweet, options, category, folder)
+          const met = meetsCriteria(tweet, options, category, folder, user_id)
           if (met) {
             recordsFetched++
             if (recordsFetched <= pageSize) {
@@ -136,16 +171,18 @@ export async function findRecords(
   })
 }
 
-export async function getRecord(id: string): Promise<Tweet | undefined> {
-  if (!id) {
+export async function getRecord(tweetId: string): Promise<Tweet | undefined> {
+  if (!tweetId) {
     return Promise.resolve(undefined)
   }
 
   const db = await openDb()
+  const user_id = await getCurrentUserId()
+  const key = getPostId(user_id, tweetId)
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
-    const request = objectStore.get(id)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
+    const request = objectStore.get(key)
 
     request.onsuccess = (event: Event) => {
       resolve((event.target as IDBRequest<Tweet>).result)
@@ -165,11 +202,13 @@ export async function deleteRecord(id: string): Promise<Tweet | undefined> {
   }
 
   const db = await openDb()
-  const record = await getRecord(id)
+  const user_id = await getCurrentUserId()
+  const key = getPostId(user_id, id)
+  const record = await getRecord(key)
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
-    const request = objectStore.delete(id)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
+    const request = objectStore.delete(key)
     request.onsuccess = (event: Event) => {
       resolve(record)
     }
@@ -184,19 +223,12 @@ export async function deleteRecord(id: string): Promise<Tweet | undefined> {
 export async function countRecords(
   indexName?: string,
   value?: string,
-): Promise<{
-  total: number
-  image: number
-  video: number
-  gif: number
-  link: number
-  quote: number
-  long_text: number
-}> {
+): Promise<CountInfo> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     let request
     if (indexName) {
       const index = objectStore.index(indexName)
@@ -207,6 +239,8 @@ export async function countRecords(
     }
     const counts = {
       total: 0,
+      // 不属于任何文件夹
+      unsorted: 0,
       image: 0,
       video: 0,
       gif: 0,
@@ -226,13 +260,16 @@ export async function countRecords(
             .result
           if (cursor) {
             const record = cursor.value
-            counts.total++
-            if (record.has_image) counts.image++
-            if (record.has_video) counts.video++
-            if (record.has_gif) counts.gif++
-            if (record.has_link) counts.link++
-            if (record.has_quote) counts.quote++
-            if (record.is_long_text) counts.long_text++
+            if (record.owner_id === user_id) {
+              counts.total++
+              if (record.has_image) counts.image++
+              if (record.has_video) counts.video++
+              if (record.has_gif) counts.gif++
+              if (record.has_link) counts.link++
+              if (record.has_quote) counts.quote++
+              if (record.is_long_text) counts.long_text++
+              if (!record.folder) counts.unsorted++
+            }
             cursor.continue()
           } else {
             resolve(counts)
@@ -262,27 +299,30 @@ export async function aggregateUsers(): Promise<
   >
 > {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
   const userInfo = {}
 
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('sort_index')
     const request = index.openCursor()
 
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
-        const userId = cursor.value.screen_name
-        if (!userInfo[userId]) {
-          userInfo[userId] = {
-            avatar_url: cursor.value.avatar_url,
-            username: cursor.value.username,
-            screen_name: cursor.value.screen_name,
-            count: 0,
+        const record = cursor.value
+        if (record.owner_id === user_id) {
+          const userId = record.screen_name
+          if (!userInfo[userId]) {
+            userInfo[userId] = {
+              avatar_url: record.avatar_url,
+              username: record.username,
+              screen_name: record.screen_name,
+              count: 0,
+            }
           }
+          userInfo[userId].count += 1
         }
-        userInfo[userId].count += 1
-
         cursor.continue()
       } else {
         resolve(userInfo)
@@ -300,49 +340,14 @@ export async function getTopUsers(num = 10) {
     .slice(0, num)
 }
 
-export async function getTimeline(): Promise<TweetWithPosition[]> {
-  const db = await openDb()
-
-  return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
-    const index = objectStore.index('sort_index')
-    const request = index.openCursor(null, 'next')
-    const results: TweetWithPosition[] = []
-    let count = 0
-    const targets = new Set([1, 100, 1000])
-
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        count++
-        if (
-          (count <= 1000 && targets.has(count)) ||
-          (count > 1000 && (count - 1000) % 1000 === 0)
-        ) {
-          results.unshift({
-            tweet: cursor.value,
-            position: count,
-          })
-        }
-        cursor.continue()
-      } else {
-        resolve(results)
-      }
-    }
-
-    request.onerror = (event) => {
-      reject((event.target as IDBRequest).error)
-    }
-  })
-}
-
 export async function getRencentTweets(days: number): Promise<{
   total: number
   data: { date: string; count: number }[]
 }> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('created_at')
     const oneYearAgo = Math.floor(
       (Date.now() - days * 24 * 60 * 60 * 1000) / 1000,
@@ -356,12 +361,14 @@ export async function getRencentTweets(days: number): Promise<{
       const cursor = request.result
       if (cursor) {
         const tweet = cursor.value
-        const date = new Date(tweet.created_at * 1000).toLocaleDateString()
-        total += 1
-        if (dateCounts[date]) {
-          dateCounts[date] += 1
-        } else {
-          dateCounts[date] = 1
+        if (tweet.owner_id === user_id) {
+          const date = formatDate(new Date(tweet.created_at * 1000))
+          total += 1
+          if (dateCounts[date]) {
+            dateCounts[date] += 1
+          } else {
+            dateCounts[date] = 1
+          }
         }
         cursor.continue()
       } else {
@@ -384,9 +391,10 @@ export async function getRencentTweets(days: number): Promise<{
 
 export async function clearFolder(folder: string): Promise<void> {
   const db = await openDb()
+  const user_id = await getCurrentUserId()
 
   return new Promise((resolve, reject) => {
-    const store = getObjectStore(db, 'tweets').objectStore
+    const store = getObjectStore(db, TWEETS_TABLE_NAME_V2).objectStore
     const index = store.index('folder')
     const request = index.openCursor(IDBKeyRange.only(folder))
 
@@ -394,8 +402,10 @@ export async function clearFolder(folder: string): Promise<void> {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
         const updateData = cursor.value
-        updateData.folder = ''
-        cursor.update(updateData)
+        if (updateData.owner_id === user_id) {
+          updateData.folder = ''
+          cursor.update(updateData)
+        }
         cursor.continue()
       } else {
         resolve()
@@ -411,33 +421,44 @@ export async function clearFolder(folder: string): Promise<void> {
   })
 }
 
-export async function getRandomTweet(skip: number): Promise<Tweet | undefined> {
+export async function updateFolder(
+  ids: string[],
+  folder: string,
+): Promise<number> {
   const db = await openDb()
-
   return new Promise((resolve, reject) => {
-    const { objectStore } = getObjectStore(db)
-    const request = objectStore.openCursor()
-    let skipped = false
+    const { objectStore, transaction } = getObjectStore(
+      db,
+      TWEETS_TABLE_NAME_V2,
+    )
 
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        if (skipped) {
-          resolve(cursor.value)
-          return
+    let count = 0
+
+    transaction.oncomplete = function () {
+      resolve(count)
+    }
+
+    transaction.onerror = function (err) {
+      reject(err)
+    }
+
+    ids.forEach((id) => {
+      // 获取记录
+      const request = objectStore.get(id)
+      request.onsuccess = function () {
+        const record = request.result
+        if (record) {
+          record.folder = folder
+          objectStore.put(record)
+          count += 1
+        } else {
+          console.log(`Record with id ${id} not found`)
         }
-        cursor.advance(skip)
-        skipped = true
-      } else {
-        resolve(null)
       }
-    }
 
-    request.onerror = (event) => {
-      reject(
-        'Failed to get random tweet: ' +
-          (event.target as IDBRequest).error?.toString(),
-      )
-    }
+      request.onerror = function (err) {
+        console.error(`Error getting record with id ${id}:`, err)
+      }
+    })
   })
 }

@@ -1,8 +1,15 @@
 # Twillot
 
-> Sync, search, tag, and export your Twitter bookmarks with AI and ease.
+> Organize X/Twitter bookmarks, streamline X/Twitter workflow experience
 
 ## Changelog
+
+## June 28, 2024 Update
+
+Workflow Support
+
+We're excited to announce that you can now use Twillot as a workflow in X/Twitter now.
+Know more about workflow, check it out https://twillot.com/docs/workflows/guide.
 
 ### May 29, 2024 Update
 
@@ -27,10 +34,6 @@ By doing this, you'll be taken directly to Twillot search results, enhancing you
 - Permanent Access: With Twillot, your favorite tweets are always at your fingertips. The risk of losing them is significantly reduced, as your bookmarks are stored and backed up on your device.
 
 - Streamlined Social Media Experience: Twillot transforms how you interact with Twitter bookmarks, providing a smoother, more organized, and time-saving social media management tool.
-
-## Todos
-
-- AI-Powered Tagging: Twillot uses artificial intelligence to automatically tag your bookmarks, enhancing organization and making access to your saved tweets even more straightforward.
 
 ## Install
 

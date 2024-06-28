@@ -1,4 +1,5 @@
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 
 import {
@@ -8,16 +9,101 @@ import {
   countRecords,
   aggregateUsers,
   getTopUsers,
-  getTimeline,
   getRencentTweets,
   clearFolder,
-  getRandomTweet,
+  getPostId,
 } from './tweets'
 import TweetGenerator from '../../../__mocks__/tweet'
+import {
+  openDb,
+  getObjectStore,
+  TWEETS_TABLE_NAME,
+  TWEETS_TABLE_NAME_V2,
+  CONFIGS_TABLE_NAME,
+  CONFIGS_TABLE_NAME_V2,
+  migrateData,
+} from './index'
+import { getCurrentUserId } from '../storage'
+import { setCurrentUserId } from '../storage'
+import { Config, Tweet } from '../../types'
+import { getConfigId } from './configs'
 
 describe('dbModule', () => {
-  afterEach(async () => {
+  beforeEach(async () => {
+    global.chrome = browser
     indexedDB = new IDBFactory()
+    await setCurrentUserId('1234567890')
+  })
+
+  describe('migrateData', () => {
+    it('should migrate data from old tables to new tables', async () => {
+      const db = await openDb()
+      const userId = await getCurrentUserId()
+      const tweets = TweetGenerator.generateTweets(5)
+      const configs = [
+        { option_name: 'config1', option_value: 'value1' },
+        { option_name: 'config2', option_value: 'value2' },
+      ]
+
+      // Add data to old tables
+      const { objectStore: oldTweetStore } = getObjectStore(
+        db,
+        TWEETS_TABLE_NAME,
+      )
+      const { objectStore: oldConfigStore } = getObjectStore(
+        db,
+        CONFIGS_TABLE_NAME,
+      )
+      tweets.forEach((tweet) => oldTweetStore.put(tweet))
+      configs.forEach((config) => oldConfigStore.put(config))
+
+      // Trigger migration
+      const transaction = db.transaction(
+        [
+          TWEETS_TABLE_NAME_V2,
+          CONFIGS_TABLE_NAME_V2,
+          TWEETS_TABLE_NAME,
+          CONFIGS_TABLE_NAME,
+        ],
+        'readwrite',
+      )
+      await migrateData()
+
+      // Verify data in new tables
+      const { objectStore: newTweetStore } = getObjectStore(
+        db,
+        TWEETS_TABLE_NAME_V2,
+      )
+      const { objectStore: newConfigStore } = getObjectStore(
+        db,
+        CONFIGS_TABLE_NAME_V2,
+      )
+
+      const migratedTweets: Tweet[] = await new Promise((resolve, reject) => {
+        const request = newTweetStore.getAll()
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+
+      const migratedConfigs: Config[] = await new Promise((resolve, reject) => {
+        const request = newConfigStore.getAll()
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+
+      expect(migratedTweets.length).toBe(tweets.length)
+      expect(migratedConfigs.length).toBe(configs.length)
+
+      migratedTweets.forEach((tweet, index) => {
+        expect(tweet.id).toBe(getPostId(userId, tweet.tweet_id))
+        expect(tweet.owner_id).toBe(userId)
+      })
+
+      migratedConfigs.forEach((config, index) => {
+        expect(config.id).toBe(getConfigId(userId, config.option_name))
+        expect(config.owner_id).toBe(userId)
+      })
+    })
   })
 
   describe('addRecords', () => {
@@ -81,16 +167,6 @@ describe('dbModule', () => {
     })
   })
 
-  describe('getTimeline', () => {
-    it('should get a timeline of tweets', async () => {
-      const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
-      const timeline = await getTimeline()
-      expect(timeline).toBeInstanceOf(Array)
-      expect(timeline.length).toBeGreaterThan(0)
-    })
-  })
-
   describe('getRecentTweets', () => {
     it('should get recent tweets', async () => {
       const tweets = TweetGenerator.generateTweets(5)
@@ -109,16 +185,6 @@ describe('dbModule', () => {
       await clearFolder('testFolder')
       const results = await findRecords('', '', 'testFolder')
       expect(results.length).toBe(0)
-    })
-  })
-
-  describe('getRandomTweet', () => {
-    it('should get a random tweet', async () => {
-      const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
-      const randomTweet = await getRandomTweet(2)
-      expect(randomTweet).toBeDefined()
-      expect(tweets).toContainEqual(randomTweet)
     })
   })
 })

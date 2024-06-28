@@ -15,10 +15,7 @@ export default function Contribution() {
   const [store] = dataStore
   const navigate = useNavigate()
   const { dates, weekWidth } = getGridDates()
-  let monthNames = getMonthNames(new Date(dates[0]))
-  if (weekWidth.length !== monthNames.length) {
-    monthNames.push(monthNames[0])
-  }
+  let monthNames = getMonthNames(new Date(dates[dates.length - 1]))
   const gridTemplateColumns = weekWidth
     .map((w) => `calc(var(--week-width) * ${w})`)
     .join(' ')

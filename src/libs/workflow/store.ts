@@ -2,51 +2,39 @@ import { unwrap } from 'solid-js/store'
 
 import { readConfig, upsertConfig } from '../../libs/db/configs'
 import dataStore, { mutateStore } from '../../options/store'
-import { OptionName } from '../../types'
-import { sendWorkflows } from './options'
-import { getTweetConversations } from '../api/twitter'
+import { OptionName, OptionStoreField } from '../../types'
+import { getTweetConversations, getUserById } from '../api/twitter'
 import { addRecords, countRecords, deleteRecord, getRecord } from '../db/tweets'
-import { getTasks, removeTask } from '.'
+import { getTasks, removeTask } from './task'
+import { ClientPageStorageKey, Workflow } from './types'
+import { TRIGGER_LIST, Trigger } from './trigger.type'
+import { Action, ActionKey, ClientActionKey } from './actions'
+import { getCurrentUserId, setLocal } from '../storage'
 import {
-  Action,
-  ActionKey,
-  CommentTemplate,
-  Trigger,
-  TriggerNames,
-  Workflow,
-} from './types'
-import { useNavigate } from '@solidjs/router'
+  defaultCommentTemplates,
+  defaultWorkflows,
+  defaultSignatureTemplates,
+  defaultCommentTemplateName,
+  defaultSignatureTemplateName,
+} from './defaults'
+import { getLicense, isFreeLicense } from '../license'
 
 const [store] = dataStore
 
-const defaultWorkflows: Workflow[] = [
-  {
-    id: '0',
-    name: 'Auto unroll threads when a bookmark is created',
-    editable: false,
-    when: 'CreateBookmark',
-    thenList: [{ name: 'UnrollThread' }],
-  },
-  {
-    id: '1',
-    name: 'Delete from local when a bookmark is deleted',
-    editable: false,
-    when: 'DeleteBookmark',
-    thenList: [{ name: 'DeleteBookmark' }],
-  },
-]
-const defaultTemplates: CommentTemplate[] = [
-  {
-    id: new Date().getTime().toString(16),
-    name: 'Default - A twillot welcome post',
-    content: 'Proudly posted by Twillot, check out https://twillot.com.',
-    createdAt: Math.floor(Date.now() / 1000),
-  },
-]
+function isSameAction(action1: Action, action2: Action) {
+  if (action1.name !== action2.name) {
+    return false
+  }
+
+  const inputs1 = action1.inputs || []
+  const inputs2 = action2.inputs || []
+
+  return inputs1.join(',') === inputs2.join(',')
+}
 
 export const getUnusedWhen = () => {
   const usedWhens = new Set(store.workflows.map((w) => w.when))
-  const unusedWhens = Object.keys(TriggerNames).filter(
+  const unusedWhens = TRIGGER_LIST.map((t) => t.name).filter(
     (action: Trigger) => !usedWhens.has(action),
   )
   return (unusedWhens.length > 0 ? unusedWhens[0] : 'CreateBookmark') as Trigger
@@ -54,15 +42,17 @@ export const getUnusedWhen = () => {
 
 export const isWorkflowUnchanged = async (index: number) => {
   const workflow = store.workflows[index]
-  const workflowsDB = (await readConfig(OptionName.WORKFLOW))
-    .option_value as Workflow[]
+  const workflowsDB = ((await readConfig(OptionName.WORKFLOW))?.option_value ||
+    []) as Workflow[]
   const dbWorkflow = workflowsDB.find((wDB) => wDB.id === workflow.id)
   if (dbWorkflow) {
     return 'name,when,thenList'
       .split(',')
       .every((key) =>
         key === 'thenList'
-          ? workflow[key].join(',') === dbWorkflow[key].join(',')
+          ? workflow.thenList.every((t, i) =>
+              isSameAction(t, dbWorkflow.thenList[i]),
+            )
           : workflow[key] === dbWorkflow[key],
       )
   } else {
@@ -80,7 +70,16 @@ export const addWorkflow = () => {
     editable: true,
     unchanged: true,
     when: getUnusedWhen(),
-    thenList: [],
+    thenList: [
+      {
+        name: 'AutoComment',
+        inputs: [
+          store.templates.length > 0
+            ? store.templates[0].content
+            : defaultCommentTemplates[0].content,
+        ],
+      },
+    ],
   }
   mutateStore((state) => {
     state.workflows.unshift(newWorkflow)
@@ -99,6 +98,10 @@ export const renameWorkflow = (index: number, value: string) => {
  * 保存到数据库，仅更新一条记录
  */
 export const saveWorkflow = async (index: number) => {
+  if (store.workflows.length === 0) {
+    return
+  }
+
   const workflow = unwrap(store.workflows[index])
   const dbRecords = await readConfig(OptionName.WORKFLOW)
   let workflows = []
@@ -124,7 +127,7 @@ export const saveWorkflow = async (index: number) => {
   })
 
   console.log('Workflow saved to database', workflows)
-  sendWorkflows(workflows)
+  await setLocal({ [ClientPageStorageKey.Workflows]: workflows })
 }
 
 export const removeWorkflow = async (index: number) => {
@@ -132,14 +135,15 @@ export const removeWorkflow = async (index: number) => {
   const dbRecords = await readConfig(OptionName.WORKFLOW)
   const dbWorkflows = (dbRecords?.option_value || []) as Workflow[]
   const isDbItem = dbWorkflows.some((w) => w.id === id)
-  mutateStore((state) => {
+  mutateStore(async (state) => {
     state.workflows.splice(index, 1)
     if (isDbItem) {
       const items = unwrap(state.workflows)
-      upsertConfig({
+      await upsertConfig({
         option_name: OptionName.WORKFLOW,
         option_value: items,
       })
+      await setLocal({ [ClientPageStorageKey.Workflows]: items })
     }
   })
 }
@@ -160,21 +164,57 @@ export const getWorkflows = async () => {
   mutateStore((state) => {
     state.workflows = workflows
   })
+  await setLocal({ [ClientPageStorageKey.Workflows]: workflows })
   return workflows
 }
 
-export const getTemplates = async () => {
-  const dbRecords = await readConfig(OptionName.COMMENT_TEMPLATE)
-  let templates = (dbRecords?.option_value || []) as CommentTemplate[]
-  if (!templates || !templates.length) {
-    templates = [...defaultTemplates]
+export const getTemplates = async (option_key: string) => {
+  const option_name = OptionName[option_key]
+  const dbRecords = await readConfig(option_name)
+  let templates = dbRecords?.option_value || []
+  if (!templates.length) {
+    if (option_key === 'COMMENT_TEMPLATE') {
+      templates = [...defaultCommentTemplates]
+    } else if (option_key === 'SIGNATURE_TEMPLATE') {
+      if (isFreeLicense(await getLicense())) {
+        templates = [...defaultSignatureTemplates]
+      } else {
+        const userProfile = await getUserById(await getCurrentUserId())
+        templates = [
+          {
+            id: new Date().getTime().toString(16),
+            name: 'My Profile',
+            content:
+              '📢📢📢📢\n' + userProfile.data.user.result.legacy.description,
+            createdAt: Math.floor(Date.now() / 1000),
+          },
+        ]
+      }
+    }
     await upsertConfig({
-      option_name: OptionName.COMMENT_TEMPLATE,
+      option_name,
       option_value: templates,
     })
+  } else {
+    if (option_key === 'COMMENT_TEMPLATE') {
+      const hasDefault = templates.some(
+        (t) => t.name === defaultCommentTemplateName,
+      )
+      if (!hasDefault) {
+        templates.pus(defaultCommentTemplates[0])
+      }
+    } else if (option_key === 'SIGNATURE_TEMPLATE') {
+      const hasDefault = templates.some(
+        (t) => t.name === defaultSignatureTemplateName,
+      )
+      if (!hasDefault) {
+        templates.push(defaultSignatureTemplates[0])
+      }
+    }
   }
   mutateStore((state) => {
-    state.templates = templates
+    console.log('update templates', option_key, templates)
+    state[OptionStoreField[option_key]] = templates
   })
   return templates
 }
@@ -217,7 +257,7 @@ export const removeThen = (workflowIndex: number, thenIndex: number) => {
 export const updateThen = (
   workflowIndex: number,
   thenIndex: number,
-  actionKey: ActionKey,
+  actionKey: ActionKey | ClientActionKey,
 ) => {
   let newThen: Action
   if (actionKey === 'AutoComment') {
@@ -256,7 +296,7 @@ export const updateAction = (
 }
 
 /**
- * 任务执行前置条件，同步最新的书签数据（主要是 sortIndex 字段）
+ * Precondition for task execution: sync the latest bookmark data (mainly the sortIndex field)
  */
 export async function executeAllTasks() {
   const tasks = await getTasks()
@@ -264,7 +304,7 @@ export async function executeAllTasks() {
   for (const task of tasks) {
     console.log('execute task', task)
     /**
-     * 自动同步 threads
+     * Automatically sync threads
      */
     if (task.name === 'UnrollThread') {
       const dbItem = await getRecord(task.tweetId)

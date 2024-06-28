@@ -3,6 +3,10 @@ import { createEffect, createSignal, For, onMount } from 'solid-js'
 import dataStore, { mutateStore } from '../options/store'
 import { upsertConfig } from '../libs/db/configs'
 import { OptionName, OptionStoreField } from '../types'
+import {
+  defaultCommentTemplateName,
+  defaultSignatureTemplateName,
+} from '../libs/workflow/defaults'
 
 const [store, setStore] = dataStore
 
@@ -146,49 +150,52 @@ const PanelSettings = (props: {
                   <td class="px-6 py-4 text-xs">
                     {new Date(template.createdAt * 1000).toLocaleString()}
                   </td>
-                  <td class="px-6 py-4 text-sm">
-                    {editingIndex() === index() ? (
-                      <>
-                        <button
-                          class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                          onClick={() => saveEdit(index())}
-                        >
-                          Save
-                        </button>
-                        <button
-                          class="ml-4 font-medium text-gray-600 hover:underline dark:text-white"
-                          onClick={() => setEditingIndex(-1)}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                          onClick={() => {
-                            setEditingIndex(index())
-                            setEditingName(template.name)
-                            setEditingContent(template.content)
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          class="ml-4 font-medium text-red-600 hover:underline dark:text-red-500"
-                          onClick={() => {
-                            mutateStore((state) => {
-                              state[OptionStoreField[props.option_key]].splice(
-                                index(),
-                                1,
-                              )
-                            })
-                          }}
-                        >
-                          Remove
-                        </button>
-                      </>
-                    )}
+                  <td class={`px-6 py-4 text-sm`}>
+                    <div
+                      class={`${template.name === defaultCommentTemplateName || template.name === defaultSignatureTemplateName ? 'hidden' : ''}`}
+                    >
+                      {editingIndex() === index() ? (
+                        <>
+                          <button
+                            class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                            onClick={() => saveEdit(index())}
+                          >
+                            Save
+                          </button>
+                          <button
+                            class="ml-4 font-medium text-gray-600 hover:underline dark:text-white"
+                            onClick={() => setEditingIndex(-1)}
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                            onClick={() => {
+                              setEditingIndex(index())
+                              setEditingName(template.name)
+                              setEditingContent(template.content)
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            class="ml-4 font-medium text-red-600 hover:underline dark:text-red-500"
+                            onClick={() => {
+                              mutateStore((state) => {
+                                state[
+                                  OptionStoreField[props.option_key]
+                                ].splice(index(), 1)
+                              })
+                            }}
+                          >
+                            Remove
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               )}

@@ -17,22 +17,26 @@ export const defaultWorkflows: Workflow[] = [
   },
 ]
 
-export const defaultTemplates: Template[] = [
+export const defaultCommentTemplateName = 'Default Reply'
+
+export const defaultCommentTemplates: Template[] = [
   {
     id: new Date().getTime().toString(16),
-    name: 'Default Comment',
+    name: defaultCommentTemplateName,
     content:
       '🚀 Crafted by Twillot 🚀\n⚡️ Boost your productivity: Organize your bookmarks and streamline your X/Twitter workflow: https://twillot.com ⏱️✨',
     createdAt: Math.floor(Date.now() / 1000),
   },
 ]
 
-export const defaultTail = '\n🚀 Crafted by Twillot 🚀 https://twillot.com'
+export const defaultTail = '🚀 Crafted by Twillot 🚀 https://twillot.com'
+
+export const defaultSignatureTemplateName = 'Default Signature'
 
 export const defaultSignatureTemplates: Template[] = [
   {
     id: new Date().getTime().toString(16),
-    name: 'Default Signature',
+    name: defaultSignatureTemplateName,
     content: defaultTail,
     createdAt: Math.floor(Date.now() / 1000),
   },

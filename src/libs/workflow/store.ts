@@ -11,9 +11,11 @@ import { TRIGGER_LIST, Trigger } from './trigger.type'
 import { Action, ActionKey, ClientActionKey } from './actions'
 import { getCurrentUserId, setLocal } from '../storage'
 import {
-  defaultTemplates,
+  defaultCommentTemplates,
   defaultWorkflows,
   defaultSignatureTemplates,
+  defaultCommentTemplateName,
+  defaultSignatureTemplateName,
 } from './defaults'
 import { getLicense, isFreeLicense } from '../license'
 
@@ -74,7 +76,7 @@ export const addWorkflow = () => {
         inputs: [
           store.templates.length > 0
             ? store.templates[0].content
-            : defaultTemplates[0].content,
+            : defaultCommentTemplates[0].content,
         ],
       },
     ],
@@ -172,7 +174,7 @@ export const getTemplates = async (option_key: string) => {
   let templates = dbRecords?.option_value || []
   if (!templates.length) {
     if (option_key === 'COMMENT_TEMPLATE') {
-      templates = [...defaultTemplates]
+      templates = [...defaultCommentTemplates]
     } else if (option_key === 'SIGNATURE_TEMPLATE') {
       if (isFreeLicense(await getLicense())) {
         templates = [...defaultSignatureTemplates]
@@ -193,6 +195,22 @@ export const getTemplates = async (option_key: string) => {
       option_name,
       option_value: templates,
     })
+  } else {
+    if (option_key === 'COMMENT_TEMPLATE') {
+      const hasDefault = templates.some(
+        (t) => t.name === defaultCommentTemplateName,
+      )
+      if (!hasDefault) {
+        templates.pus(defaultCommentTemplates[0])
+      }
+    } else if (option_key === 'SIGNATURE_TEMPLATE') {
+      const hasDefault = templates.some(
+        (t) => t.name === defaultSignatureTemplateName,
+      )
+      if (!hasDefault) {
+        templates.push(defaultSignatureTemplates[0])
+      }
+    }
   }
   mutateStore((state) => {
     console.log('update templates', option_key, templates)

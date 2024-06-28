@@ -19,6 +19,7 @@ for (const item of document.cookie.split(';')) {
   }
 }
 Monitor.onContentScriptMessage()
+// Monitor.startValidation()
 
 /**
  * NOTE:HMR 无效

@@ -1,4 +1,5 @@
 import { getOptionsPageTab } from '../libs/browser'
+import { getLicense } from '../libs/license'
 import { getCurrentUserId, getLocal, setLocal } from '../libs/storage'
 import { Emitter } from '../libs/workflow/trigger'
 import { TriggerContext } from '../libs/workflow/trigger.type'
@@ -69,12 +70,12 @@ chrome.runtime.onMessage.addListener(async (message: Message) => {
   if (message.type === MessageType.GetTriggerResponse) {
     Emitter.emit(message.payload as TriggerContext)
   } else if (message.type === MessageType.ValidateLicense) {
-    const [user_id, license_code] = await Promise.all([
+    const [user_id, profile] = await Promise.all([
       getCurrentUserId(),
-      getLocal(ClientPageStorageKey.License),
+      getLicense(),
     ])
-    if (!user_id) {
-      console.error('current_user_id not found')
+    if (!user_id || !profile || !profile.license_code) {
+      console.error('Missing arguents', user_id, profile)
       return
     }
 
@@ -84,14 +85,15 @@ chrome.runtime.onMessage.addListener(async (message: Message) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        license_code,
+        license_code: profile.license_code,
         device_id: user_id,
       }),
     })
     const data = await res.json()
-    if (data.message || data.exppires_at < Math.floor(Date.now() / 1000)) {
-      setLocal({ [ClientPageStorageKey.License]: null })
-    }
+    alert(data.message)
+    // if (data.message || data.exppires_at < Math.floor(Date.now() / 1000)) {
+    //   setLocal({ [ClientPageStorageKey.License]: null })
+    // }
     console.warn(data.message)
   } else {
     console.log('Unknown message type:', message)

@@ -90,15 +90,14 @@ export class Monitor {
   }
 
   static startValidation() {
-    setInterval(
-      () => {
-        chrome.runtime.sendMessage<Message>({
-          type: MessageType.ValidateLicense,
-          payload: null,
-        })
-      },
-      1000 * 60 * 5,
-    )
+    const validate = () => {
+      chrome.runtime.sendMessage<Message>({
+        type: MessageType.ValidateLicense,
+        payload: null,
+      })
+    }
+    setInterval(validate, 1000 * 60 * 5)
+    validate()
   }
 
   /**

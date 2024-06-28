@@ -69,7 +69,7 @@ export async function migrateData() {
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
-        const record = cursor.value as Tweet
+        const record = { ...cursor.value } as Tweet
         record.id = getPostId(userId, record.tweet_id)
         record.owner_id = userId
         newStore.put(record)
@@ -90,7 +90,7 @@ export async function migrateData() {
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
-        const record = cursor.value as Config
+        const record = { ...cursor.value } as Config
         record.id = getConfigId(userId, record.option_name)
         record.owner_id = userId
         record.updated_at = Math.floor(Date.now() / 1000)

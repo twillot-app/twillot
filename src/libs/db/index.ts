@@ -34,7 +34,6 @@ indexFields.push({
 })
 
 let user_id = ''
-
 export async function migrateData() {
   const db = await openDb()
   const userId = await getCurrentUserId()
@@ -56,45 +55,78 @@ export async function migrateData() {
   )
 
   transaction.oncomplete = () => {
-    db.deleteObjectStore(TWEETS_TABLE_NAME)
-    db.deleteObjectStore(CONFIGS_TABLE_NAME)
     console.log('Database migration complete.')
     location.reload()
   }
 
-  if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
-    const oldStore = transaction.objectStore(TWEETS_TABLE_NAME)
-    const newStore = transaction.objectStore(TWEETS_TABLE_NAME_V2)
+  transaction.onerror = (event) => {
+    console.error('Transaction error:', event)
+  }
 
-    const request = oldStore.openCursor()
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        const record = { ...cursor.value } as Tweet
-        record.id = getPostId(userId, record.tweet_id)
-        record.owner_id = userId
-        newStore.put(record)
-        cursor.continue()
-      }
-    }
+  let migrationPromises: Promise<void>[] = []
+
+  if (db.objectStoreNames.contains(TWEETS_TABLE_NAME)) {
+    migrationPromises.push(
+      new Promise((resolve, reject) => {
+        const oldStore = transaction.objectStore(TWEETS_TABLE_NAME)
+        const newStore = transaction.objectStore(TWEETS_TABLE_NAME_V2)
+
+        const request = oldStore.openCursor()
+        request.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+          if (cursor) {
+            const record = { ...cursor.value } as Tweet
+            record.id = getPostId(userId, record.tweet_id)
+            record.owner_id = userId
+            newStore.put(record).onsuccess = () => {
+              cursor.continue()
+            }
+          } else {
+            resolve()
+          }
+        }
+        request.onerror = (event) => {
+          console.error('Cursor error:', event)
+          reject(new Error(`${TWEETS_TABLE_NAME} migrating error`))
+        }
+      }),
+    )
   }
 
   if (db.objectStoreNames.contains(CONFIGS_TABLE_NAME)) {
-    const oldStore = transaction.objectStore(CONFIGS_TABLE_NAME)
-    const newStore = transaction.objectStore(CONFIGS_TABLE_NAME_V2)
+    migrationPromises.push(
+      new Promise((resolve, reject) => {
+        const oldStore = transaction.objectStore(CONFIGS_TABLE_NAME)
+        const newStore = transaction.objectStore(CONFIGS_TABLE_NAME_V2)
 
-    const request = oldStore.openCursor()
-    request.onsuccess = (event) => {
-      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
-      if (cursor) {
-        const record = { ...cursor.value } as Config
-        record.id = getConfigId(userId, record.option_name)
-        record.owner_id = userId
-        record.updated_at = Math.floor(Date.now() / 1000)
-        newStore.put(record)
-        cursor.continue()
-      }
-    }
+        const request = oldStore.openCursor()
+        request.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+          if (cursor) {
+            const record = { ...cursor.value } as Config
+            record.id = getConfigId(userId, record.option_name)
+            record.owner_id = userId
+            record.updated_at = Math.floor(Date.now() / 1000)
+            newStore.put(record).onsuccess = () => {
+              cursor.continue()
+            }
+          } else {
+            resolve()
+          }
+        }
+        request.onerror = (event) => {
+          console.error('Cursor error:', event)
+          reject(new Error(`${CONFIGS_TABLE_NAME} migrating error`))
+        }
+      }),
+    )
+  }
+
+  try {
+    await Promise.all(migrationPromises)
+    console.log('All migrations completed successfully.')
+  } catch (error) {
+    console.error('Migration failed:', error)
   }
 }
 
@@ -165,7 +197,6 @@ export async function openDb(): Promise<IDBDatabase> {
       if (transaction) {
         upgradeDb(db, transaction)
       }
-      await migrateData()
     }
 
     request.onsuccess = (event: Event) => {

@@ -35,10 +35,13 @@ describe('Date Utilities', () => {
   })
 
   it('should get grid dates', () => {
-    const { dates, colIndexes, weekWidth } = getGridDates()
-    expect(dates.length).toBeGreaterThan(0)
-    expect(colIndexes.length).toBeGreaterThan(0)
-    expect(weekWidth.length).toBeGreaterThan(0)
+    const { weekWidth, monthNames } = getGridDates(
+      new Date(2024, 5, 28, 12, 0, 0, 0),
+    )
+    expect(weekWidth[0]).toBe(1)
+    expect(weekWidth.pop()).toBe(5)
+    expect(monthNames[0]).toBe('')
+    expect(monthNames[1]).toBe('Jul')
   })
 
   it('should get month names', () => {

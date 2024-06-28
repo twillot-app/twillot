@@ -57,17 +57,7 @@ describe('dbModule', () => {
       tweets.forEach((tweet) => oldTweetStore.put(tweet))
       configs.forEach((config) => oldConfigStore.put(config))
 
-      // Trigger migration
-      const transaction = db.transaction(
-        [
-          TWEETS_TABLE_NAME_V2,
-          CONFIGS_TABLE_NAME_V2,
-          TWEETS_TABLE_NAME,
-          CONFIGS_TABLE_NAME,
-        ],
-        'readwrite',
-      )
-      await migrateData()
+      await migrateData(userId)
 
       // Verify data in new tables
       const { objectStore: newTweetStore } = getObjectStore(

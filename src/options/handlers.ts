@@ -13,7 +13,7 @@ import {
 import { FetchError } from '../libs/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
-import { setLocal } from '../libs/storage'
+import { getCurrentUserId, logout, setLocal } from '../libs/storage'
 
 async function query(
   keyword = '',
@@ -120,6 +120,7 @@ export async function initSync() {
       err.message == AuthStatus.AUTH_FAILED
     ) {
       setStore('isAuthFailed', true)
+      await logout(await getCurrentUserId())
     } else {
       setStore('isForceSyncTimedout', true)
       setStore('isForceSyncing', false)

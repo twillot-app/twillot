@@ -51,6 +51,18 @@ export async function getLocal(key: string | string[]) {
   return result
 }
 
+export async function logout(user_id: string) {
+  if (!user_id) {
+    console.error('user_id is empty')
+    return
+  }
+
+  const keys = 'csrf,token'.split(',')
+  await chrome.storage.local.remove(
+    keys.map((key) => getStorageKey(key, user_id)),
+  )
+}
+
 export async function clearCurrentLocal() {
   const user_id = await getCurrentUserId()
   const config = await chrome.storage.local.get()

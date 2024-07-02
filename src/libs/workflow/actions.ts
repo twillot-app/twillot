@@ -110,7 +110,7 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
         )
         const attachment = attachments[attachment_index]
         const txt = text_list[i]
-        if (!attachment) {
+        if (attachment_index === -1) {
           console.warn('Attachment not found', item)
           continue
         }

@@ -323,7 +323,7 @@ export class Emitter {
     trigger: Trigger,
     data: string | null,
     headers,
-  ) {
+  ): Promise<string> {
     const reqBody: TriggerReuqestBody = data ? JSON.parse(data) : {}
     const realTrigger = Monitor.getRealTrigger(trigger, reqBody)
     const text = localStorage.getItem(ClientPageStorageKey.Workflows)

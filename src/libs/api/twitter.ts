@@ -465,19 +465,24 @@ export async function getUserById(userId: string) {
     method: 'get',
   })
 }
-
-export async function upload_media(
-  binary: ArrayBuffer | string,
+export async function uploadMedia(
+  binary: ArrayBuffer | string | File,
   headers = {},
   options = { mediaType: 'image/jpeg', mediaCategory: 'tweet_image' },
 ) {
-  console.log(headers)
   const { mediaType, mediaCategory } = options || {}
+
+  // Handle URL string input by fetching the data
   if (typeof binary === 'string') {
     const res = await fetch(binary)
     binary = await res.arrayBuffer()
   }
-  const endpoint = 'https://upload.x.com/i/media/upload.json'
+
+  // If the input is a File, convert it to an ArrayBuffer
+  if (binary instanceof File) {
+    binary = await binary.arrayBuffer()
+  }
+
   const totalBytes = binary.byteLength
 
   // ============ INIT =============
@@ -487,11 +492,14 @@ export async function upload_media(
     media_type: mediaType,
     media_category: mediaCategory,
   }
-  const json = await request(`${endpoint}?${flatten(initParams, false)}`, {
-    method: 'POST',
-    body: null,
-    headers,
-  })
+  const json = await request(
+    `${Endpoint.UPLOAD_MEDIA}?${flatten(initParams, false)}`,
+    {
+      method: 'POST',
+      body: null,
+      headers,
+    },
+  )
   const mediaId = json.media_id_string
 
   // =========== APPEND ============
@@ -501,7 +509,7 @@ export async function upload_media(
 
   while (bytesSent < totalBytes) {
     const chunk = binary.slice(bytesSent, bytesSent + MAX_SEGMENT_SIZE)
-    const initParams = {
+    const appendParams = {
       command: 'APPEND',
       media_id: mediaId,
       segment_index: segmentIndex.toString(),
@@ -513,7 +521,7 @@ export async function upload_media(
       'blob',
     )
 
-    await request(`${endpoint}?${flatten(initParams, false)}`, {
+    await request(`${Endpoint.UPLOAD_MEDIA}?${flatten(appendParams, false)}`, {
       method: 'POST',
       body: formData,
       headers,
@@ -528,7 +536,7 @@ export async function upload_media(
     command: 'FINALIZE',
     media_id: mediaId,
   }
-  await request(`${endpoint}?${flatten(finalizeParams, false)}`, {
+  await request(`${Endpoint.UPLOAD_MEDIA}?${flatten(finalizeParams, false)}`, {
     method: 'POST',
     body: null,
     headers,

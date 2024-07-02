@@ -296,6 +296,7 @@ export enum Endpoint {
   GET_FOLDERS = `${BASE_PATH}${EndpointQuery.GET_FOLDERS}/BookmarkFoldersSlice`,
   GET_FOLDER_TWEETS = `${BASE_PATH}${EndpointQuery.GET_FOLDER_TWEETS}/BookmarkFolderTimeline`,
   USER_DETAIL = `${BASE_PATH}${EndpointQuery.USER_DETAIL}/UserByRestId`,
+  UPLOAD_MEDIA = 'https://upload.x.com/i/media/upload.json',
 }
 
 export function getEndpoint(queryId: string, name: string): string {

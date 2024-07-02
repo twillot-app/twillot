@@ -1,5 +1,6 @@
 import { Monitor, Emitter } from '../libs/workflow/trigger'
 import { Trigger, TriggerKeys } from '../libs/workflow/trigger.type'
+import { Endpoint } from '../types'
 
 const origOpen = XMLHttpRequest.prototype.open
 XMLHttpRequest.prototype.open = function (method: string, url: string) {
@@ -25,22 +26,40 @@ XMLHttpRequest.prototype.setRequestHeader = function (
 }
 
 const origSend = XMLHttpRequest.prototype.send
-XMLHttpRequest.prototype.send = async function (data: string | null) {
+XMLHttpRequest.prototype.send = async function (
+  data: string | FormData | null,
+) {
   const url = this._url
-  const trigger = url.split('/').pop() as Trigger
-  if (trigger && TriggerKeys.includes(trigger)) {
-    data = await Emitter.emitClientWorkflows(trigger, data, this._headers)
-    this.addEventListener('load', async function () {
-      Monitor.postContentScriptMessage(
+  if (typeof data === 'string') {
+    const trigger = url.split('/').pop() as Trigger
+
+    if (trigger && TriggerKeys.includes(trigger)) {
+      const body = await Emitter.emitClientWorkflows(
         trigger,
-        { method: this._method, url, body: data },
-        {
-          status: this.status,
-          statusText: this.statusText,
-          body: this.responseText,
-        },
+        data,
+        this._headers,
       )
-    })
+      this.addEventListener('load', async function () {
+        Monitor.postContentScriptMessage(
+          trigger,
+          { method: this._method, url, body },
+          {
+            status: this.status,
+            statusText: this.statusText,
+            body: this.responseText,
+          },
+        )
+      })
+      origSend.apply(this, [body])
+      return
+    }
+  } else if (data instanceof FormData) {
+    if (url.startsWith(Endpoint.UPLOAD_MEDIA)) {
+      window['twillot_attachment'] = {
+        file: data.get('media'),
+        media_id: url.match(/media_id=(\d+)/)?.[1],
+      }
+    }
   }
 
   origSend.apply(this, [data])

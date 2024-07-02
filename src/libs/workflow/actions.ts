@@ -10,7 +10,7 @@ import {
   createTweet,
   getTweetLanguage,
   getTweetVideoUrl,
-  upload_media,
+  uploadMedia,
 } from '../api/twitter'
 import { addTask } from './task'
 import { API_HOST } from '../../types'
@@ -89,16 +89,28 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     async (context: ClientActionContext) => {
       const { body, headers } = context
       const item = body.variables.media?.media_entities?.[0]
+      const attachment: { file: File; media_id: string } =
+        window['twillot_attachment']
       if (item) {
-        const media_id = await upload_media(
-          'https://pbs.twimg.com/media/GRdIWiCb0AExN7l?format=jpg&name=large',
-          // 多余的头部会有 CORS 问题
-          {
-            authorization: headers.authorization,
-            'x-csrf-token': headers['x-csrf-token'],
-          },
-        )
-        item.media_id = media_id
+        if (attachment) {
+          if (attachment.media_id === item.media_id) {
+            debugger
+            const new_media_id = await uploadMedia(
+              attachment.file,
+              // 多余的头部会有 CORS 问题
+              {
+                authorization: headers.authorization,
+                'x-csrf-token': headers['x-csrf-token'],
+              },
+            )
+            item.media_id = new_media_id
+          } else {
+            console.warn('Attachment not match, ignored', attachment, item)
+          }
+          delete window['twillot_attachment']
+        } else {
+          console.error('No attachment found in window')
+        }
       }
 
       return body

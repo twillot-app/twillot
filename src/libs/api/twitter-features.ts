@@ -29,3 +29,25 @@ export const BOOKMARK_FEATURES = {
   ...COMMON_FEATURES,
   graphql_timeline_v2_bookmark_timeline: true,
 }
+
+export const USER_FEATURES = {
+  ...COMMON_FEATURES,
+  responsive_web_home_pinned_timelines_enabled: true,
+  blue_business_profile_image_shape_enabled: true,
+  hidden_profile_likes_enabled: true,
+  highlights_tweets_tab_ui_enabled: true,
+  interactive_text_enabled: true,
+  longform_notetweets_richtext_consumption_enabled: true,
+  profile_foundations_tweet_stats_enabled: true,
+  profile_foundations_tweet_stats_tweet_frequency: true,
+  responsive_web_birdwatch_note_limit_enabled: true,
+  responsive_web_media_download_video_enabled: false,
+  responsive_web_text_conversations_enabled: false,
+  responsive_web_twitter_article_data_v2_enabled: true,
+  responsive_web_twitter_blue_verified_badge_is_enabled: true,
+  rweb_lists_timeline_redesign_enabled: true,
+  spaces_2022_h2_clipping: true,
+  spaces_2022_h2_spaces_communities: true,
+  subscriptions_verification_info_verified_since_enabled: true,
+  vibe_api_enabled: true,
+}

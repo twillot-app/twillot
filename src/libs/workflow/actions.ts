@@ -18,6 +18,7 @@ import { Monitor } from './trigger'
 import { Trigger, TriggerContext, TriggerReuqestBody } from './trigger.type'
 import { License, isFreeLicense } from '../license'
 import { defaultReply, defaultTail } from './defaults'
+import { generateFakeScreenshot, loadImage } from '../fake-screenshot'
 
 export type ActionHandler = (context: ActionContext) => Promise<any>
 
@@ -88,22 +89,33 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
     'Fake screenshot',
     async (context: ClientActionContext) => {
       const { body, headers } = context
+      const text = body.variables?.tweet_text
+      if (!text) {
+        console.error('No text found in body')
+        return body
+      }
+
       const item = body.variables.media?.media_entities?.[0]
       const attachment: { file: File; media_id: string } =
         window['twillot_attachment']
       if (item) {
         if (attachment) {
           if (attachment.media_id === item.media_id) {
-            debugger
-            const new_media_id = await uploadMedia(
-              attachment.file,
-              // 多余的头部会有 CORS 问题
-              {
-                authorization: headers.authorization,
-                'x-csrf-token': headers['x-csrf-token'],
-              },
-            )
-            item.media_id = new_media_id
+            try {
+              const img = await loadImage(attachment.file)
+              const screenshot = await generateFakeScreenshot(text, img)
+              const new_media_id = await uploadMedia(
+                screenshot,
+                // 多余的头部会有 CORS 问题
+                {
+                  authorization: headers.authorization,
+                  'x-csrf-token': headers['x-csrf-token'],
+                },
+              )
+              item.media_id = new_media_id
+            } catch (error) {
+              console.log('Failed to generate fake screenshot', error)
+            }
           } else {
             console.warn('Attachment not match, ignored', attachment, item)
           }

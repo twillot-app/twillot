@@ -116,9 +116,12 @@ export function getTweetId(
 }
 const pageSize = 100
 
-function flatten(obj: {}) {
+function flatten(obj: {}, stringify = true) {
   return Object.keys(obj)
-    .map((key) => `${key}=${encodeURIComponent(JSON.stringify(obj[key]))}`)
+    .map(
+      (key) =>
+        `${key}=${encodeURIComponent(stringify ? JSON.stringify(obj[key]) : obj[key])}`,
+    )
     .join('&')
 }
 
@@ -142,18 +145,26 @@ async function request(url: string, options: RequestInit) {
       ...get_headers(token, csrf),
     }
   }
+  if (options.body instanceof FormData) {
+    delete headers['Content-Type']
+  }
   const res = await fetchWithTimeout(url, {
     method: 'POST',
     ...options,
     headers,
   })
-  const data = await res.json()
   if (res.status === 403) {
     const error = new Error('Forbidden')
     error.name = FetchError.IdentityError
     throw error
   }
 
+  // No Content
+  if (res.status === 204) {
+    return
+  }
+
+  const data = await res.json()
   if ('errors' in data) {
     const t = res.headers.get('X-Rate-Limit-Reset')
     const leftTime = t
@@ -397,6 +408,9 @@ export async function getTweetVideoUrl(tweetId: string) {
   return item?.video_info.variants[item.video_info.variants.length - 1].url
 }
 
+/**
+ * 用于获取主页签名
+ */
 export async function getUserById(userId: string) {
   const query = flatten({
     variables: {
@@ -449,4 +463,73 @@ export async function getUserById(userId: string) {
     body: null,
     method: 'get',
   })
+}
+
+export async function upload_media(
+  binary: ArrayBuffer | string,
+  options?: any,
+) {
+  const { mediaType = 'image/jpeg', mediaCategory = 'tweet_image' } =
+    options || {}
+  if (typeof binary === 'string') {
+    const res = await fetch(binary)
+    binary = await res.arrayBuffer()
+  }
+  const endpoint = 'https://upload.x.com/i/media/upload.json'
+  const totalBytes = binary.byteLength
+
+  // ============ INIT =============
+  const initParams = {
+    command: 'INIT',
+    total_bytes: totalBytes,
+    media_type: mediaType,
+    media_category: mediaCategory,
+  }
+  const json = await request(`${endpoint}?${flatten(initParams, false)}`, {
+    headers: {
+      method: 'POST',
+      body: null,
+    },
+  })
+  const mediaId = json.media_id_string
+
+  // =========== APPEND ============
+  const MAX_SEGMENT_SIZE = 8 * 1024 * 1024 // The maximum segment size is 8 MB
+  let segmentIndex = 0
+  let bytesSent = 0
+
+  while (bytesSent < totalBytes) {
+    const chunk = binary.slice(bytesSent, bytesSent + MAX_SEGMENT_SIZE)
+    const initParams = {
+      command: 'APPEND',
+      media_id: mediaId,
+      segment_index: segmentIndex.toString(),
+    }
+    const formData = new FormData()
+    formData.append(
+      'media',
+      new Blob([chunk], { type: 'application/octet-stream' }),
+      'blob',
+    )
+
+    await request(`${endpoint}?${flatten(initParams, false)}`, {
+      method: 'POST',
+      body: formData,
+    })
+
+    segmentIndex++
+    bytesSent += chunk.byteLength
+  }
+
+  // ========== FINALIZE ===========
+  const finalizeParams = {
+    command: 'FINALIZE',
+    media_id: mediaId,
+  }
+  await request(`${endpoint}?${flatten(finalizeParams, false)}`, {
+    method: 'POST',
+    body: null,
+  })
+
+  return mediaId
 }

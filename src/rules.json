@@ -13,7 +13,7 @@
       ]
     },
     "condition": {
-      "urlFilter": "https://x.com/*",
+      "urlFilter": "https://*.x.com/*",
       "resourceTypes": ["main_frame", "xmlhttprequest"]
     }
   }

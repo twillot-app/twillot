@@ -4,7 +4,7 @@ import packageData from '../package.json'
 //@ts-ignore
 const isDev = process.env.NODE_ENV == 'development'
 
-const host_permissions = ['https://x.com/*']
+const host_permissions = ['https://*.x.com/*']
 // cloudflare workers
 if (isDev) {
   host_permissions.push('http://localhost:8787/*')

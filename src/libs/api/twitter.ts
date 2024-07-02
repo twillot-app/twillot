@@ -411,7 +411,7 @@ export async function uploadMedia(
   const mediaId = json.media_id_string
 
   // =========== APPEND ============
-  const MAX_SEGMENT_SIZE = 8 * 1024 * 1024 // The maximum segment size is 8 MB
+  const MAX_SEGMENT_SIZE = 1250000
   let segmentIndex = 0
   let bytesSent = 0
 

@@ -95,36 +95,48 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
         return body
       }
 
-      const item = body.variables.media?.media_entities?.[0]
-      const attachment: { file: File; media_id: string } =
-        window['twillot_attachment']
-      if (item) {
-        if (attachment) {
-          if (attachment.media_id === item.media_id) {
-            try {
-              const img = await loadImage(attachment.file)
-              const screenshot = await generateFakeScreenshot(text, img)
-              const new_media_id = await uploadMedia(
-                screenshot,
-                // 多余的头部会有 CORS 问题
-                {
-                  authorization: headers.authorization,
-                  'x-csrf-token': headers['x-csrf-token'],
-                },
-              )
-              body.variables.tweet_text = ''
-              item.media_id = new_media_id
-            } catch (error) {
-              console.log('Failed to generate fake screenshot', error)
-            }
-          } else {
-            console.warn('Attachment not match, ignored', attachment, item)
-          }
-          delete window['twillot_attachment']
-        } else {
-          console.error('No attachment found in window')
+      const media_list = body.variables.media?.media_entities
+      if (!media_list || media_list.length === 0) {
+        return text
+      }
+
+      const text_list = text.split(/\n{2,}/)
+      const attachments: { file: File; media_id: string }[] =
+        window['twillot_attachments']
+      for (let i = 0; i < media_list.length; i++) {
+        const item = media_list[i]
+        const attachment_index = attachments.findIndex(
+          (a) => a.media_id === item.media_id,
+        )
+        const attachment = attachments[attachment_index]
+        const txt = text_list[i]
+        if (!attachment) {
+          console.warn('Attachment not found', item)
+          continue
+        }
+        if (!txt) {
+          console.warn('No text found for attachment', item)
+          continue
+        }
+        try {
+          const img = await loadImage(attachment.file)
+          const screenshot = await generateFakeScreenshot(txt, img)
+          const new_media_id = await uploadMedia(
+            screenshot,
+            // 多余的头部会有 CORS 问题
+            {
+              authorization: headers.authorization,
+              'x-csrf-token': headers['x-csrf-token'],
+            },
+          )
+          item.media_id = new_media_id
+        } catch (error) {
+          console.log('Failed to generate fake screenshot', error)
+        } finally {
+          attachments.splice(attachment_index, 1)
         }
       }
+      body.variables.tweet_text = ''
 
       return body
     },

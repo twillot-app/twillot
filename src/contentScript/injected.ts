@@ -55,10 +55,13 @@ XMLHttpRequest.prototype.send = async function (
     }
   } else if (data instanceof FormData) {
     if (url.startsWith(Endpoint.UPLOAD_MEDIA)) {
-      window['twillot_attachment'] = {
+      if (!window['twillot_attachments']) {
+        window['twillot_attachments'] = []
+      }
+      window['twillot_attachments'].push({
         file: data.get('media'),
         media_id: url.match(/media_id=(\d+)/)?.[1],
-      }
+      })
     }
   }
 

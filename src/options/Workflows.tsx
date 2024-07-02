@@ -72,7 +72,13 @@ const WorkflowConfigurator = () => {
         {(workflow, workflowIndex) => (
           <div class="mb-4 rounded-md border border-gray-200 p-4 dark:border-gray-700">
             <div class="mb-4 flex items-center justify-between gap-4">
-              <form class="flex w-full items-center">
+              <form
+                class="flex w-full items-center gap-4"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  saveWorkflow(workflowIndex())
+                }}
+              >
                 <input
                   type="text"
                   name="folder"
@@ -80,24 +86,23 @@ const WorkflowConfigurator = () => {
                   placeholder="Untitled workflow (Click to edit)"
                   value={workflow.name}
                   readOnly={!workflow.editable}
-                  onInput={(e) =>
+                  onInput={(e) => {
                     renameWorkflow(
                       workflowIndex(),
                       e.currentTarget.value.trim(),
                     )
-                  }
+                  }}
                 />
+                <Show when={workflow.editable}>
+                  <button
+                    type="submit"
+                    class="me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    disabled={workflow.unchanged}
+                  >
+                    Save
+                  </button>
+                </Show>
               </form>
-              <Show when={workflow.editable}>
-                <button
-                  type="button"
-                  class="me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  onClick={() => saveWorkflow(workflowIndex())}
-                  disabled={workflow.unchanged}
-                >
-                  Save
-                </button>
-              </Show>
             </div>
 
             <div class="mb-4 flex w-full items-stretch overflow-x-auto">

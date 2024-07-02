@@ -4,6 +4,10 @@
 
 ## Changelog
 
+## July 3, 2024 Update
+
+Add a funny action: Fake snapshot
+
 ## June 28, 2024 Update
 
 Workflow Support

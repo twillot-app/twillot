@@ -138,6 +138,7 @@ function get_headers(token: string, csrf: string) {
 
 async function request(url: string, options: RequestInit) {
   let headers = options.headers
+  // 页面中可以直接设置 headers
   if (!options.headers?.['authorization']) {
     const { token, csrf } = await getAuthInfo()
     headers = {
@@ -150,8 +151,8 @@ async function request(url: string, options: RequestInit) {
   }
   const res = await fetchWithTimeout(url, {
     method: 'POST',
+    credentials: 'include',
     ...options,
-    headers,
   })
   if (res.status === 403) {
     const error = new Error('Forbidden')
@@ -467,10 +468,11 @@ export async function getUserById(userId: string) {
 
 export async function upload_media(
   binary: ArrayBuffer | string,
-  options?: any,
+  headers = {},
+  options = { mediaType: 'image/jpeg', mediaCategory: 'tweet_image' },
 ) {
-  const { mediaType = 'image/jpeg', mediaCategory = 'tweet_image' } =
-    options || {}
+  console.log(headers)
+  const { mediaType, mediaCategory } = options || {}
   if (typeof binary === 'string') {
     const res = await fetch(binary)
     binary = await res.arrayBuffer()
@@ -486,10 +488,9 @@ export async function upload_media(
     media_category: mediaCategory,
   }
   const json = await request(`${endpoint}?${flatten(initParams, false)}`, {
-    headers: {
-      method: 'POST',
-      body: null,
-    },
+    method: 'POST',
+    body: null,
+    headers,
   })
   const mediaId = json.media_id_string
 
@@ -515,6 +516,7 @@ export async function upload_media(
     await request(`${endpoint}?${flatten(initParams, false)}`, {
       method: 'POST',
       body: formData,
+      headers,
     })
 
     segmentIndex++
@@ -529,6 +531,7 @@ export async function upload_media(
   await request(`${endpoint}?${flatten(finalizeParams, false)}`, {
     method: 'POST',
     body: null,
+    headers,
   })
 
   return mediaId

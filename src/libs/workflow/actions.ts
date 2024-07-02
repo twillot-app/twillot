@@ -6,7 +6,12 @@
  * 3）ClientAction 支持 tweet 相关接口调用，需要手动传入 headers
  */
 
-import { createTweet, getTweetLanguage, getTweetVideoUrl } from '../api/twitter'
+import {
+  createTweet,
+  getTweetLanguage,
+  getTweetVideoUrl,
+  upload_media,
+} from '../api/twitter'
 import { addTask } from './task'
 import { API_HOST } from '../../types'
 import { Monitor } from './trigger'
@@ -45,7 +50,9 @@ export type ClientActionConfig = {
 export function createClientAction(
   name: string,
   desc: string,
-  transformer: (context: ClientActionContext) => Promise<string>,
+  transformer: (
+    context: ClientActionContext,
+  ) => Promise<string | TriggerReuqestBody>,
 ): ClientActionConfig {
   return {
     name,
@@ -53,24 +60,50 @@ export function createClientAction(
     is_client: true,
     handler: async (context: ClientActionContext) => {
       const { body } = context
-      if (!body?.variables?.tweet_text) {
-        console.error('No tweet text found in body', body)
-      } else {
-        /**
-         * 不在外面统一处理，由 transformer 处理
-         * 根据用户身份信息自己判断
-         * 不然容易造成小尾巴重复添加
-         */
-        let transformed = await transformer(context)
+      /**
+       * 不在外面统一处理，由 transformer 处理
+       * 根据用户身份信息自己判断
+       * 不然容易造成小尾巴重复添加
+       */
+      let transformed = await transformer(context)
+      // 仅修改推文
+      if (typeof transformed === 'string') {
         // TODO 可能超过推文长度限制
         body.variables.tweet_text = transformed
+      } else if (typeof transformed === 'object') {
+        // 修改图片或者其他参数
+        return JSON.stringify(transformed)
+      } else {
+        console.error('Invalid transformed result', transformed)
       }
+
       return JSON.stringify(body)
     },
   }
 }
 
 export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
+  createClientAction(
+    'FakeScreenshot',
+    'Fake screenshot',
+    async (context: ClientActionContext) => {
+      const { body, headers } = context
+      const item = body.variables.media?.media_entities?.[0]
+      if (item) {
+        const media_id = await upload_media(
+          'https://pbs.twimg.com/media/GRdIWiCb0AExN7l?format=jpg&name=large',
+          // 多余的头部会有 CORS 问题
+          {
+            authorization: headers.authorization,
+            'x-csrf-token': headers['x-csrf-token'],
+          },
+        )
+        item.media_id = media_id
+      }
+
+      return body
+    },
+  ),
   createClientAction(
     'AutoTranslate',
     'Auto translate',

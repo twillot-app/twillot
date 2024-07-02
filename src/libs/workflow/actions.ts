@@ -112,6 +112,7 @@ export const CLIENT_ACTION_LIST: ClientActionConfig[] = [
                   'x-csrf-token': headers['x-csrf-token'],
                 },
               )
+              body.variables.tweet_text = ''
               item.media_id = new_media_id
             } catch (error) {
               console.log('Failed to generate fake screenshot', error)

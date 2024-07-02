@@ -23,9 +23,16 @@ const PanelSettings = (props: {
 
   createEffect(async () => {
     const option_name = OptionName[props.option_key]
-    const templates = store[OptionStoreField[props.option_key]].map((t) => ({
+    let templates = store[OptionStoreField[props.option_key]].map((t) => ({
       ...t,
     }))
+    if (props.option_key === 'COMMENT_TEMPLATE') {
+      templates = templates.filter((t) => t.name !== defaultCommentTemplateName)
+    } else if (props.option_key === 'SIGNATURE_TEMPLATE') {
+      templates = templates.filter(
+        (t) => t.name !== defaultSignatureTemplateName,
+      )
+    }
     await upsertConfig({
       option_name,
       option_value: templates,

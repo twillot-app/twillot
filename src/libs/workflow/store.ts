@@ -171,21 +171,19 @@ export const getWorkflows = async () => {
 export const getTemplates = async (option_key: string) => {
   const option_name = OptionName[option_key]
   const dbRecords = await readConfig(option_name)
-  let templates = dbRecords?.option_value || []
+  let templates: any[] = dbRecords?.option_value || []
   if (!templates.length) {
     if (option_key === 'COMMENT_TEMPLATE') {
       templates = [...defaultCommentTemplates]
     } else if (option_key === 'SIGNATURE_TEMPLATE') {
-      if (isFreeLicense(await getLicense())) {
-        templates = [...defaultSignatureTemplates]
-      } else {
-        const userProfile = await getUserById(await getCurrentUserId())
+      const userProfile = await getUserById(await getCurrentUserId())
+      const desc = userProfile.data.user.result.legacy.description
+      if (desc) {
         templates = [
           {
             id: new Date().getTime().toString(16),
             name: 'My Profile',
-            content:
-              '📢📢📢📢\n' + userProfile.data.user.result.legacy.description,
+            content: '📢📢📢📢\n' + desc,
             createdAt: Math.floor(Date.now() / 1000),
           },
         ]
@@ -195,21 +193,20 @@ export const getTemplates = async (option_key: string) => {
       option_name,
       option_value: templates,
     })
-  } else {
-    if (option_key === 'COMMENT_TEMPLATE') {
-      const hasDefault = templates.some(
-        (t) => t.name === defaultCommentTemplateName,
-      )
-      if (!hasDefault) {
-        templates.pus(defaultCommentTemplates[0])
-      }
-    } else if (option_key === 'SIGNATURE_TEMPLATE') {
-      const hasDefault = templates.some(
-        (t) => t.name === defaultSignatureTemplateName,
-      )
-      if (!hasDefault) {
-        templates.push(defaultSignatureTemplates[0])
-      }
+  }
+  if (option_key === 'COMMENT_TEMPLATE') {
+    const hasDefault = templates.some(
+      (t) => t.name === defaultCommentTemplateName,
+    )
+    if (!hasDefault) {
+      templates.push(defaultCommentTemplates[0])
+    }
+  } else if (option_key === 'SIGNATURE_TEMPLATE') {
+    const hasDefault = templates.some(
+      (t) => t.name === defaultSignatureTemplateName,
+    )
+    if (!hasDefault) {
+      templates.push(defaultSignatureTemplates[0])
     }
   }
   mutateStore((state) => {

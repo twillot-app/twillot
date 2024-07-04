@@ -4,6 +4,10 @@
 
 ## Changelog
 
+## July 4, 2024 Update
+
+Add a feedback channel
+
 ## July 3, 2024 Update
 
 Add a funny action: Fake snapshot

@@ -15,6 +15,7 @@ import {
   IconFolderMove,
   IconFolders,
   IconLicense,
+  IconMessage,
   IconMoon,
   IconSun,
   IconUp,
@@ -100,7 +101,7 @@ export const Layout = (props) => {
               </div>
             </div>
             <div class="fixed right-4 top-4 items-center lg:static lg:flex">
-              <div class="ms-3 flex items-center">
+              <div class="ms-3 flex items-center gap-4">
                 <button
                   class="cursor-pointer"
                   onClick={() =>
@@ -114,6 +115,12 @@ export const Layout = (props) => {
                     <IconSun />
                   </Show>
                 </button>
+                <a
+                  href="https://s.twillot.com/chat-with-twillot"
+                  target="_blank"
+                >
+                  <IconMessage />
+                </a>
               </div>
             </div>
           </div>

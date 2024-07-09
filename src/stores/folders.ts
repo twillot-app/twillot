@@ -20,14 +20,26 @@ import {
 } from '../libs/db/tweets'
 import { unwrap } from 'solid-js/store'
 import { readConfig, upsertConfig } from '../libs/db/configs'
-import { getFolders, getFolderTweets } from '../libs/api/twitter'
+import { getFolders, getFolderTweets, getTweet } from '../libs/api/twitter'
 import { getCurrentUserId } from '../libs/storage'
 
 const [store, setStore] = dataStore
 
+async function countFolders(folders: string[]) {
+  for (const [index, folder] of Object.entries(folders)) {
+    const count = (await countRecords('folder', folder)).total
+    mutateStore((state) => {
+      state.folders[index].count = count
+    })
+  }
+}
+
+/**
+ * 初始化文件夹并同步 X 的文件夹
+ *
+ */
 export async function initFolders() {
-  let folders = [],
-    xFolders: { name: string; id: string }[] = []
+  let xFolders: { name: string; id: string }[] = []
   try {
     xFolders = (
       await getFolders()
@@ -39,42 +51,79 @@ export async function initFolders() {
   }
 
   const config = await readConfig(OptionName.FOLDER)
-  if (!config || !config.option_value) {
-    folders = xFolders.map((f) => f.name)
-    // NOTE 避免直接覆盖
-    if (folders.length > 0) {
-      await upsertConfig({
-        option_name: OptionName.FOLDER,
-        option_value: folders,
-      })
-    }
-  } else {
-    folders = config.option_value as string[]
-  }
+  let folders = (config?.option_value as string[]) || []
+  folders = Array.from(
+    new Set(folders.filter((f) => f).concat(xFolders.map((f) => f.name))),
+  )
+  await upsertConfig({
+    option_name: OptionName.FOLDER,
+    option_value: folders,
+  })
 
   if (folders.length < 1) {
     return
   }
 
-  /**
-   * 单向同步 X 的书签
-   */
-  const sharedFolders = xFolders.filter((f) => folders.includes(f.name))
-  folders = folders
-    .filter((f) => !!f)
-    .map((f: string) => ({
+  setStore(
+    'folders',
+    folders.map((f: string) => ({
       name: f,
       count: 0,
-    }))
-  setStore('folders', folders)
-  for (const [index, folder] of Object.entries(folders)) {
-    const count = (await countRecords('folder', folder.name)).total
-    mutateStore((state) => {
-      state.folders[index].count = count
-    })
+    })),
+  )
+
+  /**
+   * 统计总数时，等待所有文件夹都同步完成后手动更新一次
+   */
+  await countFolders(folders)
+  await syncXFolders(xFolders)
+  await countFolders(folders)
+}
+
+export const syncXFolders = async (folders: { name: string; id: string }[]) => {
+  if (!folders.length) {
+    console.log('no shared folders')
+    return
   }
 
-  await syncXFolders(sharedFolders)
+  const user_id = await getCurrentUserId()
+  for (const folder of folders) {
+    let cursor = ''
+    while (true) {
+      try {
+        const json = await getFolderTweets(folder.id, cursor)
+        const instructions = json.data.bookmark_collection_timeline.timeline
+          .instructions as TimelineInstructions
+        const entry = instructions.filter(
+          (i) => i.type === 'TimelineAddEntries',
+        )[0] as TimelineAddEntriesInstruction
+        if (!entry) {
+          break
+        }
+        const cursorEntry = entry.entries.filter(
+          (i) => i.content.entryType === 'TimelineTimelineCursor',
+        )[0] as TimelineEntry<TimelineTweet, TimelineTimelineCursor>
+        const tweetsEntry = entry.entries.filter(
+          (i) => i.content.entryType === 'TimelineTimelineItem',
+        ) as TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[]
+        if (tweetsEntry.length === 0) {
+          break
+        }
+        const ids = tweetsEntry
+          .map((e) => {
+            const tweet = getTweet(e.content.itemContent.tweet_results.result)
+            return tweet && getPostId(user_id, tweet.rest_id)
+          })
+          .filter((id) => id)
+        await updateFolder(ids, folder.name)
+        cursor = cursorEntry.content.value
+      } catch (err) {
+        console.error(`syncXFolders error:`, folder)
+        console.error(err)
+        break
+      }
+    }
+  }
 }
 
 export async function removeFolder(folder: string) {
@@ -162,49 +211,5 @@ export const addFolder = async (folderName: string) => {
     mutateStore((state) => {
       state.folders.push({ name: folderName, count: 0 })
     })
-  }
-}
-
-export const syncXFolders = async (folders: { name: string; id: string }[]) => {
-  if (!folders.length) {
-    console.log('no shared folders')
-    return
-  }
-
-  const user_id = await getCurrentUserId()
-  for (const folder of folders) {
-    let cursor = ''
-    while (true) {
-      try {
-        const json = await getFolderTweets(folder.id, cursor)
-        const instructions = json.data.bookmark_collection_timeline.timeline
-          .instructions as TimelineInstructions
-        const entry = instructions.filter(
-          (i) => i.type === 'TimelineAddEntries',
-        )[0] as TimelineAddEntriesInstruction
-        if (!entry) {
-          break
-        }
-        const cursorEntry = entry.entries.filter(
-          (i) => i.content.entryType === 'TimelineTimelineCursor',
-        )[0] as TimelineEntry<TimelineTweet, TimelineTimelineCursor>
-        const tweetsEntry = entry.entries.filter(
-          (i) => i.content.entryType === 'TimelineTimelineItem',
-        ) as TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[]
-        if (tweetsEntry.length === 0) {
-          break
-        }
-        const ids = tweetsEntry.map((e) => {
-          const tweet = e.content.itemContent.tweet_results.result as TweetBase
-          return getPostId(user_id, tweet.rest_id)
-        })
-        await updateFolder(ids, folder.name)
-        cursor = cursorEntry.content.value
-      } catch (err) {
-        console.error(`syncXFolders error:`, folder)
-        console.error(err)
-        break
-      }
-    }
   }
 }

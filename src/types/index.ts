@@ -281,6 +281,12 @@ export enum EndpointQuery {
   GET_FOLDERS = 'i78YDd0Tza-dV4SYs58kRg',
   GET_FOLDER_TWEETS = 'e1T8IKkMr-8iQk7tNOyD_g',
   USER_DETAIL = 'GazOglcBvgLigl3ywt6b3Q',
+  USER_BY_SCREEN_NAME = 'oUZZZ8Oddwxs8Cd3iW3UEA',
+  USER_TWEETS_AND_REPLIES = 'U21eghOo40F4jvBsSyMrsQ',
+  FOLLOWERS = 'bTRZD3w3wQv72oNU3lV6Rw',
+  FOLLOWING = 'FG7gWUco2ITV3KDa4_XUHQ',
+  LIKES = 'Ov0pT_9__tQmK-XIzOf7pQ',
+  FOLLOWERS_VERIFIED = 'hf2B_p-eEZQOrNF1brf50Q',
 }
 
 export enum Endpoint {
@@ -296,7 +302,13 @@ export enum Endpoint {
   GET_FOLDERS = `${BASE_PATH}${EndpointQuery.GET_FOLDERS}/BookmarkFoldersSlice`,
   GET_FOLDER_TWEETS = `${BASE_PATH}${EndpointQuery.GET_FOLDER_TWEETS}/BookmarkFolderTimeline`,
   USER_DETAIL = `${BASE_PATH}${EndpointQuery.USER_DETAIL}/UserByRestId`,
+  USER_BY_SCREEN_NAME = `${BASE_PATH}${EndpointQuery.USER_BY_SCREEN_NAME}/UserByScreenName`,
+  USER_TWEETS_AND_REPLIES = `${BASE_PATH}${EndpointQuery.USER_TWEETS_AND_REPLIES}/UserTweetsAndReplies`,
   UPLOAD_MEDIA = 'https://upload.x.com/i/media/upload.json',
+  FOLLOWERS = `${BASE_PATH}${EndpointQuery.FOLLOWERS}/Followers`,
+  FOLLOWING = `${BASE_PATH}${EndpointQuery.FOLLOWING}/Following`,
+  LIKES = `${BASE_PATH}${EndpointQuery.LIKES}/Likes`,
+  FOLLOWERS_VERIFIED = `${BASE_PATH}${EndpointQuery.FOLLOWERS_VERIFIED}/BlueVerifiedFollowers`,
 }
 
 export function getEndpoint(queryId: string, name: string): string {

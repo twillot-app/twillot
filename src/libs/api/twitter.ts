@@ -452,3 +452,62 @@ export async function uploadMedia(
 
   return mediaId
 }
+
+export async function getFollowers(userId: string, cursor?: string) {
+  try {
+    const variables = {
+      cursor: '',
+      userId,
+      count: 100,
+      includePromotedContent: true,
+    }
+    if (cursor) {
+      variables.cursor = cursor
+    }
+    const query = flatten({
+      variables,
+      features: COMMON_FEATURES,
+    })
+    const json = await request(`${Endpoint.FOLLOWERS}?${query}`, {
+      body: null,
+      method: 'GET',
+    })
+
+    return json
+  } catch (e) {
+    if (e.name !== FetchError.TimeoutError && e.name !== FetchError.DataError) {
+      e.name = FetchError.IdentityError
+    }
+
+    throw e
+  }
+}
+
+export async function getFollowing(userId: string, cursor?: string) {}
+
+export async function getUserLikes(userId: string, cursor?: string) {}
+
+export async function getUserByScreenName(screenName: string) {
+  const query = flatten({
+    variables: {
+      screen_name: screenName,
+      withSafetyModeUserFields: true,
+    },
+    features: {
+      hidden_profile_likes_enabled: false,
+      responsive_web_graphql_exclude_directive_enabled: true,
+      verified_phone_label_enabled: false,
+      subscriptions_verification_info_verified_since_enabled: true,
+      highlights_tweets_tab_ui_enabled: true,
+      creator_subscriptions_tweet_preview_api_enabled: true,
+      responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+      responsive_web_graphql_timeline_navigation_enabled: true,
+    },
+  })
+  return request(`${Endpoint.USER_BY_SCREEN_NAME}?${query}`, {
+    body: null,
+    method: 'get',
+  })
+}
+
+getFollowers('2751923820').then((x) => console.log({ x }))

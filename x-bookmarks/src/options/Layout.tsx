@@ -207,6 +207,17 @@ export const Layout = (props) => {
               <li>
                 <a
                   class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
+                  href="/export"
+                >
+                  <IconLicense />
+                  <span class="ms-3 flex-1 whitespace-nowrap">
+                    Export
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
                   href="/license"
                 >
                   <IconLicense />

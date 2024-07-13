@@ -510,4 +510,4 @@ export async function getUserByScreenName(screenName: string) {
   })
 }
 
-getFollowers('2751923820').then((x) => console.log({ x }))
+// getFollowers('2751923820').then((x) => console.log({ x }))

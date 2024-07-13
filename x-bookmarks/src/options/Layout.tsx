@@ -21,12 +21,12 @@ import {
   IconUp,
 } from '../components/Icons'
 import ZenMode from '../components/ZenMode'
-import { createStyleSheet } from '../libs/dom'
+import { createStyleSheet } from 'utils/dom'
 import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
-import { getCurrentUserId, onLocalChanged } from '../libs/storage'
+import { getCurrentUserId, onLocalChanged } from 'utils/storage'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -207,28 +207,6 @@ export const Layout = (props) => {
               <li>
                 <a
                   class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
-                  href="/workflows"
-                >
-                  <IconBranch />
-                  <span class="ms-3 flex-1 whitespace-nowrap">Workflows</span>
-                  <span class="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                    Beta
-                  </span>
-                </a>
-                <ul class="space-y-1 py-1 text-base">
-                  <li>
-                    <A
-                      href="/workflows/settings"
-                      class="flex w-full items-center rounded-lg p-1 pl-11 transition duration-75"
-                    >
-                      Settings
-                    </A>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a
-                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
                   href="/license"
                 >
                   <IconLicense />
@@ -248,9 +226,7 @@ export const Layout = (props) => {
                 </span>
               </div>
               <p class="mb-3 text-sm text-blue-800 dark:text-blue-400">
-                Workflows is an advanced feature currently in Beta. Features and
-                usability may change. You can apply for a free license to try it
-                for the best experience.
+                Workflows are not supported in this version of the extension.
               </p>
               <a
                 class="mr-4 text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"

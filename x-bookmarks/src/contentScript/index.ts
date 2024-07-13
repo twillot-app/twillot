@@ -1,7 +1,4 @@
-import { setCurrentUserId } from '../libs/storage'
-import { Monitor } from '../libs/workflow/trigger'
-//@ts-ignore
-import mainWorld from './injected?script&module'
+import { setCurrentUserId } from 'utils/storage'
 
 console.log('content script loaded')
 
@@ -12,13 +9,3 @@ for (const item of document.cookie.split(';')) {
     break
   }
 }
-Monitor.onContentScriptMessage()
-// Monitor.startValidation()
-
-/**
- * NOTE:HMR 无效
- */
-const script = document.createElement('script')
-script.src = chrome.runtime.getURL(mainWorld)
-script.type = 'module'
-document.head.prepend(script)

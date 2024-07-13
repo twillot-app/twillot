@@ -3,8 +3,8 @@ import { A } from '@solidjs/router'
 
 import dataStore from './store'
 import { Content } from '../components/Tweet'
-import { openPage } from '../libs/dom'
-import { Host } from '../types'
+import { openPage } from 'utils/dom'
+import { Host } from 'utils/types'
 import Contribution from '../components/Contribution'
 import {
   IconChevronArrowDown,

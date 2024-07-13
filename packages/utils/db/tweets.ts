@@ -1,4 +1,4 @@
-import { Tweet, TweetWithPosition, QueryOptions, CountInfo } from '../../types'
+import { Tweet, QueryOptions, CountInfo } from '../types'
 import { formatDate } from '../date'
 import { parseTwitterQuery } from '../query-parser'
 import { getCurrentUserId } from '../storage'

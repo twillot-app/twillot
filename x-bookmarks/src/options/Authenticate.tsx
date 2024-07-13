@@ -1,16 +1,16 @@
 import { Show, createEffect, onCleanup } from 'solid-js'
 
 import dataStore from './store'
-import { getAuthInfo, openNewTab } from '../libs/browser'
+import { getAuthInfo, openNewTab } from 'utils/browser'
 import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
-import { ActionPage } from '../types'
+import { ActionPage } from 'utils/types'
 import {
   getCurrentUserId,
   isMigrationNeeded,
   migrateStorage,
-} from '../libs/storage'
-import { migrateData } from '../libs/db'
+} from 'utils/storage'
+import { migrateData } from 'utils/db'
 
 export default function Authenticate() {
   const [store, setStore] = dataStore

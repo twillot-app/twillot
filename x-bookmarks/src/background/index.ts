@@ -1,14 +1,6 @@
-import { getOptionsPageTab } from '../libs/browser'
-import { getLicense } from '../libs/license'
-import { getCurrentUserId, getLocal, setLocal } from '../libs/storage'
-import { Emitter } from '../libs/workflow/trigger'
-import { TriggerContext } from '../libs/workflow/trigger.type'
-import {
-  ClientPageStorageKey,
-  Message,
-  MessageType,
-} from '../libs/workflow/types'
-import { API_HOST, Host } from '../types'
+import { getOptionsPageTab } from 'utils/browser'
+import { getCurrentUserId, setLocal } from 'utils/storage'
+import { Host } from 'utils/types'
 
 chrome.action.onClicked.addListener(function () {
   chrome.runtime.openOptionsPage()
@@ -65,40 +57,6 @@ chrome.webRequest.onSendHeaders.addListener(
   },
   ['requestHeaders'],
 )
-
-chrome.runtime.onMessage.addListener(async (message: Message) => {
-  if (message.type === MessageType.GetTriggerResponse) {
-    Emitter.emit(message.payload as TriggerContext)
-  } else if (message.type === MessageType.ValidateLicense) {
-    const [user_id, profile] = await Promise.all([
-      getCurrentUserId(),
-      getLicense(),
-    ])
-    if (!user_id || !profile || !profile.license_code) {
-      console.error('Missing arguents', user_id, profile)
-      return
-    }
-
-    const res = await fetch(API_HOST + '/webhook/license/validate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        license_code: profile.license_code,
-        device_id: user_id,
-      }),
-    })
-    const data = await res.json()
-    alert(data.message)
-    // if (data.message || data.exppires_at < Math.floor(Date.now() / 1000)) {
-    //   setLocal({ [ClientPageStorageKey.License]: null })
-    // }
-    console.warn(data.message)
-  } else {
-    console.log('Unknown message type:', message)
-  }
-})
 
 chrome.omnibox.onInputEntered.addListener(async (text) => {
   const newURL =

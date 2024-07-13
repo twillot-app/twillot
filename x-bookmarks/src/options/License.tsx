@@ -1,9 +1,8 @@
 import { Show } from 'solid-js'
 import { For, onMount } from 'solid-js'
 import dataStore from './store'
-import { activateLicense, getLicense } from '../libs/license'
-import { setLocal } from '../libs/storage'
-import { ClientPageStorageKey } from '../libs/workflow/types'
+import { activateLicense, getLicense, LICENSE_KEY } from 'utils/license'
+import { setLocal } from 'utils/storage'
 
 const [store, setStore] = dataStore
 
@@ -17,20 +16,20 @@ const License = () => {
 
     try {
       const profile = await activateLicense(code)
-      setStore(ClientPageStorageKey.License, profile || null)
+      setStore(LICENSE_KEY, profile || null)
     } catch (error) {
       console.error(error)
       alert(error.message)
     }
   }
   const items = () =>
-    store[ClientPageStorageKey.License]
-      ? [store[ClientPageStorageKey.License]]
+    store[LICENSE_KEY]
+      ? [store[LICENSE_KEY]]
       : []
 
   onMount(async () => {
     const profile = await getLicense()
-    setStore(ClientPageStorageKey.License, profile || null)
+    setStore(LICENSE_KEY, profile || null)
   })
 
   return (
@@ -41,7 +40,7 @@ const License = () => {
         </div>
 
         <div class="relative overflow-x-auto sm:rounded-lg">
-          <Show when={!store[ClientPageStorageKey.License]}>
+          <Show when={!store[LICENSE_KEY]}>
             <form onSubmit={activate}>
               <div class="relative my-4 flex items-center gap-4">
                 <input
@@ -119,9 +118,9 @@ const License = () => {
                         class="font-medium text-red-600 hover:underline dark:text-red-500"
                         onClick={async () => {
                           await setLocal({
-                            [ClientPageStorageKey.License]: null,
+                            [LICENSE_KEY]: null,
                           })
-                          setStore(ClientPageStorageKey.License, null)
+                          setStore(LICENSE_KEY, null)
                         }}
                       >
                         Remove

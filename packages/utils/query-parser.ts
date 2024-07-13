@@ -1,4 +1,4 @@
-import { QueryOptions } from '../types'
+import { QueryOptions } from './types'
 
 export function parseTwitterQuery(query) {
   const patterns = {

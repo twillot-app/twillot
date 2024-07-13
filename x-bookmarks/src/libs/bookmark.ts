@@ -1,13 +1,12 @@
-import { addRecords, getRecord } from './db/tweets'
+import { addRecords, getRecord } from 'utils/db/tweets'
 import {
   TimelineEntry,
   TimelineTimelineItem,
   TimelineTweet,
   TimelineAddEntriesInstruction,
-} from '../types'
-import { addLocalItem, getLocalItem } from './browser'
-import { getBookmarks, getTweetId, toRecord } from './api/twitter'
-import { executeAllTasks } from './workflow/store'
+} from 'utils/types'
+import { addLocalItem, getLocalItem } from 'utils/browser'
+import { getBookmarks, getTweetId, toRecord } from 'utils/api/twitter'
 
 export async function* syncAllBookmarks(forceSync = false) {
   /**
@@ -59,8 +58,6 @@ export async function* syncAllBookmarks(forceSync = false) {
       break
     }
   }
-
-  await executeAllTasks()
 }
 
 export async function isBookmarksSynced(

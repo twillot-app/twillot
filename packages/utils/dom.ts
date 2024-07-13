@@ -1,5 +1,5 @@
 import { openNewTab } from './browser'
-import { Host } from '../types'
+import { Host } from './types'
 
 export function openPage(e) {
   const url = e.target.dataset.text

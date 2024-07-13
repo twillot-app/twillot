@@ -13,7 +13,7 @@ import {
   clearFolder,
   getPostId,
 } from './tweets'
-import TweetGenerator from '../../../__mocks__/tweet'
+import TweetGenerator from '../../../x-bookmarks/__mocks__/tweet'
 import {
   openDb,
   getObjectStore,
@@ -25,7 +25,7 @@ import {
 } from './index'
 import { getCurrentUserId } from '../storage'
 import { setCurrentUserId } from '../storage'
-import { Config, Tweet } from '../../types'
+import { Config, Tweet } from '../types'
 import { getConfigId } from './configs'
 
 describe('dbModule', () => {

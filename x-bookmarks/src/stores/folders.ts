@@ -9,7 +9,7 @@ import {
   Tweet,
   TimelineTimelineItem,
   TweetBase,
-} from '../types'
+} from 'utils/types'
 import dataStore, { mutateStore } from '../options/store'
 import {
   addRecords,
@@ -17,11 +17,11 @@ import {
   countRecords,
   getPostId,
   updateFolder,
-} from '../libs/db/tweets'
+} from 'utils/db/tweets'
 import { unwrap } from 'solid-js/store'
-import { readConfig, upsertConfig } from '../libs/db/configs'
-import { getFolders, getFolderTweets, getTweet } from '../libs/api/twitter'
-import { getCurrentUserId } from '../libs/storage'
+import { readConfig, upsertConfig } from 'utils/db/configs'
+import { getFolders, getFolderTweets, getTweet } from 'utils/api/twitter'
+import { getCurrentUserId } from 'utils/storage'
 
 const [store, setStore] = dataStore
 

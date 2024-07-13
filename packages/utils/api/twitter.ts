@@ -12,10 +12,9 @@ import {
   TweetUnion,
   EntityURL,
   getEndpoint,
-} from '../../types'
+} from '../types'
 import { URL_REG } from '../text'
-import { TriggerReuqestBody } from '../workflow/trigger.type'
-import { FetchError } from 'utils/xfetch'
+import { FetchError } from '../xfetch'
 import { request } from './twitter-base'
 import {
   BOOKMARK_FEATURES,
@@ -130,7 +129,7 @@ function flatten(obj: {}, stringify = true) {
 }
 
 export async function createTweet(
-  args: { text: string; replyTweetId?: string } | TriggerReuqestBody,
+  args: { text: string; replyTweetId?: string } | { queryId: string, text: string, replyTweetId?: string, variables: any },
 ) {
   if ('variables' in args) {
     return request(getEndpoint(args.queryId, 'CreateTweet'), {

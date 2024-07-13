@@ -1,6 +1,7 @@
-import { API_HOST } from '../types'
+import { API_HOST } from './types'
 import { getCurrentUserId, getLocal, setLocal } from './storage'
-import { ClientPageStorageKey } from './workflow/types'
+
+export const LICENSE_KEY = 'twillot_license'
 
 export enum MemberTier {
   Free = 'free',
@@ -22,8 +23,8 @@ export async function getLicense() {
     return null
   }
 
-  const item = await getLocal(ClientPageStorageKey.License)
-  return item[ClientPageStorageKey.License] as License | null
+  const item = await getLocal(LICENSE_KEY)
+  return item[LICENSE_KEY] as License | null
 }
 
 export function getLevel(license: License | null) {
@@ -69,7 +70,7 @@ export async function activateLicense(license_code: string) {
       license_code,
       ...json.data,
     } as License
-    await setLocal({ [ClientPageStorageKey.License]: profile })
+    await setLocal({ [LICENSE_KEY]: profile })
     return profile
   }
 

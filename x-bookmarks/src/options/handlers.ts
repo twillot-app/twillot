@@ -1,19 +1,19 @@
 import { untrack } from 'solid-js/web'
 
-import { getAuthInfo } from '../libs/browser'
+import { getAuthInfo } from 'utils/browser'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
-import { AuthStatus } from '../types'
+import { AuthStatus } from 'utils/types'
 import {
   countRecords,
   findRecords,
   getRencentTweets,
   getTopUsers,
-} from '../libs/db/tweets'
+} from 'utils/db/tweets'
 import { FetchError } from 'utils/xfetch'
 import { reconcile } from 'solid-js/store'
-import { DAYS, getLastNDaysDates } from '../libs/date'
-import { getCurrentUserId, logout, setLocal } from '../libs/storage'
+import { DAYS, getLastNDaysDates } from 'utils/date'
+import { getCurrentUserId, logout, setLocal } from 'utils/storage'
 
 async function query(
   keyword = '',

@@ -1,8 +1,8 @@
 import { createMemo, onCleanup, onMount, Show } from 'solid-js'
-import { FontSet } from '../../types'
+import { FontSet } from 'utils/types'
 import dataStore from '../../options/store'
 import { IconCheck } from '../Icons'
-import { createStyleSheet } from '../../libs/dom'
+import { createStyleSheet } from 'utils/dom'
 
 const previewTextList = [
   'The quick brown fox jumps over the lazy dog.',

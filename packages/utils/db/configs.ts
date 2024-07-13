@@ -1,4 +1,4 @@
-import { Config, OptionName } from '../../types'
+import { Config, OptionName } from '../types'
 import { getCurrentUserId } from '../storage'
 import { openDb, getObjectStore, CONFIGS_TABLE_NAME_V2 } from './index'
 

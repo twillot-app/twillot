@@ -1,4 +1,4 @@
-import { Config, IndexedDbIndexItem, Tweet } from '../../types'
+import { Config, IndexedDbIndexItem, Tweet } from '../types'
 import { getCurrentUserId } from '../storage'
 import { getConfigId } from './configs'
 import { getPostId } from './tweets'

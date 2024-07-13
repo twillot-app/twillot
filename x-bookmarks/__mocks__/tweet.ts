@@ -7,10 +7,12 @@ import {
 } from '@jackfranklin/test-data-bot'
 import { faker } from '@faker-js/faker'
 
-import { Tweet, TweetQuoted } from '../src/types'
+import { Tweet, TweetQuoted } from 'utils/types'
 
 const locales = ['en', 'ja', 'zh-cn']
 const fields = {
+  id: sequence((s) => `id_${s}`),
+  owner_id: sequence((s) => `owner_id_${s}`),
   tweet_id: sequence((s) => `tweet_id_${s}`),
   user_id: sequence((s) => `user_id_${s}`),
   username: perBuild(() => faker.person.fullName()),

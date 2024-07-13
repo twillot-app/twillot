@@ -5,8 +5,8 @@ import {
   escapeRegExp,
   highlightAndLinkify,
   maxChars,
-} from '../libs/text'
-import { Media, Tweet, TweetQuoted } from '../types'
+} from 'utils/text'
+import { Media, Tweet, TweetQuoted } from 'utils/types'
 import dataStore from '../options/store'
 
 export const FullText = (props: {

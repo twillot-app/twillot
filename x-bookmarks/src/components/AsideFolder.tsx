@@ -5,8 +5,8 @@ import { IconFolderMove, IconTrash } from './Icons'
 import { moveTweetsToFolder, removeFolder } from '../stores/folders'
 import { FolderForm } from './FolderDropDown'
 import dataStore from '../options/store'
-import { upsertConfig } from '../libs/db/configs'
-import { OptionName } from '../types'
+import { upsertConfig } from 'utils/db/configs'
+import { OptionName } from 'utils/types'
 
 export default function AsideFolder() {
   const [store, setStore] = dataStore

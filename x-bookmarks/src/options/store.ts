@@ -6,14 +6,9 @@ import {
   type TweetWithPosition,
   type User,
   type CountInfo,
-} from '../types'
-import { DAYS } from '../libs/date'
-import {
-  ClientPageStorageKey,
-  Template,
-  Workflow,
-} from '../libs/workflow/types'
-import { type License } from '../libs/license'
+} from 'utils/types'
+import { DAYS } from 'utils/date'
+import { type License, LICENSE_KEY } from 'utils/license'
 
 const activeFont = JSON.parse(
   localStorage.getItem('activeFont') || 'null',
@@ -47,10 +42,7 @@ export const defaultState = () => ({
   fontSize,
   theme: localStorage.getItem('theme') || 'light',
   isSidePanel: location.pathname.endsWith('sidepanel.html'),
-  workflows: new Array<Workflow>(),
-  templates: new Array<Template>(),
-  signatures: new Array<Template>(),
-  [ClientPageStorageKey.License]: null as null | License,
+  [LICENSE_KEY]: null as License | null,
 })
 
 const store = createStore(defaultState())

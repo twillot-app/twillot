@@ -3,8 +3,8 @@ import { useNavigate } from '@solidjs/router'
 
 import tooltip from './Tooltip'
 import dataStore from '../options/store'
-import { WEEK_NAMES, formatDate, getGridDates } from '../libs/date'
-import { disabledColor, getColorForFavorites } from '../libs/color'
+import { WEEK_NAMES, formatDate, getGridDates } from 'utils/date'
+import { disabledColor, getColorForFavorites } from 'utils/color'
 
 export default function Contribution() {
   const [store] = dataStore

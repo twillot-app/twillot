@@ -10,7 +10,7 @@ import {
   getRencentTweets,
   getTopUsers,
 } from '../libs/db/tweets'
-import { FetchError } from '../libs/xfetch'
+import { FetchError } from 'utils/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from '../libs/date'
 import { getCurrentUserId, logout, setLocal } from '../libs/storage'

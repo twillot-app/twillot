@@ -15,7 +15,7 @@ import {
 } from '../../types'
 import { URL_REG } from '../text'
 import { TriggerReuqestBody } from '../workflow/trigger.type'
-import { FetchError } from '../xfetch'
+import { FetchError } from 'utils/xfetch'
 import { request } from './twitter-base'
 import {
   BOOKMARK_FEATURES,

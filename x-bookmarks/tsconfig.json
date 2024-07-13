@@ -1,10 +1,9 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "paths": {
       "~/*": ["./src/*"]
     }
   },
-  "include": ["src", "__mocks__"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "extends": "../tsconfig.base.json"
 }

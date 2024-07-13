@@ -1,5 +1,5 @@
 import { getAuthInfo } from '../browser'
-import fetchWithTimeout, { FetchError } from '../xfetch'
+import fetchWithTimeout, { FetchError } from 'utils/xfetch'
 
 function get_headers(token: string, csrf: string) {
   return {

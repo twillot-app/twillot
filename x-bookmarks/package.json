@@ -1,29 +1,29 @@
 {
-  "name": "x-bookmarks",
-  "displayName": "Twillot for X/Twitter Bookmarks",
-  "version": "1.0.4",
-  "private": true,
   "author": "twillot@outlook.com",
+  "dependencies": {
+    "@solidjs/router": "^0.13.2",
+    "solid-js": "^1.8.1",
+    "utils": "workspace:*"
+  },
   "description": "Organize X/Twitter bookmarks, streamline X/Twitter workflow experience.",
-  "type": "module",
-  "license": "MPL-2.0",
+  "devDependencies": {},
+  "displayName": "Twillot for X/Twitter Bookmarks",
   "engines": {
     "node": ">=18.0.0"
   },
+  "license": "MPL-2.0",
+  "name": "x-bookmarks",
+  "packageManager": "pnpm@8.15.4",
+  "private": true,
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
     "build": "vite build",
-    "preview": "vite preview",
+    "coverage": "vitest run --coverage",
+    "dev": "vite --host 0.0.0.0",
     "fmt": "prettier --write '**/*.{tsx,ts,json,css,md}'",
+    "preview": "vite preview",
+    "test": "vitest",
     "zip": "npm run build && node src/zip.js"
   },
-  "devDependencies": {},
-  "dependencies": {
-    "utils": "workspace:*",
-    "@solidjs/router": "^0.13.2",
-    "solid-js": "^1.8.1"
-  },
-  "packageManager": "pnpm@8.15.4"
+  "type": "module",
+  "version": "1.0.4"
 }

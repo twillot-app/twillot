@@ -1,14 +1,14 @@
 {
-  "name": "utils",
-  "version": "1.0.0",
+  "author": "",
   "description": "",
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  },
+  "keywords": [],
+  "license": "MPL-2.0",
+  "name": "utils",
   "scripts": {
     "test": "vitest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "vitest": "^1.6.0"
-  }
+  "version": "1.0.0"
 }

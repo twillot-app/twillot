@@ -1,6 +1,6 @@
 import { unwrap } from 'solid-js/store'
 
-import { readConfig, upsertConfig } from '../../libs/db/configs'
+import { readConfig, upsertConfig } from '../db/configs'
 import dataStore, { mutateStore } from '../../options/store'
 import { OptionName, OptionStoreField } from '../../types'
 import { getTweetConversations, getUserById } from '../api/twitter'

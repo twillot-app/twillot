@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import { crx } from '@crxjs/vite-plugin'
 import solidPlugin from 'vite-plugin-solid'
-import manifest from './src/manifest.jsx'
+import manifest from './src/manifest.js'
 
 export default defineConfig({
   server: {

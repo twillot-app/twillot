@@ -1,6 +1,6 @@
 import { For, onMount, Show } from 'solid-js'
 
-import dataStore from '../options/store'
+import dataStore from './store'
 import { IconArrow, IconPlus, IconTrash } from '../components/Icons'
 import {
   addThen,

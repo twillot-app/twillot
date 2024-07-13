@@ -1,4 +1,4 @@
-import { openNewTab } from '../libs/browser'
+import { openNewTab } from './browser'
 import { Host } from '../types'
 
 export function openPage(e) {

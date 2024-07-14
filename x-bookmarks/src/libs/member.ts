@@ -6,6 +6,8 @@ export enum MemberLevel {
 
 export const MAX_EXPORT_SIZE = [1000, 5000, Number.MAX_SAFE_INTEGER]
 
+export const MAX_MEDIA_EXPORT_SIZE = [100, 500, Number.MAX_SAFE_INTEGER]
+
 const fileTypes = [
   { value: 'csv', label: 'CSV', level: MemberLevel.Free },
   { value: 'json', label: 'JSON', level: MemberLevel.Free },
@@ -72,25 +74,50 @@ export const EXPORT_MEDIA_FIELDS = [
       },
     ],
     label: 'Download type',
-    default: 'csv',
+    default: 'media',
   },
   {
-    name: 'filter',
+    name: 'media_type',
     data: [
-      { value: 'image', label: 'Only Images', level: MemberLevel.Free },
+      { value: 'image', label: 'Image', level: MemberLevel.Free },
       {
-        value: 'video',
-        label: 'Only Videos',
+        value: 'gif',
+        label: 'Gif',
         level: MemberLevel.Free,
       },
       {
-        value: 'both',
-        label: 'Both Images and Videos',
+        value: 'video',
+        label: 'Video',
+        level: MemberLevel.Free,
+      },
+      {
+        value: 'all',
+        label: 'All',
         level: MemberLevel.Free,
       },
     ],
-    label: 'Filter',
-    default: 'both',
+    label: 'Media type',
+    default: 'all',
+  },
+  {
+    name: 'save_mode',
+    data: [
+      { value: 'default', label: 'Default', level: MemberLevel.Free },
+      {
+        value: 'folder',
+        label: 'By bookmark folder',
+        level: MemberLevel.Basic,
+      },
+      { value: 'user', label: 'By original user', level: MemberLevel.Basic },
+      // {
+      //   value: 'custom',
+      //   label: 'Custom',
+      //   level: MemberLevel.Pro,
+      //   implemented: false,
+      // },
+    ],
+    label: 'Save mode',
+    default: 'default',
   },
 ]
 

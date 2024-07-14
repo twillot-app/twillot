@@ -462,3 +462,34 @@ export async function updateFolder(
     })
   })
 }
+
+export async function iterate(
+  filter: (record: Tweet) => boolean,
+): Promise<Tweet[]> {
+  const db = await openDb()
+  const user_id = await getCurrentUserId()
+  const records: Tweet[] = []
+
+  return new Promise((resolve, reject) => {
+    const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
+    const index = objectStore.index('sort_index')
+    const request = index.openCursor()
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
+      if (cursor) {
+        const record = cursor.value
+        if (record.owner_id === user_id) {
+          if (filter(record)) {
+            records.push(record)
+          }
+        }
+        cursor.continue()
+      } else {
+        resolve(records)
+      }
+    }
+
+    request.onerror = () => reject(request.error)
+  })
+}

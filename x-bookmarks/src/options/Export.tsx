@@ -112,15 +112,8 @@ const ExportPage = () => {
                 {level > MemberLevel.Basic ? (
                   'Unlimited'
                 ) : (
-                  <p class="ms-2 flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300">
-                    {maxRows}{' '}
-                    <a
-                      href="https://twillot.com/x-bookmarks/pricing?utm_source=export&level=pro"
-                      target="_blank"
-                      class="ml-4 text-sm text-blue-500 hover:text-blue-700"
-                    >
-                      Unlock unlimited
-                    </a>
+                  <p class="flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300">
+                    {maxRows}
                   </p>
                 )}
               </div>
@@ -128,10 +121,17 @@ const ExportPage = () => {
             <div class="my-5">
               <button
                 type="submit"
-                class="mb-2 me-4 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="mb-2 me-8 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Download
               </button>
+              <a
+                href="https://twillot.com/x-bookmarks/pricing?utm_source=export"
+                target="_blank"
+                class="mb-2 me-2 inline-block rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+              >
+                Unlock Unlimited Exporting
+              </a>
             </div>
           </form>
         </div>
@@ -179,10 +179,17 @@ const ExportPage = () => {
             <div class="my-5">
               <button
                 type="submit"
-                class="mb-2 me-4 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="mb-2 me-8 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Download
               </button>
+              <a
+                href="https://twillot.com/x-bookmarks/pricing?utm_source=export"
+                target="_blank"
+                class="mb-2 me-4 inline-block rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+              >
+                Unlock Unlimited Exporting
+              </a>
             </div>
           </form>
         </div>

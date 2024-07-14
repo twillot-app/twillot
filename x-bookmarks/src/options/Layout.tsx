@@ -12,6 +12,8 @@ import Notification from '../components/Notification'
 import {
   IconBookmark,
   IconBranch,
+  IconCrown,
+  IconExport,
   IconFolderMove,
   IconFolders,
   IconLicense,
@@ -129,7 +131,7 @@ export const Layout = (props) => {
 
       <Show when={!store.isSidePanel}>
         <aside
-          class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform dark:border-gray-700 dark:bg-[#121212] dark:text-white sm:translate-x-0 ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+          class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform sm:translate-x-0 dark:border-gray-700 dark:bg-[#121212] dark:text-white ${store.selectedTweet > -1 ? 'hidden' : ''}`}
         >
           <div class="h-full overflow-y-auto px-3 pb-4 ">
             <ul class="space-y-1 font-medium">
@@ -209,56 +211,19 @@ export const Layout = (props) => {
                   class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
                   href="/export"
                 >
-                  <IconLicense />
-                  <span class="ms-3 flex-1 whitespace-nowrap">
-                    Export
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
-                  href="/license"
-                >
-                  <IconLicense />
-                  <span class="ms-3 flex-1 whitespace-nowrap">
-                    License Code
+                  <IconExport />
+                  <span class="ms-3 flex-1 whitespace-nowrap">Export</span>
+                  <span class="ms-3 inline-flex scale-75 items-center justify-center rounded-full text-xs text-gray-500 opacity-60">
+                    <IconCrown />
                   </span>
                 </a>
               </li>
             </ul>
-            <div
-              class="mt-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900"
-              role="alert"
-            >
-              <div class="mb-3 flex items-center">
-                <span class="me-2 rounded bg-orange-100 px-2.5 py-0.5 text-sm font-semibold text-orange-800 dark:bg-orange-200 dark:text-orange-900">
-                  NOTE
-                </span>
-              </div>
-              <p class="mb-3 text-sm text-blue-800 dark:text-blue-400">
-                Workflows are not supported in this version of the extension.
-              </p>
-              <a
-                class="mr-4 text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                href="https://twillot.com/docs/introduction?utm_source=extension"
-                target="_blank"
-              >
-                Docs
-              </a>
-              <a
-                class="text-sm font-medium text-blue-800 underline hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                href="https://s.twillot.com/get-free-trial?utm_source=extension"
-                target="_blank"
-              >
-                Free License Code
-              </a>
-            </div>
           </div>
         </aside>
       </Show>
 
-      <main class="bg-white text-gray-700 dark:bg-[#121212] dark:text-white lg:ml-72">
+      <main class="bg-white text-gray-700 lg:ml-72 dark:bg-[#121212] dark:text-white">
         <div
           class={`flex-col items-center pt-28 lg:pt-[64px] ${store.selectedTweet > -1 ? 'hidden' : ''}`}
         >

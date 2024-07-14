@@ -1,3 +1,4 @@
+import { tr } from "@faker-js/faker";
 
 /**
  * Supported formats of exporting.
@@ -63,7 +64,7 @@ export async function exportData(
         break;
       case EXPORT_FORMAT.CSV:
         prependBOM = true;
-        content = await csvExporter(data);
+        content = await csvExporter(data, translations);
         break;
     }
     saveFile(filename, content, prependBOM);
@@ -167,9 +168,9 @@ export async function htmlExporter(data: DataType[], translations: Record<string
   `;
 }
 
-export async function csvExporter(data: DataType[]) {
-  const headers = Object.keys(data[0] ?? {});
-  let content = headers.join(',') + '\n';
+export async function csvExporter(data: DataType[], translations: Record<string, string>) {
+  const headers = Object.keys(translations)
+  let content = Object.values(translations).join(',') + '\n';
 
   for (const row of data) {
     const values = headers.map((header) => {

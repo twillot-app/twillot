@@ -70,7 +70,7 @@ export const EXPORT_MEDIA_FIELDS = [
       {
         value: 'media',
         label: 'Original media files',
-        level: MemberLevel.Basic,
+        level: MemberLevel.Free,
       },
     ],
     label: 'Download type',
@@ -102,13 +102,17 @@ export const EXPORT_MEDIA_FIELDS = [
   {
     name: 'save_mode',
     data: [
-      { value: 'default', label: 'Default', level: MemberLevel.Free },
+      {
+        value: 'default',
+        label: 'None (no subfolder)',
+        level: MemberLevel.Free,
+      },
       {
         value: 'folder',
-        label: 'By bookmark folder',
+        label: 'Organize by bookmark folder',
         level: MemberLevel.Basic,
       },
-      { value: 'user', label: 'By original user', level: MemberLevel.Basic },
+      { value: 'user', label: 'Organize by user', level: MemberLevel.Basic },
       // {
       //   value: 'custom',
       //   label: 'Custom',
@@ -116,7 +120,7 @@ export const EXPORT_MEDIA_FIELDS = [
       //   implemented: false,
       // },
     ],
-    label: 'Save mode',
+    label: 'Organize mode',
     default: 'default',
   },
 ]

@@ -39,10 +39,18 @@ const ExportPage = () => {
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[MemberLevel.Free],
   )
-  const level = MemberLevel.Basic
+  const level = MemberLevel.Free
   const totalRecords = 500
   const maxRows = MAX_EXPORT_SIZE[level]
   const onRadioChange = (row, field) => {
+    if (row.level > level) {
+      alert(
+        row.level === MemberLevel.Pro
+          ? 'Unlock unlimited exporting to access this feature.'
+          : 'You need upgrade your membership level to access this feature.',
+      )
+    }
+
     if (field.name === 'action_type') {
       if (row.value === 'csv') {
         setMaxMediaRows(MAX_MEDIA_EXPORT_SIZE[MemberLevel.Pro])
@@ -51,7 +59,7 @@ const ExportPage = () => {
       }
     }
   }
-  const onSubmit = async (e) => {
+  const exportBookmarks = async (e) => {
     e.preventDefault()
     const form: HTMLFormElement = e.target
     const params: any = {}
@@ -201,7 +209,7 @@ const ExportPage = () => {
         </div>
 
         <div class="relative overflow-x-auto p-4 sm:rounded-lg">
-          <form class="mx-auto block max-w-3xl" onSubmit={onSubmit}>
+          <form class="mx-auto block max-w-3xl" onSubmit={exportBookmarks}>
             {EXPORT_FORM_FIELDS.map((field) => {
               return (
                 <div class="mb-4 flex gap-8">
@@ -218,6 +226,7 @@ const ExportPage = () => {
                           name={field.name}
                           class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:focus:bg-blue-600 dark:focus:ring-blue-600"
                           checked={row.value === field.default}
+                          onChange={() => onRadioChange(row, field)}
                         />
                         <label
                           for={`${field.name}_${index}`}

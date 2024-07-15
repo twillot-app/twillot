@@ -78,8 +78,17 @@ function getTweetFields(tweet?: TweetUnion) {
     possibly_sensitive: tweet.legacy.possibly_sensitive,
     full_text,
     media_items,
-    lang: tweet.legacy.lang,
     created_at: Math.floor(new Date(tweet.legacy.created_at).getTime() / 1000),
+    lang: tweet.legacy.lang,
+    bookmark_count: tweet.legacy.bookmark_count,
+    favorite_count: tweet.legacy.favorite_count,
+    quote_count: tweet.legacy.quote_count,
+    reply_count: tweet.legacy.reply_count,
+    retweet_count: tweet.legacy.retweet_count,
+    bookmarked: tweet.legacy.bookmarked,
+    favorited: tweet.legacy.favorited,
+    is_quote_status: tweet.legacy.is_quote_status,
+    retweeted: tweet.legacy.retweeted,
   }
 }
 
@@ -129,7 +138,9 @@ function flatten(obj: {}, stringify = true) {
 }
 
 export async function createTweet(
-  args: { text: string; replyTweetId?: string } | { queryId: string, text: string, replyTweetId?: string, variables: any },
+  args:
+    | { text: string; replyTweetId?: string }
+    | { queryId: string; text: string; replyTweetId?: string; variables: any },
 ) {
   if ('variables' in args) {
     return request(getEndpoint(args.queryId, 'CreateTweet'), {
@@ -268,24 +279,24 @@ export async function getTweetConversations(tweetId: string) {
     | undefined
   if (!instructions) {
     console.error('No instructions found in response')
-    return null
+    return []
   }
 
   // 这是原推
   let index = instructions.entries.findIndex((i) => i.entryId.includes(tweetId))
   if (index > 0) {
     console.error('No conversation found in response')
-    return null
+    return []
   }
 
-  const conversations = []
+  const conversations: Tweet[] = []
   // 主题回复只会在第一个？
   let entry = instructions.entries[1] as TimelineEntry<
     TimelineTweet,
     TimelineTimelineModule<TimelineTweet>
   > | null
   if (!entry) {
-    return null
+    return []
   }
 
   const items =
@@ -299,7 +310,7 @@ export async function getTweetConversations(tweetId: string) {
     conversations.push(toRecord(i.item.itemContent, ''))
   }
 
-  return conversations.length > 0 ? conversations : null
+  return conversations
 }
 
 export function getFolders() {

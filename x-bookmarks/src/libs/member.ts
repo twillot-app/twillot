@@ -16,13 +16,13 @@ const fileTypes = [
 ]
 const unrollThreads = [
   { value: 'no', label: 'No', level: MemberLevel.Free },
-  { value: 'yes', label: 'Yes', level: MemberLevel.Pro },
+  { value: 'yes', label: 'Yes', level: MemberLevel.Basic },
 ]
 const metaDatas = [
   {
     value: 'yes',
-    label: 'Likes, Views, Replies, Quotes, Bookmarks, and More',
-    level: MemberLevel.Pro,
+    label: 'Include bookmark / favorite / quote / reply / repost',
+    level: MemberLevel.Basic,
   },
   { value: 'no', label: 'None', level: MemberLevel.Free },
 ]
@@ -47,7 +47,7 @@ export const EXPORT_FORM_FIELDS = [
   {
     name: 'metadata',
     data: metaDatas,
-    label: 'Metadata',
+    label: 'Count metadata',
     default: 'no',
   },
   {
@@ -129,6 +129,14 @@ export function getExportFields(
   level: MemberLevel,
   fileType?: string,
 ): Record<string, string> {
+  const metaFields = {
+    is_thread: 'Thread',
+    bookmark_count: 'Bookmark Count',
+    favorite_count: 'Favorite Count',
+    quote_count: 'Quote Count',
+    reply_count: 'Reply Count',
+    retweet_count: 'Retweet Count',
+  }
   const exportBaseFields = {
     owner_id: 'Owner ID',
     sort_index: 'Sort Index',
@@ -141,21 +149,24 @@ export function getExportFields(
     quoted_tweet: 'Quoted Post',
     // 不可以属于多个文件夹
     folder: 'Folder',
-    conversations: 'Threads',
     tweet_id: 'Post ID',
     user_id: 'User ID',
     username: 'Username',
     screen_name: 'Screen Name',
     avatar_url: 'Avatar',
-    full_text: 'Post Text',
+    full_text: 'Content',
     lang: 'Language',
     created_at: 'Created At',
     possibly_sensitive: 'Sensitive',
     media_items: 'Media Items',
   }
-  if (level !== MemberLevel.Pro) {
-    delete exportBaseFields.conversations
+
+  if (level === MemberLevel.Free) {
+    return exportBaseFields
   }
 
-  return exportBaseFields
+  return {
+    ...exportBaseFields,
+    ...metaFields,
+  }
 }

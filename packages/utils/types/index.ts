@@ -44,7 +44,7 @@ export interface Tweet extends TweetQuoted {
   quoted_tweet?: TweetQuoted
   // 不可以属于多个文件夹
   folder: string
-  conversations?: Tweet[]
+  conversations: Tweet[]
 }
 
 export interface TweetQuoted {

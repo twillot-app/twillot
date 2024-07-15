@@ -15,6 +15,7 @@ import {
   MemberLevel,
 } from '../libs/member'
 import { Host } from 'utils/types'
+import { getTweetConversations, getTweetDetails } from 'utils/api/twitter'
 
 const [store, setStore] = dataStore
 
@@ -88,7 +89,15 @@ const ExportPage = () => {
     }
 
     exportData(
-      records,
+      records.map((i) => ({
+        ...i,
+        is_thread: i.conversations.length > 0,
+        full_text: i.conversations.length
+          ? i.full_text +
+            '\n' +
+            i.conversations.map((i) => i.full_text).join('\n')
+          : i.full_text,
+      })),
       params.file_format.toUpperCase(),
       'twillot-bookmarks.' + params.file_format,
       getExportFields(level, params.file_format),

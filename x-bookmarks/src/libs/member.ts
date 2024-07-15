@@ -19,12 +19,12 @@ const unrollThreads = [
   { value: 'yes', label: 'Yes', level: MemberLevel.Basic },
 ]
 const metaDatas = [
+  { value: 'no', label: 'None', level: MemberLevel.Free },
   {
     value: 'yes',
     label: 'Include bookmark / favorite / quote / reply / repost',
     level: MemberLevel.Basic,
   },
-  { value: 'no', label: 'None', level: MemberLevel.Free },
 ]
 const fastMode = [
   { value: 'no', label: 'Normal', level: MemberLevel.Free },
@@ -50,12 +50,12 @@ export const EXPORT_FORM_FIELDS = [
     label: 'Count metadata',
     default: 'no',
   },
-  {
-    name: 'fast_mode',
-    data: fastMode,
-    label: 'Export speed',
-    default: 'no',
-  },
+  // {
+  //   name: 'fast_mode',
+  //   data: fastMode,
+  //   label: 'Export speed',
+  //   default: 'no',
+  // },
 ]
 
 export const EXPORT_MEDIA_FIELDS = [
@@ -139,6 +139,7 @@ export function getExportFields(
   }
   const exportBaseFields = {
     owner_id: 'Owner ID',
+    url: 'URL',
     sort_index: 'Sort Index',
     has_image: 'Image',
     has_video: 'Video',

@@ -40,7 +40,7 @@ const ExportPage = () => {
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[MemberLevel.Free],
   )
-  const level = MemberLevel.Free
+  const level = MemberLevel.Basic
   const totalRecords = 500
   const maxRows = MAX_EXPORT_SIZE[level]
   const onRadioChange = (row, field) => {
@@ -70,11 +70,11 @@ const ExportPage = () => {
     let minLevel = MemberLevel.Free
     if (
       params.metadata === 'yes' ||
-      params.fast_mode === 'yes' ||
+      // params.fast_mode === 'yes' ||
       params.unroll === 'yes' ||
       totalRecords > MAX_EXPORT_SIZE[MemberLevel.Basic]
     ) {
-      minLevel = MemberLevel.Pro
+      minLevel = MemberLevel.Basic
     }
 
     if (level < minLevel) {
@@ -91,12 +91,16 @@ const ExportPage = () => {
     exportData(
       records.map((i) => ({
         ...i,
-        is_thread: i.conversations.length > 0,
-        full_text: i.conversations.length
-          ? i.full_text +
-            '\n' +
-            i.conversations.map((i) => i?.full_text || '').join('\n')
-          : i.full_text,
+        is_thread: i.is_thread || i.conversations?.length > 0,
+        url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
+        full_text:
+          level < MemberLevel.Basic
+            ? i.full_text
+            : i.conversations?.length
+              ? i.full_text +
+                '\n' +
+                i.conversations.map((i) => i?.full_text || '').join('\n')
+              : i.full_text,
       })),
       params.file_format.toUpperCase(),
       'twillot-bookmarks.' + params.file_format,

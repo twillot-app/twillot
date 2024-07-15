@@ -171,3 +171,17 @@ export function getExportFields(
     ...metaFields,
   }
 }
+
+export function getMediaSavePath(item, mode: string) {
+  // name.ext
+  const originalName = item.media_url.split('/').pop().split('?')[0]
+  if (mode === 'default') {
+    return `twillot-media-files/${item.folder}-${item.screen_name}-${item.tweet_id}-${originalName}`
+  } else if (mode === 'folder') {
+    return `twillot-media-files/${item.folder}/${item.screen_name}-${item.tweet_id}-${originalName}`
+  } else if (mode === 'user') {
+    return `twillot-media-files/${item.screen_name}/${item.tweet_id}-${originalName}`
+  }
+
+  throw new Error('Unimplemented media save path mode')
+}

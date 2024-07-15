@@ -10,37 +10,23 @@ import {
   EXPORT_FORM_FIELDS,
   EXPORT_MEDIA_FIELDS,
   getExportFields,
+  getMediaSavePath,
   MAX_EXPORT_SIZE,
   MAX_MEDIA_EXPORT_SIZE,
   MemberLevel,
 } from '../libs/member'
 import { Host } from 'utils/types'
-import { getTweetConversations, getTweetDetails } from 'utils/api/twitter'
 
 const [store, setStore] = dataStore
 
 const pricingUrl =
   'https://twillot.com/x-twitter-bookmarks/pricing?utm_source=extension&utm_medium=export'
 
-function getMediaSavePath(item, mode: string) {
-  // name.ext
-  const originalName = item.media_url.split('/').pop().split('?')[0]
-  if (mode === 'default') {
-    return `twillot-media-files/${item.folder}-${item.screen_name}-${item.tweet_id}-${originalName}`
-  } else if (mode === 'folder') {
-    return `twillot-media-files/${item.folder}/${item.screen_name}-${item.tweet_id}-${originalName}`
-  } else if (mode === 'user') {
-    return `twillot-media-files/${item.screen_name}/${item.tweet_id}-${originalName}`
-  }
-
-  throw new Error('Unimplemented media save path mode')
-}
-
 const ExportPage = () => {
+  const level = MemberLevel.Pro
   const [maxMediaRows, setMaxMediaRows] = createSignal(
-    MAX_MEDIA_EXPORT_SIZE[MemberLevel.Free],
+    MAX_MEDIA_EXPORT_SIZE[level],
   )
-  const level = MemberLevel.Basic
   const totalRecords = 500
   const maxRows = MAX_EXPORT_SIZE[level]
   const onRadioChange = (row, field) => {
@@ -263,14 +249,10 @@ const ExportPage = () => {
               <label class="mb-2 block w-32 text-right font-medium text-gray-900 dark:text-white">
                 Rows Limited:
               </label>
-              <div class="flex-1">
-                {level > MemberLevel.Basic ? (
-                  'Unlimited'
-                ) : (
-                  <p class="flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300">
-                    {maxRows}
-                  </p>
-                )}
+              <div class="flex-1 text-sm">
+                <p class="flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300">
+                  {level > MemberLevel.Basic ? 'Unlimited' : maxRows}
+                </p>
               </div>
             </div>
             <div class="my-5">

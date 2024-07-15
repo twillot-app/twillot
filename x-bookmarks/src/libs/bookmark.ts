@@ -50,9 +50,10 @@ export async function* syncAllBookmarks(forceSync = false) {
         }
       }
 
-      const docs = tweets.map((i) =>
-        toRecord(i.content.itemContent, i.sortIndex),
-      )
+      // 有可能被删除
+      const docs = tweets
+        .map((i) => toRecord(i.content.itemContent, i.sortIndex))
+        .filter((d) => d)
       await upsertRecords(docs)
       yield docs
     }

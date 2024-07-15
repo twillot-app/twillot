@@ -114,6 +114,7 @@ export function toRecord(
     has_quote,
     is_long_text: !!tweet_base.note_tweet?.note_tweet_results,
     has_link: URL_REG.test(fields.full_text),
+    is_thread: record.tweetDisplayType === 'SelfThread',
     quoted_tweet: has_quote
       ? getTweetFields(tweet_base.quoted_status_result.result)
       : null,

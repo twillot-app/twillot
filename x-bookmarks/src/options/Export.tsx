@@ -95,7 +95,7 @@ const ExportPage = () => {
         full_text: i.conversations.length
           ? i.full_text +
             '\n' +
-            i.conversations.map((i) => i.full_text).join('\n')
+            i.conversations.map((i) => i?.full_text || '').join('\n')
           : i.full_text,
       })),
       params.file_format.toUpperCase(),

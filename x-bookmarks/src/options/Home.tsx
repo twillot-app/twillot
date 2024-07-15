@@ -28,7 +28,7 @@ export const Home = () => {
 
   return (
     <div
-      class="mx-auto my-4 w-full flex-1 text-base text-gray-700 dark:text-white lg:w-[48rem]"
+      class="mx-auto my-4 w-full flex-1 text-base text-gray-700 lg:w-[48rem] dark:text-white"
       onClick={openPage}
       ref={listRef!}
     >
@@ -109,7 +109,11 @@ export const Home = () => {
                 <Content tweet={tweet} keyword={store.keyword} />
                 <Show when={tweet.conversations}>
                   <For each={tweet.conversations}>
-                    {(conversation) => <Content tweet={conversation} />}
+                    {(conversation) => (
+                      <Show when={conversation}>
+                        <Content tweet={conversation} />
+                      </Show>
+                    )}
                   </For>
                 </Show>
                 <Show when={tweet.quoted_tweet}>

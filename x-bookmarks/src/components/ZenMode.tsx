@@ -63,7 +63,11 @@ export default function ZenMode() {
           <Content tweet={tweet()} />
           <Show when={tweet().conversations}>
             <For each={tweet().conversations}>
-              {(conversation) => <Content tweet={conversation} />}
+              {(conversation) => (
+                <Show when={conversation}>
+                  <Content tweet={conversation} />
+                </Show>
+              )}
             </For>
           </Show>
           <Show when={tweet().quoted_tweet}>

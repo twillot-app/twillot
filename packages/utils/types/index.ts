@@ -41,7 +41,8 @@ export interface Tweet extends TweetQuoted {
   has_link: boolean
   has_quote: boolean
   is_long_text: boolean
-  is_thread: boolean
+  // null 表示还没有请求过详情接口
+  is_thread: boolean | null
   quoted_tweet?: TweetQuoted
   // 不可以属于多个文件夹
   folder: string

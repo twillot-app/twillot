@@ -114,7 +114,8 @@ export function toRecord(
     has_quote,
     is_long_text: !!tweet_base.note_tweet?.note_tweet_results,
     has_link: URL_REG.test(fields.full_text),
-    is_thread: record.tweetDisplayType === 'SelfThread',
+    is_thread: null,
+    conversations: [],
     quoted_tweet: has_quote
       ? getTweetFields(tweet_base.quoted_status_result.result)
       : null,
@@ -270,6 +271,7 @@ export function getTweetDetails(
 /**
  * 获取推文主题
  * sortIndex 依赖与书签同步接口
+ * 如果推文被删除，会使用 null 代替
  */
 export async function getTweetConversations(tweetId: string) {
   const json = await getTweetDetails(tweetId)

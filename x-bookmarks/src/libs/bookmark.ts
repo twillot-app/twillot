@@ -1,19 +1,27 @@
-import { addRecords, getRecord } from 'utils/db/tweets'
+import { addRecords, getRecord, iterate } from 'utils/db/tweets'
 import {
   TimelineEntry,
   TimelineTimelineItem,
   TimelineTweet,
   TimelineAddEntriesInstruction,
+  Endpoint,
 } from 'utils/types'
-import { addLocalItem, getLocalItem } from 'utils/browser'
-import { getBookmarks, getTweetId, toRecord } from 'utils/api/twitter'
+import {
+  getBookmarks,
+  getTweetConversations,
+  getTweetId,
+  toRecord,
+} from 'utils/api/twitter'
+import { getLocal, StorageKeys, setLocal } from 'utils/storage'
+import { getRateLimitInfo } from 'utils/api/twitter-base'
+import { FetchError } from 'utils/xfetch'
 
 export async function* syncAllBookmarks(forceSync = false) {
   /**
    * 仅针对全量同步记录 cursor 到本地
    */
   let cursor: string | undefined = forceSync
-    ? await getLocalItem('bookmark_cursor')
+    ? (await getLocal(StorageKeys.Bookmark_Cursor))[StorageKeys.Bookmark_Cursor]
     : undefined
   while (true) {
     const json = await getBookmarks(cursor)
@@ -52,12 +60,50 @@ export async function* syncAllBookmarks(forceSync = false) {
     if (target.entryType === 'TimelineTimelineCursor') {
       cursor = target.value
       if (forceSync) {
-        await addLocalItem('bookmark_cursor', cursor)
+        await setLocal({ [StorageKeys.Bookmark_Cursor]: cursor })
       }
     } else {
       break
     }
   }
+}
+
+/**
+ * 定期同步 threads 记录
+ * 详情接口的限制是 150 条
+ */
+export async function syncThreads() {
+  const detailLimit = 150
+  const records = await iterate((t) => t.is_thread == null, detailLimit * 0.5)
+  console.log(`Syncing ${records.length} threads`, records)
+
+  for (const record of records) {
+    const rateLimitInfo = await getRateLimitInfo(Endpoint.TWEET_DETAIL)
+    if (rateLimitInfo?.remaining < 50) {
+      const retryIn = rateLimitInfo.reset * 1000 - Date.now() + 60 * 1000
+      setTimeout(syncThreads, retryIn)
+      console.log(
+        `Rate limit reached, retry in ${Math.floor(retryIn / 1000)} seconds`,
+        rateLimitInfo,
+      )
+      break
+    }
+
+    try {
+      const conversations = await getTweetConversations(record.tweet_id)
+      record.conversations = conversations
+      record.is_thread = conversations.length > 0
+      await addRecords([record], true)
+    } catch (e) {
+      console.error('Failed to get conversations', e)
+      if (e.name === FetchError.IdentityError) {
+        break
+      }
+    }
+  }
+
+  console.log('Synced threads finished')
+  setTimeout(syncThreads, 10 * 60 * 1000)
 }
 
 export async function isBookmarksSynced(

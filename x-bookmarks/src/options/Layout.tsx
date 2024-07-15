@@ -29,6 +29,7 @@ import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
 import { getCurrentUserId, onLocalChanged } from 'utils/storage'
+import { syncThreads } from '../libs/bookmark'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -63,6 +64,7 @@ export const Layout = (props) => {
   })
 
   onMount(async () => {
+    syncThreads()
     if (!store.isSidePanel) {
       const user_id = await getCurrentUserId()
       if (!user_id) {

@@ -178,9 +178,9 @@ export function getMediaSavePath(item, mode: string) {
   if (mode === 'default') {
     return `twillot-media-files/${item.folder}-${item.screen_name}-${item.tweet_id}-${originalName}`
   } else if (mode === 'folder') {
-    return `twillot-media-files/${item.folder}/${item.screen_name}-${item.tweet_id}-${originalName}`
+    return `twillot-media-files-by-folder/${item.folder}/${item.screen_name}-${item.tweet_id}-${originalName}`
   } else if (mode === 'user') {
-    return `twillot-media-files/${item.screen_name}/${item.tweet_id}-${originalName}`
+    return `twillot-media-files-by-user/${item.screen_name}/${item.tweet_id}-${originalName}`
   }
 
   throw new Error('Unimplemented media save path mode')

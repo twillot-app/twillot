@@ -465,10 +465,12 @@ export async function updateFolder(
 
 export async function iterate(
   filter: (record: Tweet) => boolean,
+  limit = Number.MAX_SAFE_INTEGER,
 ): Promise<Tweet[]> {
   const db = await openDb()
   const user_id = await getCurrentUserId()
   const records: Tweet[] = []
+  let total = 0
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
@@ -478,9 +480,15 @@ export async function iterate(
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
       if (cursor) {
+        if (total >= limit) {
+          resolve(records)
+          return
+        }
+
         const record = cursor.value
         if (record.owner_id === user_id) {
           if (filter(record)) {
+            total += 1
             records.push(record)
           }
         }

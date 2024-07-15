@@ -1,5 +1,13 @@
-import { getAuthInfo } from '../browser'
+import { getCurrentUserId, getAuthInfo } from '~/storage'
 import fetchWithTimeout, { FetchError } from '../xfetch'
+
+interface RateLimitInfo {
+  limit: number
+  remaining: number
+  reset: number
+}
+
+let rateLimitInfo: Record<string, RateLimitInfo> = {}
 
 function get_headers(token: string, csrf: string) {
   return {
@@ -10,6 +18,15 @@ function get_headers(token: string, csrf: string) {
     'X-Twitter-Auth-Type': 'OAuth2Session',
     'X-Twitter-Client-Language': 'en-us',
   }
+}
+
+export async function getRateLimitInfo() {
+  const uid = await getCurrentUserId()
+  if (!uid) {
+    return null
+  }
+
+  return rateLimitInfo[uid] || null
 }
 
 export async function request(url: string, options: RequestInit) {
@@ -35,6 +52,19 @@ export async function request(url: string, options: RequestInit) {
     credentials: 'include',
     ...options,
   })
+  const uid = await getCurrentUserId()
+  const reset = res.headers.get('X-Rate-Limit-Reset')
+  if (uid) {
+    const limit = res.headers.get('X-Rate-Limit-Limit')
+    const remaining = res.headers.get('X-Rate-Limit-Remaining')
+    if (limit && remaining && reset) {
+      rateLimitInfo[uid] = {
+        limit: parseInt(limit),
+        remaining: parseInt(remaining),
+        reset: parseInt(reset),
+      }
+    }
+  }
   if (res.status === 403) {
     const error = new Error('Forbidden')
     error.name = FetchError.IdentityError
@@ -48,9 +78,8 @@ export async function request(url: string, options: RequestInit) {
 
   const data = await res.json()
   if ('errors' in data) {
-    const t = res.headers.get('X-Rate-Limit-Reset')
-    const leftTime = t
-      ? Math.ceil((parseInt(t) * 1000 - Date.now()) / 60000)
+    const leftTime = reset
+      ? Math.ceil((parseInt(reset) * 1000 - Date.now()) / 60000)
       : 10
     const error = new Error(
       `Server error occurred, retry after ${leftTime} minutes.`,

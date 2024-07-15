@@ -1,4 +1,5 @@
-import { getCurrentUserId, getAuthInfo } from '~/storage'
+import { Endpoint } from '../types'
+import { getCurrentUserId, getAuthInfo } from '../storage'
 import fetchWithTimeout, { FetchError } from '../xfetch'
 
 interface RateLimitInfo {
@@ -7,7 +8,7 @@ interface RateLimitInfo {
   reset: number
 }
 
-let rateLimitInfo: Record<string, RateLimitInfo> = {}
+let rateLimitInfo: Record<string, Record<Endpoint, RateLimitInfo>> = {}
 
 function get_headers(token: string, csrf: string) {
   return {
@@ -20,13 +21,13 @@ function get_headers(token: string, csrf: string) {
   }
 }
 
-export async function getRateLimitInfo() {
+export async function getRateLimitInfo(endpoint: Endpoint) {
   const uid = await getCurrentUserId()
   if (!uid) {
     return null
   }
 
-  return rateLimitInfo[uid] || null
+  return rateLimitInfo[uid]?.[endpoint] || null
 }
 
 export async function request(url: string, options: RequestInit) {
@@ -58,11 +59,14 @@ export async function request(url: string, options: RequestInit) {
     const limit = res.headers.get('X-Rate-Limit-Limit')
     const remaining = res.headers.get('X-Rate-Limit-Remaining')
     if (limit && remaining && reset) {
+      const endpoint = url.split('?')[0] as Endpoint
       rateLimitInfo[uid] = {
-        limit: parseInt(limit),
-        remaining: parseInt(remaining),
-        reset: parseInt(reset),
-      }
+        [endpoint]: {
+          limit: parseInt(limit),
+          remaining: parseInt(remaining),
+          reset: parseInt(reset),
+        },
+      } as Record<Endpoint, RateLimitInfo>
     }
   }
   if (res.status === 403) {

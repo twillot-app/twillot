@@ -469,13 +469,17 @@ export async function iterate(
 ): Promise<Tweet[]> {
   const db = await openDb()
   const user_id = await getCurrentUserId()
+  if (!user_id) {
+    return Promise.resolve([])
+  }
+
   const records: Tweet[] = []
   let total = 0
 
   return new Promise((resolve, reject) => {
     const { objectStore } = getObjectStore(db, TWEETS_TABLE_NAME_V2)
     const index = objectStore.index('sort_index')
-    const request = index.openCursor()
+    const request = index.openCursor(null, 'prev')
 
     request.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result
@@ -487,7 +491,7 @@ export async function iterate(
 
         const record = cursor.value
         if (record.owner_id === user_id) {
-          if (filter(record)) {
+          if (filter(record) === true) {
             total += 1
             records.push(record)
           }

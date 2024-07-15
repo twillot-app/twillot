@@ -1,4 +1,4 @@
-import { getLocal, setLocal } from './storage'
+import { getLocal, StorageKeys, setLocal } from './storage'
 
 export function openNewTab(url: string, active = true) {
   return chrome.tabs.create({
@@ -7,10 +7,23 @@ export function openNewTab(url: string, active = true) {
   })
 }
 
-export async function getAuthInfo() {
-  const keys = ['token', 'csrf', 'lastForceSynced', 'bookmark_cursor']
+export async function getAuthInfo(): Promise<{
+  token: string
+  csrf: string
+  bookmark_cursor: string
+}> {
+  const keys = [
+    StorageKeys.Token,
+    StorageKeys.Csrf,
+    StorageKeys.Bookmark_Cursor,
+  ]
   let auth = await getLocal(keys)
   return auth
+}
+
+export async function getLastSyncInfo(): Promise<number> {
+  let obj = await getLocal(StorageKeys.Last_Sync)
+  return obj[StorageKeys.Last_Sync] || 0
 }
 
 export async function addLocalItem(key: string, value: string | string[]) {

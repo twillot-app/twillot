@@ -1,5 +1,14 @@
+export enum StorageKeys {
+  Last_Sync = 'lastForceSynced_v2',
+  Token = 'token',
+  Csrf = 'csrf',
+  Bookmark_Cursor = 'bookmark_cursor',
+  Cookie = 'cookie',
+  Current_UID = 'current_user_id',
+}
+
 export async function getCurrentUserId(): Promise<string> {
-  const item = await chrome.storage.local.get('current_user_id')
+  const item = await chrome.storage.local.get(StorageKeys.Current_UID)
   return item.current_user_id || ''
 }
 
@@ -57,7 +66,7 @@ export async function logout(user_id: string) {
     return
   }
 
-  const keys = 'csrf,token'.split(',')
+  const keys = [StorageKeys.Csrf, StorageKeys.Token]
   await chrome.storage.local.remove(
     keys.map((key) => getStorageKey(key, user_id)),
   )
@@ -100,14 +109,18 @@ export async function migrateStorage(user_id: string) {
     return
   }
 
-  const keys = 'bookmark_cursor,lastForceSynced'.split(',')
+  const keys = `${StorageKeys.Bookmark_Cursor},${StorageKeys.Last_Sync}`.split(
+    ',',
+  )
   const config = await getLocal(keys)
   const newConfig = {}
   for (const key in config) {
     newConfig[getStorageKey(key, user_id)] = config[key]
   }
   await chrome.storage.local.set(newConfig)
-  await chrome.storage.local.remove(keys.concat('cookie', 'token', 'csrf'))
+  await chrome.storage.local.remove(
+    keys.concat(StorageKeys.Cookie, StorageKeys.Token, StorageKeys.Csrf),
+  )
 }
 
 export async function isMigrationNeeded(): Promise<boolean> {

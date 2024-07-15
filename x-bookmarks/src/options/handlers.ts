@@ -1,6 +1,6 @@
 import { untrack } from 'solid-js/web'
 
-import { getAuthInfo } from 'utils/browser'
+import { getAuthInfo, getLastSyncInfo } from 'utils/browser'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus } from 'utils/types'
@@ -13,7 +13,7 @@ import {
 import { FetchError } from 'utils/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from 'utils/date'
-import { getCurrentUserId, logout, setLocal } from 'utils/storage'
+import { getCurrentUserId, StorageKeys, logout, setLocal } from 'utils/storage'
 
 async function query(
   keyword = '',
@@ -62,12 +62,15 @@ export async function initSync() {
     setStore('topUsers', await getTopUsers(10))
     setStore('totalCount', await countRecords())
 
-    const auth = await getAuthInfo()
+    const [auth, lastForceSynced] = await Promise.all([
+      getAuthInfo(),
+      getLastSyncInfo(),
+    ])
     if (!auth || !auth.token) {
       throw new Error(AuthStatus.AUTH_FAILED)
     }
 
-    if (!auth.lastForceSynced) {
+    if (!lastForceSynced) {
       setStore('isForceSyncing', true)
       /**
        * 全量同步时展示最新的 100 条数据
@@ -89,7 +92,7 @@ export async function initSync() {
       setStore('topUsers', reconcile(await getTopUsers(10)))
       const syncedTime = Math.floor(Date.now() / 1000)
       await setLocal({
-        lastForceSynced: syncedTime,
+        [StorageKeys.Last_Sync]: syncedTime,
       })
     } else {
       /**

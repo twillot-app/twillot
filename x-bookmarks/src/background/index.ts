@@ -37,8 +37,8 @@ chrome.webRequest.onSendHeaders.addListener(
       }
     }
 
-    const current_user_id = await getCurrentUserId()
-    if (current_user_id) {
+    const uid = await getCurrentUserId()
+    if (uid) {
       if (csrf && token) {
         await setLocal({
           csrf,
@@ -48,7 +48,7 @@ chrome.webRequest.onSendHeaders.addListener(
         console.error('csrf or token not found', url)
       }
     } else {
-      console.error('current_user_id not found')
+      console.error('current user id not found')
     }
   },
   {

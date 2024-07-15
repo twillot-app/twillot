@@ -10,6 +10,7 @@ import {
   clearCurrentLocal,
   onLocalChanged,
   setCurrentUserId,
+  StorageKeys,
 } from './storage'
 
 describe('Storage Module', () => {
@@ -19,7 +20,7 @@ describe('Storage Module', () => {
   })
 
   it('getUserId should return the current user id', async () => {
-    await browser.storage.local.set({ current_user_id: '123' })
+    await browser.storage.local.set({ [StorageKeys.Current_UID]: '123' })
     const userId = await getCurrentUserId()
     expect(userId).toBe('123')
   })

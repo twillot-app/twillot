@@ -1,6 +1,5 @@
 import { untrack } from 'solid-js/web'
 
-import { getAuthInfo, getLastSyncInfo } from 'utils/browser'
 import dataStore from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
 import { AuthStatus } from 'utils/types'
@@ -13,7 +12,14 @@ import {
 import { FetchError } from 'utils/xfetch'
 import { reconcile } from 'solid-js/store'
 import { DAYS, getLastNDaysDates } from 'utils/date'
-import { getCurrentUserId, StorageKeys, logout, setLocal } from 'utils/storage'
+import {
+  getCurrentUserId,
+  StorageKeys,
+  logout,
+  setLocal,
+  getAuthInfo,
+  getLastSyncInfo,
+} from 'utils/storage'
 
 async function query(
   keyword = '',

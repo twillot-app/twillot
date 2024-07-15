@@ -8,16 +8,23 @@ export enum StorageKeys {
 }
 
 export async function getCurrentUserId(): Promise<string> {
+  if (!chrome.storage) {
+    return ''
+  }
   const item = await chrome.storage.local.get(StorageKeys.Current_UID)
-  return item.current_user_id || ''
+  return item[StorageKeys.Current_UID] || ''
 }
 
 export function setCurrentUserId(user_id: string) {
-  return chrome.storage.local.set({ current_user_id: user_id })
+  return chrome.storage.local.set({ [StorageKeys.Current_UID]: user_id })
 }
 
 export function getStorageKey(key: string, user_id: string) {
   if (!user_id) {
+    return key
+  }
+
+  if (key === StorageKeys.Current_UID) {
     return key
   }
 
@@ -87,9 +94,9 @@ export async function clearCurrentLocal() {
 
 export function onLocalChanged(callback: (changes: any) => void) {
   chrome.storage.local.onChanged.addListener(async (changes) => {
-    const current_user_id = await getCurrentUserId()
-    if (!current_user_id) {
-      console.error('current_user_id not found in storage')
+    const uid = await getCurrentUserId()
+    if (!uid) {
+      console.error('current user id is not found in storage')
       return
     }
 
@@ -126,4 +133,23 @@ export async function migrateStorage(user_id: string) {
 export async function isMigrationNeeded(): Promise<boolean> {
   const storage = await chrome.storage.local.get()
   return 'token' in storage
+}
+
+export async function getAuthInfo(): Promise<{
+  token: string
+  csrf: string
+  bookmark_cursor: string
+}> {
+  const keys = [
+    StorageKeys.Token,
+    StorageKeys.Csrf,
+    StorageKeys.Bookmark_Cursor,
+  ]
+  let auth = await getLocal(keys)
+  return auth
+}
+
+export async function getLastSyncInfo(): Promise<number> {
+  let obj = await getLocal(StorageKeys.Last_Sync)
+  return obj[StorageKeys.Last_Sync] || 0
 }

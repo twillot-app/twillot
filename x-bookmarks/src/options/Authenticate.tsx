@@ -1,11 +1,12 @@
 import { Show, createEffect, onCleanup } from 'solid-js'
 
 import dataStore from './store'
-import { getAuthInfo, openNewTab } from 'utils/browser'
+import { openNewTab } from 'utils/browser'
 import Indicator from '../components/Indicator'
 import { Alert } from '../components/Alert'
 import { ActionPage } from 'utils/types'
 import {
+  getAuthInfo,
   getCurrentUserId,
   isMigrationNeeded,
   migrateStorage,

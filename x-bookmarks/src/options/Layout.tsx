@@ -28,7 +28,11 @@ import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
-import { getCurrentUserId, onLocalChanged } from 'utils/storage'
+import {
+  getCurrentUserId,
+  getLastSyncInfo,
+  onLocalChanged,
+} from 'utils/storage'
 import { syncThreads } from '../libs/bookmark'
 
 export const Layout = (props) => {
@@ -64,7 +68,12 @@ export const Layout = (props) => {
   })
 
   onMount(async () => {
-    syncThreads()
+    // 如果已经同步书签，则开始同步 threads
+    const lastSync = await getLastSyncInfo()
+    if (lastSync) {
+      syncThreads()
+    }
+
     if (!store.isSidePanel) {
       const user_id = await getCurrentUserId()
       if (!user_id) {
@@ -79,6 +88,11 @@ export const Layout = (props) => {
       })
 
       await Promise.all([initHistory(), initSync(), initFolders()])
+    }
+
+    // 如果没有同步过书签，则开始首次同步 threads
+    if (!lastSync) {
+      syncThreads()
     }
   })
 

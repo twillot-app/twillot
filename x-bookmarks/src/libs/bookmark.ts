@@ -1,4 +1,4 @@
-import { addRecords, getRecord, iterate } from 'utils/db/tweets'
+import { upsertRecords, getRecord, iterate } from 'utils/db/tweets'
 import {
   TimelineEntry,
   TimelineTimelineItem,
@@ -53,7 +53,7 @@ export async function* syncAllBookmarks(forceSync = false) {
       const docs = tweets.map((i) =>
         toRecord(i.content.itemContent, i.sortIndex),
       )
-      await addRecords(docs)
+      await upsertRecords(docs)
       yield docs
     }
     const target = instruction.entries[instruction.entries.length - 1].content
@@ -73,7 +73,7 @@ export async function* syncAllBookmarks(forceSync = false) {
  * 详情接口的限制是 150 条
  */
 export async function syncThreads() {
-  const detailLimit = 150
+  const detailLimit = 10
   const records = await iterate((t) => t.is_thread == null, detailLimit * 0.5)
   console.log(`Syncing ${records.length} threads`, records)
 
@@ -93,7 +93,7 @@ export async function syncThreads() {
       const conversations = await getTweetConversations(record.tweet_id)
       record.conversations = conversations
       record.is_thread = conversations.length > 0
-      await addRecords([record], true)
+      await upsertRecords([record])
     } catch (e) {
       console.error('Failed to get conversations', e)
       if (e.name === FetchError.IdentityError) {

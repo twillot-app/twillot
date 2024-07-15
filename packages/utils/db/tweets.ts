@@ -4,6 +4,11 @@ import { parseTwitterQuery } from '../query-parser'
 import { getCurrentUserId } from '../storage'
 import { openDb, getObjectStore, TWEETS_TABLE_NAME_V2 } from './index'
 
+const metadataFields =
+  'bookmark_count,favorite_count,quote_count,reply_count,retweet_count,bookmarked,favorited,is_quote_status,retweeted'.split(
+    ',',
+  )
+
 export function getPostId(user_id: string, tweet_id: string) {
   if (!user_id || !tweet_id) {
     console.error('Invalid user_id or tweet_id', user_id, tweet_id)
@@ -13,10 +18,7 @@ export function getPostId(user_id: string, tweet_id: string) {
   return tweet_id.includes(user_id) ? tweet_id : user_id + '_' + tweet_id
 }
 
-export async function addRecords(
-  records: Tweet[],
-  overwrite = false,
-): Promise<void> {
+export async function upsertRecords(records: Tweet[]): Promise<void> {
   const db = await openDb()
   const user_id = await getCurrentUserId()
 
@@ -40,14 +42,22 @@ export async function addRecords(
         record.id = key
         record.owner_id = user_id
 
-        if (overwrite) {
-          objectStore.put(record)
-          return
-        }
-
         const getRequest = objectStore.get(key)
         getRequest.onsuccess = () => {
-          if (!getRequest.result) {
+          const existingRecord = getRequest.result
+          // 更新一般有两种
+          // 更新 metadata or 更新文件夹
+          if (existingRecord) {
+            metadataFields.forEach((field) => {
+              if (field in record) {
+                existingRecord[field] = record[field]
+              }
+            })
+            if ('folder' in record) {
+              existingRecord.folder = record.folder
+            }
+            objectStore.put(existingRecord)
+          } else {
             objectStore.put(record)
           }
         }

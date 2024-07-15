@@ -12,7 +12,7 @@ import {
 } from 'utils/types'
 import dataStore, { mutateStore } from '../options/store'
 import {
-  addRecords,
+  upsertRecords,
   clearFolder,
   countRecords,
   getPostId,
@@ -153,7 +153,7 @@ export async function moveTweetToFolder(folder: string, tweet: Tweet) {
   const oldFolderIndex = tweet.folder
     ? store.folders.findIndex((f) => f.name === tweet.folder)
     : -1
-  await addRecords([{ ...unwrap(tweet), folder }], true)
+  await upsertRecords([{ ...unwrap(tweet), folder }])
   mutateStore((state) => {
     state.tweets[index].folder = folder
     state.folders[folderIndex].count += 1
@@ -184,7 +184,7 @@ export const moveTweetsToFolder = async (folder: string) => {
         ...tweet,
         folder,
       }))
-    await addRecords(tweets, true)
+    await upsertRecords(tweets)
     mutateStore((state) => {
       state.tweets.forEach((t) => {
         if (!t.folder) {

@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill'
 import 'fake-indexeddb/auto'
 
 import {
-  addRecords,
+  upsertRecords,
   findRecords,
   getRecord,
   countRecords,
@@ -99,7 +99,7 @@ describe('dbModule', () => {
   describe('addRecords', () => {
     it('should add records to the database', async () => {
       const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
+      await upsertRecords(tweets)
       const result = await findRecords()
       expect(result.length).toEqual(tweets.length)
     })
@@ -109,7 +109,7 @@ describe('dbModule', () => {
     it('should find records based on criteria', async () => {
       const tweet = TweetGenerator.generateTweet()
       tweet.full_text = 'Hello World'
-      await addRecords([tweet])
+      await upsertRecords([tweet])
       const results = await findRecords('hello')
       expect(results.length).toBe(1)
       expect(results[0].tweet_id).toBe(tweet.tweet_id)
@@ -119,7 +119,7 @@ describe('dbModule', () => {
   describe('getRecord', () => {
     it('should get a record by tweet_id', async () => {
       const tweet = TweetGenerator.generateTweet()
-      await addRecords([tweet])
+      await upsertRecords([tweet])
       const result = await getRecord(tweet.tweet_id)
       expect(result).toBeDefined()
       expect(result?.tweet_id).toBe(tweet.tweet_id)
@@ -129,7 +129,7 @@ describe('dbModule', () => {
   describe('countRecords', () => {
     it('should count the number of records in the database', async () => {
       const tweets = TweetGenerator.generateTweets(3)
-      await addRecords(tweets)
+      await upsertRecords(tweets)
       const count = await countRecords()
       expect(count.total).toBe(3)
     })
@@ -138,7 +138,7 @@ describe('dbModule', () => {
   describe('aggregateUsers', () => {
     it('should aggregate tweets by user', async () => {
       const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
+      await upsertRecords(tweets)
       const aggregated = await aggregateUsers()
       const size = Object.keys(aggregated).length
       expect(aggregated).toBeInstanceOf(Object)
@@ -150,7 +150,7 @@ describe('dbModule', () => {
   describe('getTopUsers', () => {
     it('should get top users by tweet count', async () => {
       const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
+      await upsertRecords(tweets)
       const topUsers = await getTopUsers()
       expect(topUsers).toBeInstanceOf(Array)
       expect(topUsers.length).toBeGreaterThan(0)
@@ -160,7 +160,7 @@ describe('dbModule', () => {
   describe('getRecentTweets', () => {
     it('should get recent tweets', async () => {
       const tweets = TweetGenerator.generateTweets(5)
-      await addRecords(tweets)
+      await upsertRecords(tweets)
       const recentTweets = await getRencentTweets(Number.MAX_SAFE_INTEGER)
       expect(recentTweets.data).toBeInstanceOf(Array)
       expect(recentTweets.total).toBeGreaterThan(0)
@@ -171,7 +171,7 @@ describe('dbModule', () => {
     it('should clear tweets in a specified folder', async () => {
       const tweet = TweetGenerator.generateTweet()
       tweet.folder = 'testFolder'
-      await addRecords([tweet])
+      await upsertRecords([tweet])
       await clearFolder('testFolder')
       const results = await findRecords('', '', 'testFolder')
       expect(results.length).toBe(0)

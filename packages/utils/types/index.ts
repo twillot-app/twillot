@@ -45,7 +45,7 @@ export interface Tweet extends TweetQuoted {
   is_thread: boolean | null
   quoted_tweet?: TweetQuoted
   // 不可以属于多个文件夹
-  folder: string
+  folder?: string
   conversations: Tweet[]
 }
 

@@ -67,6 +67,7 @@ export async function initSync() {
      */
     setStore('topUsers', await getTopUsers(10))
     setStore('totalCount', await countRecords())
+    await initHistory()
 
     const [auth, lastForceSynced] = await Promise.all([
       getAuthInfo(),

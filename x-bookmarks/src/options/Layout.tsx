@@ -81,13 +81,7 @@ export const Layout = (props) => {
         return
       }
 
-      onLocalChanged(async (changes) => {
-        if ('tasks' in changes) {
-          await initSync()
-        }
-      })
-
-      await Promise.all([initHistory(), initSync(), initFolders()])
+      await Promise.all([initSync(), initFolders()])
     }
 
     // 如果没有同步过书签，则开始首次同步 threads

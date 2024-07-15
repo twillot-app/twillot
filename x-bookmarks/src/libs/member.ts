@@ -104,7 +104,7 @@ export const EXPORT_MEDIA_FIELDS = [
     data: [
       {
         value: 'default',
-        label: 'None (no subfolder)',
+        label: 'Default (no subfolder)',
         level: MemberLevel.Free,
       },
       {

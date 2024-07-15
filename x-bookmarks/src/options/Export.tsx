@@ -321,7 +321,7 @@ const ExportPage = () => {
               <label class="mb-2 block w-32 text-right font-medium text-gray-900 dark:text-white">
                 Rows Limited:
               </label>
-              <div class="flex-1">
+              <div class="flex-1 text-sm">
                 <p class="flex items-center font-medium text-gray-900 dark:text-gray-300">
                   <Show
                     when={

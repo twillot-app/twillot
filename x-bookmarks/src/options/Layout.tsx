@@ -1,16 +1,19 @@
 import { createEffect, For, onMount, Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { A, useSearchParams } from '@solidjs/router'
+import debounce from 'lodash.debounce'
 
+import { createStyleSheet } from 'utils/dom'
 import dataStore from './store'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
 import Search from './Search'
 import {
   initSync,
-  onBookmarkChanged,
+  syncBookmarkChanges,
   queryByCondition,
   resetQuery,
+  syncThreads,
 } from './handlers'
 import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
@@ -26,7 +29,6 @@ import {
   IconUp,
 } from '../components/Icons'
 import ZenMode from '../components/ZenMode'
-import { createStyleSheet } from 'utils/dom'
 import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
@@ -34,10 +36,9 @@ import AsideFolder from '../components/AsideFolder'
 import {
   getCurrentUserId,
   getLastSyncInfo,
-  getStorageKey,
+  onLocalChanged,
   StorageKeys,
 } from 'utils/storage'
-import { syncThreads } from '../libs/bookmark'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -72,12 +73,12 @@ export const Layout = (props) => {
   })
 
   onMount(async () => {
-    const key = getStorageKey(StorageKeys.Tasks, await getCurrentUserId())
-    chrome.storage.onChanged.addListener(async (changes) => {
-      if (key in changes) {
-        onBookmarkChanged()
+    const handler = debounce((changes) => {
+      if (StorageKeys.Tasks in changes) {
+        syncBookmarkChanges()
       }
-    })
+    }, 3000)
+    onLocalChanged(handler)
     // 如果已经同步书签，则开始同步 threads
     const lastSync = await getLastSyncInfo()
     if (lastSync) {

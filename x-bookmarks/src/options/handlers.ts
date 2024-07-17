@@ -1,9 +1,18 @@
 import { untrack } from 'solid-js/web'
+import { reconcile } from 'solid-js/store'
 
-import dataStore, { mutateStore } from './store'
-import { syncAllBookmarks } from '../libs/bookmark'
-import { AuthStatus, TaskType } from 'utils/types'
 import {
+  getBookmarks,
+  getTweetConversations,
+  getTweetId,
+  toRecord,
+} from 'utils/api/twitter'
+import { getRateLimitInfo } from 'utils/api/twitter-base'
+import { DAYS, getLastNDaysDates } from 'utils/date'
+import {
+  upsertRecords,
+  getRecord,
+  iterate,
   countRecords,
   deleteRecord,
   findRecords,
@@ -11,8 +20,15 @@ import {
   getTopUsers,
 } from 'utils/db/tweets'
 import { FetchError } from 'utils/xfetch'
-import { reconcile } from 'solid-js/store'
-import { DAYS, getLastNDaysDates } from 'utils/date'
+import {
+  TimelineEntry,
+  TimelineTimelineItem,
+  TimelineTweet,
+  TimelineAddEntriesInstruction,
+  Endpoint,
+  AuthStatus,
+  TaskType,
+} from 'utils/types'
 import {
   getCurrentUserId,
   StorageKeys,
@@ -22,6 +38,8 @@ import {
   getLastSyncInfo,
   getLocal,
 } from 'utils/storage'
+
+import dataStore, { mutateStore } from './store'
 
 async function query(
   keyword = '',
@@ -160,6 +178,156 @@ export async function initHistory() {
   })
 }
 
+export async function syncBookmarkChanges(isInit = false) {
+  const tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks] || []
+  const del_ids = []
+
+  for (const task of tasks) {
+    try {
+      const id = task.payload.variables.tweet_id
+      if (task.type === TaskType.DeleteBookmark) {
+        await deleteRecord(id)
+        del_ids.push(id)
+      }
+    } catch (e) {
+      console.error(`Failed to delete bookmark`, task)
+    }
+  }
+  mutateStore((state) => {
+    state.tweets = state.tweets.filter((t) => !del_ids.includes(t.tweet_id))
+  })
+
+  if (!isInit && tasks.length > 0) {
+    console.log(`Bookmark changes synced, total ${tasks.length} changes`, tasks)
+    initSync()
+  }
+
+  await setLocal({
+    [StorageKeys.Tasks]: [],
+  })
+
+  return del_ids
+}
+
+export async function* syncAllBookmarks(forceSync = false) {
+  /**
+   * 仅针对全量同步记录 cursor 到本地
+   */
+  const del_ids = await syncBookmarkChanges(true)
+  let cursor: string | undefined = forceSync
+    ? (await getLocal(StorageKeys.Bookmark_Cursor))[StorageKeys.Bookmark_Cursor]
+    : undefined
+  while (true) {
+    const json = await getBookmarks(cursor)
+    const instruction =
+      json.data.bookmark_timeline_v2.timeline.instructions?.find(
+        (i) => i.type === 'TimelineAddEntries',
+      ) as TimelineAddEntriesInstruction | undefined
+    if (!instruction) {
+      console.error('No instructions found in response')
+      break
+    }
+
+    let tweets = instruction.entries.filter(
+      (e) => e.content.entryType === 'TimelineTimelineItem',
+    ) as TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[]
+    if (!tweets.length) {
+      console.warn(
+        `Reached end of bookmarks with cursor ${cursor}, ${tweets.length}`,
+      )
+      break
+    } else {
+      if (!forceSync) {
+        if (await isBookmarksSynced(tweets)) {
+          console.log('All bookmarks have been synchronized')
+          break
+        }
+      }
+
+      // 有可能被删除
+      const docs = tweets
+        .map((i) => toRecord(i.content.itemContent, i.sortIndex))
+        .filter((t) => t && del_ids.includes(t.tweet_id) === false)
+      await upsertRecords(docs)
+      yield docs
+    }
+    const target = instruction.entries[instruction.entries.length - 1].content
+    if (target.entryType === 'TimelineTimelineCursor') {
+      cursor = target.value
+      if (forceSync) {
+        await setLocal({ [StorageKeys.Bookmark_Cursor]: cursor })
+      }
+    } else {
+      break
+    }
+  }
+}
+
+/**
+ * 定期同步 threads 记录
+ * 详情接口的限制是 150 条
+ */
+export async function syncThreads() {
+  const detailLimit = 10
+  const records = await iterate((t) => t.is_thread == null, detailLimit * 0.5)
+  console.log(`Syncing ${records.length} threads`, records)
+
+  for (const record of records) {
+    const rateLimitInfo = await getRateLimitInfo(Endpoint.TWEET_DETAIL)
+    if (rateLimitInfo?.remaining < 50) {
+      const retryIn = rateLimitInfo.reset * 1000 - Date.now() + 60 * 1000
+      setTimeout(syncThreads, retryIn)
+      console.log(
+        `Rate limit reached, retry in ${Math.floor(retryIn / 1000)} seconds`,
+        rateLimitInfo,
+      )
+      break
+    }
+
+    try {
+      const conversations = await getTweetConversations(record.tweet_id)
+      record.conversations = conversations
+      record.is_thread = conversations.length > 0
+      await upsertRecords([record])
+    } catch (e) {
+      console.error('Failed to get conversations', e)
+      if (e.name === FetchError.IdentityError) {
+        break
+      }
+    }
+  }
+
+  console.log('Synced threads finished')
+  setTimeout(syncThreads, 10 * 60 * 1000)
+}
+
+export async function isBookmarksSynced(
+  tweets: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[],
+) {
+  const remoteLatest = tweets[0]
+  const remoteLast = tweets[tweets.length - 1]
+  const [localLatest, localLast] = await Promise.all([
+    getRecord(getTweetId(remoteLatest)),
+    getRecord(getTweetId(remoteLast)),
+  ])
+  /**
+   * 首尾两条都同步过了，说明已经同步完毕，可以退出循环
+   * 如果因为同步被中断导致部分旧数据未同步，可以手动调用时设置 forceSync 参数为 true
+   */
+  if (localLatest && localLast) {
+    // 有可能将老数据取消收藏，然后又重新收藏
+    // 这个时候 sort_index 没有更新，需要重新同步
+    if (
+      localLatest.sort_index === remoteLatest.sortIndex &&
+      localLast.sort_index === remoteLast.sortIndex
+    ) {
+      return true
+    }
+  }
+
+  return false
+}
+
 export async function getNextTweet() {
   const [store, setStore] = dataStore
   const index = store.selectedTweet
@@ -198,38 +366,4 @@ export function resetQuery() {
     category: '',
     folder: '',
   })
-}
-
-export async function onBookmarkChanged() {
-  const tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks] || []
-  const del_ids = []
-  let add_num = 0
-  for (const task of tasks) {
-    try {
-      const id = task.payload.variables.tweet_id
-      if (task.type === TaskType.DeleteBookmark) {
-        await deleteRecord(id)
-        console.log(`Deleted bookmark ${id}`)
-        del_ids.push(id)
-      } else if (task.type === TaskType.CreateBookmark) {
-        add_num += 1
-      }
-    } catch (e) {
-      console.error(`Failed to delete bookmark`, task)
-    }
-  }
-  mutateStore((state) => {
-    del_ids.forEach((id) => {
-      console.log(
-        `Deleted bookmark ${id} from store`,
-        state.tweets.findIndex((t) => t.tweet_id === id),
-      )
-    })
-    state.tweets = state.tweets.filter((t) => !del_ids.includes(t.tweet_id))
-  })
-
-  if (add_num > 0) {
-    console.log(`Adding ${add_num} bookmarks ...`)
-    await initSync()
-  }
 }

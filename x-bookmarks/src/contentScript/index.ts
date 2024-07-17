@@ -38,34 +38,38 @@ window.addEventListener('message', async (event) => {
   }
 
   const { data } = event
-  if (data.type === TaskType.DeleteBookmark) {
+  if (
+    data.type === TaskType.DeleteBookmark ||
+    data.type === TaskType.CreateBookmark
+  ) {
     let tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks]
     if (!tasks) {
       tasks = []
     }
+    const tweet_id = data.payload.variables.tweet_id
+    if (
+      tasks.some(
+        (t) =>
+          t.payload.variables.tweet_id === tweet_id && data.type === t.type,
+      )
+    ) {
+      console.log('Task already exists')
+      return
+    }
+
     tasks.push(data)
+    if (data.type === TaskType.CreateBookmark) {
+      const index = tasks.findIndex(
+        (t: { type: string; payload: Payload }) =>
+          t.type === TaskType.DeleteBookmark &&
+          t.payload.variables.tweet_id === tweet_id,
+      )
+      if (index > -1) {
+        tasks.splice(index, 1)
+      }
+    }
     await setLocal({
       [StorageKeys.Tasks]: tasks,
     })
-    console.log('Tasks task added', tasks)
-  } else if (data.type === TaskType.CreateBookmark) {
-    let tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks]
-    if (!tasks) {
-      return
-    }
-    const index = tasks.findIndex(
-      (t: { type: string; payload: Payload }) =>
-        t.type === TaskType.DeleteBookmark &&
-        t.payload.variables.tweet_id === data.payload.variables.tweet_id,
-    )
-    if (index < 0) {
-      return
-    }
-    tasks.splice(index, 1)
-    tasks.push(data)
-    await setLocal({
-      [StorageKeys.Tasks]: tasks,
-    })
-    console.log('Tasks task removed', tasks)
   }
 })

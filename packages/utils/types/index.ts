@@ -65,6 +65,7 @@ export interface TweetQuoted {
   created_at: number
   possibly_sensitive: boolean
   media_items: Media[] | null | undefined
+  views_count: number
   bookmark_count: number
   favorite_count: number
   quote_count: number

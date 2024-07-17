@@ -5,7 +5,7 @@ import { getCurrentUserId } from '../storage'
 import { openDb, getObjectStore, TWEETS_TABLE_NAME_V2 } from './index'
 
 const metadataFields =
-  'bookmark_count,favorite_count,quote_count,reply_count,retweet_count,bookmarked,favorited,is_quote_status,retweeted'.split(
+  'views_count,bookmark_count,favorite_count,quote_count,reply_count,retweet_count,bookmarked,favorited,is_quote_status,retweeted'.split(
     ',',
   )
 

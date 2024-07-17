@@ -80,6 +80,7 @@ function getTweetFields(tweet?: TweetUnion) {
     media_items,
     created_at: Math.floor(new Date(tweet.legacy.created_at).getTime() / 1000),
     lang: tweet.legacy.lang,
+    views_count: tweet.views.count || 0,
     bookmark_count: tweet.legacy.bookmark_count,
     favorite_count: tweet.legacy.favorite_count,
     quote_count: tweet.legacy.quote_count,

@@ -3,7 +3,8 @@
   "dependencies": {
     "@solidjs/router": "^0.13.2",
     "solid-js": "^1.8.1",
-    "utils": "workspace:*"
+    "utils": "workspace:*",
+    "lodash.debounce": "^4.0.8"
   },
   "description": "Search, export and organize your X/Twitter bookmarks",
   "devDependencies": {},

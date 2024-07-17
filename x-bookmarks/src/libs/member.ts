@@ -10,7 +10,7 @@ export const MAX_MEDIA_EXPORT_SIZE = [100, 500, Number.MAX_SAFE_INTEGER]
 
 const fileTypes = [
   { value: 'csv', label: 'CSV', level: MemberLevel.Free },
-  { value: 'json', label: 'JSON', level: MemberLevel.Free },
+  { value: 'json', label: 'Raw JSON', level: MemberLevel.Basic },
   // { value: 'pdf', label: 'PDF', level: 1 },
   // { value: 'docx', label: 'DOCX', level: 1 },
 ]
@@ -22,7 +22,7 @@ const metaDatas = [
   { value: 'no', label: 'None', level: MemberLevel.Free },
   {
     value: 'yes',
-    label: 'Include bookmark / favorite / quote / reply / repost',
+    label: 'Include views / bookmark / favorite / quote / reply / repost',
     level: MemberLevel.Basic,
   },
 ]
@@ -47,7 +47,7 @@ export const EXPORT_FORM_FIELDS = [
   {
     name: 'metadata',
     data: metaDatas,
-    label: 'Count metadata',
+    label: 'Engagement metrics',
     default: 'no',
   },
   // {
@@ -130,7 +130,7 @@ export function getExportFields(
   fileType?: string,
 ): Record<string, string> {
   const metaFields = {
-    is_thread: 'Thread',
+    views_count: 'Views Count',
     bookmark_count: 'Bookmark Count',
     favorite_count: 'Favorite Count',
     quote_count: 'Quote Count',
@@ -160,6 +160,7 @@ export function getExportFields(
     created_at: 'Created At',
     possibly_sensitive: 'Sensitive',
     media_items: 'Media Items',
+    is_thread: 'Thread',
   }
 
   if (level === MemberLevel.Free) {

@@ -23,7 +23,7 @@ const pricingUrl =
   'https://twillot.com/x-twitter-bookmarks/pricing?utm_source=extension&utm_medium=export'
 
 const ExportPage = () => {
-  const level = MemberLevel.Pro
+  const level = MemberLevel.Basic
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[level],
   )
@@ -44,6 +44,14 @@ const ExportPage = () => {
       } else {
         setMaxMediaRows(MAX_MEDIA_EXPORT_SIZE[level])
       }
+    } else if (field.name === 'file_format') {
+      document
+        .querySelectorAll(
+          'input[name="unroll"][value="yes"], input[name="metadata"][value="yes"]',
+        )
+        .forEach((el: HTMLElement) => {
+          el.click()
+        })
     }
   }
   const exportBookmarks = async (e) => {
@@ -74,24 +82,28 @@ const ExportPage = () => {
       return
     }
 
-    exportData(
-      records.map((i) => ({
-        ...i,
-        is_thread: i.is_thread || i.conversations?.length > 0,
-        url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
-        full_text:
-          level < MemberLevel.Basic
-            ? i.full_text
-            : i.conversations?.length
-              ? i.full_text +
-                '\n' +
-                i.conversations.map((i) => i?.full_text || '').join('\n')
-              : i.full_text,
-      })),
-      params.file_format.toUpperCase(),
-      'twillot-bookmarks.' + params.file_format,
-      getExportFields(level, params.file_format),
-    )
+    if (params.file_format === 'csv') {
+      exportData(
+        records.map((i) => ({
+          ...i,
+          is_thread: i.is_thread || i.conversations?.length > 0,
+          url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
+          full_text:
+            level < MemberLevel.Basic
+              ? i.full_text
+              : i.conversations?.length
+                ? i.full_text +
+                  '\n' +
+                  i.conversations.map((i) => i?.full_text || '').join('\n')
+                : i.full_text,
+        })),
+        'CSV',
+        'twillot-bookmarks.csv',
+        getExportFields(level, params.file_format),
+      )
+    } else if (params.file_format === 'json') {
+      exportData(records, 'JSON', 'twillot-bookmarks.json')
+    }
   }
   const exportMedia = async (e) => {
     e.preventDefault()

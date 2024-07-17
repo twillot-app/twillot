@@ -11,6 +11,11 @@ export * from './tweet'
 export * from './user'
 export * from './configs'
 
+export enum TaskType {
+  CreateBookmark = 'CreateBookmark',
+  DeleteBookmark = 'DeleteBookmark',
+}
+
 export interface CountInfo {
   total: number
   unsorted: number

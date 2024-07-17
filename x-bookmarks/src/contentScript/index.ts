@@ -7,7 +7,7 @@ import {
 
 //@ts-ignore
 import mainWorld from './inject?script&module'
-import { Host } from 'utils/types'
+import { Host, TaskType } from 'utils/types'
 
 interface Payload {
   variables: {
@@ -38,40 +38,34 @@ window.addEventListener('message', async (event) => {
   }
 
   const { data } = event
-  if (data.type === 'DeleteBookmark') {
-    let tasks = (await getLocal(StorageKeys.DeleteBookmark))[
-      StorageKeys.DeleteBookmark
-    ]
+  if (data.type === TaskType.DeleteBookmark) {
+    let tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks]
     if (!tasks) {
       tasks = []
     }
-    tasks.push({
-      task_name: StorageKeys.DeleteBookmark,
-      payload: data.payload,
-    })
+    tasks.push(data)
     await setLocal({
-      [StorageKeys.DeleteBookmark]: tasks,
+      [StorageKeys.Tasks]: tasks,
     })
-    console.log('DeleteBookmark task added', tasks)
-  } else if (data.type === 'CreateBookmark') {
-    let tasks = (await getLocal(StorageKeys.DeleteBookmark))[
-      StorageKeys.DeleteBookmark
-    ]
+    console.log('Tasks task added', tasks)
+  } else if (data.type === TaskType.CreateBookmark) {
+    let tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks]
     if (!tasks) {
       return
     }
     const index = tasks.findIndex(
-      (t: { task_name: string; payload: Payload }) =>
-        t.task_name === StorageKeys.DeleteBookmark &&
+      (t: { type: string; payload: Payload }) =>
+        t.type === TaskType.DeleteBookmark &&
         t.payload.variables.tweet_id === data.payload.variables.tweet_id,
     )
     if (index < 0) {
       return
     }
     tasks.splice(index, 1)
+    tasks.push(data)
     await setLocal({
-      [StorageKeys.DeleteBookmark]: tasks,
+      [StorageKeys.Tasks]: tasks,
     })
-    console.log('DeleteBookmark task removed', tasks)
+    console.log('Tasks task removed', tasks)
   }
 })

@@ -194,6 +194,7 @@ export async function deleteTweet(tweetId: string) {
 
 export async function deleteBookmark(tweetId: string) {
   return request(Endpoint.DELETE_BOOKMARK, {
+    method: 'POST',
     body: JSON.stringify({
       variables: {
         tweet_id: tweetId,
@@ -273,8 +274,8 @@ export function getTweetDetails(
  * sortIndex 依赖与书签同步接口
  * 如果推文被删除，会使用 null 代替
  */
-export async function getTweetConversations(tweetId: string) {
-  const json = await getTweetDetails(tweetId)
+export async function getTweetConversations(tweetId: string, tweetJson?: any) {
+  const json = tweetJson || (await getTweetDetails(tweetId))
   const wrapper =
     json.data.threaded_conversation_with_injections_v2.instructions
   const instructions = wrapper.find((i) => i.type === 'TimelineAddEntries') as

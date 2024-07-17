@@ -6,17 +6,20 @@ import dataStore from './store'
 import Indicator from '../components/Indicator'
 import Authenticate from './Authenticate'
 import Search from './Search'
-import { initHistory, initSync, queryByCondition, resetQuery } from './handlers'
+import {
+  initSync,
+  onBookmarkChanged,
+  queryByCondition,
+  resetQuery,
+} from './handlers'
 import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
 import {
   IconBookmark,
-  IconBranch,
   IconCrown,
   IconExport,
   IconFolderMove,
   IconFolders,
-  IconLicense,
   IconMessage,
   IconMoon,
   IconSun,
@@ -31,7 +34,8 @@ import AsideFolder from '../components/AsideFolder'
 import {
   getCurrentUserId,
   getLastSyncInfo,
-  onLocalChanged,
+  getStorageKey,
+  StorageKeys,
 } from 'utils/storage'
 import { syncThreads } from '../libs/bookmark'
 
@@ -68,6 +72,12 @@ export const Layout = (props) => {
   })
 
   onMount(async () => {
+    const key = getStorageKey(StorageKeys.Tasks, await getCurrentUserId())
+    chrome.storage.onChanged.addListener(async (changes) => {
+      if (key in changes) {
+        onBookmarkChanged()
+      }
+    })
     // 如果已经同步书签，则开始同步 threads
     const lastSync = await getLastSyncInfo()
     if (lastSync) {

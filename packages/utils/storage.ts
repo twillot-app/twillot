@@ -5,7 +5,7 @@ export enum StorageKeys {
   Bookmark_Cursor = 'bookmark_cursor',
   Cookie = 'cookie',
   Current_UID = 'current_user_id',
-  DeleteBookmark = 'delete_bookmark',
+  Tasks = 'tasks',
 }
 
 export async function getCurrentUserId(): Promise<string> {

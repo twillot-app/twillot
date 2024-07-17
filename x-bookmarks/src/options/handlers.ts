@@ -1,10 +1,11 @@
 import { untrack } from 'solid-js/web'
 
-import dataStore from './store'
+import dataStore, { mutateStore } from './store'
 import { syncAllBookmarks } from '../libs/bookmark'
-import { AuthStatus } from 'utils/types'
+import { AuthStatus, TaskType } from 'utils/types'
 import {
   countRecords,
+  deleteRecord,
   findRecords,
   getRencentTweets,
   getTopUsers,
@@ -19,6 +20,7 @@ import {
   setLocal,
   getAuthInfo,
   getLastSyncInfo,
+  getLocal,
 } from 'utils/storage'
 
 async function query(
@@ -196,4 +198,38 @@ export function resetQuery() {
     category: '',
     folder: '',
   })
+}
+
+export async function onBookmarkChanged() {
+  const tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks] || []
+  const del_ids = []
+  let add_num = 0
+  for (const task of tasks) {
+    try {
+      const id = task.payload.variables.tweet_id
+      if (task.type === TaskType.DeleteBookmark) {
+        await deleteRecord(id)
+        console.log(`Deleted bookmark ${id}`)
+        del_ids.push(id)
+      } else if (task.type === TaskType.CreateBookmark) {
+        add_num += 1
+      }
+    } catch (e) {
+      console.error(`Failed to delete bookmark`, task)
+    }
+  }
+  mutateStore((state) => {
+    del_ids.forEach((id) => {
+      console.log(
+        `Deleted bookmark ${id} from store`,
+        state.tweets.findIndex((t) => t.tweet_id === id),
+      )
+    })
+    state.tweets = state.tweets.filter((t) => !del_ids.includes(t.tweet_id))
+  })
+
+  if (add_num > 0) {
+    console.log(`Adding ${add_num} bookmarks ...`)
+    await initSync()
+  }
 }

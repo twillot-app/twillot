@@ -5,7 +5,7 @@
     "solid-js": "^1.8.1",
     "utils": "workspace:*"
   },
-  "description": "Organize X/Twitter bookmarks, streamline X/Twitter workflow experience.",
+  "description": "Search, export and organize your X/Twitter bookmarks",
   "devDependencies": {},
   "displayName": "Twillot for X/Twitter Bookmarks",
   "engines": {
@@ -25,5 +25,5 @@
     "zip": "npm run build && node src/zip.js"
   },
   "type": "module",
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

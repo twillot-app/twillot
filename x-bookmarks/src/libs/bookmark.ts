@@ -1,4 +1,9 @@
-import { upsertRecords, getRecord, iterate } from 'utils/db/tweets'
+import {
+  upsertRecords,
+  getRecord,
+  iterate,
+  deleteRecord,
+} from 'utils/db/tweets'
 import {
   TimelineEntry,
   TimelineTimelineItem,
@@ -34,7 +39,7 @@ export async function* syncAllBookmarks(forceSync = false) {
       break
     }
 
-    const tweets = instruction.entries.filter(
+    let tweets = instruction.entries.filter(
       (e) => e.content.entryType === 'TimelineTimelineItem',
     ) as TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>[]
     if (!tweets.length) {
@@ -53,7 +58,7 @@ export async function* syncAllBookmarks(forceSync = false) {
       // 有可能被删除
       const docs = tweets
         .map((i) => toRecord(i.content.itemContent, i.sortIndex))
-        .filter((d) => d)
+        .filter((t) => t)
       await upsertRecords(docs)
       yield docs
     }

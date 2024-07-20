@@ -3,7 +3,7 @@ import { For, onMount } from 'solid-js'
 import dataStore from './store'
 import { activateLicense, getLicense, LICENSE_KEY } from 'utils/license'
 import { setLocal } from 'utils/storage'
-import { PRICING_URL } from '~/libs/member'
+import { PRICING_URL } from '../libs/member'
 
 const [store, setStore] = dataStore
 
@@ -89,7 +89,7 @@ const License = () => {
                           target="_blank"
                           class="text-blue-500 hover:text-blue-700"
                         >
-                          Upgrade to unlock all features
+                          Discover our plans to unlock all features.
                         </a>
                       </div>
                     </td>

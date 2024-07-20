@@ -22,9 +22,10 @@
       body: JSON.stringify(data),
       method: 'POST',
     })
-      .then((res) => res.json())
       .then(() => {
-        location.href = config.welcomeUrl
+        setTimeout(() => {
+          location.href = config.welcomeUrl
+        }, 2000)
       })
       .catch((err) => {
         console.error('Error:', err)

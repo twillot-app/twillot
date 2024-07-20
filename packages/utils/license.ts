@@ -3,15 +3,17 @@ import { getCurrentUserId, getLocal, setLocal } from './storage'
 
 export const LICENSE_KEY = 'twillot_license'
 
-export enum MemberTier {
-  Free = 'free',
-  Basic = 'basic',
-  Pro = 'pro',
+export enum MemberLevel {
+  Free,
+  Basic,
+  Pro,
 }
+
+export const Level_Names = ['free', 'basic', 'pro']
 
 export interface License {
   license_code: string
-  level: MemberTier
+  level: MemberLevel
   token: string
   activated_at: number
   expires_at: number
@@ -29,7 +31,7 @@ export async function getLicense() {
 
 export function getLevel(license: License | null) {
   if (!license) {
-    return MemberTier.Free
+    return MemberLevel.Free
   }
 
   return license.level
@@ -70,6 +72,9 @@ export async function activateLicense(license_code: string) {
       license_code,
       ...json.data,
     } as License
+    if (typeof profile.level === 'string') {
+      profile.level = Level_Names.indexOf(profile.level) as MemberLevel
+    }
     await setLocal({ [LICENSE_KEY]: profile })
     return profile
   }

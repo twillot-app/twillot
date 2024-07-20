@@ -6,6 +6,7 @@ import { findRecords, iterate } from 'utils/db/tweets'
 import { getTweetMediaImage, getTweetMediaVideo } from 'utils/tweet'
 import { exportData } from 'utils/exporter'
 import { Host } from 'utils/types'
+import { LICENSE_KEY } from 'utils/license'
 
 import { IconCrown } from '../components/Icons'
 import {
@@ -18,13 +19,15 @@ import {
   MemberLevel,
   PRICING_URL,
 } from '../libs/member'
+import dataStore from './store'
+
+const [store] = dataStore
 
 const ExportPage = () => {
-  const level = MemberLevel.Free
+  const level = store[LICENSE_KEY]?.level || MemberLevel.Free
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[level],
   )
-  const totalRecords = 500
   const maxRows = MAX_EXPORT_SIZE[level]
   const onRadioChange = (row, field) => {
     if (row.level > level) {
@@ -63,7 +66,7 @@ const ExportPage = () => {
       params.metadata === 'yes' ||
       // params.fast_mode === 'yes' ||
       params.unroll === 'yes' ||
-      totalRecords > MAX_EXPORT_SIZE[MemberLevel.Basic]
+      store.totalCount?.total > MAX_EXPORT_SIZE[MemberLevel.Free]
     ) {
       minLevel = MemberLevel.Basic
     }
@@ -241,11 +244,15 @@ const ExportPage = () => {
                           class="ms-2 flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300"
                         >
                           {row.label}
-                          <span class="ml-2 flex scale-75 text-yellow-400">
+                          <a
+                            class="ml-2 flex scale-75 text-yellow-400"
+                            href={PRICING_URL}
+                            target="_blank"
+                          >
                             {new Array(row.level).fill(0).map((_) => (
                               <IconCrown />
                             ))}
-                          </span>
+                          </a>
                         </label>
                       </div>
                     ))}
@@ -313,11 +320,15 @@ const ExportPage = () => {
                           class="ms-2 flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300"
                         >
                           {row.label}
-                          <span class="ml-2 flex scale-75 text-yellow-400">
+                          <a
+                            class="ml-2 flex scale-75 text-yellow-400"
+                            href={PRICING_URL}
+                            target="_blank"
+                          >
                             {new Array(row.level).fill(0).map((_) => (
                               <IconCrown />
                             ))}
-                          </span>
+                          </a>
                         </label>
                       </div>
                     ))}

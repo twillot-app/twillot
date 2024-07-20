@@ -1,7 +1,12 @@
 import { Show } from 'solid-js'
 import { For, onMount } from 'solid-js'
 import dataStore from './store'
-import { activateLicense, getLicense, LICENSE_KEY } from 'utils/license'
+import {
+  activateLicense,
+  getLicense,
+  Level_Names,
+  LICENSE_KEY,
+} from 'utils/license'
 import { setLocal } from 'utils/storage'
 import { PRICING_URL } from '../libs/member'
 
@@ -104,7 +109,9 @@ const License = () => {
                     >
                       {license.license_code}
                     </th>
-                    <td class="px-6 py-4 uppercase">{license.level}</td>
+                    <td class="px-6 py-4 uppercase">
+                      {Level_Names[license.level]}
+                    </td>
                     <td class="px-6 py-4">
                       {new Date(license.expires_at * 1000).toLocaleString()}
                     </td>

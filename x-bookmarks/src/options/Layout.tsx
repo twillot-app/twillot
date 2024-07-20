@@ -40,10 +40,13 @@ import {
   onLocalChanged,
   StorageKeys,
 } from 'utils/storage'
+import { getLicense, LICENSE_KEY } from 'utils/license'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
   const [searchParams] = useSearchParams()
+  const isPremium = () =>
+    store[LICENSE_KEY] && store[LICENSE_KEY].level !== 'free'
 
   createEffect(() => {
     if (searchParams.q) {
@@ -74,6 +77,9 @@ export const Layout = (props) => {
   })
 
   onMount(async () => {
+    const license = await getLicense()
+    setStore(LICENSE_KEY, license)
+
     const handler = debounce((changes) => {
       if (StorageKeys.Tasks in changes) {
         syncBookmarkChanges()
@@ -235,7 +241,9 @@ export const Layout = (props) => {
                 >
                   <IconExport />
                   <span class="ms-3 flex-1 whitespace-nowrap">Export</span>
-                  <span class="ms-3 inline-flex scale-75 items-center justify-center rounded-full text-xs text-gray-500 opacity-60">
+                  <span
+                    class={`ms-3 inline-flex scale-75 items-center justify-center rounded-full text-xs ${isPremium() ? 'text-yellow-400' : 'text-gray-500'}`}
+                  >
                     <IconCrown />
                   </span>
                 </a>

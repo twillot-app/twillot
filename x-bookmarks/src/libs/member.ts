@@ -4,6 +4,9 @@ export enum MemberLevel {
   Pro,
 }
 
+export const PRICING_URL =
+  'https://twillot.com/x-twitter-bookmarks/pricing?utm_source=extension'
+
 export const MAX_EXPORT_SIZE = [1000, 5000, Number.MAX_SAFE_INTEGER]
 
 export const MAX_MEDIA_EXPORT_SIZE = [100, 500, Number.MAX_SAFE_INTEGER]
@@ -147,19 +150,16 @@ export function getExportFields(
     has_link: 'Link',
     has_quote: 'Quote',
     is_long_text: 'Long Text',
-    quoted_tweet: 'Quoted Post',
     // 不可以属于多个文件夹
     folder: 'Folder',
     tweet_id: 'Post ID',
     user_id: 'User ID',
     username: 'Username',
     screen_name: 'Screen Name',
-    avatar_url: 'Avatar',
     full_text: 'Content',
     lang: 'Language',
     created_at: 'Created At',
     possibly_sensitive: 'Sensitive',
-    media_items: 'Media Items',
     is_thread: 'Thread',
   }
 
@@ -170,6 +170,9 @@ export function getExportFields(
   return {
     ...exportBaseFields,
     ...metaFields,
+    avatar_url: 'Avatar',
+    media_items: 'Media Items',
+    quoted_tweet: 'Quoted Post',
   }
 }
 

@@ -1,11 +1,13 @@
 import { createSignal, Show } from 'solid-js'
-import { For, onMount } from 'solid-js'
-import dataStore from './store'
-import { IconCrown } from '../components/Icons'
+import { onMount } from 'solid-js'
+
 import { openNewTab } from 'utils/browser'
 import { findRecords, iterate } from 'utils/db/tweets'
 import { getTweetMediaImage, getTweetMediaVideo } from 'utils/tweet'
 import { exportData } from 'utils/exporter'
+import { Host } from 'utils/types'
+
+import { IconCrown } from '../components/Icons'
 import {
   EXPORT_FORM_FIELDS,
   EXPORT_MEDIA_FIELDS,
@@ -14,16 +16,11 @@ import {
   MAX_EXPORT_SIZE,
   MAX_MEDIA_EXPORT_SIZE,
   MemberLevel,
+  PRICING_URL,
 } from '../libs/member'
-import { Host } from 'utils/types'
-
-const [store, setStore] = dataStore
-
-const pricingUrl =
-  'https://twillot.com/x-twitter-bookmarks/pricing?utm_source=extension&utm_medium=export'
 
 const ExportPage = () => {
-  const level = MemberLevel.Basic
+  const level = MemberLevel.Free
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[level],
   )
@@ -72,7 +69,7 @@ const ExportPage = () => {
     }
 
     if (level < minLevel) {
-      openNewTab(pricingUrl)
+      openNewTab(PRICING_URL)
       return
     }
 
@@ -275,7 +272,7 @@ const ExportPage = () => {
                 Download
               </button>
               <a
-                href={pricingUrl}
+                href={PRICING_URL}
                 target="_blank"
                 class="mb-2 me-2 inline-block rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
               >
@@ -355,7 +352,7 @@ const ExportPage = () => {
                 Download
               </button>
               <a
-                href={pricingUrl}
+                href={PRICING_URL}
                 target="_blank"
                 class="mb-2 me-4 inline-block rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
               >

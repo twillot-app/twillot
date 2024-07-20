@@ -23,6 +23,7 @@ import {
   IconExport,
   IconFolderMove,
   IconFolders,
+  IconLicense,
   IconMessage,
   IconMoon,
   IconSun,
@@ -237,6 +238,15 @@ export const Layout = (props) => {
                   <span class="ms-3 inline-flex scale-75 items-center justify-center rounded-full text-xs text-gray-500 opacity-60">
                     <IconCrown />
                   </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="cursor-d flex items-center rounded-lg p-2  hover:bg-gray-100 dark:hover:bg-gray-700"
+                  href="/license"
+                >
+                  <IconLicense />
+                  <span class="ms-3 flex-1 whitespace-nowrap">License</span>
                 </a>
               </li>
             </ul>

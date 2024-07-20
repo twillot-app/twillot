@@ -3,6 +3,7 @@ import { For, onMount } from 'solid-js'
 import dataStore from './store'
 import { activateLicense, getLicense, LICENSE_KEY } from 'utils/license'
 import { setLocal } from 'utils/storage'
+import { PRICING_URL } from '~/libs/member'
 
 const [store, setStore] = dataStore
 
@@ -22,10 +23,7 @@ const License = () => {
       alert(error.message)
     }
   }
-  const items = () =>
-    store[LICENSE_KEY]
-      ? [store[LICENSE_KEY]]
-      : []
+  const items = () => (store[LICENSE_KEY] ? [store[LICENSE_KEY]] : [])
 
   onMount(async () => {
     const profile = await getLicense()
@@ -59,7 +57,7 @@ const License = () => {
             </form>
           </Show>
 
-          <table class="w-full text-left text-gray-500 dark:text-gray-400 rtl:text-right">
+          <table class="w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
             <thead class="bg-gray-50 text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="w-4/12 px-6 py-3">
@@ -85,13 +83,13 @@ const License = () => {
                 fallback={
                   <tr>
                     <td colspan="4">
-                      <div class="flex justify-center p-8">
+                      <div class="flex justify-center p-8 text-base">
                         <a
-                          href="https://s.twillot.com/get-free-trial"
+                          href={PRICING_URL}
                           target="_blank"
                           class="text-blue-500 hover:text-blue-700"
                         >
-                          Get a Free License Code
+                          Upgrade to unlock all features
                         </a>
                       </div>
                     </td>

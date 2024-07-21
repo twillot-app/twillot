@@ -1,8 +1,4 @@
-export enum MemberLevel {
-  Free,
-  Basic,
-  Pro,
-}
+import { MemberLevel } from 'utils/license'
 
 export const PRICING_URL =
   'https://twillot.com/x-twitter-bookmarks/pricing?utm_source=extension'

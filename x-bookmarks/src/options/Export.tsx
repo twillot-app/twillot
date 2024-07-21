@@ -6,7 +6,7 @@ import { findRecords, iterate } from 'utils/db/tweets'
 import { getTweetMediaImage, getTweetMediaVideo } from 'utils/tweet'
 import { exportData } from 'utils/exporter'
 import { Host } from 'utils/types'
-import { LICENSE_KEY } from 'utils/license'
+import { LICENSE_KEY, MemberLevel } from 'utils/license'
 
 import { IconCrown } from '../components/Icons'
 import {
@@ -16,7 +16,6 @@ import {
   getMediaSavePath,
   MAX_EXPORT_SIZE,
   MAX_MEDIA_EXPORT_SIZE,
-  MemberLevel,
   PRICING_URL,
 } from '../libs/member'
 import dataStore from './store'

@@ -40,13 +40,12 @@ import {
   onLocalChanged,
   StorageKeys,
 } from 'utils/storage'
-import { getLicense, LICENSE_KEY } from 'utils/license'
+import { getLicense, isViolatedLicense, LICENSE_KEY } from 'utils/license'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
   const [searchParams] = useSearchParams()
-  const isPremium = () =>
-    store[LICENSE_KEY] && store[LICENSE_KEY].level !== 'free'
+  const isPremium = () => store[LICENSE_KEY] && store[LICENSE_KEY].level > 0
 
   createEffect(() => {
     if (searchParams.q) {
@@ -79,6 +78,14 @@ export const Layout = (props) => {
   onMount(async () => {
     const license = await getLicense()
     setStore(LICENSE_KEY, license)
+    setInterval(async () => {
+      const violated = await isViolatedLicense()
+      if (violated) {
+        alert(
+          'Upgrade your license to continue using multiple accounts feature.',
+        )
+      }
+    }, 60 * 1000)
 
     const handler = debounce((changes) => {
       if (StorageKeys.Tasks in changes) {

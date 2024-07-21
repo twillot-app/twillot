@@ -1,5 +1,5 @@
 import { API_HOST } from './types'
-import { getCurrentUserId, getLocal, setLocal } from './storage'
+import { getCurrentUserId, getLocal, setLocal, StorageKeys } from './storage'
 
 export const LICENSE_KEY = 'twillot_license'
 
@@ -80,4 +80,17 @@ export async function activateLicense(license_code: string) {
   }
 
   throw new Error(json.message)
+}
+
+export async function isViolatedLicense() {
+  const [license, local] = await Promise.all([
+    await getLicense(),
+    await chrome.storage.local.get(),
+  ])
+  const level = getLevel(license)
+  const hasMultiAccount =
+    Object.keys(local).filter((x) => x.endsWith(':' + StorageKeys.Token))
+      .length > 1
+
+  return level < MemberLevel.Pro && hasMultiAccount
 }

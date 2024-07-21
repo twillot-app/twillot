@@ -1,7 +1,6 @@
 import { MemberLevel } from 'utils/license'
 
-export const PRICING_URL =
-  'https://twillot.com/x-twitter-bookmarks/pricing?utm_source=extension'
+export const PRICING_URL = 'https://s.twillot.com/bookmarks-pricing'
 
 export const MAX_EXPORT_SIZE = [1000, 5000, Number.MAX_SAFE_INTEGER]
 

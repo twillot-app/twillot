@@ -268,7 +268,7 @@ export async function* syncAllBookmarks(forceSync = false) {
  * 详情接口的限制是 150 条
  */
 export async function syncThreads() {
-  const detailLimit = 10
+  const detailLimit = 50
   const records = await iterate((t) => t.is_thread == null, detailLimit * 0.5)
   console.log(`Syncing ${records.length} threads`, records)
 

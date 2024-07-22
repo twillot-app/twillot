@@ -7,7 +7,8 @@
       basic: 'pri_01j33549vxyvv3sfwmk03jqs15',
     },
     webhookUrl: 'https://api.twillot.com/webhook/paddle/generate',
-    welcomeUrl: '/welcome?utm_source=paddle',
+    // 确保和 pricing 页面同级
+    welcomeUrl: './welcome?utm_source=paddle',
     scriptSrc: 'https://cdn.paddle.com/paddle/v2/paddle.js',
   }
 

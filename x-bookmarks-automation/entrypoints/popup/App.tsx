@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createSignal, createEffect, Show } from 'solid-js'
 import { storage } from 'wxt/storage'
 
 import { Button } from '~/components/ui/button'
@@ -48,11 +48,13 @@ export default function App() {
       >
         <CardHeader>
           <CardTitle>Twillot Bookmark Automation</CardTitle>
-          <CardDescription>Manage your bookmark automation settings</CardDescription>
+          <CardDescription>
+            Manage your bookmark automation settings
+          </CardDescription>
         </CardHeader>
         <CardContent class="grid gap-6">
           <div class="flex items-center justify-between space-x-2">
-            <Label for="necessary" class="flex flex-col space-y-1">
+            <Label for="like" class="flex flex-col space-y-1">
               <span>Like</span>
               <span class="text-muted-foreground font-normal leading-snug">
                 Like the tweet when I bookmark it
@@ -96,7 +98,7 @@ export default function App() {
             Save preferences
           </Button>
         </CardFooter>
-        <Show when={saved()}>
+        <Show when={saved}>
           <p class="-mt-4 mb-4 block text-center text-green-600">
             Your changes have been saved successfully
           </p>

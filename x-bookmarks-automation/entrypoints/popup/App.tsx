@@ -48,14 +48,14 @@ export default function App() {
       >
         <CardHeader>
           <CardTitle>Twillot Bookmark Automation</CardTitle>
-          <CardDescription>管理你的书签收藏自动化设置</CardDescription>
+          <CardDescription>Manage your bookmark automation settings</CardDescription>
         </CardHeader>
         <CardContent class="grid gap-6">
           <div class="flex items-center justify-between space-x-2">
             <Label for="necessary" class="flex flex-col space-y-1">
               <span>Like</span>
               <span class="text-muted-foreground font-normal leading-snug">
-                当我收藏推文时点赞该推文
+                Like the tweet when I bookmark it
               </span>
             </Label>
             <Switch defaultChecked name="like">
@@ -68,7 +68,7 @@ export default function App() {
             <Label class="flex flex-col space-y-1">
               <span>Repost</span>
               <span class="text-muted-foreground font-normal leading-snug">
-                当我收藏推文时转发该推文
+                Repost the tweet when I bookmark it
               </span>
             </Label>
             <Switch defaultChecked name="repost">
@@ -81,7 +81,7 @@ export default function App() {
             <Label class="flex flex-col space-y-1">
               <span>Reply</span>
               <span class="text-muted-foreground font-normal leading-snug">
-                当我收藏推文时评论该推文
+                Reply to the tweet when I bookmark it
               </span>
             </Label>
             <Switch name="reply">
@@ -98,7 +98,7 @@ export default function App() {
         </CardFooter>
         <Show when={saved()}>
           <p class="-mt-4 mb-4 block text-center text-green-600">
-            您的修改已经成功保存
+            Your changes have been saved successfully
           </p>
         </Show>
       </form>

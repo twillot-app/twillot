@@ -25,6 +25,8 @@
   },
   "devDependencies": {
     "@wxt-dev/module-solid": "^1.1.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
     "typescript": "^5.5.3",
     "wxt": "^0.18.15"
   }

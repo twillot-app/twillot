@@ -129,6 +129,12 @@ importers:
       '@wxt-dev/module-solid':
         specifier: ^1.1.1
         version: 1.1.1(@testing-library/jest-dom@6.4.6)(solid-js@1.8.18)(vite@4.5.3)(wxt@0.18.15)
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.39)
+      postcss:
+        specifier: ^8.4.38
+        version: 8.4.39
       typescript:
         specifier: ^5.5.3
         version: 5.5.3

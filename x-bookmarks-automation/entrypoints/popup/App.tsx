@@ -1,5 +1,9 @@
 import { createSignal } from 'solid-js'
+import { storage } from 'wxt/storage'
+
 import { Button } from '~/components/ui/button'
+import { Toaster } from '~/components/ui/toast'
+import { showToast } from '~/components/ui/toast'
 import {
   Card,
   CardContent,
@@ -12,12 +16,36 @@ import { Label } from '~/components/ui/label'
 import { Switch, SwitchControl, SwitchThumb } from '~/components/ui/switch'
 
 export default function App() {
+  const [saved, setSaved] = createSignal(false)
+  createEffect(() => {
+    if (saved()) {
+      setTimeout(() => {
+        setSaved(false)
+      }, 3000)
+    }
+  })
+
   return (
     <Card class="m-4 w-80">
       <form
         onSubmit={(e) => {
           e.preventDefault()
           const { like, repost, reply } = e.target as HTMLFormElement
+          storage.setItems([
+            {
+              key: 'local:like',
+              value: like.checked,
+            },
+            {
+              key: 'local:repost',
+              value: repost.checked,
+            },
+            {
+              key: 'local:reply',
+              value: reply.checked,
+            },
+          ])
+          setSaved(true)
         }}
       >
         <CardHeader>
@@ -70,6 +98,11 @@ export default function App() {
             Save preferences
           </Button>
         </CardFooter>
+        <Show when={saved()}>
+          <p class="-mt-4 mb-4 block text-center text-green-600">
+            您的修改已经成功保存
+          </p>
+        </Show>
       </form>
     </Card>
   )

@@ -2,8 +2,6 @@ import { createSignal } from 'solid-js'
 import { storage } from 'wxt/storage'
 
 import { Button } from '~/components/ui/button'
-import { Toaster } from '~/components/ui/toast'
-import { showToast } from '~/components/ui/toast'
 import {
   Card,
   CardContent,

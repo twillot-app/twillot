@@ -1,3 +1,4 @@
 packages:
-  - "packages/*"
-  - "x-bookmarks"
+  - 'packages/*'
+  - 'x-bookmarks'
+  - 'x-bookmarks-automation'

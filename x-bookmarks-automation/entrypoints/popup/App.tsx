@@ -1,35 +1,71 @@
-import { createSignal } from 'solid-js';
-import solidLogo from '@/assets/solid.svg';
-import wxtLogo from '/wxt.svg';
-import './App.css';
+import { createSignal } from 'solid-js'
+import { Button } from '~/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card'
+import { Label } from '~/components/ui/label'
+import { Switch, SwitchControl, SwitchThumb } from '~/components/ui/switch'
 
-function App() {
-  const [count, setCount] = createSignal(0);
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://wxt.dev" target="_blank">
-          <img src={wxtLogo} class="logo" alt="WXT logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
-        </a>
-      </div>
-      <h1>WXT + Solid</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
-        <p>
-          Edit <code>popup/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the WXT and Solid logos to learn more
-      </p>
-    </>
-  );
+    <Card>
+      <CardHeader>
+        <CardTitle>Cookie Settings</CardTitle>
+        <CardDescription>Manage your cookie settings here.</CardDescription>
+      </CardHeader>
+      <CardContent class="grid gap-6">
+        <div class="flex items-center justify-between space-x-2">
+          <Label for="necessary" class="flex flex-col space-y-1">
+            <span>Strictly Necessary</span>
+            <span class="text-muted-foreground font-normal leading-snug">
+              These cookies are essential in order to use the website and use
+              its features.
+            </span>
+          </Label>
+          <Switch id="necessary" defaultChecked>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+          </Switch>
+        </div>
+        <div class="flex items-center justify-between space-x-2">
+          <Label for="functional" class="flex flex-col space-y-1">
+            <span>Functional Cookies</span>
+            <span class="text-muted-foreground font-normal leading-snug">
+              These cookies allow the website to provide personalized
+              functionality.
+            </span>
+          </Label>
+          <Switch id="functional">
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+          </Switch>
+        </div>
+        <div class="flex items-center justify-between space-x-2">
+          <Label for="performance" class="flex flex-col space-y-1">
+            <span>Performance Cookies</span>
+            <span class="text-muted-foreground font-normal leading-snug">
+              These cookies help to improve the performance of the website.
+            </span>
+          </Label>
+          <Switch id="performance">
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+          </Switch>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">
+          Save preferences
+        </Button>
+      </CardFooter>
+    </Card>
+  )
 }
-
-export default App;

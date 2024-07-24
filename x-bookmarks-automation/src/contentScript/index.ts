@@ -1,5 +1,5 @@
 import { getLocal, setCurrentUserId } from 'utils/storage'
-import { likeTweet } from 'utils/api/twitter'
+import { likeTweet, repostTweet } from 'utils/api/twitter'
 
 //@ts-ignore
 import mainWorld from './inject?script&module'
@@ -44,6 +44,9 @@ window.addEventListener('message', async (event) => {
     const payload: Payload = data.payload
     if (like) {
       await likeTweet(payload.variables.tweet_id)
+    }
+    if (repost) {
+      await repostTweet(payload.variables.tweet_id)
     }
   }
 })

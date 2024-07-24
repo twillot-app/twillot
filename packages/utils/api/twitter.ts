@@ -537,3 +537,15 @@ export async function likeTweet(tweetId: string) {
     }),
   })
 }
+
+export async function repostTweet(tweetId: string) {
+  return request(Endpoint.CREATE_RETWEET, {
+    body: JSON.stringify({
+      variables: {
+        tweet_id: tweetId,
+        dark_request: false,
+      },
+      queryId: EndpointQuery.CREATE_RETWEET,
+    }),
+  })
+}

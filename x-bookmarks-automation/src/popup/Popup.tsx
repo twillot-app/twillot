@@ -1,5 +1,5 @@
 import { createSignal, createEffect, Show } from 'solid-js'
-import { storage } from 'wxt/storage'
+import { setLocal } from 'utils/storage'
 
 import { Button } from '~/components/ui/button'
 import {
@@ -29,20 +29,11 @@ export default function App() {
         onSubmit={(e) => {
           e.preventDefault()
           const { like, repost, reply } = e.target as HTMLFormElement
-          storage.setItems([
-            {
-              key: 'local:like',
-              value: like.checked,
-            },
-            {
-              key: 'local:repost',
-              value: repost.checked,
-            },
-            {
-              key: 'local:reply',
-              value: reply.checked,
-            },
-          ])
+          setLocal({
+            like: like.checked,
+            repost: repost.checked,
+            reply: reply.checked,
+          })
           setSaved(true)
         }}
       >

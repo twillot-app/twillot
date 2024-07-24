@@ -1,9 +1,9 @@
 {
   "tsx": true,
-  "componentDir": "./components/ui",
+  "componentDir": "./src/components/ui",
   "tailwind": {
     "config": "tailwind.config.cjs",
-    "css": "entrypoints/popup/style.css"
+    "css": "src/assets/main.css"
   },
   "aliases": {
     "path": "~/*"

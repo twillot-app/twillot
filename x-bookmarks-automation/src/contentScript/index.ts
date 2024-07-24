@@ -1,9 +1,5 @@
-import {
-  getLocal,
-  setCurrentUserId,
-  setLocal,
-  StorageKeys,
-} from 'utils/storage'
+import { getLocal, setCurrentUserId } from 'utils/storage'
+import { likeTweet } from 'utils/api/twitter'
 
 //@ts-ignore
 import mainWorld from './inject?script&module'
@@ -38,38 +34,16 @@ window.addEventListener('message', async (event) => {
   }
 
   const { data } = event
-  if (
-    data.type === TaskType.DeleteBookmark ||
-    data.type === TaskType.CreateBookmark
-  ) {
-    let tasks = (await getLocal(StorageKeys.Tasks))[StorageKeys.Tasks]
-    if (!tasks) {
-      tasks = []
+  if (data.type === TaskType.CreateBookmark) {
+    const { like, repost, reply, webhook } = await getLocal([
+      'like',
+      'repost',
+      'reply',
+      'webhook',
+    ])
+    const payload: Payload = data.payload
+    if (like) {
+      await likeTweet(payload.variables.tweet_id)
     }
-    const tweet_id = data.payload.variables.tweet_id
-    if (
-      tasks.some(
-        (t) =>
-          t.payload.variables.tweet_id === tweet_id && data.type === t.type,
-      )
-    ) {
-      console.log('Task already exists')
-      return
-    }
-
-    tasks.push(data)
-    if (data.type === TaskType.CreateBookmark) {
-      const index = tasks.findIndex(
-        (t: { type: string; payload: Payload }) =>
-          t.type === TaskType.DeleteBookmark &&
-          t.payload.variables.tweet_id === tweet_id,
-      )
-      if (index > -1) {
-        tasks.splice(index, 1)
-      }
-    }
-    await setLocal({
-      [StorageKeys.Tasks]: tasks,
-    })
   }
 })

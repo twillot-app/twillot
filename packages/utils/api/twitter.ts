@@ -526,3 +526,14 @@ export async function getUserByScreenName(screenName: string) {
 }
 
 // getFollowers('2751923820').then((x) => console.log({ x }))
+
+export async function likeTweet(tweetId: string) {
+  return request(Endpoint.LIKE_TWEET, {
+    body: JSON.stringify({
+      variables: {
+        tweet_id: tweetId,
+      },
+      queryId: EndpointQuery.LIKE_TWEET,
+    }),
+  })
+}

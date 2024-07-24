@@ -1,4 +1,4 @@
-import { onMount } from 'solid-js'
+import { onMount, Show } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { getLocal, setLocal } from 'utils/storage'
 
@@ -11,6 +11,7 @@ import {
 } from '~/components/ui/card'
 import { Label } from '~/components/ui/label'
 import { Switch, SwitchControl, SwitchThumb } from '~/components/ui/switch'
+import { TextField, TextFieldTextArea } from '~/components/ui/text-field'
 
 const defaultState = () => ({
   like: true,
@@ -87,6 +88,16 @@ export default function App() {
           </Label>
           <SwitchContainer name="reply" />
         </div>
+        <Show when={state['reply']}>
+          <div class="grid gap-2">
+            <TextField>
+              <TextFieldTextArea
+                id="description"
+                placeholder="在此插入一个设置好 OpenGraph 元数据的链接，或者直接输入文本。"
+              />
+            </TextField>
+          </div>
+        </Show>
         <div class="flex items-center justify-between space-x-2">
           <Label class="flex flex-col space-y-1">
             <span>Webhook</span>

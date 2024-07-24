@@ -24,7 +24,7 @@ export default function App() {
   })
 
   return (
-    <Card class="m-4 w-80">
+    <Card class="m-4 w-96">
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -92,13 +92,26 @@ export default function App() {
               </SwitchControl>
             </Switch>
           </div>
+          <div class="flex items-center justify-between space-x-2">
+            <Label class="flex flex-col space-y-1">
+              <span>Webhook</span>
+              <span class="text-muted-foreground font-normal leading-snug">
+                转发该推文到一个 Webhook 接口
+              </span>
+            </Label>
+            <Switch name="reply">
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+            </Switch>
+          </div>
         </CardContent>
         <CardFooter>
           <Button variant="outline" class="w-full" type="submit">
             Save preferences
           </Button>
         </CardFooter>
-        <Show when={saved}>
+        <Show when={saved()}>
           <p class="-mt-4 mb-4 block text-center text-green-600">
             Your changes have been saved successfully
           </p>

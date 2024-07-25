@@ -17,10 +17,18 @@ const defaultState = () => ({
   like: true,
   repost: true,
   reply: false,
+  reply_text: '',
   webhook: false,
+  webhook_url: '',
+  webhook_token: '',
   saved: false,
 })
 const [state, setState] = createStore(defaultState)
+const updateField = (field: string, value: boolean | string) => {
+  const updates = { [field]: value }
+  setLocal(updates)
+  setState(updates)
+}
 
 const SwitchContainer = (props) => {
   return (
@@ -28,9 +36,7 @@ const SwitchContainer = (props) => {
       checked={state[props.name]}
       name={props.name}
       onChange={() => {
-        const updates = { [props.name]: !state[props.name] }
-        setLocal(updates)
-        setState(updates)
+        updateField(props.name, !state[props.name])
       }}
     >
       <SwitchControl>
@@ -42,13 +48,24 @@ const SwitchContainer = (props) => {
 
 export default function App() {
   onMount(async () => {
-    const local = await getLocal(['like', 'repost', 'reply', 'webhook'])
+    const local = await getLocal([
+      'like',
+      'repost',
+      'reply',
+      'webhook',
+      'webhook_url',
+      'webhook_token',
+      'reply_text',
+    ])
     const defaults = defaultState()
     setState({
       like: local.like === undefined ? defaults.like : local.like,
       repost: local.repost === undefined ? defaults.repost : local.repost,
       reply: local.reply === undefined ? defaults.reply : local.reply,
       webhook: local.webhook === undefined ? defaults.webhook : local.webhook,
+      reply_text: local.reply_text || '',
+      webhook_url: local.webhook_url || '',
+      webhook_token: local.webhook_token || '',
     })
   })
 
@@ -90,10 +107,13 @@ export default function App() {
         </div>
         <Show when={state['reply']}>
           <div class="grid gap-2">
-            <TextField>
+            <TextField name="reply_text">
               <TextFieldTextArea
-                id="description"
-                placeholder="在此插入一个设置好 OpenGraph 元数据的链接，或者直接输入文本。"
+                placeholder="输入回复的文本（可以包含链接，为了达到最佳效果请设置您的 Open Graph 元数据）"
+                maxLength={280}
+                onInput={(e) =>
+                  updateField('reply_text', e.currentTarget.value)
+                }
               />
             </TextField>
           </div>
@@ -107,6 +127,27 @@ export default function App() {
           </Label>
           <SwitchContainer name="webhook" />
         </div>
+        <Show when={state['webhook']}>
+          <div class="grid gap-2">
+            <TextField name="webhook_url">
+              <TextFieldTextArea
+                placeholder="输入您的 Webhook 地址，例如 https://example.com/webhook"
+                onInput={(e) =>
+                  updateField('webhook_url', e.currentTarget.value)
+                }
+              />
+            </TextField>
+            <TextField name="webhook_token">
+              <TextFieldTextArea
+                placeholder="输入您的 Token"
+                onInput={(e) =>
+                  updateField('webhook_token', e.currentTarget.value)
+                }
+              />
+            </TextField>
+          </div>
+          <a href="#">Export All your bookmarks Now</a>
+        </Show>
       </CardContent>
     </Card>
   )

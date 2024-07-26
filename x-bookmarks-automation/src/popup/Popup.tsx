@@ -11,7 +11,11 @@ import {
 } from '~/components/ui/card'
 import { Label } from '~/components/ui/label'
 import { Switch, SwitchControl, SwitchThumb } from '~/components/ui/switch'
-import { TextField, TextFieldTextArea } from '~/components/ui/text-field'
+import {
+  TextField,
+  TextFieldInput,
+  TextFieldTextArea,
+} from '~/components/ui/text-field'
 
 const defaultState = () => ({
   like: true,
@@ -58,6 +62,7 @@ export default function App() {
       'reply_text',
     ])
     const defaults = defaultState()
+    console.log({ local })
     setState({
       like: local.like === undefined ? defaults.like : local.like,
       repost: local.repost === undefined ? defaults.repost : local.repost,
@@ -70,7 +75,7 @@ export default function App() {
   })
 
   return (
-    <Card class="m-4 w-96">
+    <Card class="m-4 w-96 text-sm">
       <CardHeader>
         <CardTitle>Twillot Bookmark Automation</CardTitle>
         <CardDescription>
@@ -111,6 +116,7 @@ export default function App() {
               <TextFieldTextArea
                 placeholder="输入回复的文本（可以包含链接，为了达到最佳效果请设置您的 Open Graph 元数据）"
                 maxLength={280}
+                value={state['reply_text']}
                 onInput={(e) =>
                   updateField('reply_text', e.currentTarget.value)
                 }
@@ -130,16 +136,20 @@ export default function App() {
         <Show when={state['webhook']}>
           <div class="grid gap-2">
             <TextField name="webhook_url">
-              <TextFieldTextArea
+              <TextFieldInput
+                type="text"
                 placeholder="输入您的 Webhook 地址，例如 https://example.com/webhook"
+                value={state['webhook_url']}
                 onInput={(e) =>
                   updateField('webhook_url', e.currentTarget.value)
                 }
               />
             </TextField>
             <TextField name="webhook_token">
-              <TextFieldTextArea
+              <TextFieldInput
+                type="text"
                 placeholder="输入您的 Token"
+                value={state['webhook_token']}
                 onInput={(e) =>
                   updateField('webhook_token', e.currentTarget.value)
                 }

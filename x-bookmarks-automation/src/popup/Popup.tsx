@@ -1,6 +1,6 @@
-import { onMount, Show } from 'solid-js'
-import { createStore } from 'solid-js/store'
+import { Match, onMount, Show, Switch as SolidSwitch } from 'solid-js'
 import { getLocal, setLocal } from 'utils/storage'
+import { isFreeLicense, LICENSE_KEY, MemberLevel } from 'utils/license'
 
 import {
   Card,
@@ -10,26 +10,26 @@ import {
   CardTitle,
 } from '~/components/ui/card'
 import { Label } from '~/components/ui/label'
-import { Switch, SwitchControl, SwitchThumb } from '~/components/ui/switch'
+import { SwitchControl, SwitchThumb, Switch } from '~/components/ui/switch'
 import {
   TextField,
   TextFieldInput,
   TextFieldTextArea,
 } from '~/components/ui/text-field'
 import { Separator } from '~/components/ui/separator'
+import { PRICING_URL } from './member'
+import DialogLicense from './License'
+import store, { defaultState } from './store'
 
-const defaultState = () => ({
-  like: true,
-  repost: true,
-  reply: false,
-  reply_text: '',
-  webhook: false,
-  webhook_url: '',
-  webhook_token: '',
-  saved: false,
-})
-const [state, setState] = createStore(defaultState)
+const [state, setState] = store
 const updateField = (field: string, value: boolean | string) => {
+  if (
+    ['webhook', 'reply'].includes(field) &&
+    isFreeLicense(state[LICENSE_KEY])
+  ) {
+    chrome.tabs.create({ url: PRICING_URL })
+    return
+  }
   const updates = { [field]: value }
   setLocal(updates)
   setState(updates)
@@ -55,7 +55,7 @@ const UpgradeLink = (props) => {
   return (
     <a
       class="flex underline underline-offset-4"
-      href="https://twillot.com/x-bookmarks-automation/pricing?utm_source=ext"
+      href={PRICING_URL}
       target="_blank"
     >
       <span class="mr-1 text-yellow-400">
@@ -72,6 +72,11 @@ const UpgradeLink = (props) => {
 }
 
 export default function App() {
+  const level = (): number => {
+    return isFreeLicense(state[LICENSE_KEY])
+      ? MemberLevel.Free
+      : state[LICENSE_KEY].level
+  }
   onMount(async () => {
     const local = await getLocal([
       'like',
@@ -81,6 +86,7 @@ export default function App() {
       'webhook_url',
       'webhook_token',
       'reply_text',
+      LICENSE_KEY,
     ])
     const defaults = defaultState()
     console.log({ local })
@@ -92,6 +98,7 @@ export default function App() {
       reply_text: local.reply_text || '',
       webhook_url: local.webhook_url || '',
       webhook_token: local.webhook_token || '',
+      [LICENSE_KEY]: local[LICENSE_KEY] || null,
     })
   })
 
@@ -222,25 +229,32 @@ export default function App() {
             </TextField>
           </div>
         </Show>
-        <div class="text-muted-foreground flex items-center justify-center space-x-4 text-xs">
-          <UpgradeLink text="Upgrade" />
-          <Separator orientation="vertical" />
-          <a
-            class="underline underline-offset-4"
-            href="https://s.twillot.com/organize-x-bookmarks"
-            target="_blank"
-          >
-            Organize Bookmarks
-          </a>
-          <Separator orientation="vertical" />
-          <a
-            class="underline underline-offset-4"
-            href="https://x.com/i/communities/1796857620672008306"
-            target="_blank"
-          >
-            Community
-          </a>
-        </div>
+        <Show when={level() < MemberLevel.Pro}>
+          <div class="text-muted-foreground flex items-center justify-center space-x-4 text-xs">
+            <a
+              class="underline underline-offset-4"
+              href={PRICING_URL}
+              target="_blank"
+            >
+              <SolidSwitch>
+                <Match when={level() === MemberLevel.Free}>Buy a license</Match>
+                <Match when={level() === MemberLevel.Basic}>
+                  Upgrade to Pro
+                </Match>
+              </SolidSwitch>
+            </a>
+            <Separator orientation="vertical" />
+            <DialogLicense />
+            <Separator orientation="vertical" />
+            <a
+              class="underline underline-offset-4"
+              href="https://s.twillot.com/organize-x-bookmarks"
+              target="_blank"
+            >
+              Organize Bookmarks
+            </a>
+          </div>
+        </Show>
       </CardContent>
     </Card>
   )

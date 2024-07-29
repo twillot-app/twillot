@@ -108,7 +108,7 @@ importers:
         specifier: ^0.13.4
         version: 0.13.4(solid-js@1.8.18)
       '@solidjs/router':
-        specifier: ^0.13.2
+        specifier: ^0.13.6
         version: 0.13.6(solid-js@1.8.18)
       class-variance-authority:
         specifier: ^0.7.0

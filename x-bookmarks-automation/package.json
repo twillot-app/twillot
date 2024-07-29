@@ -2,7 +2,7 @@
   "author": "twillot@outlook.com",
   "dependencies": {
     "@kobalte/core": "^0.13.4",
-    "@solidjs/router": "^0.13.2",
+    "@solidjs/router": "^0.13.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lodash.debounce": "^4.0.8",

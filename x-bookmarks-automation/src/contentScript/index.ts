@@ -54,11 +54,19 @@ window.addEventListener('message', async (event) => {
       like,
       repost,
       reply,
-      webhook,
       reply_text,
+      webhook,
       webhook_url,
       webhook_token,
-    } = await getLocal(['like', 'repost', 'reply', 'webhook'])
+    } = await getLocal([
+      'like',
+      'repost',
+      'reply',
+      'reply_text',
+      'webhook',
+      'webhook_url',
+      'webhook_token',
+    ])
     const payload: Payload = data.payload
     const tweet_id = payload.variables.tweet_id
     if (like) {
@@ -75,36 +83,40 @@ window.addEventListener('message', async (event) => {
     }
     if (webhook) {
       // TODO 提取为公共方法
-      const json = await getTweetDetails(tweet_id)
-      const tweet = toRecord(
-        json.data.threaded_conversation_with_injections_v2.instructions[0].entries.find(
-          (
-            i: TimelineEntry<
-              TimelineTweet,
-              TimelineTimelineItem<TimelineTweet>
-            >,
-          ) => i.entryId.includes(tweet_id),
-        ).content.itemContent as TimelineTweet,
-        '',
-      )
-      const threads = await getTweetConversations(tweet_id, json)
-      tweet.conversations = threads
-      await fetchWithTimeout(
-        API_HOST + '/webhooks/twitter/bookmark-automation',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data: tweet,
-            webhook: {
-              url: webhook_url,
-              token: webhook_token,
+      try {
+        const json = await getTweetDetails(tweet_id)
+        const tweet = toRecord(
+          json.data.threaded_conversation_with_injections_v2.instructions[0].entries.find(
+            (
+              i: TimelineEntry<
+                TimelineTweet,
+                TimelineTimelineItem<TimelineTweet>
+              >,
+            ) => i.entryId.includes(tweet_id),
+          ).content.itemContent as TimelineTweet,
+          '',
+        )
+        const threads = await getTweetConversations(tweet_id, json)
+        tweet.conversations = threads
+        await fetchWithTimeout(
+          API_HOST + '/webhook/twillot/bookmark-automation',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-          }),
-        },
-      )
+            body: JSON.stringify({
+              data: tweet,
+              webhook: {
+                url: webhook_url,
+                token: webhook_token,
+              },
+            }),
+          },
+        )
+      } catch (error) {
+        console.error('Twillot webhook error:', error)
+      }
     }
   }
 })

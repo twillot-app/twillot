@@ -2,6 +2,7 @@
   const config = {
     env: 'production',
     token: 'live_9233313a92afcfb5b4887874b7e',
+    product_name: 'bookmarks',
     priceItems: {
       pro: 'pri_01j3359fdtx9vhj34pmm9ttq8v',
       basic: 'pri_01j33549vxyvv3sfwmk03jqs15',
@@ -16,11 +17,25 @@
   const isProPlan = (href) => href && href.includes('pro')
 
   const handleCheckoutCompleted = (data) => {
+    const entries = Object.entries(config.priceItems)
+    const entry = entries.find(
+      ([name, priceId]) => priceId === data.data.items[0].price_id,
+    )
+    if (!entry) {
+      alert('Invalid price item')
+      return
+    }
     fetch(config.webhookUrl, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        twillot: {
+          product_name: config.product_name,
+          plan: entry[0],
+        },
+      }),
       method: 'POST',
     })
       .then(() => {

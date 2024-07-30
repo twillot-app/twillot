@@ -2,12 +2,14 @@
   const config = {
     env: 'sandbox',
     token: 'test_4b6c972f141746108dfe03eddc6',
+    product_name: 'bookmarks',
     priceItems: {
       pro: 'pri_01j37a9qqrr67de33q6867m1n3',
       basic: 'pri_01j339tpyf533ra7d0tskf31dn',
     },
     webhookUrl: 'https://api.twillot.com/webhook/paddle/generate',
-    welcomeUrl: '/welcome?utm_source=paddle',
+    // 确保和 pricing 页面同级
+    welcomeUrl: './welcome?utm_source=paddle',
     scriptSrc: 'https://cdn.paddle.com/paddle/v2/paddle.js',
   }
 
@@ -15,11 +17,25 @@
   const isProPlan = (href) => href && href.includes('pro')
 
   const handleCheckoutCompleted = (data) => {
+    const entries = Object.entries(config.priceItems)
+    const entry = entries.find(
+      ([name, priceId]) => priceId === data.data.items[0].price_id,
+    )
+    if (!entry) {
+      alert('Invalid price item')
+      return
+    }
     fetch(config.webhookUrl, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        twillot: {
+          product_name: config.product_name,
+          plan: entry[0],
+        },
+      }),
       method: 'POST',
     })
       .then(() => {

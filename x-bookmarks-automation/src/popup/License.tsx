@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js'
 import { activateLicense, LICENSE_KEY } from 'utils/license'
+import { ProductName } from 'utils/types/product'
 import { Button } from '~/components/ui/button'
 import {
   Dialog,
@@ -7,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '~/components/ui/dialog'
 import { TextField, TextFieldInput } from '~/components/ui/text-field'
 import store from './store'
@@ -22,20 +22,23 @@ export default function DialogLicense() {
     }
 
     try {
-      const profile = await activateLicense(key())
+      const profile = await activateLicense(
+        key(),
+        ProductName.BookmarkAutomation,
+      )
       setState({
         [LICENSE_KEY]: profile,
+        is_dialog_open: false,
       })
     } catch (error) {
       console.error(error)
-      alert(error.message)
     }
   }
   return (
-    <Dialog>
-      <DialogTrigger class="underline underline-offset-4">
-        Activate
-      </DialogTrigger>
+    <Dialog
+      open={state['is_dialog_open']}
+      onOpenChange={(isOpen) => setState({ is_dialog_open: isOpen })}
+    >
       <DialogContent class="w-10/12">
         <DialogHeader>
           <DialogTitle>Activate</DialogTitle>

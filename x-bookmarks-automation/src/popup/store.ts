@@ -10,6 +10,7 @@ export const defaultState = () => ({
   webhook_url: '',
   webhook_token: '',
   saved: false,
+  is_dialog_open: false,
   [LICENSE_KEY]: null as License | null,
 })
 

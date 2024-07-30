@@ -1,6 +1,12 @@
-import { Match, onMount, Show, Switch as SolidSwitch } from 'solid-js'
+import { onMount, Show, Switch as SolidSwitch } from 'solid-js'
 import { getLocal, setLocal } from 'utils/storage'
-import { isFreeLicense, LICENSE_KEY, MemberLevel } from 'utils/license'
+import {
+  getLevel,
+  isFreeLicense,
+  Level_Names,
+  LICENSE_KEY,
+  MemberLevel,
+} from 'utils/license'
 
 import {
   Card,
@@ -72,11 +78,8 @@ const UpgradeLink = (props) => {
 }
 
 export default function App() {
-  const level = (): number => {
-    return isFreeLicense(state[LICENSE_KEY])
-      ? MemberLevel.Free
-      : state[LICENSE_KEY].level
-  }
+  const level = () => getLevel(state[LICENSE_KEY])
+  const getLevelName = () => Level_Names[level()]
   onMount(async () => {
     const local = await getLocal([
       'like',
@@ -160,9 +163,7 @@ export default function App() {
               </g>
             </svg>
             <Label class="flex flex-col space-y-1">
-              <div class="flex flex-row items-center gap-2">
-                Reply <UpgradeLink />
-              </div>
+              <div class="flex flex-row items-center gap-2">Reply</div>
               <span class="text-muted-foreground font-normal leading-snug">
                 Reply to the tweet when I bookmark it
               </span>
@@ -171,7 +172,7 @@ export default function App() {
           <SwitchContainer name="reply" />
         </div>
         <Show when={state['reply']}>
-          <div class="grid gap-2">
+          <div class="ml-8 grid gap-2">
             <TextField name="reply_text">
               <TextFieldTextArea
                 placeholder="输入回复的文本（可以包含链接，为了达到最佳效果请设置您的 Open Graph 元数据）"
@@ -195,9 +196,7 @@ export default function App() {
               </g>
             </svg>
             <Label class="flex flex-col space-y-1">
-              <div class="flex flex-row items-center gap-2">
-                Webhook <UpgradeLink />
-              </div>
+              <div class="flex flex-row items-center gap-2">Webhook</div>
               <span class="text-muted-foreground font-normal leading-snug">
                 转发该推文到一个 Webhook 接口
               </span>
@@ -206,7 +205,7 @@ export default function App() {
           <SwitchContainer name="webhook" />
         </div>
         <Show when={state['webhook']}>
-          <div class="grid gap-2">
+          <div class="ml-8 grid gap-2">
             <TextField name="webhook_url">
               <TextFieldInput
                 type="text"
@@ -229,32 +228,41 @@ export default function App() {
             </TextField>
           </div>
         </Show>
-        <Show when={level() < MemberLevel.Pro}>
-          <div class="text-muted-foreground flex items-center justify-center space-x-4 text-xs">
-            <a
-              class="underline underline-offset-4"
-              href={PRICING_URL}
-              target="_blank"
-            >
-              <SolidSwitch>
-                <Match when={level() === MemberLevel.Free}>Buy a license</Match>
-                <Match when={level() === MemberLevel.Basic}>
-                  Upgrade to Pro
-                </Match>
-              </SolidSwitch>
-            </a>
-            <Separator orientation="vertical" />
-            <DialogLicense />
-            <Separator orientation="vertical" />
-            <a
-              class="underline underline-offset-4"
-              href="https://s.twillot.com/organize-x-bookmarks"
-              target="_blank"
-            >
-              Organize Bookmarks
-            </a>
+        <div class="text-muted-foreground flex items-center justify-between space-x-2 text-xs">
+          <div>
+            Current Plan: <span class="uppercase">{getLevelName()}</span>
           </div>
-        </Show>
+          <div class="flex flex-1 justify-end space-x-1">
+            <Show
+              when={level() !== MemberLevel.Pro}
+              fallback={
+                <a
+                  href="https://s.twillot.com/organize-x-bookmarks"
+                  target="_blank"
+                  class="text-muted-foreground underline underline-offset-4"
+                >
+                  Organize X Bookmarks
+                </a>
+              }
+            >
+              <a
+                href={PRICING_URL}
+                target="_blank"
+                class="text-muted-foreground underline underline-offset-4"
+              >
+                Upgrade
+              </a>
+              <Separator orientation="vertical" />
+              <span
+                class="cursor-pointer underline underline-offset-4"
+                onClick={() => setState({ is_dialog_open: true })}
+              >
+                Activate
+              </span>
+              <DialogLicense />
+            </Show>
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

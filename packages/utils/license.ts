@@ -46,7 +46,10 @@ export function isFreeLicense(license: License | null) {
   return now > license.expires_at
 }
 
-export async function activateLicense(license_code: string) {
+export async function activateLicense(
+  license_code: string,
+  product_name = 'bookmarks',
+) {
   if (!license_code) {
     return
   }
@@ -64,6 +67,7 @@ export async function activateLicense(license_code: string) {
     body: JSON.stringify({
       license_code,
       device_id: userId,
+      product_name,
     }),
   })
   const json = await profile.json()

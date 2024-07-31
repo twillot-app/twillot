@@ -228,23 +228,12 @@ export default function App() {
             </TextField>
           </div>
         </Show>
-        <div class="text-muted-foreground flex items-center justify-between space-x-2 text-xs">
-          <div>
-            Current Plan: <span class="uppercase">{getLevelName()}</span>
-          </div>
-          <div class="flex flex-1 justify-end space-x-1">
-            <Show
-              when={level() !== MemberLevel.Pro}
-              fallback={
-                <a
-                  href="https://s.twillot.com/organize-x-bookmarks"
-                  target="_blank"
-                  class="text-muted-foreground underline underline-offset-4"
-                >
-                  Organize X Bookmarks
-                </a>
-              }
-            >
+        <Show when={level() === MemberLevel.Free}>
+          <div class="text-muted-foreground flex items-center justify-between space-x-2 text-xs">
+            <div class="flex flex-1 justify-end space-x-1">
+              <div>
+                Current Plan: <span class="uppercase">{getLevelName()}</span>
+              </div>
               <a
                 href={PRICING_URL}
                 target="_blank"
@@ -260,9 +249,17 @@ export default function App() {
                 Activate
               </span>
               <DialogLicense />
-            </Show>
+              <Separator orientation="vertical" />
+              <a
+                href="https://s.twillot.com/organize-x-bookmarks"
+                target="_blank"
+                class="text-muted-foreground underline underline-offset-4"
+              >
+                Export X Bookmarks
+              </a>
+            </div>
           </div>
-        </div>
+        </Show>
       </CardContent>
     </Card>
   )

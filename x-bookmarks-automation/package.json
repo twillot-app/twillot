@@ -12,7 +12,7 @@
     "tailwindcss-animate": "^1.0.7",
     "utils": "workspace:^"
   },
-  "description": "Automation tools for x/twitter bookmarks",
+  "description": "X/Twitter Engagement and Content Management in One Click!",
   "displayName": "Twillot Automation for X/Twitter Bookmarks",
   "engines": {
     "node": ">=18.0.0"

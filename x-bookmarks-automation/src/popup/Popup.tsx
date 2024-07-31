@@ -174,7 +174,7 @@ export default function App() {
           <div class="ml-8 grid gap-2">
             <TextField name="reply_text">
               <TextFieldTextArea
-                placeholder="输入回复的文本（可以包含链接，为了达到最佳效果请设置您的 Open Graph 元数据）"
+                placeholder="Enter your reply text (set Open Graph metadata for link preview)"
                 maxLength={280}
                 value={state['reply_text']}
                 onInput={(e) =>
@@ -208,7 +208,7 @@ export default function App() {
             <TextField name="webhook_url">
               <TextFieldInput
                 type="text"
-                placeholder="输入您的 Webhook 地址，例如 https://example.com/webhook"
+                placeholder="Enter your Webhook URL (Readwise is supported)"
                 value={state['webhook_url']}
                 onInput={(e) =>
                   updateField('webhook_url', e.currentTarget.value)
@@ -218,7 +218,7 @@ export default function App() {
             <TextField name="webhook_token">
               <TextFieldInput
                 type="text"
-                placeholder="输入您的 Token"
+                placeholder="Enter your Webhook Token"
                 value={state['webhook_token']}
                 onInput={(e) =>
                   updateField('webhook_token', e.currentTarget.value)

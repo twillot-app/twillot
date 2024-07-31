@@ -107,9 +107,9 @@ export default function App() {
   return (
     <Card class="m-4 w-96 text-sm">
       <CardHeader>
-        <CardTitle>Twillot X Bookmark Automation</CardTitle>
-        <CardDescription>
-          Manage your bookmark automation settings
+        <CardTitle>Twillot Automation for X Bookmarks</CardTitle>
+        <CardDescription class="text-xs">
+          X Engagement and Content Management in One Click!
         </CardDescription>
       </CardHeader>
       <CardContent class="grid gap-6">
@@ -125,8 +125,8 @@ export default function App() {
             </svg>
             <Label for="like" class="flex flex-col space-y-1">
               <span>Like</span>
-              <span class="text-muted-foreground font-normal leading-snug">
-                Like the tweet when I bookmark it
+              <span class="text-muted-foreground text-xs font-normal leading-snug">
+                Auto like the tweet when bookmarked
               </span>
             </Label>
           </div>
@@ -144,8 +144,8 @@ export default function App() {
             </svg>
             <Label class="flex flex-col space-y-1">
               <span>Repost</span>
-              <span class="text-muted-foreground font-normal leading-snug">
-                Repost the tweet when I bookmark it
+              <span class="text-muted-foreground text-xs font-normal leading-snug">
+                Auto repost the tweet when bookmarked
               </span>
             </Label>
           </div>
@@ -163,8 +163,8 @@ export default function App() {
             </svg>
             <Label class="flex flex-col space-y-1">
               <div class="flex flex-row items-center gap-2">Reply</div>
-              <span class="text-muted-foreground font-normal leading-snug">
-                Reply to the tweet when I bookmark it
+              <span class="text-muted-foreground text-xs font-normal leading-snug">
+                Auto reply to the tweet when bookmarked
               </span>
             </Label>
           </div>
@@ -196,8 +196,8 @@ export default function App() {
             </svg>
             <Label class="flex flex-col space-y-1">
               <div class="flex flex-row items-center gap-2">Webhook</div>
-              <span class="text-muted-foreground font-normal leading-snug">
-                转发该推文到一个 Webhook 接口
+              <span class="text-muted-foreground text-xs font-normal leading-snug">
+                Forward the tweet to a Webhook endpoint
               </span>
             </Label>
           </div>

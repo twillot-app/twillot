@@ -63,7 +63,6 @@ export default defineManifest({
   permissions: [
     'storage',
     'webRequest',
-    'sidePanel',
     'declarativeNetRequest',
     'declarativeNetRequestWithHostAccess',
   ],
@@ -76,7 +75,6 @@ export default defineManifest({
       },
     ],
   },
-  omnibox: { keyword: 'tt' },
   // chrome_url_overrides: {
   //   newtab: 'pages/newtab.html',
   // },

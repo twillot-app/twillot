@@ -12,8 +12,8 @@
     "tailwindcss-animate": "^1.0.7",
     "utils": "workspace:^"
   },
-  "description": "Automation tools for x bookmarks",
-  "displayName": "Twillot X/Twitter Bookmarks Automation",
+  "description": "Automation tools for x/twitter bookmarks",
+  "displayName": "Twillot Automation for X/Twitter Bookmarks",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -31,5 +31,5 @@
     "zip": "npm run build && node src/zip.js"
   },
   "type": "module",
-  "version": "0.0.1"
+  "version": "1.0.0"
 }

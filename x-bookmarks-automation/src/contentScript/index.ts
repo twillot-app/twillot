@@ -69,21 +69,21 @@ window.addEventListener('message', async (event) => {
     ])
     const payload: Payload = data.payload
     const tweet_id = payload.variables.tweet_id
-    if (like) {
-      await likeTweet(tweet_id)
-    }
-    if (repost) {
-      await repostTweet(tweet_id)
-    }
-    if (reply && reply_text) {
-      await createTweet({
-        text: reply_text,
-        replyTweetId: tweet_id,
-      })
-    }
-    if (webhook) {
-      // TODO 提取为公共方法
-      try {
+    // true or undefined, default to true
+    try {
+      if (like !== false) {
+        await likeTweet(tweet_id)
+      }
+      if (repost !== false) {
+        await repostTweet(tweet_id)
+      }
+      if (reply && reply_text) {
+        await createTweet({
+          text: reply_text,
+          replyTweetId: tweet_id,
+        })
+      }
+      if (webhook && webhook_url && webhook_token) {
         const json = await getTweetDetails(tweet_id)
         const tweet = toRecord(
           json.data.threaded_conversation_with_injections_v2.instructions[0].entries.find(
@@ -114,9 +114,9 @@ window.addEventListener('message', async (event) => {
             }),
           },
         )
-      } catch (error) {
-        console.error('Twillot webhook error:', error)
       }
+    } catch (error) {
+      console.error('Twillot webhook error:', error)
     }
   }
 })

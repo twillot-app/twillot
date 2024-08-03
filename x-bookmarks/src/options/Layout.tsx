@@ -122,7 +122,7 @@ export const Layout = (props) => {
       >
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
           <div class="flex items-center justify-between">
-            <div class="flex w-full flex-col items-center justify-start space-y-4  lg:w-auto lg:flex-row lg:space-y-0 rtl:justify-end">
+            <div class="flex w-full flex-col items-center justify-start space-y-4 lg:w-auto lg:flex-row lg:space-y-0 rtl:justify-end">
               <a
                 href="https://twillot.com?utm_source=extension"
                 target="_blank"
@@ -166,7 +166,7 @@ export const Layout = (props) => {
 
       <Show when={!store.isSidePanel}>
         <aside
-          class={`fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform sm:translate-x-0 dark:border-gray-700 dark:bg-[#121212] dark:text-white ${store.selectedTweet > -1 ? 'hidden' : ''}`}
+          class={`fixed left-0 top-0 z-40 hidden h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 text-lg text-gray-700 transition-transform sm:translate-x-0 lg:block dark:border-gray-700 dark:bg-[#121212] dark:text-white ${store.selectedTweet > -1 ? 'hidden' : ''}`}
         >
           <div class="h-full overflow-y-auto px-3 pb-4 ">
             <ul class="space-y-1 font-medium">

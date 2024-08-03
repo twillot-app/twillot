@@ -33,7 +33,7 @@ export const Home = () => {
       ref={listRef!}
     >
       <Show when={!store.isSidePanel}>
-        <div class="mb-4">
+        <div class="mb-4 px-3 lg:px-0">
           <Contribution />
         </div>
 

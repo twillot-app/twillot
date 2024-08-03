@@ -8,7 +8,7 @@ import { exportData } from 'utils/exporter'
 import { Host } from 'utils/types'
 import { LICENSE_KEY, MemberLevel } from 'utils/license'
 
-import { IconCrown } from '../components/Icons'
+import { IconClose, IconCrown } from '../components/Icons'
 import {
   EXPORT_FORM_FIELDS,
   EXPORT_MEDIA_FIELDS,
@@ -18,16 +18,19 @@ import {
   MAX_MEDIA_EXPORT_SIZE,
   PRICING_URL,
 } from '../libs/member'
-import dataStore from './store'
+import dataStore, { mutateStore } from './store'
+import Spinner from '../components/Spinner'
 
-const [store] = dataStore
+const [store, setStore] = dataStore
 
 const ExportPage = () => {
-  const level = store[LICENSE_KEY]?.level || MemberLevel.Free
+  const level = () => store[LICENSE_KEY]?.level || MemberLevel.Free
   const [maxMediaRows, setMaxMediaRows] = createSignal(
-    MAX_MEDIA_EXPORT_SIZE[level],
+    MAX_MEDIA_EXPORT_SIZE[level()],
   )
-  const maxRows = MAX_EXPORT_SIZE[level]
+  const maxRows = () => MAX_EXPORT_SIZE[level()]
+  const getBtnClass = (name: string) =>
+    `mb-2 me-8 flex w-36 justify-center gap-2 rounded-lg bg-${name}-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-${name}-800 focus:outline-none focus:ring-4 focus:ring-${name}-300 dark:bg-${name}-600 dark:hover:bg-${name}-700 dark:focus:ring-${name}-800 items-center`
   const onRadioChange = (row, field) => {
     if (row.level > level) {
       alert(
@@ -41,7 +44,7 @@ const ExportPage = () => {
       if (row.value === 'csv') {
         setMaxMediaRows(MAX_MEDIA_EXPORT_SIZE[MemberLevel.Pro])
       } else {
-        setMaxMediaRows(MAX_MEDIA_EXPORT_SIZE[level])
+        setMaxMediaRows(MAX_MEDIA_EXPORT_SIZE[level()])
       }
     } else if (field.name === 'file_format') {
       document
@@ -61,21 +64,29 @@ const ExportPage = () => {
       params[field.name] = form[field.name].value
     })
     let minLevel = MemberLevel.Free
-    if (
-      params.metadata === 'yes' ||
-      // params.fast_mode === 'yes' ||
-      params.unroll === 'yes' ||
-      store.totalCount?.total > MAX_EXPORT_SIZE[MemberLevel.Free]
-    ) {
+    if (params.metadata === 'yes' || params.unroll === 'yes') {
       minLevel = MemberLevel.Basic
     }
 
-    if (level < minLevel) {
+    if (level() < minLevel) {
       openNewTab(PRICING_URL)
       return
     }
 
-    const records = await findRecords('', '', '', '', MAX_EXPORT_SIZE[level])
+    const max = MAX_EXPORT_SIZE[level()]
+    if (store.totalCount?.total > max) {
+      alert(
+        `Max ${max} rows reached, unlock unlimited exporting to export more.`,
+      )
+    }
+
+    const records = await findRecords(
+      '',
+      '',
+      '',
+      '',
+      Math.min(store.totalCount?.total, max),
+    )
     if (records.length === 0) {
       alert('No bookmarks found.')
       return
@@ -88,7 +99,7 @@ const ExportPage = () => {
           is_thread: i.is_thread || i.conversations?.length > 0,
           url: `${Host}/${i.screen_name}/status/${i.tweet_id}`,
           full_text:
-            level < MemberLevel.Basic
+            level() < MemberLevel.Basic
               ? i.full_text
               : i.conversations?.length
                 ? i.full_text +
@@ -98,7 +109,7 @@ const ExportPage = () => {
         })),
         'CSV',
         'twillot-bookmarks.csv',
-        getExportFields(level, params.file_format),
+        getExportFields(level(), params.file_format),
       )
     } else if (params.file_format === 'json') {
       exportData(records, 'JSON', 'twillot-bookmarks.json')
@@ -111,7 +122,7 @@ const ExportPage = () => {
     EXPORT_MEDIA_FIELDS.forEach((field) => {
       params[field.name] = form[field.name].value
     })
-    const records = await iterate((tweet) => {
+    const full_records = await iterate((tweet) => {
       if (params.media_type === 'all') {
         if (tweet.has_image || tweet.has_video || tweet.has_gif) {
           return true
@@ -124,6 +135,7 @@ const ExportPage = () => {
 
       return false
     })
+    const records = full_records.slice(0, maxMediaRows())
     const mediaList = []
     const containImage =
       params.media_type === 'all' || params.media_type === 'image'
@@ -131,6 +143,7 @@ const ExportPage = () => {
       params.media_type === 'all' || params.media_type === 'video'
     const containGif =
       params.media_type === 'all' || params.media_type === 'gif'
+
     for (const record of records) {
       const mediaItem = {
         tweet_id: record.tweet_id,
@@ -182,34 +195,64 @@ const ExportPage = () => {
         },
       )
     } else if (params.action_type === 'media') {
-      let downloaded = 0
-      let errored = 0
+      let isCanceled = false
+      setStore({
+        isDownloadingMedia: true,
+        downloadMediaCount: mediaList.length,
+        downloadedMediaCount: 0,
+        downloadedIds: [],
+      })
+
       for (const item of mediaList) {
-        if (downloaded >= maxMediaRows()) {
-          alert(
-            'Max media rows reached, unlock unlimited exporting to download more.',
-          )
+        // 可能随时取消
+        if (!store.isDownloadingMedia) {
+          isCanceled = true
           break
         }
 
         try {
-          console.log(`Downloading ${item.media_url}...`, item)
-          await chrome.downloads.download({
+          const id = await chrome.downloads.download({
             url: item.media_url,
             filename: getMediaSavePath(item, params.save_mode),
           })
-          downloaded += 1
-          console.log(`Downloaded ${downloaded} of ${mediaList.length} files.`)
+          mutateStore((state) => {
+            state.downloadedMediaCount += 1
+            state.downloadedIds.push(id)
+          })
         } catch (error) {
-          errored += 1
           console.error(error, item)
+          setStore({
+            downloadedMediaCount: store.downloadedMediaCount + 1,
+          })
         }
       }
-      alert('Your media files have been downloaded completely.')
+      setStore({
+        isDownloadingMedia: false,
+        downloadMediaCount: 0,
+        downloadedMediaCount: 0,
+        downloadedIds: [],
+      })
+      alert(
+        isCanceled
+          ? 'Download canceled.'
+          : 'Your media files have been downloaded completely.',
+      )
     }
   }
 
-  onMount(async () => {})
+  const cancelDownloadMeida = async () => {
+    // 先取消之前未完成的下载任务
+    for (let index = 0; index < store.downloadedIds.length; index++) {
+      const element = store.downloadedIds[index]
+      await chrome.downloads.cancel(element)
+    }
+    setStore({
+      isDownloadingMedia: false,
+      downloadMediaCount: 0,
+      downloadedMediaCount: 0,
+      downloadedIds: [],
+    })
+  }
 
   return (
     <div class="container mx-auto p-4 text-base">
@@ -266,14 +309,14 @@ const ExportPage = () => {
               </label>
               <div class="flex-1 text-sm">
                 <p class="flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300">
-                  {level > MemberLevel.Basic ? 'Unlimited' : maxRows}
+                  {level() > MemberLevel.Basic ? 'Unlimited' : maxRows()}
                 </p>
               </div>
             </div>
             <div class="my-5">
               <button
                 type="submit"
-                class="mb-2 me-8 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="mb-2 me-8 w-32 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Download
               </button>
@@ -298,7 +341,7 @@ const ExportPage = () => {
           <form class="mx-auto block max-w-3xl" onSubmit={exportMedia}>
             {EXPORT_MEDIA_FIELDS.map((field) => {
               return (
-                <div class="mb-4 flex gap-8">
+                <div class={`mb-4 flex gap-8`}>
                   <label class="mb-2 block w-32 text-right font-medium text-gray-900 dark:text-white">
                     {field.label}:
                   </label>
@@ -354,13 +397,30 @@ const ExportPage = () => {
               </div>
             </div>
 
-            <div class="my-5">
-              <button
-                type="submit"
-                class="mb-2 me-8 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            <div class="my-5 flex">
+              <Show
+                when={store.isDownloadingMedia}
+                fallback={
+                  <button type="submit" class={getBtnClass('blue')}>
+                    Download
+                  </button>
+                }
               >
-                Download
-              </button>
+                <button
+                  type="button"
+                  title="Click to cancel downloading"
+                  onClick={cancelDownloadMeida}
+                  class={getBtnClass('red')}
+                >
+                  <Spinner className="h-5 w-5 fill-white text-gray-400 dark:text-gray-400" />
+                  <span class="text-xs">
+                    {store.downloadedMediaCount}/{store.downloadMediaCount}
+                  </span>
+
+                  <IconClose className="h-5 w-5" />
+                </button>
+              </Show>
+
               <a
                 href={PRICING_URL}
                 target="_blank"

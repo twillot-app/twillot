@@ -102,15 +102,15 @@ export const EXPORT_MEDIA_FIELDS = [
     data: [
       {
         value: 'default',
-        label: 'Default (no subfolder)',
+        label: 'None',
         level: MemberLevel.Free,
       },
       {
         value: 'folder',
-        label: 'Organize by bookmark folder',
+        label: 'Bookmark folder',
         level: MemberLevel.Basic,
       },
-      { value: 'user', label: 'Organize by user', level: MemberLevel.Basic },
+      { value: 'user', label: 'User', level: MemberLevel.Basic },
       // {
       //   value: 'custom',
       //   label: 'Custom',
@@ -118,7 +118,7 @@ export const EXPORT_MEDIA_FIELDS = [
       //   implemented: false,
       // },
     ],
-    label: 'Organize mode',
+    label: 'Organize files by',
     default: 'default',
   },
 ]

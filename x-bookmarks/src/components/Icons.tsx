@@ -39,8 +39,8 @@ export const IconTextFont = () => (
   </svg>
 )
 
-export const IconClose = () => (
-  <svg class="h-6 w-6" {...props} viewBox="0 0 24 24">
+export const IconClose = (cprops) => (
+  <svg class={cprops.className || 'h-6 w-6'} {...props} viewBox="0 0 24 24">
     <path
       stroke="currentColor"
       stroke-linecap="round"

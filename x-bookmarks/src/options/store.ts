@@ -43,6 +43,11 @@ export const defaultState = () => ({
   theme: localStorage.getItem('theme') || 'light',
   isSidePanel: location.pathname.endsWith('sidepanel.html'),
   [LICENSE_KEY]: null as License | null,
+  isDownloadingMedia: false,
+  downloadMediaCount: 0,
+  downloadedMediaCount: 0,
+  // when downloading media, store the ids of the tweets that need to be downloaded and cancel them if necessary
+  downloadedIds: new Array<number>(),
 })
 
 const store = createStore(defaultState())

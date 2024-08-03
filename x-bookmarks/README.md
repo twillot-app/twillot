@@ -11,6 +11,8 @@ Add some features:
 - Export bookmarks with threads and engagement metrics to CSV / JSON
 - Download media files from bookmarks
 
+Note: Due to adjustments in our product strategy, the Workflow feature will be removed from the current version. If you're looking for similar functionality, we invite you to try our newly launched, more lightweight extension https://chromewebstore.google.com/detail/twillot-automation-for-xt/cpliijgeflgeopedhlnbncjcclcjnjkd?authuser=0&hl=zh-CN.
+
 ## July 4, 2024 Update
 
 Add a feedback channel

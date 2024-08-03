@@ -1,8 +1,15 @@
 # Twillot
 
-> Organize X/Twitter bookmarks, streamline X/Twitter workflow experience
+> Search, organize and export your X/Twitter bookmarks
 
 ## Changelog
+
+## Aug 3, 2024 Update
+
+Add some features:
+
+- Export bookmarks with threads and engagement metrics to CSV / JSON
+- Download media files from bookmarks
 
 ## July 4, 2024 Update
 

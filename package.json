@@ -1,6 +1,6 @@
 {
-  "author": "",
-  "description": "",
+  "author": "twillot",
+  "description": "Web extensions on X",
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.19",
     "@faker-js/faker": "^8.4.1",
@@ -27,14 +27,15 @@
     "vitest": "^1.6.0",
     "webextension-polyfill": "^0.12.0"
   },
-  "keywords": [],
+  "keywords": [
+    "x",
+    "twitter",
+    "export twitter bookmarks",
+    "search twitter bookmarks",
+    "export twitter followers"
+  ],
   "license": "MPL-2.0",
   "name": "twillot",
   "packageManager": "pnpm@8.15.4+sha1.c85a4305534f76d461407b59277b954bac97b5c4",
-  "scripts": {
-    "dev:x-bookmarks": "pnpm --filter x-bookmarks dev",
-    "dev:x-bookmarks-automation": "pnpm --filter x-bookmarks-automation dev",
-    "test": "pnpm -r test"
-  },
   "version": "1.0.0"
 }

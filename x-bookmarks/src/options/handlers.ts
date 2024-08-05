@@ -269,7 +269,13 @@ export async function* syncAllBookmarks(forceSync = false) {
  */
 export async function syncThreads() {
   const detailLimit = 50
-  const records = await iterate((t) => t.is_thread == null, detailLimit * 0.5)
+  /**
+   * 一旦设置为 true/false 表示已经同步过
+   */
+  const records = await iterate(
+    (t) => typeof t.is_thread !== 'boolean',
+    detailLimit * 0.5,
+  )
   console.log(`Syncing ${records.length} threads`, records)
 
   for (const record of records) {

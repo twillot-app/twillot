@@ -34,12 +34,7 @@ import logo from '../../public/img/logo-128.png'
 import { allCategories } from '../constants'
 import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
-import {
-  getCurrentUserId,
-  getLastSyncInfo,
-  onLocalChanged,
-  StorageKeys,
-} from 'utils/storage'
+import { getCurrentUserId, onLocalChanged, StorageKeys } from 'utils/storage'
 import { getLicense, isViolatedLicense, LICENSE_KEY } from 'utils/license'
 
 export const Layout = (props) => {
@@ -93,26 +88,18 @@ export const Layout = (props) => {
       }
     }, 3000)
     onLocalChanged(handler)
-    // 如果已经同步书签，则开始同步 threads
-    const lastSync = await getLastSyncInfo()
-    if (lastSync) {
-      syncThreads()
+
+    const user_id = await getCurrentUserId()
+    if (!user_id) {
+      setStore('isAuthFailed', true)
+      return
     }
 
-    if (!store.isSidePanel) {
-      const user_id = await getCurrentUserId()
-      if (!user_id) {
-        setStore('isAuthFailed', true)
-        return
-      }
-
-      await Promise.all([initSync(), initFolders()])
-    }
-
-    // 如果没有同步过书签，则开始首次同步 threads
-    if (!lastSync) {
-      syncThreads()
-    }
+    /**
+     * 优先获取全部书签和 threads，文件夹同步可以稍微延迟
+     */
+    await Promise.all([initSync(), syncThreads()])
+    await initFolders()
   })
 
   return (

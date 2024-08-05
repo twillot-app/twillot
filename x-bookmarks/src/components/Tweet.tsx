@@ -110,7 +110,7 @@ export function Image(props: { src: string; alt?: string; url?: string }) {
   return (
     <figure class="h-auto w-full cursor-pointer" title={props.alt || ''}>
       <a href={props.url || props.src} target="_blank">
-        <img class="rounded-lg" src={props.src} loading="lazy" />
+        <img class="min-h-8 rounded-lg" src={props.src} loading="lazy" />
       </a>
     </figure>
   )

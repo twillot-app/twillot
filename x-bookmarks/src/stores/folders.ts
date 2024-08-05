@@ -153,7 +153,7 @@ export async function moveTweetToFolder(folder: string, tweet: Tweet) {
   const oldFolderIndex = tweet.folder
     ? store.folders.findIndex((f) => f.name === tweet.folder)
     : -1
-  await upsertRecords([{ ...unwrap(tweet), folder }])
+  await upsertRecords([{ ...unwrap(tweet), folder }], true)
   mutateStore((state) => {
     state.tweets[index].folder = folder
     state.folders[folderIndex].count += 1
@@ -184,7 +184,7 @@ export const moveTweetsToFolder = async (folder: string) => {
         ...tweet,
         folder,
       }))
-    await upsertRecords(tweets)
+    await upsertRecords(tweets, true)
     mutateStore((state) => {
       state.tweets.forEach((t) => {
         if (!t.folder) {

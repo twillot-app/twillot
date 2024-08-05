@@ -1,8 +1,12 @@
 # Twillot
 
-> Search, organize and export your X/Twitter bookmarks
+> Search, organize and export your X/Twitter bookmarks wihout a Twitter Premium account.
 
 ## Changelog
+
+## Aug 5, 2024 Update
+
+Fix a threads bug.
 
 ## Aug 3, 2024 Update
 

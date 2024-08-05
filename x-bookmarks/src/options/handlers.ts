@@ -294,7 +294,7 @@ export async function syncThreads() {
       const conversations = await getTweetConversations(record.tweet_id)
       record.conversations = conversations
       record.is_thread = conversations.length > 0
-      await upsertRecords([record])
+      await upsertRecords([record], true)
     } catch (e) {
       console.error('Failed to get conversations', e)
       if (e.name === FetchError.IdentityError) {

@@ -96,10 +96,10 @@ export const Layout = (props) => {
     }
 
     /**
-     * 优先获取全部书签和 threads，文件夹同步可以稍微延迟
+     * 优先获取全部书签和文件夹同步，threads 优先级可以降低
      */
-    await Promise.all([initSync(), syncThreads()])
-    await initFolders()
+    await Promise.all([initSync(), initFolders()])
+    await syncThreads()
   })
 
   return (

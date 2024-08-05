@@ -18,7 +18,10 @@ export function getPostId(user_id: string, tweet_id: string) {
   return tweet_id.includes(user_id) ? tweet_id : user_id + '_' + tweet_id
 }
 
-export async function upsertRecords(records: Tweet[]): Promise<void> {
+export async function upsertRecords(
+  records: Tweet[],
+  isUpdate = false,
+): Promise<void> {
   const db = await openDb()
   const user_id = await getCurrentUserId()
 
@@ -38,6 +41,14 @@ export async function upsertRecords(records: Tweet[]): Promise<void> {
 
     records.forEach((record) => {
       if (record) {
+        /**
+         * 明确知道是更新，或者有可能是新增或者更新
+         */
+        if (isUpdate) {
+          objectStore.put(record)
+          return
+        }
+
         const key = getPostId(user_id, record.tweet_id)
         record.id = key
         record.owner_id = user_id
@@ -55,6 +66,13 @@ export async function upsertRecords(records: Tweet[]): Promise<void> {
             })
             if ('folder' in record) {
               existingRecord.folder = record.folder
+            }
+            /**
+             * 只有明确设置了 is_thread 才会更新 conversations
+             */
+            if (typeof record.is_thread === 'boolean') {
+              existingRecord.is_thread = record.is_thread
+              existingRecord.conversations = record.conversations
             }
             objectStore.put(existingRecord)
           } else {

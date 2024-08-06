@@ -94,3 +94,12 @@ export async function request(url: string, options: RequestInit) {
 
   return data
 }
+
+export function flatten(obj: {}, stringify = true) {
+  return Object.keys(obj)
+    .map(
+      (key) =>
+        `${key}=${encodeURIComponent(stringify ? JSON.stringify(obj[key]) : obj[key])}`,
+    )
+    .join('&')
+}

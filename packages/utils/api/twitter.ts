@@ -15,7 +15,7 @@ import {
 } from '../types'
 import { URL_REG } from '../text'
 import { FetchError } from '../xfetch'
-import { request } from './twitter-base'
+import { flatten, request } from './twitter-base'
 import {
   BOOKMARK_FEATURES,
   COMMON_FEATURES,
@@ -130,15 +130,6 @@ export function getTweetId(
   return tweet?.legacy?.id_str || ''
 }
 const pageSize = 100
-
-function flatten(obj: {}, stringify = true) {
-  return Object.keys(obj)
-    .map(
-      (key) =>
-        `${key}=${encodeURIComponent(stringify ? JSON.stringify(obj[key]) : obj[key])}`,
-    )
-    .join('&')
-}
 
 export async function createTweet(
   args:
@@ -466,36 +457,6 @@ export async function uploadMedia(
   })
 
   return mediaId
-}
-
-export async function getFollowers(userId: string, cursor?: string) {
-  try {
-    const variables = {
-      cursor: '',
-      userId,
-      count: 100,
-      includePromotedContent: true,
-    }
-    if (cursor) {
-      variables.cursor = cursor
-    }
-    const query = flatten({
-      variables,
-      features: COMMON_FEATURES,
-    })
-    const json = await request(`${Endpoint.FOLLOWERS}?${query}`, {
-      body: null,
-      method: 'GET',
-    })
-
-    return json
-  } catch (e) {
-    if (e.name !== FetchError.TimeoutError && e.name !== FetchError.DataError) {
-      e.name = FetchError.IdentityError
-    }
-
-    throw e
-  }
 }
 
 export async function getFollowing(userId: string, cursor?: string) {}

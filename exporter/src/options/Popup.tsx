@@ -85,13 +85,7 @@ const ExportCard = (props: {
 }
 
 export default function App() {
-  onMount(() => {
-    setInterval(() => {
-      mutateStore((state) => {
-        state.posts.done += 1
-      })
-    }, 1000)
-  })
+  onMount(() => {})
   return (
     <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">
       <h1 class="my-6 text-center text-xl font-bold">

@@ -14,4 +14,4 @@ export const defaultState = () => ({
   [LICENSE_KEY]: null as License | null,
 })
 
-export default createStore(defaultState)
+export default createStore(defaultState())

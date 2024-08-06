@@ -77,7 +77,7 @@ export default function App() {
   onMount(async () => {})
 
   return (
-    <div class="mx-auto my-4 w-full space-y-4 text-base lg:w-[1024px]">
+    <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">
       <h1 class="my-6 text-center text-xl font-bold">
         Twillot Exporter for X/Twitter
       </h1>
@@ -119,6 +119,33 @@ export default function App() {
           total={1990}
         />
       </div>
+      <Show when={level() === MemberLevel.Free}>
+        <div class="text-muted-foreground flex items-center justify-center space-x-4 text-base">
+          <a
+            href={PRICING_URL}
+            target="_blank"
+            class="text-muted-foreground underline underline-offset-4"
+          >
+            Upgrade
+          </a>
+          <Separator orientation="vertical" />
+          <span
+            class="cursor-pointer underline underline-offset-4"
+            onClick={() => setState({ is_dialog_open: true })}
+          >
+            Activate
+          </span>
+          <DialogLicense />
+          <Separator orientation="vertical" />
+          <a
+            href="https://s.twillot.com/organize-x-bookmarks"
+            target="_blank"
+            class="text-muted-foreground underline underline-offset-4"
+          >
+            Export X Bookmarks
+          </a>
+        </div>
+      </Show>
     </div>
   )
 }

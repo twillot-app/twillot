@@ -11,51 +11,52 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '~/components/ui/card'
-import { Label } from '~/components/ui/label'
-import { SwitchControl, SwitchThumb, Switch } from '~/components/ui/switch'
-import {
-  TextField,
-  TextFieldInput,
-  TextFieldTextArea,
-} from '~/components/ui/text-field'
 import { Separator } from '~/components/ui/separator'
 import { PRICING_URL } from './member'
 import DialogLicense from './License'
-import store, { defaultState } from './store'
+import store, { mutateStore, TASK_STATE_TEXT } from './store'
 import { ProgressCircle } from '~/components/ui/progress-circle'
+import { Badge } from '~/components/ui/badge'
+import { unwrap } from 'solid-js/store'
 
 const [state, setState] = store
-const updateField = (field: string, value: boolean | string) => {
-  if (
-    ['webhook', 'reply'].includes(field) &&
-    isFreeLicense(state[LICENSE_KEY])
-  ) {
+const level = () => getLevel(state[LICENSE_KEY])
+const handler = (format: 'csv' | 'json', category: string) => {
+  if (format === 'json' && level() === MemberLevel.Free) {
     chrome.tabs.create({ url: PRICING_URL })
     return
   }
-  const updates = { [field]: value }
-  setLocal(updates)
-  setState(updates)
 }
 
-const ExportCard = (props) => {
-  const progress = (props.done / props.total) * 100
+const ExportCard = (props: {
+  category: string
+  title: string
+  desc: string
+}) => {
+  const field = () => state[props.category]
+  const progress = () => Math.ceil((100 * field().done) / field().total)
+  const status = () => TASK_STATE_TEXT[state[props.category].state]
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{props.title}</CardTitle>
+        <CardTitle class="flex">
+          <div class="flex-1">{props.title}</div>
+          <Badge variant="secondary" class="cursor-pointer">
+            {status()}
+          </Badge>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div class="flex items-center justify-start space-x-5">
-          <ProgressCircle value={progress} />
+          <ProgressCircle value={progress()} />
           <div>
             <p class="text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium">
-              0 / 1990 ({Math.ceil(progress)}%)
+              {field().done} / {field().total}
             </p>
             <p class="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
               {props.desc}
@@ -63,9 +64,20 @@ const ExportCard = (props) => {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button variant="outline" class="w-full">
-          Export {props.title}
+      <CardFooter class="gap-6">
+        <Button
+          variant="outline"
+          class="w-1/2"
+          onClick={() => handler('csv', props.category)}
+        >
+          Export CSV
+        </Button>
+        <Button
+          variant="outline"
+          class="w-1/2"
+          onClick={() => handler('json', props.category)}
+        >
+          Export JSON
         </Button>
       </CardFooter>
     </Card>
@@ -73,9 +85,13 @@ const ExportCard = (props) => {
 }
 
 export default function App() {
-  const level = () => getLevel(state[LICENSE_KEY])
-  onMount(async () => {})
-
+  onMount(() => {
+    setInterval(() => {
+      mutateStore((state) => {
+        state.posts.done += 1
+      })
+    }, 1000)
+  })
   return (
     <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">
       <h1 class="my-6 text-center text-xl font-bold">
@@ -85,38 +101,32 @@ export default function App() {
         <ExportCard
           title="Posts"
           desc="Export your likes to X Bookmarks"
-          done={0}
-          total={1990}
-        />{' '}
+          category="posts"
+        />
         <ExportCard
           title="Replies"
           desc="Export your likes to X Bookmarks"
-          done={0}
-          total={1990}
-        />{' '}
+          category="replies"
+        />
         <ExportCard
           title="Media"
           desc="Export your likes to X Bookmarks"
-          done={0}
-          total={1990}
-        />{' '}
+          category="media"
+        />
         <ExportCard
           title="Likes"
           desc="Export your likes to X Bookmarks"
-          done={0}
-          total={1990}
-        />{' '}
+          category="likes"
+        />
         <ExportCard
           title="Followers"
           desc="Export your likes to X Bookmarks"
-          done={0}
-          total={1990}
+          category="followers"
         />
         <ExportCard
           title="Bookmarks"
           desc="Export your likes to X Bookmarks"
-          done={0}
-          total={1990}
+          category="bookmarks"
         />
       </div>
       <Show when={level() === MemberLevel.Free}>

@@ -1,6 +1,7 @@
 import { onMount, Show } from 'solid-js'
 import { Button } from '~/components/ui/button'
-import { getLocal, setLocal } from 'utils/storage'
+import { getCurrentUserId, getLocal, setLocal } from 'utils/storage'
+import { getFollowers } from 'utils/api/twitter-user'
 import {
   getLevel,
   isFreeLicense,
@@ -85,7 +86,11 @@ const ExportCard = (props: {
 }
 
 export default function App() {
-  onMount(() => {})
+  onMount(async () => {
+    const uid = await getCurrentUserId()
+    const json = await getFollowers(uid)
+    console.log(json)
+  })
   return (
     <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">
       <h1 class="my-6 text-center text-xl font-bold">

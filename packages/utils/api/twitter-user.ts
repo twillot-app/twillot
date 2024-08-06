@@ -1,7 +1,7 @@
-import { Endpoint } from '~/types'
+import { Endpoint } from '../types'
 import { flatten, request } from './twitter-base'
 import { COMMON_FEATURES } from './twitter-features'
-import { FetchError } from '~/xfetch'
+import { FetchError } from '../xfetch'
 
 export async function getPosts() {}
 

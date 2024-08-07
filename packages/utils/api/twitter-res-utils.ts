@@ -109,13 +109,13 @@ export function getBottomCursor<T>(
 
 export function getAllInstructionDetails(instructions: TimelineInstructions) {
   let pinEntry: TimelineEntry<
-      TimelineTweet,
-      TimelineTimelineItem<TimelineTweet>
-    >,
-    itemEntries: ItemContentUnion[],
-    moduleEntries: ItemContentUnion[],
-    cursorEntry: string,
-    moduleItems: ItemContentUnion[]
+    TimelineTweet,
+    TimelineTimelineItem<TimelineTweet>
+  >
+  let itemEntries: ItemContentUnion[] = []
+  let moduleEntries: ItemContentUnion[] = []
+  let cursorEntry: string = ''
+  let moduleItems: ItemContentUnion[] = []
   for (let index = 0; index < instructions.length; index++) {
     const element = instructions[index]
     if (element.type === 'TimelinePinEntry') {

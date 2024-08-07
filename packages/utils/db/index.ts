@@ -15,7 +15,7 @@ export const TWEETS_TABLE_NAME_V2 = 'posts'
 
 export const CONFIGS_TABLE_NAME_V2 = 'settings'
 
-const indexFields =
+export const indexFields =
   'full_text,sort_index,screen_name,created_at,owner_id,has_image,has_video,has_link,has_quote,is_long_text,folder'
     .split(',')
     .map((field) => ({
@@ -129,7 +129,7 @@ export async function migrateData(userId: string) {
   }
 }
 
-function createSchema(
+export function createSchema(
   db: IDBDatabase,
   transaction: IDBTransaction | null,
   realTbName: string,
@@ -170,7 +170,11 @@ export function getObjectStore(db: IDBDatabase, realTbName: string) {
   }
 }
 
-export async function openDb(): Promise<IDBDatabase> {
+export async function openDb(
+  dbName = DB_NAME,
+  dbVersion = DB_VERSION,
+  onUpgrade = upgradeDb,
+): Promise<IDBDatabase> {
   if (!user_id) {
     user_id = await getCurrentUserId()
   }
@@ -181,7 +185,7 @@ export async function openDb(): Promise<IDBDatabase> {
       return
     }
 
-    const request = window.indexedDB.open(DB_NAME, DB_VERSION)
+    const request = window.indexedDB.open(dbName, dbVersion)
     request.onerror = (event: Event) => {
       reject(
         'Database error: ' +
@@ -194,7 +198,7 @@ export async function openDb(): Promise<IDBDatabase> {
       const db = target.result
       const transaction = target.transaction
       if (transaction) {
-        upgradeDb(db, transaction)
+        onUpgrade(db, transaction)
       }
     }
 

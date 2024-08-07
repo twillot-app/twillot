@@ -100,21 +100,11 @@ const ExportCard = (props: {
 
 export default function App() {
   onMount(() => {
-    // startSyncTask('posts', Endpoint.USER_TWEETS, keypath, getPosts)
-    // startSyncTask(
-    //   'replies',
-    //   Endpoint.USER_TWEETS_AND_REPLIES,
-    //   keypath,
-    //   getReplies,
-    // )
-    // startSyncTask('media', Endpoint.USER_MEDIA, getMedia)
+    startSyncTask('posts', Endpoint.USER_TWEETS, getPosts)
+    startSyncTask('replies', Endpoint.USER_TWEETS_AND_REPLIES, getReplies)
     startSyncTask('likes', Endpoint.USER_LIKES, getLikes)
-    // startSyncTask(
-    //   'followers',
-    //   Endpoint.FOLLOWERS,
-    //   'data.user.result.timeline.timeline.instructions',
-    //   getFollowers,
-    // )
+    startSyncTask('media', Endpoint.USER_MEDIA, getMedia)
+    startSyncTask('followers', Endpoint.FOLLOWERS, getFollowers)
   })
   return (
     <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">

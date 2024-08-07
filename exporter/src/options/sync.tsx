@@ -14,7 +14,7 @@ import {
 import { toRecord } from 'utils/api/twitter'
 import { FetchError } from 'utils/xfetch'
 import { getRateLimitInfo } from 'utils/api/twitter-base'
-import { Endpoint, TimelineTweet, Tweet } from 'utils/types'
+import { Endpoint, TimelineTweet, TimelineUser, Tweet } from 'utils/types'
 import { createSchema, getObjectStore, indexFields, openDb } from 'utils/db'
 
 import { mutateStore, TaskState } from './store'
@@ -114,13 +114,21 @@ export async function startSyncTask(
       jsonPosts,
       ResponseKeyPath[`user_${category}`],
     )
+    /**
+     * Followers 的 itemEntries itemType 为 "TimelineUser"
+     * moduleEntries 里面可能包含 TimelineUser
+     */
     const { cursorEntry, itemEntries, moduleEntries, moduleItems } =
       getAllInstructionDetails(instructions)
+
     const list = [
       ...itemEntries,
+      ...(moduleEntries.length > 0 &&
+      moduleEntries[0].itemType === 'TimelineTweet'
+        ? moduleEntries
+        : []),
       ...moduleItems,
-      ...moduleEntries,
-    ] as TimelineTweet[]
+    ]
 
     if (list.length < 1) {
       console.log('End of timeline reached, no data found', category)
@@ -133,21 +141,41 @@ export async function startSyncTask(
       break
     }
 
-    const tweets = list.map((item) => {
-      const tweet = toRecord(item, '')
-      const key = getPostId(uid, tweet.tweet_id)
-      tweet.sort_index = tweet.created_at.toString()
-      tweet.id = key
-      tweet.owner_id = uid
+    let docs
+    if (category === 'followers') {
+      docs = (list as TimelineUser[]).map((item) => {
+        const user = item.user_results.result
+        if (!user) {
+          return null
+        }
 
-      return {
-        ...tweet,
-        category_name: category,
-      }
-    })
+        return {
+          ...user,
+          owner_id: uid,
+          category_name: category,
+        }
+      })
+    } else {
+      docs = (list as TimelineTweet[]).map((item) => {
+        const tweet = toRecord(item, '')
+        if (!tweet) {
+          return null
+        }
+        const key = getPostId(uid, tweet.tweet_id)
+        tweet.sort_index = tweet.created_at.toString()
+        // 多个分类下存在重复内容，需要区分
+        tweet.id = `${category}_${key}`
+        tweet.owner_id = uid
+
+        return {
+          ...tweet,
+          category_name: category,
+        }
+      })
+    }
 
     try {
-      await upsertDocs(tweets)
+      await upsertDocs(docs.filter((t) => t !== null))
     } catch (err) {
       console.error(err)
       break

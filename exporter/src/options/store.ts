@@ -1,9 +1,10 @@
 import { produce, createStore } from 'solid-js/store'
 import { type License, LICENSE_KEY } from 'utils/license'
 
-enum TaskState {
+export enum TaskState {
   unstarted,
   started,
+  paused,
   finished,
   errored,
 }
@@ -11,9 +12,11 @@ enum TaskState {
 export const TASK_STATE_TEXT = ['Unstarted', 'Syncing', 'Finished', 'Errored']
 
 const initialState = {
-  total: 10,
+  total: 1000,
   done: 0,
   state: TaskState.unstarted,
+  // 429 后预计重试时间
+  reset: 0,
 }
 
 export const defaultState = () => ({

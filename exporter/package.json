@@ -6,6 +6,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
     "solid-js": "^1.8.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss": "^3.4.3",
@@ -31,5 +32,8 @@
     "zip": "npm run build && node src/zip.js"
   },
   "type": "module",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "devDependencies": {
+    "@types/lodash.get": "^4.4.9"
+  }
 }

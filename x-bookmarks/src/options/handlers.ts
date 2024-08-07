@@ -277,9 +277,10 @@ export async function syncThreads() {
     detailLimit * 0.5,
   )
   console.log(`Syncing ${records.length} threads`, records)
+  const uid = await getCurrentUserId()
 
   for (const record of records) {
-    const rateLimitInfo = await getRateLimitInfo(Endpoint.TWEET_DETAIL)
+    const rateLimitInfo = await getRateLimitInfo(Endpoint.TWEET_DETAIL, uid)
     if (rateLimitInfo?.remaining < 50) {
       const retryIn = rateLimitInfo.reset * 1000 - Date.now() + 60 * 1000
       setTimeout(syncThreads, retryIn)

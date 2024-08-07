@@ -1,7 +1,13 @@
 import { onMount, Show } from 'solid-js'
 import { Button } from '~/components/ui/button'
 import { getCurrentUserId, getLocal, setLocal } from 'utils/storage'
-import { getFollowers } from 'utils/api/twitter-user'
+import {
+  getFollowers,
+  getLikes,
+  getMedia,
+  getPosts,
+  getReplies,
+} from 'utils/api/twitter-user'
 import {
   getLevel,
   isFreeLicense,
@@ -19,10 +25,13 @@ import {
 import { Separator } from '~/components/ui/separator'
 import { PRICING_URL } from './member'
 import DialogLicense from './License'
-import store, { mutateStore, TASK_STATE_TEXT } from './store'
+import store, { mutateStore, TASK_STATE_TEXT, TaskState } from './store'
 import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
-import { unwrap } from 'solid-js/store'
+import { FetchError } from 'utils/xfetch'
+import { getRateLimitInfo } from 'utils/api/twitter-base'
+import { Endpoint } from 'utils/types'
+import { startSyncTask } from './sync'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
@@ -41,9 +50,13 @@ const ExportCard = (props: {
   const field = () => state[props.category]
   const progress = () => Math.ceil((100 * field().done) / field().total)
   const status = () => TASK_STATE_TEXT[state[props.category].state]
+  const req_time = () =>
+    field().reset
+      ? 'Continues at ' + new Date(field().reset * 1000).toLocaleString()
+      : ''
 
   return (
-    <Card>
+    <Card class="min-w-[360px]">
       <CardHeader>
         <CardTitle class="flex">
           <div class="flex-1">{props.title}</div>
@@ -59,8 +72,8 @@ const ExportCard = (props: {
             <p class="text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium">
               {field().done} / {field().total}
             </p>
-            <p class="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-              {props.desc}
+            <p class="text-tremor-default text-tremor-content dark:text-dark-tremor-content text-xs">
+              {req_time()}
             </p>
           </div>
         </div>
@@ -86,10 +99,23 @@ const ExportCard = (props: {
 }
 
 export default function App() {
-  onMount(async () => {
-    const uid = await getCurrentUserId()
-    const json = await getFollowers(uid)
-    console.log(json)
+  onMount(() => {
+    const keypath = 'data.user.result.timeline_v2.timeline.instructions'
+    // startSyncTask('posts', Endpoint.USER_TWEETS, keypath, getPosts)
+    // startSyncTask(
+    //   'replies',
+    //   Endpoint.USER_TWEETS_AND_REPLIES,
+    //   keypath,
+    //   getReplies,
+    // )
+    // startSyncTask('media', Endpoint.USER_MEDIA, keypath, getMedia)
+    startSyncTask('likes', Endpoint.USER_LIKES, keypath, getLikes)
+    // startSyncTask(
+    //   'followers',
+    //   Endpoint.FOLLOWERS,
+    //   'data.user.result.timeline.timeline.instructions',
+    //   getFollowers,
+    // )
   })
   return (
     <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">

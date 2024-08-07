@@ -1,19 +1,18 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 import { crx } from '@crxjs/vite-plugin'
 import solidPlugin from 'vite-plugin-solid'
+
 import manifest from './src/manifest.js'
 
 export default defineConfig({
   server: {
-    hmr: {
-      host: 'localhost',
-      port: 9527,
-    },
+    host: '0.0.0.0',
   },
   resolve: {
     conditions: ['development', 'browser'],
     alias: {
-      '~': '/src',
+      '~': resolve(__dirname, './src'),
     },
   },
   build: {

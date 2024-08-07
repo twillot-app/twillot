@@ -107,7 +107,7 @@ export default function App() {
     //   keypath,
     //   getReplies,
     // )
-    // startSyncTask('media', Endpoint.USER_MEDIA, keypath, getMedia)
+    // startSyncTask('media', Endpoint.USER_MEDIA, getMedia)
     startSyncTask('likes', Endpoint.USER_LIKES, getLikes)
     // startSyncTask(
     //   'followers',

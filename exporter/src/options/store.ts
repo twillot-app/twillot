@@ -9,7 +9,13 @@ export enum TaskState {
   errored,
 }
 
-export const TASK_STATE_TEXT = ['Unstarted', 'Syncing', 'Finished', 'Errored']
+export const TASK_STATE_TEXT = [
+  'Unstarted',
+  'Syncing',
+  'Paused',
+  'Finished',
+  'Errored',
+]
 
 const initialState = {
   total: 1000,

@@ -299,7 +299,7 @@ export enum EndpointQuery {
   USER_DETAIL = 'GazOglcBvgLigl3ywt6b3Q',
   USER_BY_SCREEN_NAME = 'oUZZZ8Oddwxs8Cd3iW3UEA',
   USER_TWEETS = 'gQlOy4mD5C8M8fYxqa0FJg',
-  USER_TWEETS_AND_REPLIES = 'U21eghOo40F4jvBsSyMrsQ',
+  USER_TWEETS_AND_REPLIES = 'bt4TKuFz4T7Ckk-VvQVSow',
   USER_MEDIA = 'dexO_2tohK86JDudXXG3Yw',
   USER_LIKES = 'aeJWz--kknVBOl7wQ7gh7Q',
   FOLLOWERS = 'bTRZD3w3wQv72oNU3lV6Rw',

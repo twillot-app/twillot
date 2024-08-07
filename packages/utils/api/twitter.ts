@@ -97,8 +97,9 @@ export function toRecord(
   record: TimelineTweet,
   sortIndex: string,
 ): Tweet | null {
-  let tweet_base = getTweet(record.tweet_results.result)
+  let tweet_base = getTweet(record.tweet_results?.result)
   if (!tweet_base) {
+    console.log('no tweet_base', record)
     return null
   }
 

@@ -4,6 +4,7 @@ export enum FetchError {
   DataError = 'DataError',
   // 通用错误
   NetworkError = 'NetworkError',
+  RateLimitError = 'RateLimitError',
 }
 
 export default async function fetchWithTimeout(

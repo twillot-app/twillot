@@ -21,8 +21,7 @@ function get_headers(token: string, csrf: string) {
   }
 }
 
-export async function getRateLimitInfo(endpoint: Endpoint) {
-  const uid = await getCurrentUserId()
+export function getRateLimitInfo(endpoint: Endpoint, uid: string) {
   if (!uid) {
     return null
   }
@@ -72,6 +71,12 @@ export async function request(url: string, options: RequestInit) {
   if (res.status === 403) {
     const error = new Error('Forbidden')
     error.name = FetchError.IdentityError
+    throw error
+  }
+
+  if (res.status === 429) {
+    const error = new Error('Too many requests')
+    error.name = FetchError.RateLimitError
     throw error
   }
 

@@ -75,7 +75,7 @@ export function getBottomCursor<T>(instruction: TimelineAddEntriesInstruction<T>
     return last?.value
 }
 
-export function organizeInstructions(instructions: TimelineInstructions) {
+export function getAllInstructionDetails(instructions: TimelineInstructions) {
     let pinEntry: TimelineEntry<TimelineTweet, TimelineTimelineItem<TimelineTweet>>, itemEntries: ItemContentUnion[], moduleEntries: ItemContentUnion[], cursorEntry: string, moduleItems: ItemContentUnion[]
     for (let index = 0; index < instructions.length; index++) {
         const element = instructions[index]

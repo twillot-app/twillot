@@ -100,7 +100,6 @@ const ExportCard = (props: {
 
 export default function App() {
   onMount(() => {
-    const keypath = 'data.user.result.timeline_v2.timeline.instructions'
     // startSyncTask('posts', Endpoint.USER_TWEETS, keypath, getPosts)
     // startSyncTask(
     //   'replies',
@@ -109,7 +108,7 @@ export default function App() {
     //   getReplies,
     // )
     // startSyncTask('media', Endpoint.USER_MEDIA, keypath, getMedia)
-    startSyncTask('likes', Endpoint.USER_LIKES, keypath, getLikes)
+    startSyncTask('likes', Endpoint.USER_LIKES, getLikes)
     // startSyncTask(
     //   'followers',
     //   Endpoint.FOLLOWERS,

@@ -1,5 +1,9 @@
-import get from 'lodash.get'
 import { getCurrentUserId, getLocal, setLocal } from 'utils/storage'
+import {
+  getAllInstructionDetails,
+  getInstructions,
+  ResponseKeyPath,
+} from 'utils/api/twitter-res-utils'
 import { mutateStore, TaskState } from './store'
 import {
   getPosts,
@@ -10,19 +14,11 @@ import {
 } from 'utils/api/twitter-user'
 import { FetchError } from 'utils/xfetch'
 import { getRateLimitInfo } from 'utils/api/twitter-base'
-import {
-  Endpoint,
-  TimelineAddEntriesInstruction,
-  TimelineAddToModuleInstruction,
-  TimelineInstructions,
-  TimelinePinEntryInstruction,
-  TimelineTweet,
-} from 'utils/types'
+import { Endpoint } from 'utils/types'
 
 export async function startSyncTask(
   category: 'posts' | 'replies' | 'media' | 'likes' | 'followers',
   endpoint: Endpoint,
-  instructionKeyPath: string,
   func:
     | typeof getPosts
     | typeof getReplies
@@ -65,89 +61,18 @@ export async function startSyncTask(
       break
     }
 
-    const instructions = get(
+    const instructions = getInstructions(
       jsonPosts,
-      instructionKeyPath,
-    ) as TimelineInstructions
-
-    let list = []
-    if (category === 'media') {
-      // There are two types of instructions: "TimelineAddEntries" and "TimelineAddToModule".
-      // For "Media", the "TimelineAddEntries" instruction initializes "profile-grid" module.
-      const timelineAddEntriesInstruction = instructions.find(
-        (i) => i.type === 'TimelineAddEntries',
-      ) as TimelineAddEntriesInstruction<TimelineTweet>
-
-      // The "TimelineAddEntries" instruction may not exist in some cases.
-      const timelineAddEntriesInstructionEntries =
-        timelineAddEntriesInstruction?.entries ?? []
-
-      for (const entry of timelineAddEntriesInstructionEntries) {
-        if (entry.content.entryType === 'TimelineTimelineModule') {
-          const tweetsInSearchGrid = entry.content.items
-            .map((i) => i.item.itemContent)
-            .filter((t) => !!t)
-
-          list.push(...tweetsInSearchGrid)
-        }
-      }
-
-      // The "TimelineAddToModule" instruction then prepends items to existing "profile-grid" module.
-      const timelineAddToModuleInstruction = instructions.find(
-        (i) => i.type === 'TimelineAddToModule',
-      ) as TimelineAddToModuleInstruction<TimelineTweet>
-
-      if (timelineAddToModuleInstruction) {
-        const tweetsInProfileGrid = timelineAddToModuleInstruction.moduleItems
-          .map((i) => i.item.itemContent)
-          .filter((t) => !!t)
-
-        list.push(...tweetsInProfileGrid)
-      }
-    } else {
-      const timelinePinEntryInstruction = instructions.find(
-        (i) => i.type === 'TimelinePinEntry',
-      ) as TimelinePinEntryInstruction
-
-      if (timelinePinEntryInstruction) {
-        const tweet = timelinePinEntryInstruction.entry.content.itemContent
-        if (tweet) {
-          list.push(tweet)
-        }
-      }
-
-      // Normal tweets.
-      const timelineAddEntriesInstruction = instructions.find(
-        (i) => i.type === 'TimelineAddEntries',
-      ) as TimelineAddEntriesInstruction<TimelineTweet>
-
-      // The "TimelineAddEntries" instruction may not exist in some cases.
-      const timelineAddEntriesInstructionEntries =
-        timelineAddEntriesInstruction?.entries ?? []
-
-      for (const entry of timelineAddEntriesInstructionEntries) {
-        // Extract normal tweets.
-        if (entry.content.entryType === 'TimelineTimelineItem') {
-          const tweet = entry.content.itemContent
-          if (tweet) {
-            list.push(tweet)
-          }
-        }
-
-        // Extract conversations.
-        if (entry.content.entryType === 'TimelineTimelineModule') {
-          const tweetsInConversation = entry.content.items
-            .map((i) => i.item.itemContent)
-            .filter((t) => !!t)
-
-          list.push(...tweetsInConversation)
-        }
-      }
-    }
+      ResponseKeyPath[`user_${category}`],
+    )
+    const { cursorEntry, itemEntries, moduleEntries, moduleItems } =
+      getAllInstructionDetails(instructions)
+    const list = [...itemEntries, ...moduleItems, moduleEntries]
 
     if (list.length < 1) {
       console.log('End of timeline reached, no data found', category)
       mutateStore((state) => {
+        state[category].total = state[category].done
         state[category].state = TaskState.finished
       })
       /**
@@ -157,25 +82,18 @@ export async function startSyncTask(
       break
     }
 
-    const entries = instructions.find(
-      (i) => i.type === 'TimelineAddEntries',
-    )?.entries
-    const cursorItem = entries && entries[entries.length - 1]
-
     mutateStore((state) => {
       state[category].done += list.length
       state[category].reset = 0
     })
 
-    if (
-      cursorItem &&
-      cursorItem.content.entryType === 'TimelineTimelineCursor'
-    ) {
-      cursor = cursorItem.content.value
+    if (cursorEntry) {
+      cursor = cursorEntry
       await setLocal({ [key]: cursor })
     } else {
       console.log('End of timeline reached')
       mutateStore((state) => {
+        state[category].total = state[category].done
         state[category].state = TaskState.finished
       })
       break

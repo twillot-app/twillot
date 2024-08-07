@@ -2,3 +2,4 @@ packages:
   - 'packages/*'
   - 'x-bookmarks'
   - 'x-bookmarks-automation'
+  - 'exporter'

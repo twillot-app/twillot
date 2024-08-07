@@ -122,7 +122,14 @@ importers:
         version: 4.4.9
 
   packages/utils:
+    dependencies:
+      lodash.get:
+        specifier: ^4.4.2
+        version: 4.4.2
     devDependencies:
+      '@types/lodash.get':
+        specifier: ^4.4.9
+        version: 4.4.9
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(jsdom@24.1.0)

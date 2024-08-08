@@ -101,12 +101,12 @@ export enum AuthStatus {
   AUTH_FAILED = 'AUTH_FAILED',
 }
 
-export interface User {
-  screen_name: string
-  username: string
-  avatar_url: string
-  count: number
-}
+// export interface User {
+//   screen_name: string
+//   username: string
+//   avatar_url: string
+//   count: number
+// }
 
 export const X_DOMAIN = 'x.com'
 

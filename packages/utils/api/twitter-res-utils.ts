@@ -14,22 +14,22 @@ import {
 } from '~/types'
 
 export enum ResponseKeyPath {
-  bookmarks = 'data.bookmark_timeline_v2.timeline',
-  home = 'data.home.home_timeline_urt',
-  post_detail = 'data.threaded_conversation_with_injections_v2',
-  user_followers = 'data.user.result.timeline.timeline',
-  user_following = 'data.user.result.timeline.timeline',
-  user_likes = 'data.user.result.timeline_v2.timeline',
-  user_media = 'data.user.result.timeline_v2.timeline',
-  user_posts = 'data.user.result.timeline_v2.timeline',
-  user_replies = 'data.user.result.timeline_v2.timeline',
+  bookmarks = 'bookmark_timeline_v2.timeline',
+  home = 'home.home_timeline_urt',
+  post_detail = 'threaded_conversation_with_injections_v2',
+  user_followers = 'user.result.timeline.timeline',
+  user_following = 'user.result.timeline.timeline',
+  user_likes = 'user.result.timeline_v2.timeline',
+  user_media = 'user.result.timeline_v2.timeline',
+  user_posts = 'user.result.timeline_v2.timeline',
+  user_replies = 'user.result.timeline_v2.timeline',
 }
 
 export function getInstructions(
   json: any,
   keypath: ResponseKeyPath,
 ): TimelineInstructions {
-  return get(json, keypath + '.instructions')
+  return get(json, 'data.' + keypath + '.instructions')
 }
 
 export function getPinEntryInstruction(

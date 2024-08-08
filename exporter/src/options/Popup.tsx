@@ -107,13 +107,7 @@ const ExportCard = (props: {
 export default function App() {
   onMount(async () => {
     const uid = await getCurrentUserId()
-    countDocs(uid).then((result) => {
-      mutateStore((state) => {
-        for (const [category, count] of Object.entries(result)) {
-          state[category].done = count
-        }
-      })
-    })
+
     syncAll(uid)
   })
   return (

@@ -18,7 +18,7 @@ export const TASK_STATE_TEXT = [
 ]
 
 const initialState = {
-  total: 1000,
+  total: 0,
   done: 0,
   state: TaskState.unstarted,
   // 429 后预计重试时间

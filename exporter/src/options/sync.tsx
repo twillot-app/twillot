@@ -1,4 +1,4 @@
-import { getCurrentUserId, getLocal, setLocal } from 'utils/storage'
+import { getLocal, setLocal } from 'utils/storage'
 import {
   getAllInstructionDetails,
   getInstructions,
@@ -11,7 +11,7 @@ import {
   getLikes,
   getFollowers,
 } from 'utils/api/twitter-user'
-import { toRecord } from 'utils/api/twitter'
+import { getUserById, toRecord } from 'utils/api/twitter'
 import { FetchError } from 'utils/xfetch'
 import { getRateLimitInfo } from 'utils/api/twitter-base'
 import { Endpoint, TimelineTweet, TimelineUser, Tweet, User } from 'utils/types'
@@ -19,6 +19,7 @@ import { createSchema, getObjectStore, indexFields, openDb } from 'utils/db'
 
 import { mutateStore, TaskState } from './store'
 import { getPostId } from 'utils/db/tweets'
+import get from 'lodash.get'
 
 const dbName = 'twillot'
 const dbVersion = 2
@@ -117,11 +118,44 @@ export async function startSyncTask(
   let result = await getLocal(key)
   let cursor = result[key]
   console.log('Last cursor:', category, cursor)
+
+  /**
+   * Update total by category
+   */
+  const [json, countInfo] = await Promise.all([
+    getUserById(uid),
+    countDocs(uid),
+  ])
+  const user = get(json, 'data.user.result')
+  mutateStore((state) => {
+    const info = {
+      posts: user.legacy.statuses_count,
+      replies: 1000,
+      likes: user.legacy.favourites_count,
+      media: user.legacy.media_count,
+      followers: user.legacy.followers_count,
+    }
+
+    for (const [category, count] of Object.entries(countInfo)) {
+      state[category].done = count
+      state[category].total = Math.max(info[category], count)
+    }
+  })
+
   let jsonPosts
   const finish = () => {
     mutateStore((state) => {
       state[category].total = state[category].done
       state[category].state = TaskState.finished
+    })
+  }
+  const progress = (size: number) => {
+    mutateStore((state) => {
+      state[category].done += size
+      state[category].reset = 0
+      if (state[category].done >= state[category].total) {
+        state[category].total = state[category].done
+      }
     })
   }
 
@@ -212,17 +246,15 @@ export async function startSyncTask(
       })
     }
 
+    docs = docs.filter((t) => t !== null)
     try {
-      await upsertDocs(docs.filter((t) => t !== null))
+      await upsertDocs(docs)
     } catch (err) {
       console.error(err)
       break
     }
 
-    mutateStore((state) => {
-      state[category].done += list.length
-      state[category].reset = 0
-    })
+    progress(docs.length)
 
     if (cursorEntry) {
       cursor = cursorEntry

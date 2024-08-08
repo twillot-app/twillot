@@ -30,6 +30,8 @@ import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
 import { Endpoint } from 'utils/types'
 import { countDocs, startSyncTask } from './sync'
+import { getUserById } from 'utils/api/twitter'
+import get from 'lodash.get'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
@@ -107,7 +109,28 @@ const ExportCard = (props: {
 export default function App() {
   onMount(async () => {
     const uid = await getCurrentUserId()
+    /**
+     * Update total by category
+     */
+    const [json, countInfo] = await Promise.all([
+      getUserById(uid),
+      countDocs(uid),
+    ])
+    const user = get(json, 'data.user.result')
+    mutateStore((state) => {
+      const info = {
+        posts: user.legacy.statuses_count,
+        replies: 1000,
+        likes: user.legacy.favourites_count,
+        media: user.legacy.media_count,
+        followers: user.legacy.followers_count,
+      }
 
+      for (const [category, count] of Object.entries(countInfo)) {
+        state[category].done = count
+        state[category].total = Math.max(info[category], count)
+      }
+    })
     syncAll(uid)
   })
   return (

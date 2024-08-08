@@ -119,33 +119,9 @@ export async function startSyncTask(
   let cursor = result[key]
   console.log('Last cursor:', category, cursor)
 
-  /**
-   * Update total by category
-   */
-  const [json, countInfo] = await Promise.all([
-    getUserById(uid),
-    countDocs(uid),
-  ])
-  const user = get(json, 'data.user.result')
-  mutateStore((state) => {
-    const info = {
-      posts: user.legacy.statuses_count,
-      replies: 1000,
-      likes: user.legacy.favourites_count,
-      media: user.legacy.media_count,
-      followers: user.legacy.followers_count,
-    }
-
-    for (const [category, count] of Object.entries(countInfo)) {
-      state[category].done = count
-      state[category].total = Math.max(info[category], count)
-    }
-  })
-
   let jsonPosts
   const finish = () => {
     mutateStore((state) => {
-      state[category].total = state[category].done
       state[category].state = TaskState.finished
     })
   }

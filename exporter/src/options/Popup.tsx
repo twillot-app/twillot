@@ -28,10 +28,8 @@ import DialogLicense from './License'
 import store, { mutateStore, TASK_STATE_TEXT, TaskState } from './store'
 import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
-import { FetchError } from 'utils/xfetch'
-import { getRateLimitInfo } from 'utils/api/twitter-base'
 import { Endpoint } from 'utils/types'
-import { startSyncTask } from './sync'
+import { countDocs, startSyncTask } from './sync'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
@@ -40,6 +38,14 @@ const handler = (format: 'csv' | 'json', category: string) => {
     chrome.tabs.create({ url: PRICING_URL })
     return
   }
+}
+
+function syncAll(uid: string) {
+  startSyncTask(uid, 'posts', Endpoint.USER_TWEETS, getPosts)
+  startSyncTask(uid, 'replies', Endpoint.USER_TWEETS_AND_REPLIES, getReplies)
+  startSyncTask(uid, 'likes', Endpoint.USER_LIKES, getLikes)
+  startSyncTask(uid, 'media', Endpoint.USER_MEDIA, getMedia)
+  startSyncTask(uid, 'followers', Endpoint.FOLLOWERS, getFollowers)
 }
 
 const ExportCard = (props: {
@@ -99,12 +105,16 @@ const ExportCard = (props: {
 }
 
 export default function App() {
-  onMount(() => {
-    startSyncTask('posts', Endpoint.USER_TWEETS, getPosts)
-    startSyncTask('replies', Endpoint.USER_TWEETS_AND_REPLIES, getReplies)
-    startSyncTask('likes', Endpoint.USER_LIKES, getLikes)
-    startSyncTask('media', Endpoint.USER_MEDIA, getMedia)
-    startSyncTask('followers', Endpoint.FOLLOWERS, getFollowers)
+  onMount(async () => {
+    const uid = await getCurrentUserId()
+    countDocs(uid).then((result) => {
+      mutateStore((state) => {
+        for (const [category, count] of Object.entries(result)) {
+          state[category].done = count
+        }
+      })
+    })
+    syncAll(uid)
   })
   return (
     <div class="mx-auto my-4 w-full space-y-8 text-base lg:w-[1024px]">

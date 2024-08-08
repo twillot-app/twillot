@@ -14,7 +14,7 @@ import {
 import { toRecord } from 'utils/api/twitter'
 import { FetchError } from 'utils/xfetch'
 import { getRateLimitInfo } from 'utils/api/twitter-base'
-import { Endpoint, TimelineTweet, TimelineUser, Tweet } from 'utils/types'
+import { Endpoint, TimelineTweet, TimelineUser, Tweet, User } from 'utils/types'
 import { createSchema, getObjectStore, indexFields, openDb } from 'utils/db'
 
 import { mutateStore, TaskState } from './store'
@@ -23,6 +23,8 @@ import { getPostId } from 'utils/db/tweets'
 const dbName = 'twillot'
 const dbVersion = 2
 const tableName = 'posts'
+
+type Category = 'posts' | 'replies' | 'media' | 'likes' | 'followers'
 
 export async function initDb() {
   await openDb(dbName, dbVersion, function upgradeDb(db, transaction) {
@@ -42,7 +44,7 @@ export async function initDb() {
   })
 }
 
-export async function upsertDocs(docs: Tweet[]) {
+export async function upsertDocs(docs: Tweet[] | User[]) {
   const db = await openDb(dbName, dbVersion)
 
   return new Promise((resolve, reject) => {
@@ -59,8 +61,45 @@ export async function upsertDocs(docs: Tweet[]) {
   })
 }
 
+export async function countDocs(
+  uid: string,
+): Promise<Record<Category, number>> {
+  const db = await openDb(dbName, dbVersion)
+  const { objectStore } = getObjectStore(db, tableName)
+
+  return new Promise((resolve, reject) => {
+    const categoryCount: Record<Category, number> = {
+      posts: 0,
+      replies: 0,
+      media: 0,
+      likes: 0,
+      followers: 0,
+    }
+    const index = objectStore.index('owner_id')
+    const request = index.openCursor(IDBKeyRange.only(uid))
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest).result
+      if (cursor) {
+        const category = cursor.value.category_name
+        if (category) {
+          categoryCount[category] += 1
+        }
+        cursor.continue()
+      } else {
+        resolve(categoryCount)
+      }
+    }
+
+    request.onerror = (e) => {
+      reject(e)
+    }
+  })
+}
+
 export async function startSyncTask(
-  category: 'posts' | 'replies' | 'media' | 'likes' | 'followers',
+  uid: string,
+  category: Category,
   endpoint: Endpoint,
   func:
     | typeof getPosts
@@ -69,7 +108,6 @@ export async function startSyncTask(
     | typeof getLikes
     | typeof getFollowers,
 ) {
-  const uid = await getCurrentUserId()
   if (!uid) {
     console.error('User not logged in', category)
     return

@@ -30,7 +30,7 @@ import store, { mutateStore, TASK_STATE_TEXT, TaskState } from './store'
 import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
 import { Endpoint } from 'utils/types'
-import { countDocs, startSyncTask } from './sync'
+import { startSyncAll, startSyncRecent, summary } from './sync'
 import { getUserById } from 'utils/api/twitter'
 import get from 'lodash.get'
 import { FetchError } from 'utils/xfetch'
@@ -45,11 +45,11 @@ const handler = (format: 'csv' | 'json', category: string) => {
 }
 
 function syncAll(uid: string) {
-  startSyncTask(uid, 'posts', Endpoint.USER_TWEETS, getPosts)
-  startSyncTask(uid, 'replies', Endpoint.USER_TWEETS_AND_REPLIES, getReplies)
-  startSyncTask(uid, 'likes', Endpoint.USER_LIKES, getLikes)
-  startSyncTask(uid, 'media', Endpoint.USER_MEDIA, getMedia)
-  startSyncTask(uid, 'followers', Endpoint.FOLLOWERS, getFollowers)
+  startSyncAll(uid, 'posts', Endpoint.USER_TWEETS, getPosts)
+  startSyncAll(uid, 'replies', Endpoint.USER_TWEETS_AND_REPLIES, getReplies)
+  startSyncAll(uid, 'likes', Endpoint.USER_LIKES, getLikes)
+  startSyncAll(uid, 'media', Endpoint.USER_MEDIA, getMedia)
+  startSyncAll(uid, 'followers', Endpoint.FOLLOWERS, getFollowers)
 }
 
 const ExportCard = (props: {
@@ -113,35 +113,27 @@ export default function App() {
     useAuth()
 
   onMount(async () => {
-    let json, countInfo
     const uid = await getCurrentUserId()
+
     try {
-      ;[json, countInfo] = await Promise.all([getUserById(uid), countDocs(uid)])
-    } catch (err) {
-      if (err.name === FetchError.IdentityError) {
+      await summary(uid)
+    } catch (e) {
+      console.error(e)
+      if (e.name === FetchError.IdentityError) {
         setIsAuthFailed(true)
         return
       }
     }
 
-    /**
-     * Update total by category
-     */
-    const user = get(json, 'data.user.result')
-    mutateStore((state) => {
-      const info = {
-        posts: user.legacy.statuses_count,
-        replies: 1000,
-        likes: user.legacy.favourites_count,
-        media: user.legacy.media_count,
-        followers: user.legacy.followers_count,
-      }
+    await Promise.all([
+      startSyncRecent(uid, 'posts', getPosts),
+      startSyncRecent(uid, 'replies', getReplies),
+      startSyncRecent(uid, 'likes', getLikes),
+      startSyncRecent(uid, 'media', getMedia),
+      startSyncRecent(uid, 'followers', getFollowers),
+    ])
 
-      for (const [category, count] of Object.entries(countInfo)) {
-        state[category].done = count
-        state[category].total = Math.max(info[category], count as number)
-      }
-    })
+    await summary(uid)
 
     syncAll(uid)
   })

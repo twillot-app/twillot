@@ -27,6 +27,13 @@ const tableName = 'posts'
 
 type Category = 'posts' | 'replies' | 'media' | 'likes' | 'followers'
 
+type Handler =
+  | typeof getPosts
+  | typeof getReplies
+  | typeof getMedia
+  | typeof getLikes
+  | typeof getFollowers
+
 export async function initDb() {
   await openDb(dbName, dbVersion, function upgradeDb(db, transaction) {
     createSchema(
@@ -98,16 +105,108 @@ export async function countDocs(
   })
 }
 
-export async function startSyncTask(
+export async function getCategoryDetails(
+  uid: string,
+  jsonPosts: any,
+  category: Category,
+) {
+  const instructions = getInstructions(
+    jsonPosts,
+    ResponseKeyPath[`user_${category}`],
+  )
+  /**
+   * Followers 的 itemEntries itemType 为 "TimelineUser"
+   * moduleEntries 里面可能包含 TimelineUser
+   */
+  const { cursorEntry, itemEntries, moduleEntries, moduleItems } =
+    getAllInstructionDetails(instructions)
+
+  const list = [
+    ...itemEntries,
+    ...(moduleEntries.length > 0 &&
+    moduleEntries[0].itemType === 'TimelineTweet'
+      ? moduleEntries
+      : []),
+    ...moduleItems,
+  ]
+
+  let docs
+  if (category === 'followers') {
+    docs = (list as TimelineUser[]).map((item) => {
+      const user = item.user_results.result
+      if (!user) {
+        return null
+      }
+
+      return {
+        ...user,
+        owner_id: uid,
+        category_name: category,
+      }
+    })
+  } else {
+    docs = (list as TimelineTweet[]).map((item) => {
+      const tweet = toRecord(item, '')
+      if (!tweet) {
+        return null
+      }
+      const key = getPostId(uid, tweet.tweet_id)
+      tweet.sort_index = tweet.created_at.toString()
+      // 多个分类下存在重复内容，需要区分
+      tweet.id = `${category}_${key}`
+      tweet.owner_id = uid
+
+      return {
+        ...tweet,
+        category_name: category,
+      }
+    })
+  }
+
+  docs = docs.filter((t) => t !== null)
+
+  return {
+    docs,
+    cursorEntry,
+  }
+}
+
+/**
+ * 取最近三页数据强制同步
+ */
+export async function startSyncRecent(
+  uid: string,
+  category: Category,
+  func: Handler,
+) {
+  /**
+   * 还没有进行全量同步则不强制同步最近数据
+   */
+  const local = await getLocal(category + '_cursor')
+  if (!local[category + '_cursor']) {
+    console.log('No cursor found, skipping recent sync', category)
+    return
+  }
+
+  let cursor = ''
+  for (let i = 0; i < 3; i++) {
+    const jsonPosts = await func(uid, cursor)
+    const { docs, cursorEntry } = await getCategoryDetails(
+      uid,
+      jsonPosts,
+      category,
+    )
+    cursor = cursorEntry
+    await upsertDocs(docs)
+    console.log('Synced recent data', category, docs.length)
+  }
+}
+
+export async function startSyncAll(
   uid: string,
   category: Category,
   endpoint: Endpoint,
-  func:
-    | typeof getPosts
-    | typeof getReplies
-    | typeof getMedia
-    | typeof getLikes
-    | typeof getFollowers,
+  func: Handler,
 ) {
   if (!uid) {
     console.error('User not logged in', category)
@@ -158,71 +257,18 @@ export async function startSyncTask(
       break
     }
 
-    const instructions = getInstructions(
+    const { docs, cursorEntry } = await getCategoryDetails(
+      uid,
       jsonPosts,
-      ResponseKeyPath[`user_${category}`],
+      category,
     )
-    /**
-     * Followers 的 itemEntries itemType 为 "TimelineUser"
-     * moduleEntries 里面可能包含 TimelineUser
-     */
-    const { cursorEntry, itemEntries, moduleEntries, moduleItems } =
-      getAllInstructionDetails(instructions)
 
-    const list = [
-      ...itemEntries,
-      ...(moduleEntries.length > 0 &&
-      moduleEntries[0].itemType === 'TimelineTweet'
-        ? moduleEntries
-        : []),
-      ...moduleItems,
-    ]
-
-    if (list.length < 1) {
+    if (docs.length === 0) {
       console.log('End of timeline reached, no data found', category)
       finish()
-
-      /**
-       * 如果已经获取不到数据了，退出循环
-       * 记录上次的 cursor 到本地（不更新本次的 cursor），以便下次继续同步
-       */
       break
     }
 
-    let docs
-    if (category === 'followers') {
-      docs = (list as TimelineUser[]).map((item) => {
-        const user = item.user_results.result
-        if (!user) {
-          return null
-        }
-
-        return {
-          ...user,
-          owner_id: uid,
-          category_name: category,
-        }
-      })
-    } else {
-      docs = (list as TimelineTweet[]).map((item) => {
-        const tweet = toRecord(item, '')
-        if (!tweet) {
-          return null
-        }
-        const key = getPostId(uid, tweet.tweet_id)
-        tweet.sort_index = tweet.created_at.toString()
-        // 多个分类下存在重复内容，需要区分
-        tweet.id = `${category}_${key}`
-        tweet.owner_id = uid
-
-        return {
-          ...tweet,
-          category_name: category,
-        }
-      })
-    }
-
-    docs = docs.filter((t) => t !== null)
     try {
       await upsertDocs(docs)
     } catch (err) {
@@ -241,4 +287,29 @@ export async function startSyncTask(
       break
     }
   }
+}
+
+export async function summary(uid: string) {
+  const [json, countInfo] = await Promise.all([
+    getUserById(uid),
+    countDocs(uid),
+  ])
+  /**
+   * Update total by category
+   */
+  const user = get(json, 'data.user.result')
+  mutateStore((state) => {
+    const info = {
+      posts: user.legacy.statuses_count,
+      replies: 1000,
+      likes: user.legacy.favourites_count,
+      media: user.legacy.media_count,
+      followers: user.legacy.followers_count,
+    }
+
+    for (const [category, count] of Object.entries(countInfo)) {
+      state[category].done = count
+      state[category].total = Math.max(info[category], count as number)
+    }
+  })
 }

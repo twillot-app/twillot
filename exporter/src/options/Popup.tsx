@@ -1,6 +1,7 @@
 import { onMount, Show } from 'solid-js'
 import { Button } from '~/components/ui/button'
 import { getCurrentUserId, getLocal, setLocal } from 'utils/storage'
+import useAuth from 'utils/hooks/useAuth'
 import {
   getFollowers,
   getLikes,
@@ -32,6 +33,7 @@ import { Endpoint } from 'utils/types'
 import { countDocs, startSyncTask } from './sync'
 import { getUserById } from 'utils/api/twitter'
 import get from 'lodash.get'
+import { FetchError } from 'utils/xfetch'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
@@ -107,15 +109,24 @@ const ExportCard = (props: {
 }
 
 export default function App() {
+  const { isAuthFailed, startAuth, isAuthenicating, setIsAuthFailed } =
+    useAuth()
+
   onMount(async () => {
+    let json, countInfo
     const uid = await getCurrentUserId()
+    try {
+      ;[json, countInfo] = await Promise.all([getUserById(uid), countDocs(uid)])
+    } catch (err) {
+      if (err.name === FetchError.IdentityError) {
+        setIsAuthFailed(true)
+        return
+      }
+    }
+
     /**
      * Update total by category
      */
-    const [json, countInfo] = await Promise.all([
-      getUserById(uid),
-      countDocs(uid),
-    ])
     const user = get(json, 'data.user.result')
     mutateStore((state) => {
       const info = {
@@ -128,9 +139,10 @@ export default function App() {
 
       for (const [category, count] of Object.entries(countInfo)) {
         state[category].done = count
-        state[category].total = Math.max(info[category], count)
+        state[category].total = Math.max(info[category], count as number)
       }
     })
+
     syncAll(uid)
   })
   return (
@@ -138,6 +150,20 @@ export default function App() {
       <h1 class="my-6 text-center text-xl font-bold">
         Twillot Exporter for X/Twitter
       </h1>
+      <Show when={isAuthFailed()}>
+        <p class="text-muted-foreground text-center text-lg">
+          <Show
+            when={isAuthenicating()}
+            fallback={
+              <Button variant="link" class="text-lg" onClick={startAuth}>
+                Click here to authenticate
+              </Button>
+            }
+          >
+            Authenticating, please wait...
+          </Show>
+        </p>
+      </Show>
       <div class="mx-4 flex flex-col flex-wrap justify-center gap-5 lg:mx-0 lg:flex-row">
         <ExportCard
           title="Posts"

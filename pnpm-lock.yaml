@@ -126,6 +126,9 @@ importers:
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
+      solid-js:
+        specifier: ^1.8.1
+        version: 1.8.18
     devDependencies:
       '@types/lodash.get':
         specifier: ^4.4.9

@@ -12,6 +12,7 @@ import {
   TimelineTimelineModule,
   TimelineTweet,
 } from '~/types'
+import { getTweet } from './twitter'
 
 export enum ResponseKeyPath {
   bookmarks = 'bookmark_timeline_v2.timeline',
@@ -107,7 +108,10 @@ export function getBottomCursor<T>(
   return last?.value
 }
 
-export function getAllInstructionDetails(instructions: TimelineInstructions) {
+export function getAllInstructionDetails(
+  instructions: TimelineInstructions,
+  uid?: string,
+) {
   let pinEntry: TimelineEntry<
     TimelineTweet,
     TimelineTimelineItem<TimelineTweet>
@@ -124,6 +128,16 @@ export function getAllInstructionDetails(instructions: TimelineInstructions) {
       itemEntries = getItemEntries(element)
       moduleEntries = getModuleEntries(element)
       cursorEntry = getBottomCursor(element)
+
+      if (uid) {
+        moduleEntries = moduleEntries.filter((i: TimelineTweet) => {
+          const tweet = getTweet(i.tweet_results.result)
+          if (tweet) {
+            return tweet.legacy.user_id_str === uid
+          }
+          return false
+        })
+      }
     } else if (element.type === 'TimelineAddToModule') {
       moduleItems = getModuleItems(element)
     }

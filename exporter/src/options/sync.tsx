@@ -215,12 +215,47 @@ export async function startSyncRecent(
       const jsonPosts = await func(uid, cursor)
       const { docs, cursorEntry } = getCategoryDetails(uid, jsonPosts, category)
       cursor = cursorEntry
+
+      // 检查首尾文档是否已存在
+      if (docs.length > 0) {
+        const [firstDoc, lastDoc] = [docs[0], docs[docs.length - 1]]
+        const existingDocs = await checkDocsExist([firstDoc.id, lastDoc.id])
+        if (existingDocs.length === 2) {
+          console.log('Item exists', category)
+          break
+        }
+      }
+
       await upsertDocs(docs)
       console.log('Synced recent data', category, docs.length)
     }
   } catch (err) {
     catchError(err, uid, category, endpoint)
   }
+}
+
+// 新增函数：检查文档是否存在
+async function checkDocsExist(ids: string[]): Promise<string[]> {
+  const db = await openDb(dbName, dbVersion)
+  const { objectStore } = getObjectStore(db, tableName)
+
+  return new Promise((resolve) => {
+    const existingIds: string[] = []
+    let count = 0
+
+    ids.forEach((id) => {
+      const request = objectStore.get(id)
+      request.onsuccess = () => {
+        if (request.result) {
+          existingIds.push(id)
+        }
+        count++
+        if (count === ids.length) {
+          resolve(existingIds)
+        }
+      }
+    })
+  })
 }
 
 export async function startSyncAll(

@@ -105,7 +105,7 @@ export async function countDocs(
   })
 }
 
-export async function getCategoryDetails(
+export function getCategoryDetails(
   uid: string,
   jsonPosts: any,
   category: Category,
@@ -171,6 +171,26 @@ export async function getCategoryDetails(
   }
 }
 
+export function catchError(
+  err: Error,
+  uid: string,
+  category: Category,
+  endpoint: Endpoint,
+) {
+  console.error('Sync error', uid, category, endpoint, err)
+  if (err.name === FetchError.RateLimitError) {
+    const rate_limit = getRateLimitInfo(endpoint, uid)
+    mutateStore((state) => {
+      state[category].state = TaskState.paused
+      state[category].reset = rate_limit.reset
+    })
+  } else {
+    mutateStore((state) => {
+      state[category].state = TaskState.errored
+    })
+  }
+}
+
 /**
  * 取最近三页数据强制同步
  */
@@ -178,35 +198,36 @@ export async function startSyncRecent(
   uid: string,
   category: Category,
   func: Handler,
+  endpoint: Endpoint,
 ) {
   /**
    * 还没有进行全量同步则不强制同步最近数据
    */
-  const local = await getLocal(category + '_cursor')
-  if (!local[category + '_cursor']) {
-    console.log('No cursor found, skipping recent sync', category)
-    return
-  }
+  try {
+    const local = await getLocal(category + '_cursor')
+    if (!local[category + '_cursor']) {
+      console.log('No cursor found, skipping recent sync', category)
+      return
+    }
 
-  let cursor = ''
-  for (let i = 0; i < 3; i++) {
-    const jsonPosts = await func(uid, cursor)
-    const { docs, cursorEntry } = await getCategoryDetails(
-      uid,
-      jsonPosts,
-      category,
-    )
-    cursor = cursorEntry
-    await upsertDocs(docs)
-    console.log('Synced recent data', category, docs.length)
+    let cursor = ''
+    for (let i = 0; i < 3; i++) {
+      const jsonPosts = await func(uid, cursor)
+      const { docs, cursorEntry } = getCategoryDetails(uid, jsonPosts, category)
+      cursor = cursorEntry
+      await upsertDocs(docs)
+      console.log('Synced recent data', category, docs.length)
+    }
+  } catch (err) {
+    catchError(err, uid, category, endpoint)
   }
 }
 
 export async function startSyncAll(
   uid: string,
   category: Category,
-  endpoint: Endpoint,
   func: Handler,
+  endpoint: Endpoint,
 ) {
   if (!uid) {
     console.error('User not logged in', category)
@@ -241,19 +262,7 @@ export async function startSyncAll(
         state[category].state = TaskState.started
       })
     } catch (err) {
-      if (err.name === FetchError.RateLimitError) {
-        const rate_limit = getRateLimitInfo(endpoint, uid)
-        mutateStore((state) => {
-          state[category].state = TaskState.paused
-          state[category].reset = rate_limit.reset
-        })
-      } else {
-        console.error(err)
-        mutateStore((state) => {
-          state[category].state = TaskState.errored
-        })
-      }
-
+      catchError(err, uid, category, endpoint)
       break
     }
 

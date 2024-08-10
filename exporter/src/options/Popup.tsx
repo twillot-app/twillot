@@ -45,11 +45,11 @@ const handler = (format: 'csv' | 'json', category: string) => {
 }
 
 function syncAll(uid: string) {
-  startSyncAll(uid, 'posts', Endpoint.USER_TWEETS, getPosts)
-  startSyncAll(uid, 'replies', Endpoint.USER_TWEETS_AND_REPLIES, getReplies)
-  startSyncAll(uid, 'likes', Endpoint.USER_LIKES, getLikes)
-  startSyncAll(uid, 'media', Endpoint.USER_MEDIA, getMedia)
-  startSyncAll(uid, 'followers', Endpoint.FOLLOWERS, getFollowers)
+  startSyncAll(uid, 'posts', getPosts, Endpoint.USER_TWEETS)
+  startSyncAll(uid, 'replies', getReplies, Endpoint.USER_TWEETS_AND_REPLIES)
+  startSyncAll(uid, 'likes', getLikes, Endpoint.USER_LIKES)
+  startSyncAll(uid, 'media', getMedia, Endpoint.USER_MEDIA)
+  startSyncAll(uid, 'followers', getFollowers, Endpoint.FOLLOWERS)
 }
 
 const ExportCard = (props: {
@@ -126,11 +126,16 @@ export default function App() {
     }
 
     await Promise.all([
-      startSyncRecent(uid, 'posts', getPosts),
-      startSyncRecent(uid, 'replies', getReplies),
-      startSyncRecent(uid, 'likes', getLikes),
-      startSyncRecent(uid, 'media', getMedia),
-      startSyncRecent(uid, 'followers', getFollowers),
+      startSyncRecent(uid, 'posts', getPosts, Endpoint.USER_TWEETS),
+      startSyncRecent(
+        uid,
+        'replies',
+        getReplies,
+        Endpoint.USER_TWEETS_AND_REPLIES,
+      ),
+      startSyncRecent(uid, 'likes', getLikes, Endpoint.USER_LIKES),
+      startSyncRecent(uid, 'media', getMedia, Endpoint.USER_MEDIA),
+      startSyncRecent(uid, 'followers', getFollowers, Endpoint.FOLLOWERS),
     ])
 
     await summary(uid)

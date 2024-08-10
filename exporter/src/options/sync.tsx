@@ -171,6 +171,30 @@ export function getCategoryDetails(
   }
 }
 
+// 新增函数：检查文档是否存在
+async function checkDocsExist(ids: string[]): Promise<string[]> {
+  const db = await openDb(dbName, dbVersion)
+  const { objectStore } = getObjectStore(db, tableName)
+
+  return new Promise((resolve) => {
+    const existingIds: string[] = []
+    let count = 0
+
+    ids.forEach((id) => {
+      const request = objectStore.get(id)
+      request.onsuccess = () => {
+        if (request.result) {
+          existingIds.push(id)
+        }
+        count++
+        if (count === ids.length) {
+          resolve(existingIds)
+        }
+      }
+    })
+  })
+}
+
 export function catchError(
   err: Error,
   uid: string,
@@ -227,35 +251,14 @@ export async function startSyncRecent(
       }
 
       await upsertDocs(docs)
+      mutateStore((state) => {
+        state[category].state = TaskState.started
+      })
       console.log('Synced recent data', category, docs.length)
     }
   } catch (err) {
     catchError(err, uid, category, endpoint)
   }
-}
-
-// 新增函数：检查文档是否存在
-async function checkDocsExist(ids: string[]): Promise<string[]> {
-  const db = await openDb(dbName, dbVersion)
-  const { objectStore } = getObjectStore(db, tableName)
-
-  return new Promise((resolve) => {
-    const existingIds: string[] = []
-    let count = 0
-
-    ids.forEach((id) => {
-      const request = objectStore.get(id)
-      request.onsuccess = () => {
-        if (request.result) {
-          existingIds.push(id)
-        }
-        count++
-        if (count === ids.length) {
-          resolve(existingIds)
-        }
-      }
-    })
-  })
 }
 
 export async function startSyncAll(
@@ -343,8 +346,11 @@ export async function summary(uid: string) {
    */
   const user = get(json, 'data.user.result')
   mutateStore((state) => {
+    /**
+     * user.legacy.statuses_count 可能不准确
+     */
     const info = {
-      posts: user.legacy.statuses_count,
+      posts: 1000,
       replies: 1000,
       likes: user.legacy.favourites_count,
       media: user.legacy.media_count,

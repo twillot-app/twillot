@@ -1,6 +1,6 @@
 import { onMount, Show } from 'solid-js'
 import { Button } from '~/components/ui/button'
-import { getCurrentUserId, getLocal, setLocal } from 'utils/storage'
+import { getCurrentUserId } from 'utils/storage'
 import useAuth from 'utils/hooks/useAuth'
 import {
   getFollowers,
@@ -26,13 +26,11 @@ import {
 import { Separator } from '~/components/ui/separator'
 import { PRICING_URL } from './member'
 import DialogLicense from './License'
-import store, { mutateStore, TASK_STATE_TEXT, TaskState } from './store'
+import store, { TASK_STATE_TEXT } from './store'
 import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
 import { Endpoint } from 'utils/types'
 import { startSyncAll, startSyncRecent, summary } from './sync'
-import { getUserById } from 'utils/api/twitter'
-import get from 'lodash.get'
 import { FetchError } from 'utils/xfetch'
 
 const [state, setState] = store
@@ -63,16 +61,14 @@ const ExportCard = (props: {
   const req_time = () =>
     field().reset
       ? 'Continues at ' + new Date(field().reset * 1000).toLocaleString()
-      : ''
+      : props.desc
 
   return (
     <Card class="min-w-[360px]">
       <CardHeader>
         <CardTitle class="flex">
           <div class="flex-1">{props.title}</div>
-          <Badge variant="secondary" class="cursor-pointer">
-            {status()}
-          </Badge>
+          <Badge variant="secondary">{status()}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -164,32 +160,28 @@ export default function App() {
       <div class="mx-4 flex flex-col flex-wrap justify-center gap-5 lg:mx-0 lg:flex-row">
         <ExportCard
           title="Posts"
-          desc="Export your likes to X Bookmarks"
+          desc="这里的数字可能不准确"
           category="posts"
         />
         <ExportCard
           title="Replies"
-          desc="Export your likes to X Bookmarks"
+          desc="这里的数字可能不准确"
           category="replies"
         />
-        <ExportCard
-          title="Media"
-          desc="Export your likes to X Bookmarks"
-          category="media"
-        />
+        <ExportCard title="Media" desc="包含图片和视频" category="media" />
         <ExportCard
           title="Likes"
-          desc="Export your likes to X Bookmarks"
+          desc="这里的数字可能不准确"
           category="likes"
         />
         <ExportCard
           title="Followers"
-          desc="Export your likes to X Bookmarks"
+          desc="这里的数字可能随时变化"
           category="followers"
         />
         <ExportCard
           title="Bookmarks"
-          desc="Export your likes to X Bookmarks"
+          desc="导出书签请使用 Twillot Bookmarks for X"
           category="bookmarks"
         />
       </div>

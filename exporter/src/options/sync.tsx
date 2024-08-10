@@ -119,7 +119,7 @@ export function getCategoryDetails(
    * moduleEntries 里面可能包含 TimelineUser
    */
   const { cursorEntry, itemEntries, moduleEntries, moduleItems } =
-    getAllInstructionDetails(instructions)
+    getAllInstructionDetails(instructions, uid)
 
   const list = [
     ...itemEntries,

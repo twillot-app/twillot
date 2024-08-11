@@ -8,6 +8,7 @@ import {
 import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
+import { showToast } from '~/components/ui/toast'
 import store, { TASK_STATE_TEXT } from './store'
 import { PRICING_URL } from './member'
 import { getLevel, LICENSE_KEY, MemberLevel } from 'utils/license'
@@ -22,7 +23,14 @@ const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
 const handler = (format: 'csv' | 'json', category: string) => {
   if (format === 'json' && level() === MemberLevel.Free) {
-    chrome.tabs.create({ url: PRICING_URL })
+    showToast({
+      title: 'WARNING',
+      description: 'Please upgrade your account to export JSON',
+      variant: 'warning',
+    })
+    setTimeout(() => {
+      chrome.tabs.create({ url: PRICING_URL })
+    }, 2000)
     return
   }
 }

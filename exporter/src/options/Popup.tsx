@@ -24,6 +24,7 @@ import DialogLicense from './License'
 import store from './store'
 import { startSyncAll, startSyncRecent, summary } from './sync'
 import CategoryCard from './CategoryCard'
+import { Toaster } from '~/components/ui/toast'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
@@ -144,6 +145,7 @@ export default function App() {
           </a>
         </div>
       </Show>
+      <Toaster />
     </div>
   )
 }

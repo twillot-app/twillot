@@ -22,10 +22,7 @@ export default function DialogLicense() {
     }
 
     try {
-      const profile = await activateLicense(
-        key(),
-        ProductName.BookmarkAutomation,
-      )
+      const profile = await activateLicense(key(), ProductName.Exporter)
       setState({
         [LICENSE_KEY]: profile,
         is_dialog_open: false,

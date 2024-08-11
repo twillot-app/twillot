@@ -1,6 +1,6 @@
 import { onMount, Show } from 'solid-js'
 
-import { getCurrentUserId } from 'utils/storage'
+import { getLocal, StorageKeys } from 'utils/storage'
 import useAuth from 'utils/hooks/useAuth'
 import {
   getFollowers,
@@ -38,8 +38,13 @@ export default function App() {
     useAuth()
 
   onMount(async () => {
-    await initDb()
-    const uid = await getCurrentUserId()
+    const [local, _] = await Promise.all([
+      getLocal([StorageKeys.Current_UID, LICENSE_KEY]),
+      initDb(),
+    ])
+    const uid = local[StorageKeys.Current_UID]
+    const license = local[LICENSE_KEY]
+    setState({ [LICENSE_KEY]: license })
 
     try {
       await summary(uid)
@@ -119,33 +124,33 @@ export default function App() {
           category="bookmarks"
         />
       </div>
-      <Show when={level() === MemberLevel.Free}>
-        <div class="text-muted-foreground flex items-center justify-center space-x-4 text-base">
+      <div class="text-muted-foreground flex items-center justify-center space-x-4 text-base">
+        <Show when={level() !== MemberLevel.Pro}>
           <a
             href={PRICING_URL}
             target="_blank"
             class="text-muted-foreground underline underline-offset-4"
           >
-            Upgrade
+            Upgrade to {level() === MemberLevel.Free ? 'Basic' : 'Pro'} Plan
           </a>
-          <Separator orientation="vertical" />
-          <span
-            class="cursor-pointer underline underline-offset-4"
-            onClick={() => setState({ is_dialog_open: true })}
-          >
-            Activate
-          </span>
-          <DialogLicense />
-          <Separator orientation="vertical" />
-          <a
-            href="https://s.twillot.com/organize-x-bookmarks"
-            target="_blank"
-            class="text-muted-foreground underline underline-offset-4"
-          >
-            Export X Bookmarks
-          </a>
-        </div>
-      </Show>
+        </Show>
+        <Separator orientation="vertical" />
+        <span
+          class="cursor-pointer underline underline-offset-4"
+          onClick={() => setState({ is_dialog_open: true })}
+        >
+          Activate
+        </span>
+        <DialogLicense />
+        <Separator orientation="vertical" />
+        <a
+          href="https://s.twillot.com/organize-x-bookmarks"
+          target="_blank"
+          class="text-muted-foreground underline underline-offset-4"
+        >
+          Export X Bookmarks
+        </a>
+      </div>
       <Toaster />
     </div>
   )

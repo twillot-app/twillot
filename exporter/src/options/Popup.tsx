@@ -90,28 +90,32 @@ export default function App() {
       <div class="mx-4 flex flex-col flex-wrap justify-center gap-5 lg:mx-0 lg:flex-row">
         <CategoryCard
           title="Posts"
-          desc="这里的数字可能不准确"
+          desc="Numbers might not be 100% accurate"
           category="posts"
         />
         <CategoryCard
           title="Replies"
-          desc="这里的数字可能不准确"
+          desc="Numbers might not be 100% accurate"
           category="replies"
         />
-        <CategoryCard title="Media" desc="包含图片和视频" category="media" />
+        <CategoryCard
+          title="Media"
+          desc="Includes photos and videos"
+          category="media"
+        />
         <CategoryCard
           title="Likes"
-          desc="这里的数字可能不准确"
+          desc="Numbers might not be 100% accurate"
           category="likes"
         />
         <CategoryCard
           title="Followers"
-          desc="这里的数字可能随时变化"
+          desc="Numbers can change at any time"
           category="followers"
         />
         <CategoryCard
           title="Bookmarks"
-          desc="导出书签请使用 Twillot Bookmarks for X"
+          desc="Use Twillot Bookmarks for X to export"
           category="bookmarks"
         />
       </div>

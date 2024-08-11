@@ -150,6 +150,10 @@ export function getCategoryDetails(
       if (!tweet) {
         return null
       }
+      if (category === 'replies' && !tweet.is_reply) {
+        return null
+      }
+
       const key = getPostId(uid, tweet.tweet_id)
       tweet.sort_index = tweet.created_at.toString()
       // 多个分类下存在重复内容，需要区分

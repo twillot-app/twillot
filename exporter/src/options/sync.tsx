@@ -212,6 +212,7 @@ export function catchError(
       state[category].state = TaskState.paused
       state[category].reset = rate_limit.reset
     })
+    return rate_limit
   } else {
     mutateStore((state) => {
       state[category].state = TaskState.errored
@@ -285,6 +286,7 @@ export async function startSyncAll(
   const finish = () => {
     mutateStore((state) => {
       state[category].state = TaskState.finished
+      state[category].total = state[category].done
     })
   }
   const progress = (size: number) => {
@@ -304,7 +306,16 @@ export async function startSyncAll(
         state[category].state = TaskState.started
       })
     } catch (err) {
-      catchError(err, uid, category, endpoint)
+      const rateLimit = catchError(err, uid, category, endpoint)
+      if (rateLimit) {
+        const nextStartTime = rateLimit.reset * 1000
+        setTimeout(
+          () => {
+            startSyncAll(uid, category, func, endpoint)
+          },
+          nextStartTime - Date.now() + 5000,
+        )
+      }
       break
     }
 

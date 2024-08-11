@@ -250,7 +250,7 @@ export async function startSyncRecent(
         const [firstDoc, lastDoc] = [docs[0], docs[docs.length - 1]]
         const existingDocs = await checkDocsExist([firstDoc.id, lastDoc.id])
         if (existingDocs.length === 2) {
-          console.log('Item exists', category)
+          console.log('Recent items have been synced', category)
           break
         }
       }

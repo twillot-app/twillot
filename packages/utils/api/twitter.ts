@@ -89,7 +89,7 @@ function getTweetFields(tweet?: TweetUnion) {
     retweet_count: tweet.legacy.retweet_count,
     bookmarked: tweet.legacy.bookmarked,
     favorited: tweet.legacy.favorited,
-    reply_tweet_url: `https://${Host}/${tweet.legacy.in_reply_to_screen_name}/status/${tweet.legacy.in_reply_to_status_id_str}`,
+    reply_tweet_url: `${Host}/${tweet.legacy.in_reply_to_screen_name}/status/${tweet.legacy.in_reply_to_status_id_str}`,
     is_reply: !!tweet.legacy.in_reply_to_status_id_str,
     is_quote_status: tweet.legacy.is_quote_status,
     retweeted: tweet.legacy.retweeted,

@@ -2,7 +2,7 @@ import { onCleanup, createSignal } from 'solid-js'
 
 import { openNewTab } from '../browser'
 import { ActionPage } from '../types'
-import { getAuthInfo, getCurrentUserId } from '../storage'
+import { getAuthInfo, getCurrentUserId, logout } from '../storage'
 
 export default function useAuth() {
   const [isAuthenicating, setIsAuthenicating] = createSignal(false)
@@ -26,6 +26,7 @@ export default function useAuth() {
     return authenticated
   }
   const startAuth = async () => {
+    await logout(await getCurrentUserId())
     const authed = await checkAuth()
     if (authed) return
     setIsAuthenicating(true)

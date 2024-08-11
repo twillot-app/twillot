@@ -53,6 +53,11 @@ interface CategoryCardProps {
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
 const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
+  if (category === 'bookmarks') {
+    chrome.tabs.create({ url: 'https://s.twillot.com/organize-x-bookmarks' })
+    return
+  }
+
   const uid = await getCurrentUserId()
   if (!uid) {
     showToast({
@@ -79,7 +84,7 @@ const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
   )
   if (format === 'json') {
-    if (level() !== MemberLevel.Free) {
+    if (level() === MemberLevel.Free) {
       showToast({
         title: 'WARNING',
         description: 'Please upgrade your account to export JSON',
@@ -99,12 +104,19 @@ const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
 
 export default function CategoryCard(props: CategoryCardProps) {
   const field = () => state[props.category]
-  const progress = () => Math.ceil((100 * field().done) / field().total)
+  const progress = () =>
+    props.category === 'bookmarks'
+      ? 0
+      : Math.ceil((100 * field().done) / field().total)
   const status = () => TASK_STATE_TEXT[state[props.category].state]
   const req_time = () =>
     field().reset
       ? 'Continues at ' + new Date(field().reset * 1000).toLocaleTimeString()
       : props.desc
+  const progressText = () =>
+    props.category === 'bookmarks'
+      ? '0 / 0'
+      : `${field().done} / ${field().total}`
 
   return (
     <Card class="min-w-[360px]">
@@ -119,7 +131,7 @@ export default function CategoryCard(props: CategoryCardProps) {
           <ProgressCircle value={progress()} />
           <div>
             <p class="text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium">
-              {field().done} / {field().total}
+              {progressText()}
             </p>
             <p class="text-tremor-default text-tremor-content dark:text-dark-tremor-content text-xs">
               {req_time()}

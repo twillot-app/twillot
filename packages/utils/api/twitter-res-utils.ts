@@ -130,8 +130,12 @@ export function getAllInstructionDetails(
       cursorEntry = getBottomCursor(element)
 
       if (uid) {
+        /**
+         * 这里主要解决评论中会附带原推文的问题
+         * 原推文可能是自己也可能是别人的
+         */
         moduleEntries = moduleEntries.filter((i: TimelineTweet) => {
-          const tweet = getTweet(i.tweet_results.result)
+          const tweet = getTweet(i.tweet_results?.result)
           if (tweet) {
             return tweet.legacy.user_id_str === uid
           }

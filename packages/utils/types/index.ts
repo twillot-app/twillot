@@ -73,7 +73,12 @@ export interface TweetQuoted {
   retweet_count: number
   bookmarked: boolean
   favorited: boolean
+  reply_tweet_url?: string
+  // 是否评论
+  is_reply?: boolean
+  // 是否引用
   is_quote_status: boolean
+  // 是否转发
   retweeted: boolean
 }
 

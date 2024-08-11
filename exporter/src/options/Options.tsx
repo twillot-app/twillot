@@ -124,8 +124,8 @@ export default function App() {
           category="bookmarks"
         />
       </div>
-      <div class="text-muted-foreground flex items-center justify-center space-x-4 text-base">
-        <Show when={level() !== MemberLevel.Pro}>
+      <Show when={level() !== MemberLevel.Pro}>
+        <div class="text-muted-foreground flex items-center justify-center space-x-4 text-base">
           <a
             href={PRICING_URL}
             target="_blank"
@@ -133,24 +133,24 @@ export default function App() {
           >
             Upgrade to {level() === MemberLevel.Free ? 'Basic' : 'Pro'} Plan
           </a>
-        </Show>
-        <Separator orientation="vertical" />
-        <span
-          class="cursor-pointer underline underline-offset-4"
-          onClick={() => setState({ is_dialog_open: true })}
-        >
-          Activate
-        </span>
-        <DialogLicense />
-        <Separator orientation="vertical" />
-        <a
-          href="https://s.twillot.com/organize-x-bookmarks"
-          target="_blank"
-          class="text-muted-foreground underline underline-offset-4"
-        >
-          Export X Bookmarks
-        </a>
-      </div>
+          <Separator orientation="vertical" />
+          <span
+            class="cursor-pointer underline underline-offset-4"
+            onClick={() => setState({ is_dialog_open: true })}
+          >
+            Activate
+          </span>
+          <DialogLicense />
+          <Separator orientation="vertical" />
+          <a
+            href="https://s.twillot.com/organize-x-bookmarks"
+            target="_blank"
+            class="text-muted-foreground underline underline-offset-4"
+          >
+            Export X Bookmarks
+          </a>
+        </div>
+      </Show>
       <Toaster />
     </div>
   )

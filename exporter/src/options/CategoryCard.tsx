@@ -1,3 +1,5 @@
+import { Show } from 'solid-js'
+
 import { exportData } from 'utils/exporter'
 import { getLevel, LICENSE_KEY, MemberLevel } from 'utils/license'
 import { getCurrentUserId } from 'utils/storage'
@@ -18,7 +20,7 @@ import { showToast } from '~/components/ui/toast'
 import store, { TASK_STATE_TEXT } from './store'
 import { queryByCategory } from './sync'
 import { Category } from './types'
-import { PRICING_URL } from './member'
+import { MEMBER_LEVELS, PRICING_URL } from './member'
 
 function toUser(user: User) {
   return {
@@ -50,14 +52,9 @@ interface CategoryCardProps {
   desc: string
 }
 
-const [state, setState] = store
+const [state] = store
 const level = () => getLevel(state[LICENSE_KEY])
 const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
-  if (category === 'bookmarks') {
-    chrome.tabs.create({ url: 'https://s.twillot.com/organize-x-bookmarks' })
-    return
-  }
-
   const uid = await getCurrentUserId()
   if (!uid) {
     showToast({
@@ -79,44 +76,45 @@ const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
       created_at: new Date(i.created_at * 1000).toISOString(),
     }))
   }
-  json = json.sort(
-    (a, b) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  )
+  const limit = MEMBER_LEVELS[level()].exportLimit
+  const need_upgrade = json.length > limit
+  json = json
+    .slice(0, limit)
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )
   if (format === 'json') {
-    if (level() === MemberLevel.Free) {
-      showToast({
-        title: 'WARNING',
-        description: 'Please upgrade your account to export JSON',
-        variant: 'warning',
-      })
-      setTimeout(() => {
-        chrome.tabs.create({ url: PRICING_URL })
-      }, 2000)
-      return
-    }
-
     exportData(json, 'JSON', `twillot-export-${category}.json`)
   } else if (format === 'csv') {
     exportData(json, 'CSV', `twillot-export-${category}.csv`)
+  }
+  if (need_upgrade) {
+    showToast({
+      title: 'Export Limitation',
+      description: `Current account is limited to export ${limit} items, please upgrade your account to export more items.`,
+      variant: 'warning',
+    })
+    setTimeout(() => {
+      if (level() === MemberLevel.Free) {
+        chrome.tabs.create({ url: PRICING_URL })
+      }
+    }, 3000)
   }
 }
 
 export default function CategoryCard(props: CategoryCardProps) {
   const field = () => state[props.category]
+  const is_bookmark = () => props.category === 'bookmarks'
   const progress = () =>
-    props.category === 'bookmarks'
-      ? 0
-      : Math.ceil((100 * field().done) / field().total)
+    is_bookmark() ? 0 : Math.ceil((100 * field().done) / field().total)
   const status = () => TASK_STATE_TEXT[state[props.category].state]
   const req_time = () =>
     field().reset
       ? 'Continues at ' + new Date(field().reset * 1000).toLocaleTimeString()
       : props.desc
   const progressText = () =>
-    props.category === 'bookmarks'
-      ? '0 / 0'
-      : `${field().done} / ${field().total}`
+    is_bookmark() ? '0 / 0' : `${field().done} / ${field().total}`
 
   return (
     <Card class="min-w-[360px]">
@@ -140,20 +138,39 @@ export default function CategoryCard(props: CategoryCardProps) {
         </div>
       </CardContent>
       <CardFooter class="gap-6">
-        <Button
-          variant="outline"
-          class="w-1/2"
-          onClick={() => exportByCategory('csv', props.category)}
+        <Show
+          when={is_bookmark()}
+          fallback={
+            <>
+              <Button
+                variant="outline"
+                class="w-1/2"
+                onClick={() => exportByCategory('csv', props.category)}
+              >
+                Export CSV
+              </Button>
+              <Button
+                variant="outline"
+                class="w-1/2"
+                onClick={() => exportByCategory('json', props.category)}
+              >
+                Export JSON
+              </Button>
+            </>
+          }
         >
-          Export CSV
-        </Button>
-        <Button
-          variant="outline"
-          class="w-1/2"
-          onClick={() => exportByCategory('json', props.category)}
-        >
-          Export JSON
-        </Button>
+          <Button
+            variant="outline"
+            class="w-full"
+            onClick={() =>
+              chrome.tabs.create({
+                url: 'https://s.twillot.com/organize-x-bookmarks',
+              })
+            }
+          >
+            Get Twillot Bookmarks for X
+          </Button>
+        </Show>
       </CardFooter>
     </Card>
   )

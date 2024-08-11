@@ -1,4 +1,5 @@
 import { onMount, Show } from 'solid-js'
+
 import { getCurrentUserId } from 'utils/storage'
 import useAuth from 'utils/hooks/useAuth'
 import {
@@ -8,23 +9,18 @@ import {
   getPosts,
   getReplies,
 } from 'utils/api/twitter-user'
-import {
-  getLevel,
-  isFreeLicense,
-  LICENSE_KEY,
-  MemberLevel,
-} from 'utils/license'
+import { getLevel, LICENSE_KEY, MemberLevel } from 'utils/license'
 import { Endpoint } from 'utils/types'
 import { FetchError } from 'utils/xfetch'
 
 import { Button } from '~/components/ui/button'
 import { Separator } from '~/components/ui/separator'
+import { Toaster } from '~/components/ui/toast'
+import CategoryCard from './CategoryCard'
 import { PRICING_URL } from './member'
 import DialogLicense from './License'
 import store from './store'
-import { startSyncAll, startSyncRecent, summary } from './sync'
-import CategoryCard from './CategoryCard'
-import { Toaster } from '~/components/ui/toast'
+import { initDb, startSyncAll, startSyncRecent, summary } from './sync'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
@@ -42,6 +38,7 @@ export default function App() {
     useAuth()
 
   onMount(async () => {
+    await initDb()
     const uid = await getCurrentUserId()
 
     try {

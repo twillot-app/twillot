@@ -1,3 +1,8 @@
+import { exportData } from 'utils/exporter'
+import { getLevel, LICENSE_KEY, MemberLevel } from 'utils/license'
+import { getCurrentUserId } from 'utils/storage'
+import { Tweet, User } from 'utils/types'
+
 import {
   Card,
   CardContent,
@@ -9,29 +14,81 @@ import { ProgressCircle } from '~/components/ui/progress-circle'
 import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
 import { showToast } from '~/components/ui/toast'
+
 import store, { TASK_STATE_TEXT } from './store'
+import { queryByCategory } from './sync'
+import { Category } from './types'
 import { PRICING_URL } from './member'
-import { getLevel, LICENSE_KEY, MemberLevel } from 'utils/license'
+
+function toUser(user: User) {
+  return {
+    id: user.rest_id,
+    is_blue_verified: user.is_blue_verified,
+    can_dm: user.legacy.can_dm,
+    created_at: new Date(parseInt(user.legacy.created_at) * 1000).toISOString(),
+    description: user.legacy.description,
+    followed_by: user.legacy.followed_by,
+    following: user.legacy.following,
+    followers_count: user.legacy.followers_count,
+    friends_count: user.legacy.friends_count,
+    location: user.legacy.location,
+    media_count: user.legacy.media_count,
+    name: user.legacy.name,
+    possibly_sensitive: user.legacy.possibly_sensitive,
+    profile_banner_url: user.legacy.profile_banner_url,
+    profile_image_url: user.legacy.profile_image_url_https,
+    screen_name: user.legacy.screen_name,
+    statuses_count: user.legacy.statuses_count,
+    url: user.legacy.url,
+  }
+}
 
 interface CategoryCardProps {
-  category: string
+  category: Category
   title: string
   desc: string
 }
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
-const handler = (format: 'csv' | 'json', category: string) => {
-  if (format === 'json' && level() === MemberLevel.Free) {
+const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
+  const uid = await getCurrentUserId()
+  if (!uid) {
     showToast({
-      title: 'WARNING',
-      description: 'Please upgrade your account to export JSON',
+      description: 'Please authenticate to export',
       variant: 'warning',
     })
-    setTimeout(() => {
-      chrome.tabs.create({ url: PRICING_URL })
-    }, 2000)
     return
+  }
+
+  let json
+
+  if (category === 'followers') {
+    const users = await queryByCategory<User>(uid, category)
+    json = users.map(toUser)
+  } else {
+    const items = await queryByCategory<Tweet>(uid, category)
+    json = items.map((i) => ({
+      ...i,
+      created_at: new Date(i.created_at * 1000).toISOString(),
+    }))
+  }
+  if (format === 'json') {
+    if (level() !== MemberLevel.Free) {
+      showToast({
+        title: 'WARNING',
+        description: 'Please upgrade your account to export JSON',
+        variant: 'warning',
+      })
+      setTimeout(() => {
+        chrome.tabs.create({ url: PRICING_URL })
+      }, 2000)
+      return
+    }
+
+    exportData(json, 'JSON', `twillot-export-${category}.json`)
+  } else if (format === 'csv') {
+    exportData(json, 'CSV', `twillot-export-${category}.csv`)
   }
 }
 
@@ -69,14 +126,14 @@ export default function CategoryCard(props: CategoryCardProps) {
         <Button
           variant="outline"
           class="w-1/2"
-          onClick={() => handler('csv', props.category)}
+          onClick={() => exportByCategory('csv', props.category)}
         >
           Export CSV
         </Button>
         <Button
           variant="outline"
           class="w-1/2"
-          onClick={() => handler('json', props.category)}
+          onClick={() => exportByCategory('json', props.category)}
         >
           Export JSON
         </Button>

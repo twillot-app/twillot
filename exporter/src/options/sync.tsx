@@ -1,38 +1,24 @@
+import get from 'lodash.get'
+
 import { getLocal, setLocal } from 'utils/storage'
 import {
   getAllInstructionDetails,
   getInstructions,
   ResponseKeyPath,
 } from 'utils/api/twitter-res-utils'
-import {
-  getPosts,
-  getReplies,
-  getMedia,
-  getLikes,
-  getFollowers,
-} from 'utils/api/twitter-user'
 import { getUserById, toRecord } from 'utils/api/twitter'
 import { FetchError } from 'utils/xfetch'
 import { getRateLimitInfo } from 'utils/api/twitter-base'
+import { getPostId } from 'utils/db/tweets'
 import { Endpoint, TimelineTweet, TimelineUser, Tweet, User } from 'utils/types'
 import { createSchema, getObjectStore, indexFields, openDb } from 'utils/db'
 
 import { mutateStore, TaskState } from './store'
-import { getPostId } from 'utils/db/tweets'
-import get from 'lodash.get'
+import { Category, Handler } from './types'
 
 const dbName = 'twillot'
 const dbVersion = 2
 const tableName = 'posts'
-
-type Category = 'posts' | 'replies' | 'media' | 'likes' | 'followers'
-
-type Handler =
-  | typeof getPosts
-  | typeof getReplies
-  | typeof getMedia
-  | typeof getLikes
-  | typeof getFollowers
 
 export async function initDb() {
   await openDb(dbName, dbVersion, function upgradeDb(db, transaction) {
@@ -41,13 +27,15 @@ export async function initDb() {
       transaction,
       tableName,
       'id',
-      indexFields.concat({
-        name: 'category_name',
-        options: {
-          unique: false,
-          multiEntry: false,
+      indexFields.concat([
+        {
+          name: 'category_name',
+          options: {
+            unique: false,
+            multiEntry: false,
+          },
         },
-      }),
+      ]),
     )
   })
 }
@@ -82,6 +70,7 @@ export async function countDocs(
       media: 0,
       likes: 0,
       followers: 0,
+      bookmarks: 0,
     }
     const index = objectStore.index('owner_id')
     const request = index.openCursor(IDBKeyRange.only(uid))
@@ -375,6 +364,45 @@ export async function summary(uid: string) {
     for (const [category, count] of Object.entries(countInfo)) {
       state[category].done = count
       state[category].total = Math.max(info[category], count as number)
+    }
+  })
+}
+
+export async function queryByCategory<T>(
+  uid: string,
+  category: Category,
+  limit?: number,
+  offset?: number,
+): Promise<T[]> {
+  const db = await openDb(dbName, dbVersion)
+  const { objectStore } = getObjectStore(db, tableName)
+
+  return new Promise((resolve, reject) => {
+    const index = objectStore.index('category_name')
+    const request = index.openCursor(IDBKeyRange.only(category), 'prev')
+
+    const results: T[] = []
+    let counter = 0
+
+    request.onsuccess = (event) => {
+      const cursor = (event.target as IDBRequest).result
+      if (cursor && cursor.value.owner_id === uid) {
+        if (offset && counter < offset) {
+          counter++
+          cursor.continue()
+        } else if (!limit || results.length < limit) {
+          results.push(cursor.value)
+          cursor.continue()
+        } else {
+          resolve(results)
+        }
+      } else {
+        resolve(results)
+      }
+    }
+
+    request.onerror = (e) => {
+      reject(e)
     }
   })
 }

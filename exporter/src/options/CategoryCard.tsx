@@ -25,7 +25,8 @@ function toUser(user: User) {
     id: user.rest_id,
     is_blue_verified: user.is_blue_verified,
     can_dm: user.legacy.can_dm,
-    created_at: new Date(parseInt(user.legacy.created_at) * 1000).toISOString(),
+    // User 不用转
+    created_at: new Date(user.legacy.created_at).toISOString(),
     description: user.legacy.description,
     followed_by: user.legacy.followed_by,
     following: user.legacy.following,
@@ -61,7 +62,7 @@ const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
     return
   }
 
-  let json
+  let json: any[]
 
   if (category === 'followers') {
     const users = await queryByCategory<User>(uid, category)
@@ -73,6 +74,10 @@ const exportByCategory = async (format: 'csv' | 'json', category: Category) => {
       created_at: new Date(i.created_at * 1000).toISOString(),
     }))
   }
+  json = json.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  )
   if (format === 'json') {
     if (level() !== MemberLevel.Free) {
       showToast({

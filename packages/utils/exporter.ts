@@ -180,12 +180,15 @@ export async function htmlExporter(
   `
 }
 
-export async function csvExporter(
-  data: DataType[],
-  translations: Record<string, string>,
+export async function csvExporter<T extends Record<string, any>>(
+  data: T[],
+  translations?: Record<string, string>,
 ) {
-  const headers = Object.keys(translations)
-  let content = Object.values(translations).join(',') + '\n'
+  const headers = translations
+    ? Object.keys(translations)
+    : Object.keys(data[0] || {})
+  let content =
+    (translations ? Object.values(translations) : headers).join(',') + '\n'
 
   for (const row of data) {
     const values = headers.map((header) => {

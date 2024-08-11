@@ -89,6 +89,7 @@ export interface TweetWithPosition {
 
 export interface IndexedDbIndexItem {
   name: string
+  keyPath?: string[]
   options: IDBIndexParameters
 }
 

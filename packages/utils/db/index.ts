@@ -15,7 +15,7 @@ export const TWEETS_TABLE_NAME_V2 = 'posts'
 
 export const CONFIGS_TABLE_NAME_V2 = 'settings'
 
-export const indexFields =
+export const indexFields: IndexedDbIndexItem[] =
   'full_text,sort_index,screen_name,created_at,owner_id,has_image,has_video,has_link,has_quote,is_long_text,folder'
     .split(',')
     .map((field) => ({
@@ -144,7 +144,11 @@ export function createSchema(
 
   indexes.forEach((index) => {
     if (!objectStore.indexNames.contains(index.name)) {
-      objectStore.createIndex(index.name, index.name, index.options)
+      objectStore.createIndex(
+        index.name,
+        index.keyPath || index.name,
+        index.options,
+      )
     }
   })
 }

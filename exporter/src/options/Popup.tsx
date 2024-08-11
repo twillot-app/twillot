@@ -1,5 +1,4 @@
 import { onMount, Show } from 'solid-js'
-import { Button } from '~/components/ui/button'
 import { getCurrentUserId } from 'utils/storage'
 import useAuth from 'utils/hooks/useAuth'
 import {
@@ -15,32 +14,19 @@ import {
   LICENSE_KEY,
   MemberLevel,
 } from 'utils/license'
+import { Endpoint } from 'utils/types'
+import { FetchError } from 'utils/xfetch'
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '~/components/ui/card'
+import { Button } from '~/components/ui/button'
 import { Separator } from '~/components/ui/separator'
 import { PRICING_URL } from './member'
 import DialogLicense from './License'
-import store, { TASK_STATE_TEXT } from './store'
-import { ProgressCircle } from '~/components/ui/progress-circle'
-import { Badge } from '~/components/ui/badge'
-import { Endpoint } from 'utils/types'
+import store from './store'
 import { startSyncAll, startSyncRecent, summary } from './sync'
-import { FetchError } from 'utils/xfetch'
+import CategoryCard from './CategoryCard'
 
 const [state, setState] = store
 const level = () => getLevel(state[LICENSE_KEY])
-const handler = (format: 'csv' | 'json', category: string) => {
-  if (format === 'json' && level() === MemberLevel.Free) {
-    chrome.tabs.create({ url: PRICING_URL })
-    return
-  }
-}
 
 function syncAll(uid: string) {
   startSyncAll(uid, 'posts', getPosts, Endpoint.USER_TWEETS)
@@ -48,60 +34,6 @@ function syncAll(uid: string) {
   startSyncAll(uid, 'likes', getLikes, Endpoint.USER_LIKES)
   startSyncAll(uid, 'media', getMedia, Endpoint.USER_MEDIA)
   startSyncAll(uid, 'followers', getFollowers, Endpoint.FOLLOWERS)
-}
-
-const ExportCard = (props: {
-  category: string
-  title: string
-  desc: string
-}) => {
-  const field = () => state[props.category]
-  const progress = () => Math.ceil((100 * field().done) / field().total)
-  const status = () => TASK_STATE_TEXT[state[props.category].state]
-  const req_time = () =>
-    field().reset
-      ? 'Continues at ' + new Date(field().reset * 1000).toLocaleTimeString()
-      : props.desc
-
-  return (
-    <Card class="min-w-[360px]">
-      <CardHeader>
-        <CardTitle class="flex">
-          <div class="flex-1">{props.title}</div>
-          <Badge variant="secondary">{status()}</Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div class="flex items-center justify-start space-x-5">
-          <ProgressCircle value={progress()} />
-          <div>
-            <p class="text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong font-medium">
-              {field().done} / {field().total}
-            </p>
-            <p class="text-tremor-default text-tremor-content dark:text-dark-tremor-content text-xs">
-              {req_time()}
-            </p>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter class="gap-6">
-        <Button
-          variant="outline"
-          class="w-1/2"
-          onClick={() => handler('csv', props.category)}
-        >
-          Export CSV
-        </Button>
-        <Button
-          variant="outline"
-          class="w-1/2"
-          onClick={() => handler('json', props.category)}
-        >
-          Export JSON
-        </Button>
-      </CardFooter>
-    </Card>
-  )
 }
 
 export default function App() {
@@ -158,28 +90,28 @@ export default function App() {
         </p>
       </Show>
       <div class="mx-4 flex flex-col flex-wrap justify-center gap-5 lg:mx-0 lg:flex-row">
-        <ExportCard
+        <CategoryCard
           title="Posts"
           desc="这里的数字可能不准确"
           category="posts"
         />
-        <ExportCard
+        <CategoryCard
           title="Replies"
           desc="这里的数字可能不准确"
           category="replies"
         />
-        <ExportCard title="Media" desc="包含图片和视频" category="media" />
-        <ExportCard
+        <CategoryCard title="Media" desc="包含图片和视频" category="media" />
+        <CategoryCard
           title="Likes"
           desc="这里的数字可能不准确"
           category="likes"
         />
-        <ExportCard
+        <CategoryCard
           title="Followers"
           desc="这里的数字可能随时变化"
           category="followers"
         />
-        <ExportCard
+        <CategoryCard
           title="Bookmarks"
           desc="导出书签请使用 Twillot Bookmarks for X"
           category="bookmarks"

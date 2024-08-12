@@ -43,6 +43,10 @@ export default function App() {
       initDb(),
     ])
     const uid = local[StorageKeys.Current_UID]
+    if (!uid) {
+      setIsAuthFailed(true)
+      return
+    }
     const license = local[LICENSE_KEY]
     setState({ [LICENSE_KEY]: license })
 

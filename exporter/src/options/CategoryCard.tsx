@@ -111,7 +111,7 @@ export default function CategoryCard(props: CategoryCardProps) {
   const status = () => TASK_STATE_TEXT[state[props.category].state]
   const req_time = () =>
     field().reset
-      ? 'Continues at ' + new Date(field().reset * 1000).toLocaleTimeString()
+      ? 'Next request at ' + new Date(field().reset * 1000).toLocaleTimeString()
       : props.desc
   const progressText = () =>
     is_bookmark() ? '0 / 0' : `${field().done} / ${field().total}`

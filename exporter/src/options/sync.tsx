@@ -308,11 +308,7 @@ export async function startSyncAll(
       break
     }
 
-    const { docs, cursorEntry } = await getCategoryDetails(
-      uid,
-      jsonPosts,
-      category,
-    )
+    const { docs, cursorEntry } = getCategoryDetails(uid, jsonPosts, category)
 
     if (docs.length === 0) {
       console.log('End of timeline reached, no data found', category)

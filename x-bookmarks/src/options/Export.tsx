@@ -1,9 +1,8 @@
 import { createSignal, Show } from 'solid-js'
-import { onMount } from 'solid-js'
 
 import { openNewTab } from 'utils/browser'
 import { findRecords, iterate } from 'utils/db/tweets'
-import { getTweetMediaImage, getTweetMediaVideo } from 'utils/tweet'
+import { getMediaItemsIncludeQuote } from 'utils/api/twitter-media'
 import { exportData } from 'utils/exporter'
 import { Host } from 'utils/types'
 import { LICENSE_KEY, MemberLevel } from 'utils/license'
@@ -28,9 +27,9 @@ const ExportPage = () => {
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[level()],
   )
+  const isLimited = () =>
+    maxMediaRows() < MAX_MEDIA_EXPORT_SIZE[MemberLevel.Pro]
   const maxRows = () => MAX_EXPORT_SIZE[level()]
-  const getBtnClass = (name: string) =>
-    `mb-2 me-8 flex w-36 justify-center gap-2 rounded-lg bg-${name}-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-${name}-800 focus:outline-none focus:ring-4 focus:ring-${name}-300 dark:bg-${name}-600 dark:hover:bg-${name}-700 dark:focus:ring-${name}-800 items-center`
   const onRadioChange = (row, field) => {
     if (row.level > level) {
       alert(
@@ -122,6 +121,7 @@ const ExportPage = () => {
     EXPORT_MEDIA_FIELDS.forEach((field) => {
       params[field.name] = form[field.name].value
     })
+    params['custom_save_path'] = form['custom_save_path']?.value
     const full_records = await iterate((tweet) => {
       if (params.media_type === 'all') {
         if (tweet.has_image || tweet.has_video || tweet.has_gif) {
@@ -129,7 +129,7 @@ const ExportPage = () => {
         }
       } else if (params.media_type === 'image') {
         return tweet.has_image
-      } else if (params.media_type === 'video') {
+      } else if (params.media_type === 'video' || params.media_type === 'gif') {
         return tweet.has_video || tweet.has_gif
       }
 
@@ -137,45 +137,9 @@ const ExportPage = () => {
     })
     const records = full_records.slice(0, maxMediaRows())
     const mediaList = []
-    const containImage =
-      params.media_type === 'all' || params.media_type === 'image'
-    const containVideo =
-      params.media_type === 'all' || params.media_type === 'video'
-    const containGif =
-      params.media_type === 'all' || params.media_type === 'gif'
-
     for (const record of records) {
-      const mediaItem = {
-        tweet_id: record.tweet_id,
-        tweet_url: `${Host}/${record.screen_name}/status/${record.tweet_id}`,
-        user_id: record.user_id,
-        username: record.username,
-        screen_name: record.screen_name,
-        folder: record.folder || 'unsorted',
-        created_at: new Date(record.created_at * 1000).toLocaleString(),
-      }
-      record.media_items.forEach((item) => {
-        if (containImage && item.type === 'photo') {
-          mediaList.push({
-            ...mediaItem,
-            key: item.media_key,
-            media_type: 'image',
-            media_url: getTweetMediaImage(item, 'jpg', 'large'),
-          })
-        } else if (containVideo && item.type === 'video') {
-          mediaList.push({
-            ...mediaItem,
-            media_type: 'video',
-            media_url: getTweetMediaVideo(item),
-          })
-        } else if (containGif && item.type === 'animated_gif') {
-          mediaList.push({
-            ...mediaItem,
-            media_type: 'gif',
-            media_url: getTweetMediaVideo(item),
-          })
-        }
-      })
+      const list = getMediaItemsIncludeQuote(record, params.media_type)
+      mediaList.push(...list)
     }
 
     if (params.action_type === 'csv') {
@@ -195,6 +159,11 @@ const ExportPage = () => {
         },
       )
     } else if (params.action_type === 'media') {
+      if (params.save_mode === 'custom' && !params.custom_save_path) {
+        alert('Please set a custom save path.')
+        return
+      }
+
       let isCanceled = false
       setStore({
         isDownloadingMedia: true,
@@ -211,9 +180,15 @@ const ExportPage = () => {
         }
 
         try {
+          const filename = getMediaSavePath(
+            item,
+            params.save_mode,
+            params.custom_save_path,
+          )
+          console.log(filename)
           const id = await chrome.downloads.download({
             url: item.media_url,
-            filename: getMediaSavePath(item, params.save_mode),
+            filename,
           })
           mutateStore((state) => {
             state.downloadedMediaCount += 1
@@ -359,9 +334,11 @@ const ExportPage = () => {
                         />
                         <label
                           for={`${field.name}_${index}`}
-                          class="ms-2 flex cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300"
+                          class="ms-2 flex min-w-80 cursor-pointer items-center font-medium text-gray-900 dark:text-gray-300"
                         >
-                          {row.label}
+                          {typeof row.label === 'string'
+                            ? row.label
+                            : row.label()}
                           <a
                             class="ml-2 flex scale-75 text-yellow-400"
                             href={PRICING_URL}
@@ -385,12 +362,7 @@ const ExportPage = () => {
               </label>
               <div class="flex-1 text-sm">
                 <p class="flex items-center font-medium text-gray-900 dark:text-gray-300">
-                  <Show
-                    when={
-                      maxMediaRows() < MAX_MEDIA_EXPORT_SIZE[MemberLevel.Pro]
-                    }
-                    fallback="Unlimited"
-                  >
+                  <Show when={isLimited()} fallback="Unlimited">
                     {maxMediaRows()}
                   </Show>
                 </p>
@@ -401,7 +373,10 @@ const ExportPage = () => {
               <Show
                 when={store.isDownloadingMedia}
                 fallback={
-                  <button type="submit" class={getBtnClass('blue')}>
+                  <button
+                    type="submit"
+                    class={`mb-2 me-8 flex w-36 items-center justify-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
+                  >
                     Download
                   </button>
                 }
@@ -410,7 +385,7 @@ const ExportPage = () => {
                   type="button"
                   title="Click to cancel downloading"
                   onClick={cancelDownloadMeida}
-                  class={getBtnClass('red')}
+                  class={`mb-2 me-8 flex w-36 items-center justify-center gap-2 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800`}
                 >
                   <Spinner className="h-5 w-5 fill-white text-gray-400 dark:text-gray-400" />
                   <span class="text-xs">

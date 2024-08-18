@@ -4,6 +4,12 @@
 
 ## Changelog
 
+## Aug 18, 2024 Update
+
+- Automatically include media files from quoted tweets when exporting media files
+- Support custom download paths when exporting media files
+- Default export filenames are now named by author + creation time
+
 ## Aug 5, 2024 Update
 
 Fix a threads bug.

@@ -175,7 +175,6 @@ const ExportPage = () => {
             params.save_mode,
             params.custom_save_path,
           )
-          console.log(filename)
           const id = await chrome.downloads.download({
             url: item.media_url,
             filename,

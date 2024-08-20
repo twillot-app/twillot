@@ -1,3 +1,4 @@
+import { iterate } from '../db/tweets'
 import { Host, Tweet, TweetQuoted, Media } from '../types'
 
 export type DownloadMediaItem = {
@@ -12,6 +13,8 @@ export type DownloadMediaItem = {
   media_url: string
   key: string
 }
+
+export type MediaType = 'all' | 'image' | 'video' | 'gif'
 
 export function getTweetMediaImage(
   media: Media,
@@ -32,7 +35,7 @@ export function getTweetMediaVideo(media: Media) {
 export function getMediaItems(
   record: TweetQuoted,
   folder: string,
-  mediaType: 'all' | 'image' | 'video' | 'gif',
+  mediaType: MediaType,
 ): DownloadMediaItem[] {
   if (!record || !record.media_items) {
     return []
@@ -78,10 +81,7 @@ export function getMediaItems(
   return mediaList
 }
 
-export function getMediaItemsIncludeQuote(
-  record: Tweet,
-  mediaType: 'all' | 'image' | 'video' | 'gif',
-) {
+export function getMediaItemsIncludeQuote(record: Tweet, mediaType: MediaType) {
   const mediaList = getMediaItems(
     record,
     record.folder || 'unsorted',
@@ -93,4 +93,33 @@ export function getMediaItemsIncludeQuote(
     mediaType,
   )
   return [...mediaList, ...mediaFromQuote]
+}
+
+export async function getTweetsContainsMedia(
+  mediaType: MediaType,
+  withQuote: boolean,
+  limit: number,
+) {
+  const full_records = await iterate((tweet) => {
+    const quoteHasMedia =
+      withQuote && tweet.quoted_tweet?.media_items?.length > 0
+    if (mediaType === 'all') {
+      if (
+        tweet.has_image ||
+        tweet.has_video ||
+        tweet.has_gif ||
+        quoteHasMedia
+      ) {
+        return true
+      }
+    } else if (mediaType === 'image') {
+      return tweet.has_image || quoteHasMedia
+    } else if (mediaType === 'video' || mediaType === 'gif') {
+      return tweet.has_video || tweet.has_gif || quoteHasMedia
+    }
+
+    return false
+  }, limit)
+
+  return full_records
 }

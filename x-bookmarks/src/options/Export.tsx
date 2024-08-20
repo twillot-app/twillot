@@ -2,7 +2,10 @@ import { createSignal, Show } from 'solid-js'
 
 import { openNewTab } from 'utils/browser'
 import { findRecords, iterate } from 'utils/db/tweets'
-import { getMediaItemsIncludeQuote } from 'utils/api/twitter-media'
+import {
+  getMediaItemsIncludeQuote,
+  getTweetsContainsMedia,
+} from 'utils/api/twitter-media'
 import { exportData } from 'utils/exporter'
 import { Host } from 'utils/types'
 import { LICENSE_KEY, MemberLevel } from 'utils/license'
@@ -122,20 +125,7 @@ const ExportPage = () => {
       params[field.name] = form[field.name].value
     })
     params['custom_save_path'] = form['custom_save_path']?.value
-    const full_records = await iterate((tweet) => {
-      if (params.media_type === 'all') {
-        if (tweet.has_image || tweet.has_video || tweet.has_gif) {
-          return true
-        }
-      } else if (params.media_type === 'image') {
-        return tweet.has_image
-      } else if (params.media_type === 'video' || params.media_type === 'gif') {
-        return tweet.has_video || tweet.has_gif
-      }
-
-      return false
-    })
-    const records = full_records.slice(0, maxMediaRows())
+    const records = await getTweetsContainsMedia(params.media_type, true, 10)
     const mediaList = []
     for (const record of records) {
       const list = getMediaItemsIncludeQuote(record, params.media_type)

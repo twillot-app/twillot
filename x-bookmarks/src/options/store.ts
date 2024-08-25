@@ -4,7 +4,6 @@ import {
   type FontSet,
   type Tweet,
   type TweetWithPosition,
-  type User,
   type CountInfo,
 } from 'utils/types'
 import { DAYS } from 'utils/date'
@@ -24,7 +23,7 @@ export const defaultState = () => ({
   totalCount: null as null | CountInfo,
   tweets: new Array<Tweet>(),
   selectedTweet: -1,
-  topUsers: new Array<User>(),
+  topUsers: new Array<any>(),
   folders: new Array<{ name: string; count: number }>(),
   history: new Array<{ date: string; count: number }>(DAYS).fill({
     date: '',

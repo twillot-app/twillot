@@ -2,6 +2,7 @@ import { untrack } from 'solid-js/web'
 import { reconcile } from 'solid-js/store'
 
 import {
+  deleteBookmark,
   getBookmarks,
   getTweetConversations,
   getTweetId,
@@ -373,4 +374,37 @@ export function resetQuery() {
     category: '',
     folder: '',
   })
+}
+
+/**
+ * 删除收藏
+ * 删除数据库记录
+ * 更新 store 中的数据
+ * @param tweetId
+ */
+export async function removeBookmark(tweetId: string) {
+  try {
+    await deleteBookmark(tweetId)
+    await deleteRecord(tweetId)
+    mutateStore((state) => {
+      const tweet = state.tweets.find((t) => t.tweet_id === tweetId)
+      if (!tweet) {
+        return
+      }
+      const folder = tweet.folder
+      if (folder) {
+        const folderItem = state.folders.find((f) => f.name === folder)
+        if (folderItem) {
+          folderItem.count -= 1
+        }
+      }
+      state.tweets.splice(
+        state.tweets.findIndex((t) => t.tweet_id === tweetId),
+        1,
+      )
+      state.totalCount.total -= 1
+    })
+  } catch (e) {
+    console.error('Failed to delete bookmark', e)
+  }
 }

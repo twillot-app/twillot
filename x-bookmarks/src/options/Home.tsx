@@ -7,13 +7,13 @@ import { openPage } from 'utils/dom'
 import { Host } from 'utils/types'
 import Contribution from '../components/Contribution'
 import {
+  IconBookmark,
   IconChevronArrowDown,
-  IconExpand,
   IconQuote,
 } from '../components/Icons'
 import TopN from '../components/TopN'
 import FolderSelect from '../components/FolderSelect'
-import { queryByCondition } from './handlers'
+import { queryByCondition, removeBookmark } from './handlers'
 import Filter from '../components/Filter'
 
 export const Home = () => {
@@ -92,14 +92,8 @@ export const Home = () => {
                       <span>
                         <FolderSelect tweet={tweet} />
                       </span>
-                      <span
-                        onClick={() =>
-                          setStore({
-                            selectedTweet: index(),
-                          })
-                        }
-                      >
-                        <IconExpand />
+                      <span onClick={() => removeBookmark(tweet.tweet_id)}>
+                        <IconBookmark cls="h-5 w-5" />
                       </span>
                     </div>
                   </Show>

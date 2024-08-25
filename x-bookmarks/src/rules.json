@@ -13,8 +13,14 @@
       ]
     },
     "condition": {
-      "urlFilter": "https://*.x.com/*",
-      "resourceTypes": ["main_frame", "xmlhttprequest"]
+      "urlFilter": "https://x.com/i/api/graphql/*",
+      "resourceTypes": [
+        "main_frame",
+        "xmlhttprequest",
+        "sub_frame",
+        "script",
+        "other"
+      ]
     }
   }
 ]

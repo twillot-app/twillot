@@ -467,10 +467,6 @@ export async function uploadMedia(
   return mediaId
 }
 
-export async function getFollowing(userId: string, cursor?: string) {}
-
-export async function getUserLikes(userId: string, cursor?: string) {}
-
 export async function getUserByScreenName(screenName: string) {
   const query = flatten({
     variables: {

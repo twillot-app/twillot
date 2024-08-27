@@ -443,13 +443,19 @@ export async function smartTagging() {
         }
 
         try {
+          /**
+           * Supply more text to parse
+           */
+          const text = tweet.quoted_tweet
+            ? tweet.full_text + '\n' + tweet.quoted_tweet.full_text
+            : tweet.full_text
           const res = await fetch(API_HOST + '/classify', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              tweetText: tweet.full_text,
+              tweetText: text,
               folders: folders,
             }),
           })

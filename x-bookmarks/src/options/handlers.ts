@@ -29,6 +29,7 @@ import {
   Endpoint,
   AuthStatus,
   TaskType,
+  API_HOST,
 } from 'utils/types'
 import {
   getCurrentUserId,
@@ -41,6 +42,9 @@ import {
 } from 'utils/storage'
 
 import dataStore, { mutateStore } from './store'
+
+// Wrap the sleep function
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 async function query(
   keyword = '',
@@ -406,5 +410,75 @@ export async function removeBookmark(tweetId: string) {
     })
   } catch (e) {
     console.error('Failed to delete bookmark', e)
+  }
+}
+
+export async function smartTagging() {
+  const [store, setStore] = dataStore
+
+  if (store.isTagging) {
+    setStore('isTagging', false)
+    console.log('Stopping AI tagging process')
+    return
+  }
+
+  setStore('isTagging', true)
+  console.log('Starting AI tagging process')
+
+  const folders = store.folders.map((i) => i.name)
+
+  while (store.isTagging) {
+    try {
+      const tweets = await iterate((t) => !t.folder, 20)
+
+      if (tweets.length === 0) {
+        console.log('No more unclassified tweets')
+        await sleep(60000)
+        continue
+      }
+
+      for (const tweet of tweets) {
+        if (!store.isTagging) {
+          break
+        }
+
+        try {
+          const res = await fetch(API_HOST + '/classify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              tweetText: tweet.full_text,
+              folders: folders,
+            }),
+          })
+          const json = await res.json()
+          const folder = json.data.folder
+          if (!folder) {
+            continue
+          }
+
+          tweet.folder = folder
+          await upsertRecords([tweet], true)
+          mutateStore((state) => {
+            const folderItem = state.folders.find((f) => f.name === folder)
+            if (folderItem) {
+              folderItem.count += 1
+            }
+
+            state.totalCount.unsorted -= 1
+          })
+          console.log(`Tweet ${tweet.tweet_id} classified into ${folder}`)
+        } catch (error) {
+          console.error(`Error classifying tweet ${tweet.tweet_id}:`, error)
+        }
+
+        await sleep(3000)
+      }
+    } catch (error) {
+      console.error('Error fetching unclassified tweets:', error)
+      await sleep(30000)
+    }
   }
 }

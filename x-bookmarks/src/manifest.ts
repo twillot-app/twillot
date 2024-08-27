@@ -9,6 +9,9 @@ const host_permissions = ['https://*.x.com/*']
 if (isDev) {
   host_permissions.push('http://localhost:8787/*')
   host_permissions.push('http://127.0.0.1:8787/*')
+  host_permissions.push('http://localhost:3000/*')
+  host_permissions.push('http://127.0.0.1:3000/*')
+  host_permissions.push('ws://localhost/*')
 } else {
   host_permissions.push('https://*.twillot.com/*')
 }

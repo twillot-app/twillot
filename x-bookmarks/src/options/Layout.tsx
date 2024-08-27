@@ -14,6 +14,7 @@ import {
   queryByCondition,
   resetQuery,
   syncThreads,
+  smartTagging,
 } from './handlers'
 import { Alert } from '../components/Alert'
 import Notification from '../components/Notification'
@@ -26,6 +27,7 @@ import {
   IconLicense,
   IconMessage,
   IconMoon,
+  IconSparkles,
   IconSun,
   IconUp,
 } from '../components/Icons'
@@ -36,6 +38,7 @@ import { initFolders } from '../stores/folders'
 import AsideFolder from '../components/AsideFolder'
 import { getCurrentUserId, onLocalChanged, StorageKeys } from 'utils/storage'
 import { getLicense, isViolatedLicense, LICENSE_KEY } from 'utils/license'
+import Spinner from '~/components/Spinner'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -204,6 +207,14 @@ export const Layout = (props) => {
                 <div class="flex items-center rounded-lg p-2 hover:bg-gray-100  dark:hover:bg-gray-700">
                   <IconFolders />
                   <span class="ms-3 flex-1 whitespace-nowrap">Folders</span>
+                  <span
+                    class="ms-3 inline-flex cursor-pointer items-center justify-center rounded-full text-xs opacity-60"
+                    onClick={smartTagging}
+                  >
+                    <Show when={store.isTagging} fallback={<IconSparkles />}>
+                      <Spinner className="h-4 w-4 fill-gray-700 text-gray-200 dark:text-gray-600" />
+                    </Show>
+                  </span>
                 </div>
                 <Show when={store.totalCount}>
                   <div class="text-base">

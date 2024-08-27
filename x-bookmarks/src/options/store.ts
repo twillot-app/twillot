@@ -47,6 +47,7 @@ export const defaultState = () => ({
   downloadedMediaCount: 0,
   // when downloading media, store the ids of the tweets that need to be downloaded and cancel them if necessary
   downloadedIds: new Array<number>(),
+  isTagging: false,
 })
 
 const store = createStore(defaultState())

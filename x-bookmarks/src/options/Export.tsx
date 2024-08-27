@@ -8,7 +8,7 @@ import {
 } from 'utils/api/twitter-media'
 import { exportData } from 'utils/exporter'
 import { Host } from 'utils/types'
-import { LICENSE_KEY, MemberLevel } from 'utils/license'
+import { MemberLevel } from 'utils/license'
 
 import { IconClose, IconCrown } from '../components/Icons'
 import {
@@ -22,11 +22,12 @@ import {
 } from '../libs/member'
 import dataStore, { mutateStore } from './store'
 import Spinner from '../components/Spinner'
+import { useMemberLevel } from '~/hooks/useMemberLevel'
 
 const [store, setStore] = dataStore
 
 const ExportPage = () => {
-  const level = () => store[LICENSE_KEY]?.level || MemberLevel.Free
+  const level = useMemberLevel()
   const [maxMediaRows, setMaxMediaRows] = createSignal(
     MAX_MEDIA_EXPORT_SIZE[level()],
   )

@@ -42,9 +42,25 @@ import {
 } from 'utils/storage'
 
 import dataStore, { mutateStore } from './store'
+import { getLevel, getLicense, MemberLevel } from 'utils/license'
+import { PRICING_URL } from '~/libs/member'
 
 // Wrap the sleep function
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+const BATCH_SIZE = 10
+const MAX_REQUESTS_PER_DAY = 512
+const INITIAL_WAIT_TIME = 1000 // 初始等待时间，3秒
+const MAX_RANDOM_VARIATION = 0.1 // 最大随机变化，10%
+
+function calculateWaitTime(currentRequest: number): number {
+  const baseTime = INITIAL_WAIT_TIME
+  const ratio = currentRequest / MAX_REQUESTS_PER_DAY
+  const waitTime = baseTime * (1 + Math.pow(ratio, 2))
+  const randomVariation =
+    (Math.random() * 2 - 1) * MAX_RANDOM_VARIATION * waitTime
+  return waitTime + randomVariation
+}
 
 async function query(
   keyword = '',
@@ -415,27 +431,67 @@ export async function removeBookmark(tweetId: string) {
 
 export async function smartTagging() {
   const [store, setStore] = dataStore
-
   if (store.isTagging) {
-    setStore('isTagging', false)
-    console.log('Stopping AI tagging process')
+    // 暂时不允许暂停
+    // setStore('isTagging', false)
+    // console.log('Stopping AI tagging process')
     return
   }
 
+  let offset = 0
+  let reqCount = 0
+  let isLimited = false
   setStore('isTagging', true)
-  console.log('Starting AI tagging process')
 
   const folders = store.folders.map((i) => i.name)
-
+  const uid = await getCurrentUserId()
   while (store.isTagging) {
-    try {
-      const tweets = await iterate((t) => !t.folder, 20)
+    // server error
+    if (isLimited) {
+      setStore('isTagging', false)
+      alert('AI auto organizing is temporarily limited, please try again later')
+      break
+    }
 
+    try {
+      const license = await getLicense()
+      const level = getLevel(license)
+      const isFree = level === MemberLevel.Free
+
+      if (isFree) {
+        if (reqCount > BATCH_SIZE) {
+          localStorage.setItem(
+            'limited_time',
+            Math.floor(Date.now() / 1000).toString(),
+          )
+          isLimited = true
+        } else {
+          // 24 小时后才能再次使用
+          const limitedTime = parseInt(
+            localStorage.getItem('limited_time') || '0',
+          )
+          isLimited = Date.now() / 1000 - limitedTime < 24 * 60 * 60
+        }
+
+        if (isLimited) {
+          alert('Please upgrade to a paid plan to continue AI auto organizing')
+          await sleep(3000)
+          await chrome.tabs.create({
+            url: PRICING_URL,
+          })
+          setStore('isTagging', false)
+          break
+        }
+      }
+
+      const tweets = await iterate((t) => !t.folder, BATCH_SIZE, offset)
       if (tweets.length === 0) {
         console.log('No more unclassified tweets')
         await sleep(60000)
         continue
       }
+
+      offset += tweets.length
 
       for (const tweet of tweets) {
         if (!store.isTagging) {
@@ -453,38 +509,54 @@ export async function smartTagging() {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'X-Request-Id': btoa(
+                JSON.stringify({
+                  reqCount,
+                  uid,
+                  timestamp: Date.now(),
+                  level,
+                  license,
+                }),
+              ),
             },
             body: JSON.stringify({
               tweetText: text,
               folders: folders,
             }),
           })
-          const json = await res.json()
-          const folder = json.data.folder
-          if (!folder) {
-            continue
+          if (res.status === 429) {
+            console.log('Rate limit exceeded')
+            isLimited = true
+            break
           }
 
-          tweet.folder = folder
-          await upsertRecords([tweet], true)
-          mutateStore((state) => {
-            const folderItem = state.folders.find((f) => f.name === folder)
-            if (folderItem) {
-              folderItem.count += 1
-            }
-
-            state.totalCount.unsorted -= 1
-          })
-          console.log(`Tweet ${tweet.tweet_id} classified into ${folder}`)
+          const json = await res.json()
+          const folder = json.data.folder
+          if (folder) {
+            tweet.folder = folder
+            await upsertRecords([tweet], true)
+            mutateStore((state) => {
+              const folderItem = state.folders.find((f) => f.name === folder)
+              if (folderItem) {
+                state.totalCount.unsorted -= 1
+                folderItem.count += 1
+              }
+            })
+            console.log(`Tweet ${tweet.tweet_id} classified into ${folder}`)
+          }
         } catch (error) {
           console.error(`Error classifying tweet ${tweet.tweet_id}:`, error)
         }
 
-        await sleep(3000)
+        reqCount += 1
+        const waitTime = calculateWaitTime(reqCount)
+        console.log(
+          `Request id = ${reqCount}, waiting for ${waitTime / 1000} seconds`,
+        )
+        await sleep(waitTime)
       }
     } catch (error) {
       console.error('Error fetching unclassified tweets:', error)
-      await sleep(30000)
     }
   }
 }

@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@crxjs/vite-plugin':
-        specifier: ^2.0.0-beta.19
+        specifier: 2.0.0-beta.25
         version: 2.0.0-beta.25
       '@faker-js/faker':
         specifier: ^8.4.1

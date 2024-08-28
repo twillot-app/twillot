@@ -19,7 +19,7 @@
   "scripts": {
     "build": "vite build",
     "coverage": "vitest run --coverage",
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite",
     "fmt": "prettier --write '**/*.{tsx,ts,json,css,md}'",
     "preview": "vite preview",
     "test": "vitest",

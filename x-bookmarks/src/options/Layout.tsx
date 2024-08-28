@@ -39,6 +39,9 @@ import AsideFolder from '../components/AsideFolder'
 import { getCurrentUserId, onLocalChanged, StorageKeys } from 'utils/storage'
 import { getLicense, isViolatedLicense, LICENSE_KEY } from 'utils/license'
 import Spinner from '~/components/Spinner'
+import Modal from '~/components/Modal'
+import { PRICING_URL } from '~/libs/member'
+import ModalContentAIFeature from '~/components/ModalContentAIFeature'
 
 export const Layout = (props) => {
   const [store, setStore] = dataStore
@@ -327,6 +330,22 @@ export const Layout = (props) => {
           >
             <IconUp />
           </button>
+          <Modal
+            visible={!store.hasShownAIModal}
+            title="Auto-organize Bookmarks with AI"
+            okText="Explore"
+            onOk={async () => {
+              await chrome.tabs.create({
+                url: PRICING_URL,
+              })
+              localStorage.setItem('hasShownAIModal', 'true')
+            }}
+            onCancel={() => {
+              setStore('hasShownAIModal', true)
+            }}
+          >
+            <ModalContentAIFeature />
+          </Modal>
         </Portal>
       </main>
     </>

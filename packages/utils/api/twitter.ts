@@ -289,7 +289,7 @@ export async function getTweetConversations(tweetId: string, tweetJson?: any) {
   // 这是原推
   let index = instructions.entries.findIndex((i) => i.entryId.includes(tweetId))
   if (index > 0) {
-    console.error('No conversation found in response', instructions)
+    console.warn('No conversation found in response', instructions)
     return []
   }
 

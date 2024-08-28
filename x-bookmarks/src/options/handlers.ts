@@ -50,7 +50,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const BATCH_SIZE = 10
 const MAX_REQUESTS_PER_DAY = 512
-const INITIAL_WAIT_TIME = 1000 // 初始等待时间，3秒
+const INITIAL_WAIT_TIME = 3000 // 初始等待时间，3秒
 const MAX_RANDOM_VARIATION = 0.1 // 最大随机变化，10%
 
 function calculateWaitTime(currentRequest: number): number {
@@ -431,6 +431,18 @@ export async function removeBookmark(tweetId: string) {
 
 export async function smartTagging() {
   const [store, setStore] = dataStore
+  const uid = await getCurrentUserId()
+  if (!uid) {
+    alert('Please login to use AI auto organizing')
+    return
+  }
+
+  const folders = store.folders.map((i) => i.name)
+  if (folders.length < 3) {
+    alert('Please create at least 3 folders to use AI auto organizing')
+    return
+  }
+
   if (store.isTagging) {
     // 暂时不允许暂停
     // setStore('isTagging', false)
@@ -443,8 +455,6 @@ export async function smartTagging() {
   let isLimited = false
   setStore('isTagging', true)
 
-  const folders = store.folders.map((i) => i.name)
-  const uid = await getCurrentUserId()
   while (store.isTagging) {
     // server error
     if (isLimited) {
@@ -484,7 +494,12 @@ export async function smartTagging() {
         }
       }
 
-      const tweets = await iterate((t) => !t.folder, BATCH_SIZE, offset)
+      // 只查询 null 或 undefined，设置为空表示 ai 分类过但是找不到对应文件夹
+      const tweets = await iterate(
+        (t) => typeof t.folder !== 'string',
+        BATCH_SIZE,
+        offset,
+      )
       if (tweets.length === 0) {
         console.log('No more unclassified tweets')
         await sleep(60000)
@@ -524,6 +539,7 @@ export async function smartTagging() {
               folders: folders,
             }),
           })
+          // 服务端限流时，暂时不用限制客户端
           if (res.status === 429) {
             console.log('Rate limit exceeded')
             isLimited = true
@@ -532,9 +548,9 @@ export async function smartTagging() {
 
           const json = await res.json()
           const folder = json.data.folder
+          tweet.folder = folder
+          await upsertRecords([tweet], true)
           if (folder) {
-            tweet.folder = folder
-            await upsertRecords([tweet], true)
             mutateStore((state) => {
               const folderItem = state.folders.find((f) => f.name === folder)
               if (folderItem) {
@@ -542,8 +558,9 @@ export async function smartTagging() {
                 folderItem.count += 1
               }
             })
-            console.log(`Tweet ${tweet.tweet_id} classified into ${folder}`)
           }
+
+          console.log(`Tweet ${tweet.tweet_id} classified into ${folder}`)
         } catch (error) {
           console.error(`Error classifying tweet ${tweet.tweet_id}:`, error)
         }

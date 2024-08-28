@@ -48,18 +48,20 @@ import { PRICING_URL } from '~/libs/member'
 // Wrap the sleep function
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-const BATCH_SIZE = 10
-const MAX_REQUESTS_PER_DAY = 512
+const MAX_WAIT_TIME = 512000 // 最大等待时间，512秒
+const BATCH_SIZE = 20 // 每20个请求为一个等级
 const INITIAL_WAIT_TIME = 3000 // 初始等待时间，3秒
 const MAX_RANDOM_VARIATION = 0.1 // 最大随机变化，10%
 
 function calculateWaitTime(currentRequest: number): number {
-  const baseTime = INITIAL_WAIT_TIME
-  const ratio = currentRequest / MAX_REQUESTS_PER_DAY
-  const waitTime = baseTime * (1 + Math.pow(ratio, 2))
+  const level = Math.floor(currentRequest / BATCH_SIZE)
+  const baseTime = Math.min(
+    INITIAL_WAIT_TIME * Math.pow(2, level),
+    MAX_WAIT_TIME,
+  )
   const randomVariation =
-    (Math.random() * 2 - 1) * MAX_RANDOM_VARIATION * waitTime
-  return waitTime + randomVariation
+    (Math.random() * 2 - 1) * MAX_RANDOM_VARIATION * baseTime
+  return baseTime + randomVariation
 }
 
 async function query(

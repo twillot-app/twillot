@@ -1,4 +1,4 @@
-import { getCurrentUserId, setLocal } from 'utils/storage'
+import { syncAuthHeaders } from 'utils/storage'
 import { Host } from 'utils/types'
 
 chrome.action.onClicked.addListener(function () {
@@ -13,32 +13,7 @@ chrome.webRequest.onSendHeaders.addListener(
       return
     }
 
-    let csrf = '',
-      token = ''
-
-    for (const { name: t, value: o } of details.requestHeaders || []) {
-      if (csrf && token) {
-        break
-      }
-
-      if (t === 'x-csrf-token') {
-        csrf = o || ''
-      } else if (t === 'authorization') {
-        token = o || ''
-      }
-    }
-
-    if (!csrf || !token) {
-      return
-    }
-
-    const uid = await getCurrentUserId()
-    if (uid) {
-      await setLocal({
-        csrf,
-        token,
-      })
-    }
+    await syncAuthHeaders(details.requestHeaders)
   },
   {
     types: ['xmlhttprequest'],

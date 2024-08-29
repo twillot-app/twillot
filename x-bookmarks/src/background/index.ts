@@ -1,5 +1,5 @@
 import { getOptionsPageTab } from 'utils/browser'
-import { getCurrentUserId, setLocal } from 'utils/storage'
+import { syncAuthHeaders } from 'utils/storage'
 import { Host } from 'utils/types'
 
 chrome.action.onClicked.addListener(function () {
@@ -22,34 +22,7 @@ chrome.webRequest.onSendHeaders.addListener(
       return
     }
 
-    let csrf = '',
-      token = ''
-
-    for (const { name: t, value: o } of details.requestHeaders || []) {
-      if (csrf && token) {
-        break
-      }
-
-      if (t === 'x-csrf-token') {
-        csrf = o || ''
-      } else if (t === 'authorization') {
-        token = o || ''
-      }
-    }
-
-    const uid = await getCurrentUserId()
-    if (uid) {
-      if (csrf && token) {
-        await setLocal({
-          csrf,
-          token,
-        })
-      } else {
-        console.error('csrf or token not found', url)
-      }
-    } else {
-      console.error('current user id not found')
-    }
+    await syncAuthHeaders(details.requestHeaders)
   },
   {
     types: ['xmlhttprequest'],

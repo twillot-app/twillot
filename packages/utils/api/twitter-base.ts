@@ -10,14 +10,22 @@ interface RateLimitInfo {
 
 let rateLimitInfo: Record<string, Record<Endpoint, RateLimitInfo>> = {}
 
-function get_headers(token: string, csrf: string) {
+function get_headers(headers: {
+  token: string
+  csrf: string
+  uuid: string
+  transaction_id: string
+}) {
+  const { token, csrf, uuid, transaction_id } = headers
   return {
     Authorization: token,
     'X-Csrf-Token': csrf,
+    'X-Client-Uuid': uuid,
+    'X-Client-Transaction-Id': transaction_id,
     'Content-Type': 'application/json',
     'X-Twitter-Active-User': 'yes',
     'X-Twitter-Auth-Type': 'OAuth2Session',
-    'X-Twitter-Client-Language': 'en-us',
+    'X-Twitter-Client-Language': 'en',
   }
 }
 
@@ -32,8 +40,8 @@ export function getRateLimitInfo(endpoint: Endpoint, uid: string) {
 export async function request(url: string, options: RequestInit) {
   // 页面中可以直接设置 headers
   if (!options.headers?.['authorization']) {
-    const { token, csrf } = await getAuthInfo()
-    if (!token) {
+    const headers = await getAuthInfo()
+    if (!headers.token) {
       const error = new Error('No token found')
       error.name = FetchError.IdentityError
       throw error
@@ -41,7 +49,7 @@ export async function request(url: string, options: RequestInit) {
 
     options.headers = {
       ...options.headers,
-      ...get_headers(token, csrf),
+      ...get_headers(headers),
     }
   }
   if (options.body instanceof FormData) {

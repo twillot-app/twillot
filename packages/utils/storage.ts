@@ -6,6 +6,8 @@ export enum StorageKeys {
   Cookie = 'cookie',
   Current_UID = 'current_user_id',
   Tasks = 'tasks',
+  Uuid = 'uuid',
+  Transaction_Id = 'transaction_id',
 }
 
 export async function getCurrentUserId(): Promise<string> {
@@ -136,21 +138,81 @@ export async function isMigrationNeeded(): Promise<boolean> {
   return 'token' in storage
 }
 
+function incrementFirstNumber(str: string): string {
+  const numbers = str.match(/[1-8]/g) || []
+  if (numbers.length === 0) return str
+
+  const randomIndex = Math.floor(Math.random() * numbers.length)
+  const targetNumber = numbers[randomIndex]
+
+  return str.replace(new RegExp(targetNumber), (match) => {
+    const num = parseInt(match)
+    return (num < 8 ? num + 1 : 0).toString()
+  })
+}
+
 export async function getAuthInfo(): Promise<{
   token: string
   csrf: string
+  uuid: string
+  transaction_id: string
   bookmark_cursor: string
 }> {
   const keys = [
     StorageKeys.Token,
     StorageKeys.Csrf,
+    StorageKeys.Uuid,
+    StorageKeys.Transaction_Id,
     StorageKeys.Bookmark_Cursor,
   ]
   let auth = await getLocal(keys)
+  if (auth && auth.transaction_id) {
+    auth.transaction_id = incrementFirstNumber(auth.transaction_id)
+  }
   return auth
 }
 
 export async function getLastSyncInfo(): Promise<number> {
   let obj = await getLocal(StorageKeys.Last_Sync)
   return obj[StorageKeys.Last_Sync] || 0
+}
+
+export async function syncAuthHeaders(
+  requestHeaders: chrome.webRequest.HttpHeader[],
+) {
+  let csrf = '',
+    token = '',
+    uuid = '',
+    transaction_id = ''
+
+  for (const { name: k, value: o } of requestHeaders || []) {
+    if (csrf && token && uuid && transaction_id) {
+      break
+    }
+
+    const t = k.toLowerCase()
+    if (t === 'x-csrf-token') {
+      csrf = o || ''
+    } else if (t === 'authorization') {
+      token = o || ''
+    } else if (t === 'x-client-uuid') {
+      uuid = o || ''
+    } else if (t === 'x-client-transaction-id') {
+      transaction_id = o || ''
+    }
+  }
+
+  if (!csrf || !token || !uuid || !transaction_id) {
+    return
+  }
+
+  const uid = await getCurrentUserId()
+  if (uid) {
+    await setLocal({
+      csrf,
+      token,
+      uuid,
+      transaction_id,
+    })
+  }
 }

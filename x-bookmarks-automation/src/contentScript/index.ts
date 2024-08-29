@@ -19,12 +19,19 @@ import {
   TimelineTweet,
 } from 'utils/types'
 import fetchWithTimeout from 'utils/xfetch'
+import { ProductTaskType } from '~/lib/types'
 
 interface Payload {
   variables: {
     tweet_id: string
     queryId: string
   }
+}
+
+function addRandomZeroWidthSpaces(text: string, count: number): string {
+  const zeroWidthSpace = '\u200B'
+  const spaces = zeroWidthSpace.repeat(count)
+  return Math.random() < 0.5 ? `${spaces}${text}` : `${text}${spaces}`
 }
 
 for (const item of document.cookie.split(';')) {
@@ -49,7 +56,7 @@ window.addEventListener('message', async (event) => {
   }
 
   const { data } = event
-  if (data.type === TaskType.CreateBookmark) {
+  if (data.type === ProductTaskType.CreateBookmark) {
     const {
       like,
       repost,
@@ -78,8 +85,10 @@ window.addEventListener('message', async (event) => {
         await repostTweet(tweet_id)
       }
       if (reply && reply_text) {
+        // Avoid being detected as spam
+        const modifiedReplyText = addRandomZeroWidthSpaces(reply_text, 5)
         await createTweet({
-          text: reply_text,
+          text: modifiedReplyText,
           replyTweetId: tweet_id,
         })
       }

@@ -1,4 +1,4 @@
-import { TaskType } from 'utils/types'
+import { ProductTaskType } from '~/lib/types'
 
 console.log('inject.ts loaded', new Date().toLocaleString())
 
@@ -16,7 +16,7 @@ XMLHttpRequest.prototype.send = function (data: string | FormData | null) {
   if (this._method === 'POST') {
     if (this._url.endsWith('/CreateBookmark')) {
       window.postMessage({
-        type: TaskType.CreateBookmark,
+        type: ProductTaskType.CreateBookmark,
         payload: JSON.parse(data as string),
       })
     }

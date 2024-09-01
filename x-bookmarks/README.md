@@ -1,8 +1,13 @@
 # Twillot
 
-> Search, organize and export your X/Twitter bookmarks wihout a Twitter Premium account.
+> Effortlessly search, organize, and export your X/Twitter bookmarks with AI-powered categorization - no Premium account required.
 
 ## Changelog
+
+## Aug 28, 2024 Update
+
+- Added AI-powered smart categorization to automatically organize your bookmarks!
+- You can upgrade to Pro Plan to auto categorize 500 bookmarks per day.
 
 ## Aug 25, 2024 Update
 

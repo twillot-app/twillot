@@ -1,0 +1,930 @@
+[
+  {
+    "name": "AlternativeTo",
+    "url": "https://alternativeto.net/"
+  },
+  {
+    "name": "Alternative.me",
+    "url": "http://alternative.me/"
+  },
+  {
+    "name": "App Rater",
+    "url": "https://apprater.net/add/"
+  },
+  {
+    "name": "Appoid",
+    "url": "http://appiod.com/submit-app-for-review/"
+  },
+  {
+    "name": "Appliv",
+    "url": "https://app-liv.jp/contact/review_request/"
+  },
+  {
+    "name": "AppVita",
+    "url": "https://appvita.com/"
+  },
+  {
+    "name": "Appysmarts",
+    "url": "https://www.appysmarts.com/suggest.php"
+  },
+  {
+    "name": "ASR",
+    "url": "https://www.activesearchresults.com/"
+  },
+  {
+    "name": "AddictiveTips",
+    "url": "https://www.addictivetips.com/tip-us/"
+  },
+  {
+    "name": "AppsThunder",
+    "url": "https://appsthunder.com/submit-your-app/"
+  },
+  {
+    "name": "All Startups",
+    "url": "http://www.allstartups.info/Startups/Submit"
+  },
+  {
+    "name": "Broadwise.org",
+    "url": "https://broadwise.org/"
+  },
+  {
+    "name": "Brandfetch",
+    "url": "https://brandfetch.com/"
+  },
+  {
+    "name": "bigstartups.co",
+    "url": "https://bigstartups.co/overview/list-product"
+  },
+  {
+    "name": "business-software.com",
+    "url": "https://www.business-software.com/add-your-product/"
+  },
+  {
+    "name": "osalt.com",
+    "url": "https://osalt.com/suggest"
+  },
+  {
+    "name": "Betalist",
+    "url": "https://betalist.com/users/sign_in"
+  },
+  {
+    "name": "BufferApps",
+    "url": "https://bufferapps.com/beta-listing/new"
+  },
+  {
+    "name": "Changelog",
+    "url": "https://changelog.com/news/submit"
+  },
+  {
+    "name": "Digital Stuff We Love",
+    "url": "https://digitalstuffwelove.org.nz/submit-tool"
+  },
+  {
+    "name": "Dockhunt",
+    "url": "https://www.dockhunt.com/"
+  },
+  {
+    "name": "DataTau",
+    "url": "https://datatau.net/"
+  },
+  {
+    "name": "10words",
+    "url": "https://10words.io/"
+  },
+  {
+    "name": "MicroLaunch",
+    "url": "https://microlaunch.net/"
+  },
+  {
+    "name": "Fiddy",
+    "url": "https://fiddy.co/"
+  },
+  {
+    "name": "Fund a Maker",
+    "url": "https://fundamaker.com/"
+  },
+  {
+    "name": "Fuse.kiwi",
+    "url": "https://www.fuse.kiwi/"
+  },
+  {
+    "name": "OpenAlternative",
+    "url": "https://openalternative.co/"
+  },
+  {
+    "name": "Joinly",
+    "url": "https://www.joinly.xyz/"
+  },
+  {
+    "name": "read.cv",
+    "url": "https://read.cv/"
+  },
+  {
+    "name": "Make.rs",
+    "url": "https://make.rs/"
+  },
+  {
+    "name": "KillerStartups",
+    "url": "https://www.killerstartups.com/submit-startup/"
+  },
+  {
+    "name": "PitchWall",
+    "url": "https://pitchwall.co/"
+  },
+  {
+    "name": "Prime Indies",
+    "url": "https://primeindies.com/"
+  },
+  {
+    "name": "Toools.design",
+    "url": "https://toools.design/"
+  },
+  {
+    "name": "TechPluto",
+    "url": "https://www.techpluto.com/submit-a-startup/"
+  },
+  {
+    "name": "The Startup Pitch",
+    "url": "https://thestartuppitch.com/post-a-pitch/"
+  },
+  {
+    "name": "Top Best Alternatives",
+    "url": "https://www.topbestalternatives.com/"
+  },
+  {
+    "name": "Launched!",
+    "url": "https://launched.io/"
+  },
+  {
+    "name": "Launching Next",
+    "url": "https://www.launchingnext.com/submit/"
+  },
+  {
+    "name": "LibHunt",
+    "url": "https://www.libhunt.com/repo/submit"
+  },
+  {
+    "name": "Startup Collections",
+    "url": "https://startupcollections.com/submit-product/"
+  },
+  {
+    "name": "StartupRanking",
+    "url": "https://www.startupranking.com/"
+  },
+  {
+    "name": "Startup Stash",
+    "url": "https://startupstash.com/add-listing/"
+  },
+  {
+    "name": "StartupBase",
+    "url": "https://startupbase.io/"
+  },
+  {
+    "name": "StackShare",
+    "url": "https://www.stackshare.io/sign_in"
+  },
+  {
+    "name": "SourceForge",
+    "url": "https://sourceforge.net/"
+  },
+  {
+    "name": "PayOnceApps.com",
+    "url": "https://payonceapps.com/add-your-app/"
+  },
+  {
+    "name": "techdirectory.io",
+    "url": "https://www.techdirectory.io/get-listed"
+  },
+  {
+    "name": "Toolbase.io",
+    "url": "https://www.toolbase.io/"
+  },
+  {
+    "name": "Tools4.us",
+    "url": "https://tools4.us/"
+  },
+  {
+    "name": "Tool Finder",
+    "url": "https://toolfinder.co/submit-your-tool"
+  },
+  {
+    "name": "TechFaster",
+    "url": "http://techfaster.com/submit-your-company/"
+  },
+  {
+    "name": "Gamezebo",
+    "url": "https://www.gamezebo.com/get-reviewed/"
+  },
+  {
+    "name": "Unloc",
+    "url": "https://www.unloc.tools/submit-tool"
+  },
+  {
+    "name": "Wewaat",
+    "url": "https://www.wewaat.com/submitnewtool"
+  },
+  {
+    "name": "Weekly links & websites",
+    "url": "https://blog.gaetanpautler.com/"
+  },
+  {
+    "name": "Indie Tools",
+    "url": "https://indietools.co/"
+  },
+  {
+    "name": "Indiecorn",
+    "url": "https://www.indiecorn.com/"
+  },
+  {
+    "name": "No Code Family",
+    "url": "https://nocodefamily.com/submit-tool"
+  },
+  {
+    "name": "SpotSaaS",
+    "url": "https://www.spotsaas.com/"
+  },
+  {
+    "name": "MakerPeak",
+    "url": "https://makerpeak.com/"
+  },
+  {
+    "name": "aitoolslist.io",
+    "url": "https://aitoolslist.io/submit-ai-tool/"
+  },
+  {
+    "name": "AI Tools Masters",
+    "url": "https://aitoolsmasters.com/add-ai-tools/"
+  },
+  {
+    "name": "AILibri",
+    "url": "https://ailibri.com/addAi"
+  },
+  {
+    "name": "AI Valley",
+    "url": "https://aivalley.ai/submit-tool/"
+  },
+  {
+    "name": "AIToolsDirectory",
+    "url": "https://aitoolsdirectory.com/submit-tool"
+  },
+  {
+    "name": "AI Directory",
+    "url": "https://www.aidirectory.org/user-submit/"
+  },
+  {
+    "name": "AI Scout",
+    "url": "https://aiscout.net/"
+  },
+  {
+    "name": "AIToolMall",
+    "url": "https://aitoolmall.com/submit/"
+  },
+  {
+    "name": "AI Finder",
+    "url": "https://ai-finder.net/"
+  },
+  {
+    "name": "AIFINDY",
+    "url": "https://aifindy.com/contacto/publica-tu-ia-en-aifindy"
+  },
+  {
+    "name": "AITopTools",
+    "url": "https://aitoptools.com/login?redirect_to=submit"
+  },
+  {
+    "name": "AllThingsAI",
+    "url": "https://allthingsai.com/"
+  },
+  {
+    "name": "aidude.info",
+    "url": "https://aidude.info/submit-your-tool"
+  },
+  {
+    "name": "aitoolhunt",
+    "url": "https://www.aitoolhunt.com/"
+  },
+  {
+    "name": "AI Homes",
+    "url": "https://aihomes.io/submit/submit-tool"
+  },
+  {
+    "name": "AI Library",
+    "url": "https://library.phygital.plus/tool-submission"
+  },
+  {
+    "name": "Airegisters",
+    "url": "https://airegisters.com/"
+  },
+  {
+    "name": "AIcyclopedia",
+    "url": "https://www.aicyclopedia.com/"
+  },
+  {
+    "name": "AiSuperSmart",
+    "url": "https://www.aisupersmart.com/submit-tool/"
+  },
+  {
+    "name": "Ai Business Tool",
+    "url": "https://aibusinesstool.com/"
+  },
+  {
+    "name": "AI Tool For Business",
+    "url": "https://aitoolforbusiness.com/submit-ai-tool/"
+  },
+  {
+    "name": "Aitoolnet",
+    "url": "https://www.aitoolnet.com/submit"
+  },
+  {
+    "name": "aitoolnavigation",
+    "url": "https://www.aitoolnavigation.com/"
+  },
+  {
+    "name": "AI-Hunter.io",
+    "url": "https://ai-hunter.io/submit-ai-tool/"
+  },
+  {
+    "name": "AI Tool Navigation",
+    "url": "https://www.aitoolnavigation.com/"
+  },
+  {
+    "name": "AIToolGuru",
+    "url": "https://aitoolguru.com/"
+  },
+  {
+    "name": "AI News Guru",
+    "url": "https://ainews.guru/ai-app-submission/"
+  },
+  {
+    "name": "AILib",
+    "url": "https://ailib.ru/en/add-ai/"
+  },
+  {
+    "name": "AiToolkit",
+    "url": "https://www.aitoolkit.org/submit"
+  },
+  {
+    "name": "AffordHunt",
+    "url": "https://www.affordhunt.com/onesubmitai"
+  },
+  {
+    "name": "AIWikiTools",
+    "url": "https://aiwikitools.com/submit-a-tool/"
+  },
+  {
+    "name": "AI Worthy",
+    "url": "https://aiworthy.org/submit-tool/"
+  },
+  {
+    "name": "Ai pedia Hub",
+    "url": "https://aipediahub.com/submit/"
+  },
+  {
+    "name": "AI Tools Up",
+    "url": "https://aitoolsup.com/submit-tool/"
+  },
+  {
+    "name": "AIcyclopedia",
+    "url": "https://www.aicyclopedia.com/"
+  },
+  {
+    "name": "AI Mojo",
+    "url": "https://aimojo.pro/"
+  },
+  {
+    "name": "Apps and Websites",
+    "url": "https://appsandwebsites.com/"
+  },
+  {
+    "name": "A List Directory",
+    "url": "http://www.alistdirectory.com/submit.php"
+  },
+  {
+    "name": "ChatAI Apps",
+    "url": "https://www.chataiapps.com/"
+  },
+  {
+    "name": "chatgptdemo",
+    "url": "https://chatgptdemo.com/submit-new-ai-tool/"
+  },
+  {
+    "name": "ChatGPTDemo.pro",
+    "url": "https://chatgptdemo.pro/submit-tool/"
+  },
+  {
+    "name": "Cipinet",
+    "url": "https://www.cipinet.com/submit.php"
+  },
+  {
+    "name": "DigiProToolz",
+    "url": "https://digiprotoolz.com/contact-us/"
+  },
+  {
+    "name": "DropYourAI",
+    "url": "https://www.dropyourai.com/submit-tool"
+  },
+  {
+    "name": "Design Tools AI",
+    "url": "https://designtools.ai/submit/"
+  },
+  {
+    "name": "dang.ai",
+    "url": "https://dang.ai/"
+  },
+  {
+    "name": "Draeno.io",
+    "url": "https://draeno.io/submit-a-tool/"
+  },
+  {
+    "name": "Daily Tech AI",
+    "url": "https://www.dailytech.ai/"
+  },
+  {
+    "name": "Every AI",
+    "url": "https://every-ai.com/submit-tool/"
+  },
+  {
+    "name": "Future Tools",
+    "url": "https://www.futuretools.io/submit-a-tool"
+  },
+  {
+    "name": "Future AGI Tools",
+    "url": "https://www.futureagitools.com/submit-a-site"
+  },
+  {
+    "name": "Futurepedia",
+    "url": "https://www.futurepedia.io/basic"
+  },
+  {
+    "name": "Free AI Tools Directory",
+    "url": "https://free-ai-tools-directory.com/submit-request/"
+  },
+  {
+    "name": "fastpedia.io",
+    "url": "https://fastpedia.io/submit-tool/"
+  },
+  {
+    "name": "Foundr.ai",
+    "url": "https://foundr.ai/"
+  },
+  {
+    "name": "faind.ai",
+    "url": "https://faind.ai/"
+  },
+  {
+    "name": "findcool.tools",
+    "url": "https://www.findcool.tools/submit-tool"
+  },
+  {
+    "name": "Full Stack AI",
+    "url": "https://fullstackai.co/submit-a-tool/"
+  },
+  {
+    "name": "PoweredbyAI",
+    "url": "https://poweredbyai.app/submit-tool"
+  },
+  {
+    "name": "Paxi",
+    "url": "https://paxi.ai/submit"
+  },
+  {
+    "name": "Human Alternative",
+    "url": "https://www.humanalternative.com/submit-resource/submit-a-tool"
+  },
+  {
+    "name": "Human or Not",
+    "url": "https://www.humanornot.co/submit-tool"
+  },
+  {
+    "name": "Insidr.ai",
+    "url": "https://www.insidr.ai/submit-tools/"
+  },
+  {
+    "name": "GPT-3 Demo",
+    "url": "https://gpt3demo.com/"
+  },
+  {
+    "name": "Gate2AI",
+    "url": "https://www.gate2ai.com/zh-cn/submit-tool"
+  },
+  {
+    "name": "Stork",
+    "url": "https://www.stork.ai/"
+  },
+  {
+    "name": "Supertools",
+    "url": "https://supertools.therundown.ai/submit"
+  },
+  {
+    "name": "Startup AI tools",
+    "url": "https://www.startupaitools.com/submit-ai-tools/"
+  },
+  {
+    "name": "SaaSBaba",
+    "url": "https://saasbaba.com/add-ai-tool/"
+  },
+  {
+    "name": "SaaS GPTers",
+    "url": "https://saasgpters.com/"
+  },
+  {
+    "name": "SEOFAI",
+    "url": "https://seofai.com/submit-tool/"
+  },
+  {
+    "name": "SpotTheAI",
+    "url": "https://www.spottheai.com/submit"
+  },
+  {
+    "name": "Nextool AI",
+    "url": "https://www.nextool.ai/submit-a-tool"
+  },
+  {
+    "name": "MarsX AI startups",
+    "url": "https://www.marsx.dev/ai-startups"
+  },
+  {
+    "name": "GPTForge",
+    "url": "https://gptforge.net/"
+  },
+  {
+    "name": "OpenFuture AI",
+    "url": "https://openfuture.ai/zh/submit-tool"
+  },
+  {
+    "name": "OECD.AI",
+    "url": "https://oecd.ai/en/catalogue/tools/submit"
+  },
+  {
+    "name": "TopApps.Ai",
+    "url": "https://topapps.ai/submit"
+  },
+  {
+    "name": "ToolHunter.ai",
+    "url": "https://www.toolhunter.ai/submit-a-tool"
+  },
+  {
+    "name": "ToolPilot",
+    "url": "https://www.toolpilot.ai/pages/submit-your-ai-tool"
+  },
+  {
+    "name": "ToolScout",
+    "url": "https://toolscout.ai/submit"
+  },
+  {
+    "name": "Toolbase AI",
+    "url": "https://www.toolbase.ai/toolbase/submit-tool"
+  },
+  {
+    "name": "ToolsAI.net",
+    "url": "https://toolsai.net/add-listing/"
+  },
+  {
+    "name": "TrackBes",
+    "url": "https://trackbes.com/submit-tool"
+  },
+  {
+    "name": "ToolStory.net",
+    "url": "https://toolsstory.net/add-listing/"
+  },
+  {
+    "name": "TheToolBus.ai",
+    "url": "https://www.thetoolbus.ai/submit-tools"
+  },
+  {
+    "name": "tools-ai.online",
+    "url": "https://www.tools-ai.online/tool-submit"
+  },
+  {
+    "name": "The AI Warehouse",
+    "url": "https://www.thewarehouse.ai/product-submission"
+  },
+  {
+    "name": "VTeam",
+    "url": "https://vteam.ai/submit-tool"
+  },
+  {
+    "name": "itworldcanada.com/ai",
+    "url": "https://www.itworldcanada.com/ai/"
+  },
+  {
+    "name": "Interested In AI",
+    "url": "https://www.interestedinai.com/submit-tool"
+  },
+  {
+    "name": "Neil Patel AI Tools",
+    "url": "https://aitools.neilpatel.com/submit/"
+  },
+  {
+    "name": "NextGenTools",
+    "url": "https://nextgentools.me/submit-your-tool"
+  },
+  {
+    "name": "YourAITool",
+    "url": "https://youraitool.com/submit-tool"
+  },
+  {
+    "name": "Super AI Tools",
+    "url": "https://superaitools.io/"
+  },
+  {
+    "name": "All Business Directory",
+    "url": "https://www.allbusinessdirectory.biz/directory.php?page=submission-guidelines"
+  },
+  {
+    "name": "All States USA Directory",
+    "url": "https://www.allstatesusadirectory.com/submit.php"
+  },
+  {
+    "name": "Australia Web Directory",
+    "url": "https://www.australiawebdirectory.net/submit.php"
+  },
+  {
+    "name": "ABC Directory",
+    "url": "https://www.abc-directory.com/"
+  },
+  {
+    "name": "BusinessSeek.biz",
+    "url": "https://www.businessseek.biz/"
+  },
+  {
+    "name": "Britain business directory",
+    "url": "https://www.britainbusinessdirectory.com/"
+  },
+  {
+    "name": "Blogarama",
+    "url": "https://www.blogarama.com/"
+  },
+  {
+    "name": "Canada Web Dir",
+    "url": "https://www.canadawebdir.com/"
+  },
+  {
+    "name": "CanadianDirectory.org",
+    "url": "https://www.canadiandirectory.org/"
+  },
+  {
+    "name": "Dizila",
+    "url": "https://www.dizila.com/submit"
+  },
+  {
+    "name": "Dig a Business",
+    "url": "https://www.digabusiness.com/"
+  },
+  {
+    "name": "DesignRush",
+    "url": "https://www.designrush.com/submit/agency"
+  },
+  {
+    "name": "Domaining.in",
+    "url": "http://domaining.in/"
+  },
+  {
+    "name": "Sitelike",
+    "url": "https://www.sitelike.org/add-site"
+  },
+  {
+    "name": "Submission Web Directory",
+    "url": "https://www.submissionwebdirectory.com/"
+  },
+  {
+    "name": "Highrankdirectory.com",
+    "url": "https://www.highrankdirectory.com/submit.php"
+  },
+  {
+    "name": "Sonic Run",
+    "url": "https://www.sonicrun.com/freelisting.html"
+  },
+  {
+    "name": "Site Promotion Directory",
+    "url": "https://www.sitepromotiondirectory.com/submit.php"
+  },
+  {
+    "name": "SitesWebdirectory",
+    "url": "https://www.siteswebdirectory.com/submit.php"
+  },
+  {
+    "name": "Submit.biz",
+    "url": "https://www.submit.biz/"
+  },
+  {
+    "name": "Skoobe.biz",
+    "url": "https://www.skoobe.biz/"
+  },
+  {
+    "name": "Marketing Internet Directory",
+    "url": "https://www.marketinginternetdirectory.com/submit.php"
+  },
+  {
+    "name": "Localsites",
+    "url": "http://www.localsites.ca/"
+  },
+  {
+    "name": "Promote Business Directory",
+    "url": "https://www.promotebusinessdirectory.com/submit.php"
+  },
+  {
+    "name": "ProLinkDirectory",
+    "url": "https://www.prolinkdirectory.com/submit.php"
+  },
+  {
+    "name": "PayOnceApps",
+    "url": "https://payonceapps.com/add-your-app/"
+  },
+  {
+    "name": "GainWeb.org",
+    "url": "https://gainweb.org/"
+  },
+  {
+    "name": "GMA Web Directory",
+    "url": "https://www.gmawebdirectory.com/submit.php"
+  },
+  {
+    "name": "Good Design Tools",
+    "url": "https://www.gooddesign.tools/"
+  },
+  {
+    "name": "Jayde",
+    "url": "https://www.jayde.com/"
+  },
+  {
+    "name": "Free Directory",
+    "url": "https://www.directory-free.com/submit/submit.php"
+  },
+  {
+    "name": "Fire Directory",
+    "url": "https://www.fire-directory.com/"
+  },
+  {
+    "name": "Free PR Web Directory",
+    "url": "https://www.freeprwebdirectory.com/submit.php"
+  },
+  {
+    "name": "Free Internet Web Directory",
+    "url": "https://www.freeinternetwebdirectory.com/submit.php"
+  },
+  {
+    "name": "findatool",
+    "url": "https://www.findatool.io/add-a-tool"
+  },
+  {
+    "name": "Info-Listings",
+    "url": "https://info-listings.com/submit.php"
+  },
+  {
+    "name": "insanelycooltools",
+    "url": "https://www.insanelycooltools.com/submit"
+  },
+  {
+    "name": "TXTLinks",
+    "url": "https://www.txtlinks.com/sug_url.php?cat_id=0"
+  },
+  {
+    "name": "Text Link Directory",
+    "url": "https://www.textlinkdirectory.com/"
+  },
+  {
+    "name": "Tsection",
+    "url": "https://www.tsection.com/"
+  },
+  {
+    "name": "The Web Directory",
+    "url": "https://www.the-web-directory.co.uk/terms.php"
+  },
+  {
+    "name": "Thales Directory",
+    "url": "https://thalesdirectory.com/submit/"
+  },
+  {
+    "name": "Quality Internet Directory",
+    "url": "https://www.qualityinternetdirectory.com/submit.php"
+  },
+  {
+    "name": "Unmatched Style",
+    "url": "https://unmatchedstyle.com/"
+  },
+  {
+    "name": "UK Internet Directory",
+    "url": "https://www.ukinternetdirectory.net/submit.php"
+  },
+  {
+    "name": "USA Websites Directory",
+    "url": "https://www.usawebsitesdirectory.com/submit.php"
+  },
+  {
+    "name": "Offpagesavvy",
+    "url": "https://www.offpagesavvy.com/submit-your-site/"
+  },
+  {
+    "name": "OnToplist.com",
+    "url": "https://www.ontoplist.com/"
+  },
+  {
+    "name": "once.tools",
+    "url": "https://once.tools/"
+  },
+  {
+    "name": "Viewfreeads.com",
+    "url": "https://www.viewfreeads.com/"
+  },
+  {
+    "name": "Viesearch",
+    "url": "https://viesearch.com/submit"
+  },
+  {
+    "name": "World Web Directory",
+    "url": "https://www.worldweb-directory.com/add.php"
+  },
+  {
+    "name": "Webwiki",
+    "url": "https://www.webwiki.com/info/add-website.html"
+  },
+  {
+    "name": "01webdirectory",
+    "url": "https://www.01webdirectory.com/"
+  },
+  {
+    "name": "247WebDirectory.com",
+    "url": "https://www.247webdirectory.com/"
+  },
+  {
+    "name": "700.tools",
+    "url": "https://700.tools/add"
+  },
+  {
+    "name": "9Sites.net",
+    "url": "https://www.9sites.net/addurl.php"
+  },
+  {
+    "name": "buildinpublic.com",
+    "url": "https://buildinpublic.com/"
+  },
+  {
+    "name": "Show HN",
+    "url": "https://news.ycombinator.com/submit"
+  },
+  {
+    "name": "Product Hunt",
+    "url": "https://www.producthunt.com/"
+  },
+  {
+    "name": "Dev Hunt",
+    "url": "https://devhunt.org/"
+  },
+  {
+    "name": "Uneed",
+    "url": "https://www.uneed.best/"
+  },
+  {
+    "name": "indiehackers.com",
+    "url": "https://www.indiehackers.com/"
+  },
+  {
+    "name": "Awesome Indie",
+    "url": "https://awesomeindie.com/"
+  },
+  {
+    "name": "Lobsters:",
+    "url": "https://lobste.rs/about"
+  },
+  {
+    "name": "GitHub Trending:",
+    "url": "https://github.com/trending"
+  },
+  {
+    "name": "Stack Overflow",
+    "url": "https://stackoverflow.com/questions"
+  },
+  {
+    "name": "dev.to",
+    "url": "https://dev.to/"
+  },
+  {
+    "name": "Qiita",
+    "url": "https://qiita.com/"
+  },
+  {
+    "name": "Velog",
+    "url": "https://velog.io/"
+  },
+  {
+    "name": "Makerlog",
+    "url": "https://getmakerlog.com/"
+  },
+  {
+    "name": "Open Makers",
+    "url": "https://openmakers.io/"
+  },
+  {
+    "name": "Hashnode",
+    "url": "https://hashnode.com/discussions?source=header"
+  },
+  {
+    "name": "HackerNoon",
+    "url": "https://hackernoon.com/"
+  },
+  {
+    "name": "forums.ilounge.com",
+    "url": "https://forums.ilounge.com/"
+  }
+]

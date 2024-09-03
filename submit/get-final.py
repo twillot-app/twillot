@@ -32,7 +32,7 @@ def process_json(input_path, output_path):
         json.dump(result, file, ensure_ascii=False, indent=2)
 
     for item in result:
-        print(item["domain"], item["visits"])
+        print("site:" + item["domain"])
     print(f"原始数据项数: {len(data)}")
     print(f"去重后数据项数: {len(result)}")
     print(f"结果已保存到: {output_path}")

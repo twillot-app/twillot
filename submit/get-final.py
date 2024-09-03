@@ -12,7 +12,8 @@ def process_json(input_path, output_path):
     unique_domains = {}
 
     for item in data:
-        domain = item["domain"]
+        domain: str = item["domain"]
+        domain = domain.lower().replace("www.", "")
         if domain not in unique_domains:
             unique_domains[domain] = item
         else:
@@ -30,6 +31,8 @@ def process_json(input_path, output_path):
     with open(output_path, "w", encoding="utf-8") as file:
         json.dump(result, file, ensure_ascii=False, indent=2)
 
+    for item in result:
+        print(item["domain"], item["visits"])
     print(f"原始数据项数: {len(data)}")
     print(f"去重后数据项数: {len(result)}")
     print(f"结果已保存到: {output_path}")

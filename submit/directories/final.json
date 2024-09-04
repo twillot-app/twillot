@@ -2520,6 +2520,69 @@
     "countryRank.rank": 29290
   },
   {
+    "domain": "www.starterstory.com",
+    "title": "starter story: learn how people are starting successful businesses",
+    "description": "starter story interviews successful entrepreneurs and shares the stories behind their businesses. in each interview, we ask how they got started, how they grew, and how they run their business today.",
+    "category": "computers_electronics_and_technology/computers_electronics_and_technology",
+    "screenshot": "https://site-images.similarcdn.com/image?url=starterstory.com&t=1&s=1&h=07ddf5e78055dc7b5991dfa2a86b819df0ea2fb3bd4328ca25051e0cee603c3f",
+    "globalRank": 61602,
+    "countryRank": {
+      "Country": 840,
+      "CountryCode": "US",
+      "Rank": 35854
+    },
+    "categoryRank": "882",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 1054684,
+      "2024-06-01": 967489,
+      "2024-07-01": 1005384
+    },
+    "bounceRate": "0.5154599739253058",
+    "pagesPerVisit": "2.6501908470301405",
+    "visits": "1005384",
+    "timeOnSite": "114.82718017261361",
+    "topCountryShares": [
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.2937086877305033
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.11600302811141824
+      },
+      {
+        "Country": 826,
+        "CountryCode": "GB",
+        "Value": 0.09031122651327074
+      },
+      {
+        "Country": 586,
+        "CountryCode": "PK",
+        "Value": 0.026456489019304922
+      },
+      {
+        "Country": 124,
+        "CountryCode": "CA",
+        "Value": 0.024348447637398123
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.05965379991246085,
+      "Paid Referrals": 0.0019706810099177604,
+      "Mail": 0.0010677294427237586,
+      "Referrals": 0.03832932378401396,
+      "Search": 0.5338637514654991,
+      "Direct": 0.36511471316259136
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 840,
+    "countryRank.countryCode": "US",
+    "countryRank.rank": 35854
+  },
+  {
     "domain": "www.sitelike.org",
     "title": "similar websites search | similar sites like",
     "description": "find similar websites, competitors and related sites. sitelike.org helps you to find similar, related and alternative websites. similar websites search | similar sites like",
@@ -2833,6 +2896,69 @@
     "countryRank.country": 840,
     "countryRank.countryCode": "US",
     "countryRank.rank": 44914
+  },
+  {
+    "domain": "www.tenereteam.com",
+    "title": "tenereteam - save money and plant trees when you shop",
+    "description": "shop at our 30,000+  retail partners and tenere automatically applies coupons to save you money.",
+    "category": "e-commerce_and_shopping/coupons_and_rebates",
+    "screenshot": "https://site-images.similarcdn.com/image?url=tenereteam.com&t=1&s=1&h=f3d98941731a9653b5dafbcd5f70a6d6f5a77b4a0598f1327a26e748ccd81590",
+    "globalRank": 90149,
+    "countryRank": {
+      "Country": 840,
+      "CountryCode": "US",
+      "Rank": 29833
+    },
+    "categoryRank": "122",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 314612,
+      "2024-06-01": 437648,
+      "2024-07-01": 578418
+    },
+    "bounceRate": "0.38925505942414057",
+    "pagesPerVisit": "2.9299287609561566",
+    "visits": "578418",
+    "timeOnSite": "93.41048873590061",
+    "topCountryShares": [
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.5267717701114879
+      },
+      {
+        "Country": 704,
+        "CountryCode": "VN",
+        "Value": 0.05505881687949616
+      },
+      {
+        "Country": 826,
+        "CountryCode": "GB",
+        "Value": 0.04280723904981682
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.029936131721792263
+      },
+      {
+        "Country": 124,
+        "CountryCode": "CA",
+        "Value": 0.027476696982195434
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.012976905116893466,
+      "Paid Referrals": 0.0022652427450679537,
+      "Mail": 0.0006390728845287699,
+      "Referrals": 0.053724564764235073,
+      "Search": 0.6402806405254834,
+      "Direct": 0.2901135739637882
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 840,
+    "countryRank.countryCode": "US",
+    "countryRank.rank": 29833
   },
   {
     "domain": "hashnode.com",
@@ -6650,6 +6776,69 @@
     "countryRank.country": 380,
     "countryRank.countryCode": "IT",
     "countryRank.rank": 11836
+  },
+  {
+    "domain": "softgist.com",
+    "title": "softgist - the #1 destination for finding ai tools",
+    "description": "discover the best ai tools for your needs at softgist, your go-to platform for ai innovation.",
+    "category": "computers_electronics_and_technology/graphics_multimedia_and_web_design",
+    "screenshot": "https://site-images.similarcdn.com/image?url=softgist.com&t=1&s=1&h=3f63e90339d8111ccef0119e7b91fae34341e6209b0d4731be74103ae1dc0b53",
+    "globalRank": 389151,
+    "countryRank": {
+      "Country": 356,
+      "CountryCode": "IN",
+      "Rank": 99411
+    },
+    "categoryRank": "1908",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 110731,
+      "2024-06-01": 96889,
+      "2024-07-01": 135135
+    },
+    "bounceRate": "0.4780570605660196",
+    "pagesPerVisit": "1.356705359247922",
+    "visits": "135135",
+    "timeOnSite": "20.173107698438088",
+    "topCountryShares": [
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.11709746904095934
+      },
+      {
+        "Country": 704,
+        "CountryCode": "VN",
+        "Value": 0.06564080610738365
+      },
+      {
+        "Country": 124,
+        "CountryCode": "CA",
+        "Value": 0.05297942777495652
+      },
+      {
+        "Country": 826,
+        "CountryCode": "GB",
+        "Value": 0.05014528920670069
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.045374157824955824
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.037397494911339736,
+      "Paid Referrals": 0.006173251980122182,
+      "Mail": 0.0009731384515306468,
+      "Referrals": 0.0717264891405448,
+      "Search": 0.565301869562578,
+      "Direct": 0.317731793514965
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 356,
+    "countryRank.countryCode": "IN",
+    "countryRank.rank": 99411
   },
   {
     "domain": "nocodefounders.com",
@@ -14045,6 +14234,69 @@
     "countryRank.rank": 264272
   },
   {
+    "domain": "console.dev",
+    "title": "console newsletter - the best tools for developers",
+    "description": "a free weekly email digest of the best tools for developers.",
+    "category": "computers_electronics_and_technology/programming_and_developer_software",
+    "screenshot": "https://site-images.similarcdn.com/image?url=console.dev&t=1&s=1&h=281b011a6b3ffd6ecb9f91a5445e8683fdbcaf1000b43558ff15f2dc4eb52dd4",
+    "globalRank": 1816779,
+    "countryRank": {
+      "Country": 840,
+      "CountryCode": "US",
+      "Rank": 1043241
+    },
+    "categoryRank": "17171",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 8446,
+      "2024-06-01": 12473,
+      "2024-07-01": 17251
+    },
+    "bounceRate": "0.5224753709471147",
+    "pagesPerVisit": "1.425022639148967",
+    "visits": "17251",
+    "timeOnSite": "24.242394359169005",
+    "topCountryShares": [
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.45645826654246957
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.23102696920283666
+      },
+      {
+        "Country": 616,
+        "CountryCode": "PL",
+        "Value": 0.18330614359738917
+      },
+      {
+        "Country": 826,
+        "CountryCode": "GB",
+        "Value": 0.10724051165699154
+      },
+      {
+        "Country": 392,
+        "CountryCode": "JP",
+        "Value": 0.017698065607503463
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.035342187890695126,
+      "Paid Referrals": 0.004198641767849574,
+      "Mail": 0.0007454206967390509,
+      "Referrals": 0.06682028938281176,
+      "Search": 0.3808111000752073,
+      "Direct": 0.5120184986051922
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 840,
+    "countryRank.countryCode": "US",
+    "countryRank.rank": 1043241
+  },
+  {
     "domain": "www.promotebusinessdirectory.com",
     "title": "directory web promotion",
     "description": "",
@@ -15268,6 +15520,69 @@
     "countryRank.country": 356,
     "countryRank.countryCode": "IN",
     "countryRank.rank": 260543
+  },
+  {
+    "domain": "techlomedia.in",
+    "title": "techlomedia - technology, gadgets, apps, gaming, and reviews",
+    "description": "techlomedia covers technology news, social media news, the latest gadgets, software, gaming, mobile apps, and reviews. gadgets reviews, games reviews, security news.",
+    "category": "computers_electronics_and_technology/computers_electronics_and_technology",
+    "screenshot": "https://site-images.similarcdn.com/image?url=techlomedia.in&t=1&s=1&h=d3d0e5033e3cd41125ce8fb273022b96b5a2f92b63b9b46d8d8d18cd2759afd0",
+    "globalRank": 1976490,
+    "countryRank": {
+      "Country": 356,
+      "CountryCode": "IN",
+      "Rank": 156334
+    },
+    "categoryRank": "4805",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 14796,
+      "2024-06-01": 14409,
+      "2024-07-01": 13303
+    },
+    "bounceRate": "0.5105541950169706",
+    "pagesPerVisit": "2.0053467994812886",
+    "visits": "13303",
+    "timeOnSite": "29.7455487572471",
+    "topCountryShares": [
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.6274848831230393
+      },
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.132721153830395
+      },
+      {
+        "Country": 360,
+        "CountryCode": "ID",
+        "Value": 0.08460901957264215
+      },
+      {
+        "Country": 826,
+        "CountryCode": "GB",
+        "Value": 0.055640429377871274
+      },
+      {
+        "Country": 620,
+        "CountryCode": "PT",
+        "Value": 0.05101817141138648
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.02848921352461247,
+      "Paid Referrals": 0.005858020968718846,
+      "Mail": 0.0008578520366187921,
+      "Referrals": 0.07934057833309546,
+      "Search": 0.5221805367888688,
+      "Direct": 0.36239710801759395
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 356,
+    "countryRank.countryCode": "IN",
+    "countryRank.rank": 156334
   },
   {
     "domain": "americaninno.com",
@@ -16513,6 +16828,69 @@
     "countryRank.rank": 138983
   },
   {
+    "domain": "landings.dev",
+    "title": "landings - landing page examples",
+    "description": "find the best landing pages for your design inspiration based on your preference",
+    "category": "computers_electronics_and_technology/computers_electronics_and_technology",
+    "screenshot": "https://site-images.similarcdn.com/image?url=landings.dev&t=1&s=1&h=3e1eab6a1c6b8746209bf73aa24d2538f6f778832f08ad3181b80828f6bc6b4c",
+    "globalRank": 2559693,
+    "countryRank": {
+      "Country": 566,
+      "CountryCode": "NG",
+      "Rank": 36097
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 9818,
+      "2024-06-01": 6852,
+      "2024-07-01": 10078
+    },
+    "bounceRate": "0.46885039362418507",
+    "pagesPerVisit": "1.8238064956108808",
+    "visits": "10078",
+    "timeOnSite": "15.393338870772379",
+    "topCountryShares": [
+      {
+        "Country": 152,
+        "CountryCode": "CL",
+        "Value": 0.30441832316102746
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.21871816007572903
+      },
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.1673892257965136
+      },
+      {
+        "Country": 804,
+        "CountryCode": "UA",
+        "Value": 0.13582717117484802
+      },
+      {
+        "Country": 76,
+        "CountryCode": "BR",
+        "Value": 0.04643233570161701
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.03311366211208681,
+      "Paid Referrals": 0.004222661607904876,
+      "Mail": 0.0012199165552719484,
+      "Referrals": 0.11213758874965032,
+      "Search": 0.4484112283176011,
+      "Direct": 0.40027293686693544
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 566,
+    "countryRank.countryCode": "NG",
+    "countryRank.rank": 36097
+  },
+  {
     "domain": "www.myfrenchstartup.com",
     "title": "liste startups france, plus grand annuaire de startups francaises",
     "description": "myfrenchstartup est la solution saas de référence pour l’écosystème des startups en france. nous déployons une gamme de services sans équivalent pour faciliter l’essor de l’innovation française, en général, et les relations entrepreneurs, investisseurs, corporate et institutionnels, en particulier. data actualisées en temps réel, analyses dynamiques de la startup jusqu’aux secteurs, market place pour les rencontres de talents et les partenariats… impossible n’est pas myfrenchstartup.",
@@ -16995,6 +17373,69 @@
     "countryRank.country": 356,
     "countryRank.countryCode": "IN",
     "countryRank.rank": 174727
+  },
+  {
+    "domain": "www.toptools.ai",
+    "title": "the #1 ai tools directory | toptools.ai",
+    "description": "visit the #1 ai tools directory and discover the best ai tools to boost your business. outsmart your competition with the power of artificial intelligence.",
+    "category": "computers_electronics_and_technology/graphics_multimedia_and_web_design",
+    "screenshot": "https://site-images.similarcdn.com/image?url=toptools.ai&t=1&s=1&h=84cea9681e8fc3811803ba619cdd53aad47103667170f324fc086d4d51fa0b92",
+    "globalRank": 2903745,
+    "countryRank": {
+      "Country": 840,
+      "CountryCode": "US",
+      "Rank": 1970588
+    },
+    "categoryRank": "12890",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 9508,
+      "2024-06-01": 9250,
+      "2024-07-01": 9043
+    },
+    "bounceRate": "0.4814376717983535",
+    "pagesPerVisit": "1.5851915660868683",
+    "visits": "9043",
+    "timeOnSite": "28.683758643760786",
+    "topCountryShares": [
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.1734279959247883
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.1389911779846922
+      },
+      {
+        "Country": 250,
+        "CountryCode": "FR",
+        "Value": 0.11499870945069718
+      },
+      {
+        "Country": 724,
+        "CountryCode": "ES",
+        "Value": 0.0791129907973447
+      },
+      {
+        "Country": 76,
+        "CountryCode": "BR",
+        "Value": 0.07249134264875931
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.038002382101061216,
+      "Paid Referrals": 0.005812960744154317,
+      "Mail": 0.0009520232551845199,
+      "Referrals": 0.17553598272098608,
+      "Search": 0.4016156685291367,
+      "Direct": 0.3780809826494772
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 840,
+    "countryRank.countryCode": "US",
+    "countryRank.rank": 1970588
   },
   {
     "domain": "ai-hunter.io",
@@ -18979,6 +19420,69 @@
     "countryRank.country": 356,
     "countryRank.countryCode": "IN",
     "countryRank.rank": 360384
+  },
+  {
+    "domain": "startups.snapmunk.com",
+    "title": "snapmunk | startup directory",
+    "description": "discover innovative startups, incubators and investors through snapmunk startup directories",
+    "category": "computers_electronics_and_technology/computers_electronics_and_technology",
+    "screenshot": "https://site-images.similarcdn.com/image?url=startups.snapmunk.com&t=1&s=1&h=c99dfa9e6525cad6df020d6ce8f7d8aa2c518bb67746230f2df2dc26bafe36a0",
+    "globalRank": null,
+    "countryRank": {
+      "Country": null,
+      "CountryCode": null,
+      "Rank": null
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 3774,
+      "2024-06-01": 4843,
+      "2024-07-01": 6065
+    },
+    "bounceRate": "0.38463334632161006",
+    "pagesPerVisit": "6.89516933728354",
+    "visits": "6065",
+    "timeOnSite": "319.8259412724089",
+    "topCountryShares": [
+      {
+        "Country": 586,
+        "CountryCode": "PK",
+        "Value": 0.40890721258274904
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.37474439257210074
+      },
+      {
+        "Country": 784,
+        "CountryCode": "AE",
+        "Value": 0.1128949298615316
+      },
+      {
+        "Country": 276,
+        "CountryCode": "DE",
+        "Value": 0.038697543944759695
+      },
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.030890291603337713
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.023603173165767606,
+      "Paid Referrals": 0.00672613523230628,
+      "Mail": 0.000971192027351846,
+      "Referrals": 0.07988426709617714,
+      "Search": 0.4601070340951989,
+      "Direct": 0.42804272767369766
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": null,
+    "countryRank.countryCode": null,
+    "countryRank.rank": null
   },
   {
     "domain": "creator.supply",
@@ -22269,6 +22773,59 @@
     "countryRank.rank": 346763
   },
   {
+    "domain": "aihabr.com",
+    "title": "онлайн каталог нейросетей и инструментов искусственного интеллекта (ai) | aihabr",
+    "description": "получите инструменты искусственного интеллекта, необходимые для успеха, с помощью aihabr, который собирает и систематизирует лучшие доступные инструменты искусственного интеллекта. узнайте, как использовать нейронные сети.",
+    "category": "computers_electronics_and_technology/computers_electronics_and_technology",
+    "screenshot": "https://site-images.similarcdn.com/image?url=aihabr.com&t=1&s=1&h=e050d1c967e5d401ae46f7f298f33cd86ed0328baa7b78a57148d0045574089b",
+    "globalRank": 5994964,
+    "countryRank": {
+      "Country": 643,
+      "CountryCode": "RU",
+      "Rank": 402124
+    },
+    "categoryRank": "11996",
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 11679,
+      "2024-06-01": 5715,
+      "2024-07-01": 2414
+    },
+    "bounceRate": "0.45952754297529513",
+    "pagesPerVisit": "2.2642733106340645",
+    "visits": "2414",
+    "timeOnSite": "54.31879971367855",
+    "topCountryShares": [
+      {
+        "Country": 643,
+        "CountryCode": "RU",
+        "Value": 0.8186148719893843
+      },
+      {
+        "Country": 804,
+        "CountryCode": "UA",
+        "Value": 0.11239597098923075
+      },
+      {
+        "Country": 528,
+        "CountryCode": "NL",
+        "Value": 0.06898915702138513
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.017910456064530948,
+      "Paid Referrals": 0.0016641195189134282,
+      "Mail": 0.0017535728234650237,
+      "Referrals": 0.07027948069655125,
+      "Search": 0.5179455788056456,
+      "Direct": 0.3904467920908936
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 643,
+    "countryRank.countryCode": "RU",
+    "countryRank.rank": 402124
+  },
+  {
     "domain": "once.tools",
     "title": "your guide to software you only have to pay for once - once.tools",
     "description": "",
@@ -24431,6 +24988,59 @@
     "countryRank.rank": 5843485
   },
   {
+    "domain": "whatisaitools.com",
+    "title": "best ai tools directory & ai tools list - what is ai tools",
+    "description": "what is ai tools is the largest ai tools directory & gpt store apps. over 11600+ ai websites and ai tools. ai tools list and gpts store apps list are auto updated by chatgpt.",
+    "category": "",
+    "screenshot": "https://site-images.similarcdn.com/image?url=whatisaitools.com&t=1&s=1&h=5a4369a4a6c75b333c27e3b1d467c90ea0d36ba627d22dade947a42018e04057",
+    "globalRank": 9668652,
+    "countryRank": {
+      "Country": 840,
+      "CountryCode": "US",
+      "Rank": 5289511
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 0,
+      "2024-06-01": 488,
+      "2024-07-01": 1346
+    },
+    "bounceRate": "0.48474335060199486",
+    "pagesPerVisit": "1.5917180234610167",
+    "visits": "1346",
+    "timeOnSite": "21.009392452030784",
+    "topCountryShares": [
+      {
+        "Country": 158,
+        "CountryCode": "TW",
+        "Value": 0.5579493755578288
+      },
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.36674250093635635
+      },
+      {
+        "Country": 392,
+        "CountryCode": "JP",
+        "Value": 0.07530812350581512
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.004812028153303796,
+      "Paid Referrals": 0.001897783293489566,
+      "Mail": 0.00022336396796467315,
+      "Referrals": 0.9014899113829702,
+      "Search": 0.05098540357960791,
+      "Direct": 0.0399681479973769
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 840,
+    "countryRank.countryCode": "US",
+    "countryRank.rank": 5289511
+  },
+  {
     "domain": "email.geeks.chat",
     "title": "email geeks",
     "description": "meta description",
@@ -24646,6 +25256,64 @@
     "countryRank.country": 840,
     "countryRank.countryCode": "US",
     "countryRank.rank": 5052697
+  },
+  {
+    "domain": "www.saasrefs.com",
+    "title": "saasrefs | the ultimate saas database",
+    "description": "a directory of saas tools that uses traffic analytics as social proof to rank tools.",
+    "category": "",
+    "screenshot": "https://site-images.similarcdn.com/image?url=saasrefs.com&t=1&s=1&h=d66b994a89c7740ee055cd713d87160d4fac86ce0c77ee925c98e2586536fe8b",
+    "globalRank": 11167262,
+    "countryRank": {
+      "Country": 826,
+      "CountryCode": "GB",
+      "Rank": 1194879
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 526,
+      "2024-06-01": 1738,
+      "2024-07-01": 1245
+    },
+    "bounceRate": "0.44242855547965626",
+    "pagesPerVisit": "1.3409119666586684",
+    "visits": "1245",
+    "timeOnSite": "6.760912263318475",
+    "topCountryShares": [
+      {
+        "Country": 826,
+        "CountryCode": "GB",
+        "Value": 0.521419155070794
+      },
+      {
+        "Country": 840,
+        "CountryCode": "US",
+        "Value": 0.2857470976321982
+      },
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.14618882146269982
+      },
+      {
+        "Country": 616,
+        "CountryCode": "PL",
+        "Value": 0.04664492583430815
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.04277775054086875,
+      "Paid Referrals": 0.006477968021475116,
+      "Mail": 0.0018483814782688493,
+      "Referrals": 0.09170138083154318,
+      "Search": 0.5934033425747431,
+      "Direct": 0.25985719182255923
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 826,
+    "countryRank.countryCode": "GB",
+    "countryRank.rank": 1194879
   },
   {
     "domain": "crohacks.slack.com",
@@ -27378,6 +28046,49 @@
     "countryRank.rank": 6849030
   },
   {
+    "domain": "creatortools.co",
+    "title": "creator tools",
+    "description": "a new tool that blends your everyday work apps into one. it's the all-in-one workspace for you and your team",
+    "category": "",
+    "screenshot": "https://site-images.similarcdn.com/image?url=creatortools.co&t=1&s=1&h=48a04e383a51f8f222282d489864b7c3836a34820624ab1a57a76fdc4a903642",
+    "globalRank": 24504606,
+    "countryRank": {
+      "Country": 840,
+      "CountryCode": "US",
+      "Rank": 9465072
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 72,
+      "2024-06-01": 1272,
+      "2024-07-01": 365
+    },
+    "bounceRate": "0.49550940707793323",
+    "pagesPerVisit": "1.0119262210723838",
+    "visits": "365",
+    "timeOnSite": "0",
+    "topCountryShares": [
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 1
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.048179931204397126,
+      "Paid Referrals": 0.0016195842864555506,
+      "Mail": 8.583263992490334e-05,
+      "Referrals": 0.3416961443604601,
+      "Search": 0.010066937482080493,
+      "Direct": 0.5983515700266819
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 840,
+    "countryRank.countryCode": "US",
+    "countryRank.rank": 9465072
+  },
+  {
     "domain": "airadar.getinference.com",
     "title": "getinference ai radar",
     "description": "getinference ai radar offers a directory of ai tools for marketing, content and creative",
@@ -27744,6 +28455,49 @@
     "countryRank.country": 356,
     "countryRank.countryCode": "IN",
     "countryRank.rank": 488735
+  },
+  {
+    "domain": "aitach.com",
+    "title": "ai tools directory | ai helper tools",
+    "description": "discover and compare the latest ai tools for your business needs. our directory features a comprehensive list of tools for natural language processing, computer vision, predictive analytics, and more. browse reviews, pricing, and features to find the best solution for your organization. stay ahead of the competition with cutting-edge ai technology.",
+    "category": "",
+    "screenshot": "https://site-images.similarcdn.com/image?url=aitach.com&t=1&s=1&h=282ee215ec25833835f129466d4614e1243c6820c525b8b3021f66ccbbbb68f0",
+    "globalRank": 25100632,
+    "countryRank": {
+      "Country": 356,
+      "CountryCode": "IN",
+      "Rank": 1022443
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 814,
+      "2024-06-01": 1008,
+      "2024-07-01": 341
+    },
+    "bounceRate": "0.45703400402729766",
+    "pagesPerVisit": "1.0076878872445618",
+    "visits": "341",
+    "timeOnSite": "0",
+    "topCountryShares": [
+      {
+        "Country": 356,
+        "CountryCode": "IN",
+        "Value": 0.9999999999999998
+      }
+    ],
+    "trafficSources": {
+      "Social": 0.03420609949862079,
+      "Paid Referrals": 0.009935201786360174,
+      "Mail": 0.0006244966675377382,
+      "Referrals": 0.07867737892807346,
+      "Search": 0.5081689268180324,
+      "Direct": 0.3683878963013756
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": 356,
+    "countryRank.countryCode": "IN",
+    "countryRank.rank": 1022443
   },
   {
     "domain": "www.devpages.io",
@@ -32191,6 +32945,80 @@
     "visits": "0",
     "timeOnSite": "0",
     "topCountryShares": null,
+    "trafficSources": {
+      "Social": 0,
+      "Paid Referrals": 0,
+      "Mail": 0,
+      "Referrals": 0,
+      "Search": 0,
+      "Direct": 0
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": null,
+    "countryRank.countryCode": null,
+    "countryRank.rank": null
+  },
+  {
+    "domain": "tinyalternatives.com",
+    "title": "tiny alternatives - the best new products in tech.",
+    "description": "tiny alternatives is a curation of the best new products, every day. discover the latest mobile apps, websites, and technology products that everyone's talking about.",
+    "category": "computers_electronics_and_technology/computers_electronics_and_technology",
+    "screenshot": "https://site-images.similarcdn.com/image?url=tinyalternatives.com&t=1&s=1&h=7d5f5921a021f0064b969d25dcff7aaa7733f9ae17327f3271822fdc9fda97fe",
+    "globalRank": 20170116,
+    "countryRank": {
+      "Country": null,
+      "CountryCode": null,
+      "Rank": null
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 0,
+      "2024-06-01": 586,
+      "2024-07-01": 0
+    },
+    "bounceRate": "0",
+    "pagesPerVisit": "0",
+    "visits": "0",
+    "timeOnSite": "0",
+    "topCountryShares": null,
+    "trafficSources": {
+      "Social": 0,
+      "Paid Referrals": 0,
+      "Mail": 0,
+      "Referrals": 0,
+      "Search": 0,
+      "Direct": 0
+    },
+    "competitors": [],
+    "isDataFromGA": false,
+    "countryRank.country": null,
+    "countryRank.countryCode": null,
+    "countryRank.rank": null
+  },
+  {
+    "domain": "www.monkeyaitools.com",
+    "title": "monkey ai tools: premier ai tools directory 2024 | your ultimate home for ai",
+    "description": "discover the power of ai with monkey ai tool's meticulously curated directory. dive into 5,000+ ai tools of 2024, read expert reviews and find your next game-changing solution. your journey into the future of ai starts here!",
+    "category": "",
+    "screenshot": "https://site-images.similarcdn.com/image?url=monkeyaitools.com&t=1&s=1&h=3c72b25de1d25fff9e18f93e42fef16a2bb79807ca6a7c982acb29b5c6b3f2ea",
+    "globalRank": 21522750,
+    "countryRank": {
+      "Country": null,
+      "CountryCode": null,
+      "Rank": null
+    },
+    "categoryRank": null,
+    "estimatedMonthlyVisits": {
+      "2024-05-01": 265,
+      "2024-06-01": 0,
+      "2024-07-01": 0
+    },
+    "bounceRate": "0",
+    "pagesPerVisit": "0",
+    "visits": "0",
+    "timeOnSite": "0",
+    "topCountryShares": [],
     "trafficSources": {
       "Social": 0,
       "Paid Referrals": 0,

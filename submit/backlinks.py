@@ -3,6 +3,7 @@ import requests
 import time
 import random
 import os
+import csv
 
 # 从环境变量读取API密钥
 API_KEY = os.environ.get("OPENROUTER_API_KEY")
@@ -124,4 +125,16 @@ processed_data.sort(key=lambda x: x['resultsTotal'], reverse=True)
 with open('directories/backlinks_final.json', 'w', encoding='utf-8') as f:
     json.dump(processed_data, f, ensure_ascii=False, indent=2)
 
-print("处理完成,数据已更新")
+# 新增: 将isUGC为真的数据写入CSV文件
+with open('directories/backlinks_final.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    fieldnames = ['domain', 'url', 'title', 'description', 'resultsTotal', 'category']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    
+    writer.writeheader()
+    for item in processed_data:
+        if item.get('isUGC', True):
+            item.pop('isUGC')
+            item.pop('displayedUrl')
+            writer.writerow(item)
+
+print("处理完成,数据已更新到JSON文件,UGC数据已写入CSV文件")

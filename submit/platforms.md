@@ -1,0 +1,717 @@
+为了在一些流量较大的网站建立反向链接，方便对我的网站进行 SEO 优化，我将可以发布内容的平台进行了如下分类：
+
+- 社交媒体平台
+- 视频分享平台
+- 博客平台
+- 问答平台
+- 论坛和社区平台
+- 新闻和媒体平台
+- 专业社交网络平台
+- 评论和评级平台
+- 播客平台
+- 文档分享平台
+- 幻灯片分享平台
+- 代码分享平台
+- 设计分享平台
+- 图片分享平台
+- 音乐分享平台
+- 电子商务平台
+- 众筹平台
+- 教育和在线学习平台
+- 旅游和住宿平台
+- 求职和招聘平台
+- 本地商业目录平台
+- 开源项目平台
+- 网络书签平台
+- 内容聚合平台
+- 打赏平台（内容创作者支持平台）
+- 即时通讯平台
+- 在线协作工具平台
+- 云存储平台
+- 流媒体平台
+- 虚拟现实和增强现实平台
+- 游戏和游戏直播平台
+- 约会和社交发现平台
+- 健康和健身平台
+- 金融和投资平台
+- 餐厅预订和外卖平台
+
+## 社交媒体平台
+
+- [Facebook](https://www.facebook.com/)
+- [X](https://x.com/)
+- [Instagram](https://www.instagram.com/)
+- [LinkedIn](https://www.linkedin.com/)
+- [YouTube](https://www.youtube.com/)
+- [TikTok](https://www.tiktok.com/)
+- [Pinterest](https://www.pinterest.com/)
+- [Snapchat](https://www.snapchat.com/)
+- [Reddit](https://www.reddit.com/)
+- [WhatsApp](https://www.whatsapp.com/)
+- [Telegram](https://telegram.org/)
+- [Discord](https://discord.com/)
+- [Twitch](https://www.twitch.tv/)
+- [Tumblr](https://www.tumblr.com/)
+- [Quora](https://www.quora.com/)
+- [Medium](https://medium.com/)
+- [Clubhouse](https://www.clubhouse.com/)
+- [Mastodon](https://joinmastodon.org/)
+
+## 视频分享平台
+
+- [YouTube](https://www.youtube.com/)
+- [Vimeo](https://vimeo.com/)
+- [TikTok](https://www.tiktok.com/)
+- [Dailymotion](https://www.dailymotion.com/)
+- [Twitch](https://www.twitch.tv/)
+- [Bilibili](https://www.bilibili.com/)
+- [Vevo](https://www.vevo.com/)
+- [Metacafe](https://www.metacafe.com/)
+- [Veoh](https://www.veoh.com/)
+- [Periscope](https://www.pscp.tv/)
+
+## 博客平台
+
+- [WordPress](https://wordpress.com/)
+- [Medium](https://medium.com/)
+- [Blogger](https://www.blogger.com/)
+- [Tumblr](https://www.tumblr.com/)
+- [Ghost](https://ghost.org/)
+- [Wix](https://www.wix.com/)
+- [Squarespace](https://www.squarespace.com/)
+- [Weebly](https://www.weebly.com/)
+- [Substack](https://substack.com/)
+- [LiveJournal](https://www.livejournal.com/)
+- [Typepad](https://www.typepad.com/)
+- [Joomla](https://www.joomla.org/)
+- [Drupal](https://www.drupal.org/)
+
+## 问答平台
+
+- [Quora](https://www.quora.com/)
+- [Stack Exchange](https://stackexchange.com/)
+- [Yahoo Answers](https://answers.yahoo.com/)
+- [Zhihu](https://www.zhihu.com/)
+- [Reddit](https://www.reddit.com/)
+- [Stack Overflow](https://stackoverflow.com/)
+- [Answers.com](https://www.answers.com/)
+- [Ask.fm](https://ask.fm/)
+- [Gutefrage.net](https://www.gutefrage.net/) (德语)
+- [Baidu Knows](https://zhidao.baidu.com/) (百度知道)
+- [Naver Knowledge iN](https://kin.naver.com/) (韩语)
+- [Wikianswers](https://www.answers.com/t/wikianswers)
+- [Fluther](http://www.fluther.com/)
+- [Answerbag](https://www.answerbag.com/)
+- [Askville](https://askville.amazon.com/)
+- [Blurtit](https://www.blurtit.com/)
+- [Quandora](https://www.quandora.com/)
+- [AnswerHub](https://www.answerhub.com/)
+
+## 论坛和社区平台
+
+- [Reddit](https://www.reddit.com/)
+- [Discourse](https://www.discourse.org/)
+- [Xenforo](https://xenforo.com/)
+- [vBulletin](https://www.vbulletin.com/)
+- [phpBB](https://www.phpbb.com/)
+- [Flarum](https://flarum.org/)
+- [MyBB](https://mybb.com/)
+- [Simple Machines Forum (SMF)](https://simplemachines.org/)
+- [Vanilla Forums](https://vanillaforums.com/)
+- [Invision Community](https://invisioncommunity.com/)
+- [NodeBB](https://nodebb.org/)
+- [Tribe](https://tribe.so/)
+- [Muut](https://muut.com/)
+- [Tapatalk](https://www.tapatalk.com/)
+- [Ning](https://www.ning.com/)
+- [Disqus](https://disqus.com/)
+- [Stack Overflow Teams](https://stackoverflow.com/teams)
+- [Facebook Groups](https://www.facebook.com/groups/)
+- [LinkedIn Groups](https://www.linkedin.com/groups/)
+- [Slack](https://slack.com/)
+- [Discord](https://discord.com/)
+
+## 新闻和媒体平台
+
+- [Medium](https://medium.com/)
+- [Flipboard](https://flipboard.com/)
+- [Reddit](https://www.reddit.com/)
+- [LinkedIn](https://www.linkedin.com/)
+- [Twitter](https://twitter.com/)
+- [Facebook](https://www.facebook.com/)
+- [Digg](https://digg.com/)
+- [Slashdot](https://slashdot.org/)
+- [Hacker News](https://news.ycombinator.com/)
+- [Buzzfeed Community](https://www.buzzfeed.com/community)
+- [Huffington Post Contributors](https://www.huffpost.com/contribute)
+- [Forbes Contributors](https://www.forbes.com/sites/forbescoachescouncil/)
+- [TechCrunch Guest Posts](https://techcrunch.com/guest-posts/)
+- [The Guardian Opinion](https://www.theguardian.com/commentisfree)
+- [Mashable Voices](https://mashable.com/voices/)
+
+## 专业社交网络平台
+
+- [LinkedIn](https://www.linkedin.com/)
+- [ResearchGate](https://www.researchgate.net/)
+- [Academia.edu](https://www.academia.edu/)
+- [Xing](https://www.xing.com/)
+- [Viadeo](https://www.viadeo.com/)
+- [AngelList](https://angel.co/)
+- [Behance](https://www.behance.net/)
+- [Dribbble](https://dribbble.com/)
+- [GitHub](https://github.com/)
+- [Stack Overflow](https://stackoverflow.com/)
+- [Kaggle](https://www.kaggle.com/)
+- [DeviantArt](https://www.deviantart.com/)
+- [Meetup](https://www.meetup.com/)
+- [Slack](https://slack.com/)
+- [Discord](https://discord.com/)
+- [Quora](https://www.quora.com/)
+- [Medium](https://medium.com/)
+- [Product Hunt](https://www.producthunt.com/)
+- [GrowthHackers](https://growthhackers.com/)
+- [Spiceworks](https://www.spiceworks.com/)
+- [Doximity](https://www.doximity.com/) (医疗专业人士)
+- [Sermo](https://www.sermo.com/) (医生社交网络)
+- [LabRoots](https://www.labroots.com/) (科学家和工程师)
+- [Zerply](https://zerply.com/) (创意专业人士)
+
+## 评论和评级平台
+
+- [Yelp](https://www.yelp.com/)
+- [TripAdvisor](https://www.tripadvisor.com/)
+- [Trustpilot](https://www.trustpilot.com/)
+- [Google Maps](https://www.google.com/maps)
+- [Facebook Reviews](https://www.facebook.com/)
+- [Amazon Customer Reviews](https://www.amazon.com/)
+- [Glassdoor](https://www.glassdoor.com/)
+- [Indeed Company Reviews](https://www.indeed.com/companies)
+- [Angie's List](https://www.angi.com/)
+- [Better Business Bureau](https://www.bbb.org/)
+- [G2](https://www.g2.com/)
+- [Capterra](https://www.capterra.com/)
+- [TrustRadius](https://www.trustradius.com/)
+- [Foursquare](https://foursquare.com/)
+- [Zomato](https://www.zomato.com/)
+- [OpenTable](https://www.opentable.com/)
+- [Rotten Tomatoes](https://www.rottentomatoes.com/)
+- [IMDb](https://www.imdb.com/)
+- [Goodreads](https://www.goodreads.com/)
+- [RateMyProfessors](https://www.ratemyprofessors.com/)
+- [Healthgrades](https://www.healthgrades.com/)
+- [Vitals](https://www.vitals.com/)
+- [Avvo](https://www.avvo.com/)
+- [HomeAdvisor](https://www.homeadvisor.com/)
+- [Thumbtack](https://www.thumbtack.com/)
+
+## 播客平台
+
+- [Anchor](https://anchor.fm/)
+- [SoundCloud](https://soundcloud.com/)
+- [Spreaker](https://www.spreaker.com/)
+- [Podbean](https://www.podbean.com/)
+- [Buzzsprout](https://www.buzzsprout.com/)
+- [Libsyn](https://libsyn.com/)
+- [Simplecast](https://simplecast.com/)
+- [Blubrry](https://www.blubrry.com/)
+- [Transistor](https://transistor.fm/)
+- [Captivate](https://www.captivate.fm/)
+- [Castos](https://castos.com/)
+- [Audioboom](https://audioboom.com/)
+- [Podomatic](https://www.podomatic.com/)
+- [Zencast](https://zencast.fm/)
+- [RedCircle](https://redcircle.com/)
+- [Acast](https://www.acast.com/)
+- [Fireside](https://fireside.fm/)
+- [Whooshkaa](https://www.whooshkaa.com/)
+- [Megaphone](https://megaphone.fm/)
+- [Pippa](https://www.pippa.io/)
+
+## 文档分享平台
+
+- [SlideShare](https://www.slideshare.net/)
+- [Scribd](https://www.scribd.com/)
+- [Issuu](https://issuu.com/)
+- [Academia.edu](https://www.academia.edu/)
+- [ResearchGate](https://www.researchgate.net/)
+- [DocDroid](https://www.docdroid.net/)
+- [Calameo](https://en.calameo.com/)
+- [Docstoc](https://www.docstoc.com/)
+- [Yumpu](https://www.yumpu.com/)
+- [Speakerdeck](https://speakerdeck.com/)
+- [AuthorStream](http://www.authorstream.com/)
+- [Prezi](https://prezi.com/)
+- [Google Drive](https://drive.google.com/)
+- [Google Docs](https://docs.google.com/)
+- [Dropbox Paper](https://www.dropbox.com/paper)
+- [Box](https://www.box.com/)
+- [OneDrive](https://onedrive.live.com/)
+- [Evernote](https://evernote.com/)
+- [Notion](https://www.notion.so/)
+- [Figma](https://www.figma.com/)
+- [Canva](https://www.canva.com/)
+
+## 幻灯片分享平台
+
+- [SlideShare](https://www.slideshare.net/)
+- [Prezi](https://prezi.com/)
+- [Google Slides](https://www.google.com/slides/about/)
+- [Canva](https://www.canva.com/)
+- [Visme](https://www.visme.co/)
+- [Beautiful.ai](https://www.beautiful.ai/)
+- [Slides](https://slides.com/)
+- [SpeakerDeck](https://speakerdeck.com/)
+- [Slidebean](https://slidebean.com/)
+- [Emaze](https://www.emaze.com/)
+- [Haiku Deck](https://www.haikudeck.com/)
+- [Genially](https://www.genial.ly/)
+- [Pitch](https://pitch.com/)
+- [Zoho Show](https://www.zoho.com/show/)
+- [Ludus](https://ludus.one/)
+- [Mentimeter](https://www.mentimeter.com/)
+- [Powtoon](https://www.powtoon.com/)
+- [Slidesgo](https://slidesgo.com/)
+- [Piktochart](https://piktochart.com/)
+- [Swipe](https://www.swipe.to/)
+
+## 代码分享平台
+
+- [GitHub](https://github.com/)
+- [GitLab](https://about.gitlab.com/)
+- [Bitbucket](https://bitbucket.org/)
+- [CodePen](https://codepen.io/)
+- [Stack Overflow](https://stackoverflow.com/)
+- [Gist](https://gist.github.com/)
+- [JSFiddle](https://jsfiddle.net/)
+- [Repl.it](https://repl.it/)
+- [CodeSandbox](https://codesandbox.io/)
+- [Pastebin](https://pastebin.com/)
+- [SourceForge](https://sourceforge.net/)
+- [Launchpad](https://launchpad.net/)
+- [Google Code Archive](https://code.google.com/archive/)
+- [Codebase](https://www.codebasehq.com/)
+- [Assembla](https://www.assembla.com/)
+- [Beanstalk](https://beanstalkapp.com/)
+
+## 设计分享平台
+
+- [Behance](https://www.behance.net/)
+- [Dribbble](https://dribbble.com/)
+- [DeviantArt](https://www.deviantart.com/)
+- [ArtStation](https://www.artstation.com/)
+- [Cargo Collective](https://cargocollective.com/)
+- [Coroflot](https://www.coroflot.com/)
+- [Awwwards](https://www.awwwards.com/)
+- [Designspiration](https://www.designspiration.com/)
+- [Ello](https://ello.co/)
+- [Domestika](https://www.domestika.org/)
+- [Creativemarket](https://creativemarket.com/)
+- [Carbonmade](https://carbonmade.com/)
+- [Portfoliobox](https://www.portfoliobox.net/)
+- [Pixpa](https://www.pixpa.com/)
+- [Canva](https://www.canva.com/)
+
+## 图片分享平台
+
+- [Instagram](https://www.instagram.com/)
+- [Flickr](https://www.flickr.com/)
+- [500px](https://500px.com/)
+- [Pinterest](https://www.pinterest.com/)
+- [Imgur](https://imgur.com/)
+- [DeviantArt](https://www.deviantart.com/)
+- [Unsplash](https://unsplash.com/)
+- [Shutterstock](https://www.shutterstock.com/)
+- [Getty Images](https://www.gettyimages.com/)
+- [Behance](https://www.behance.net/)
+- [VSCO](https://vsco.co/)
+- [Pixabay](https://pixabay.com/)
+- [Pexels](https://www.pexels.com/)
+- [SmugMug](https://www.smugmug.com/)
+- [Photobucket](https://photobucket.com/)
+
+## 音乐分享平台
+
+- [SoundCloud](https://soundcloud.com/)
+- [Bandcamp](https://bandcamp.com/)
+- [Last.fm](https://www.last.fm/)
+- [ReverbNation](https://www.reverbnation.com/)
+- [Audiomack](https://audiomack.com/)
+- [Mixcloud](https://www.mixcloud.com/)
+- [Jamendo](https://www.jamendo.com/)
+- [Audius](https://audius.co/)
+- [Orfium](https://www.orfium.com/)
+- [Smule](https://www.smule.com/)
+- [BandLab](https://www.bandlab.com/)
+- [Soundtrap](https://www.soundtrap.com/)
+- [Kompoz](https://www.kompoz.com/)
+- [Splice](https://splice.com/)
+- [Wavo](https://wavo.me/)
+- [Indaba Music](https://www.indabamusic.com/)
+- [Amuse](https://www.amuse.io/)
+- [Fanburst](https://fanburst.com/)
+- [Hearthis.at](https://hearthis.at/)
+- [Clyp](https://clyp.it/)
+
+## 电子商务平台
+
+- [Amazon](https://www.amazon.com/)
+- [eBay](https://www.ebay.com/)
+- [Etsy](https://www.etsy.com/)
+- [Shopify](https://www.shopify.com/)
+
+## 众筹平台
+
+- [Kickstarter](https://www.kickstarter.com/)
+- [Indiegogo](https://www.indiegogo.com/)
+- [GoFundMe](https://www.gofundme.com/)
+
+## 教育和在线学习平台
+
+- [Coursera](https://www.coursera.org/)
+- [edX](https://www.edx.org/)
+- [Udemy](https://www.udemy.com/)
+- [Khan Academy](https://www.khanacademy.org/)
+
+## 旅游和住宿平台
+
+- [Airbnb](https://www.airbnb.com/)
+- [Booking.com](https://www.booking.com/)
+- [TripAdvisor](https://www.tripadvisor.com/)
+
+## 求职和招聘平台
+
+- [LinkedIn](https://www.linkedin.com/)
+- [Indeed](https://www.indeed.com/)
+- [Glassdoor](https://www.glassdoor.com/)
+
+## 本地商业目录平台
+
+- [Yelp](https://www.yelp.com/)
+- [Google My Business](https://www.google.com/business/)
+- [Yellow Pages](https://www.yellowpages.com/)
+
+## 开源项目平台
+
+- [GitHub](https://github.com/)
+- [SourceForge](https://sourceforge.net/)
+- [GitLab](https://about.gitlab.com/)
+- [Bitbucket](https://bitbucket.org/)
+- [Launchpad](https://launchpad.net/)
+- [CodePlex](https://archive.codeplex.com/) (已归档)
+- [Google Code Archive](https://code.google.com/archive/)
+- [Apache Software Foundation](https://www.apache.org/)
+- [GNU Savannah](https://savannah.gnu.org/)
+- [OSDN](https://osdn.net/)
+- [Gitee](https://gitee.com/)
+- [Coding](https://coding.net/)
+- [Codebase](https://www.codebasehq.com/)
+- [RubyForge](http://rubyforge.org/) (已停止服务)
+- [Assembla](https://www.assembla.com/)
+- [Beanstalk](https://beanstalkapp.com/)
+- [Phabricator](https://www.phacility.com/phabricator/)
+- [Trac](https://trac.edgewall.org/)
+- [Fossil](https://www.fossil-scm.org/)
+- [Gogs](https://gogs.io/)
+- [Gitea](https://gitea.io/)
+- [Codeberg](https://codeberg.org/)
+- [Pagure](https://pagure.io/)
+- [RocketGit](https://rocketgit.com/)
+- [Sourcehut](https://sourcehut.org/)
+
+## 网络书签平台
+
+- [Pocket](https://getpocket.com/)
+- [Digg](https://digg.com/)
+- [StumbleUpon](https://www.stumbleupon.com/) (现已更名为Mix)
+- [Pinboard](https://pinboard.in/)
+- [Raindrop.io](https://raindrop.io/)
+- [Evernote](https://evernote.com/)
+- [Pinterest](https://www.pinterest.com/)
+- [Instapaper](https://www.instapaper.com/)
+- [Pearltrees](https://www.pearltrees.com/)
+- [Scoop.it](https://www.scoop.it/)
+- [Flipboard](https://flipboard.com/)
+- [Delicious](https://del.icio.us/) (现已关闭)
+- [Diigo](https://www.diigo.com/)
+- [Feedly](https://feedly.com/)
+- [Bookmark OS](https://bookmarkos.com/)
+- [Start.me](https://start.me/)
+- [Papaly](https://papaly.com/)
+- [Symbaloo](https://www.symbaloo.com/)
+- [Google Bookmarks](https://www.google.com/bookmarks/) (将于2021年9月30日停止服务)
+- [Refind](https://refind.com/)
+
+## 内容聚合平台
+
+- [Feedly](https://feedly.com/)
+- [Flipboard](https://flipboard.com/)
+- [Pocket](https://getpocket.com/)
+- [Reddit](https://www.reddit.com/)
+- [Digg](https://digg.com/)
+- [StumbleUpon](https://www.stumbleupon.com/) (现已更名为Mix)
+- [Scoop.it](https://www.scoop.it/)
+- [Paper.li](https://paper.li/)
+- [Alltop](https://alltop.com/)
+- [Inoreader](https://www.inoreader.com/)
+- [Netvibes](https://www.netvibes.com/)
+- [The Old Reader](https://theoldreader.com/)
+- [Feedspot](https://www.feedspot.com/)
+- [NewsBlur](https://newsblur.com/)
+- [Curata](https://www.curata.com/)
+- [Pearltrees](https://www.pearltrees.com/)
+- [Refind](https://refind.com/)
+- [Nuzzel](https://nuzzel.com/) (已被Twitter收购并关闭)
+- [Prismatic](https://getprismatic.com/) (已停止服务)
+
+## 打赏平台（内容创作者支持平台）
+
+- [Patreon](https://www.patreon.com/)
+- [Ko-fi](https://ko-fi.com/)
+- [Buy Me a Coffee](https://www.buymeacoffee.com/)
+- [Liberapay](https://liberapay.com/)
+- [GitHub Sponsors](https://github.com/sponsors)
+- [Flattr](https://flattr.com/)
+- [Tipeee](https://www.tipeee.com/)
+- [SubscribeStar](https://www.subscribestar.com/)
+- [Donorbox](https://donorbox.org/)
+- [Gumroad](https://gumroad.com/)
+- [LiberaPay](https://liberapay.com/)
+- [Open Collective](https://opencollective.com/)
+- [Steady](https://steadyhq.com/)
+- [Coil](https://coil.com/)
+- [Drip](https://d.rip/) (已停止服务)
+- [Podia](https://www.podia.com/)
+- [Memberful](https://memberful.com/)
+- [Fanbox](https://www.fanbox.cc/)
+- [Afdian](https://afdian.net/) (中国平台)
+- [爱发电](https://afdian.net/) (中国平台)
+
+## 即时通讯平台
+
+- [WhatsApp](https://www.whatsapp.com/)
+- [Telegram](https://telegram.org/)
+- [Discord](https://discord.com/)
+- [Slack](https://slack.com/)
+- [Microsoft Teams](https://www.microsoft.com/en-us/microsoft-teams/group-chat-software)
+- [Zoom](https://zoom.us/)
+- [Skype](https://www.skype.com/)
+- [Google Hangouts](https://hangouts.google.com/)
+- [Cisco Webex](https://www.webex.com/)
+- [Rocket.Chat](https://rocket.chat/)
+- [Mattermost](https://mattermost.com/)
+- [Zulip](https://zulip.com/)
+- [Riot](https://riot.im/)
+- [Wire](https://wire.com/)
+- [Signal](https://signal.org/)
+- [Threema](https://threema.ch/)
+- [Wickr](https://wickr.com/)
+- [Briar](https://briarproject.org/)
+- [Session](https://getsession.org/)
+- [Tox](https://tox.chat/)
+
+## 在线协作工具平台
+
+- [Google Workspace](https://workspace.google.com/)
+- [Microsoft Office 365](https://www.office.com/)
+- [Slack](https://slack.com/)
+- [Trello](https://trello.com/)
+- [Asana](https://asana.com/)
+- [Basecamp](https://basecamp.com/)
+- [ClickUp](https://clickup.com/)
+- [Todoist](https://todoist.com/)
+- [Evernote](https://evernote.com/)
+- [Notion](https://www.notion.so/)
+- [Confluence](https://www.atlassian.com/software/confluence)
+- [Jira](https://www.atlassian.com/software/jira)
+- [Bitbucket](https://bitbucket.org/)
+- [GitLab](https://about.gitlab.com/)
+- [GitHub](https://github.com/)
+- [Zoho Projects](https://www.zoho.com/projects/)
+- [Smartsheet](https://www.smartsheet.com/)
+- [Airtable](https://airtable.com/)
+- [Podio](https://podio.com/)
+- [Zapier](https://zapier.com/)
+
+## 云存储平台
+
+- [Google Drive](https://www.google.com/drive/)
+- [Microsoft OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage)
+- [Dropbox](https://www.dropbox.com/)
+- [Box](https://www.box.com/)
+- [Amazon Drive](https://www.amazon.com/clouddrive)
+- [iCloud](https://www.apple.com/icloud/)
+- [MEGA](https://mega.nz/)
+- [pCloud](https://www.pcloud.com/)
+- [Sync.com](https://www.sync.com/)
+- [Hubic](https://hubic.com/)
+- [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html)
+- [IDrive](https://www.idrive.com/)
+- [SpiderOak](https://spideroak.com/)
+- [Tresorit](https://tresorit.com/)
+- [pCloud Crypto](https://www.pcloud.com/crypto/)
+- [Cryptomator](https://cryptomator.org/)
+- [VeraCrypt](https://www.veracrypt.fr/en/Home.html)
+- [Tahoe-LAFS](https://tahoe-lafs.readthedocs.io/en/latest/)
+- [Seafile](https://www.seafile.com/en/home/)
+- [Nextcloud](https://nextcloud.com/)
+
+## 流媒体平台
+
+- [Netflix](https://www.netflix.com/)
+- [Amazon Prime Video](https://www.primevideo.com/)
+- [Disney+](https://www.disneyplus.com/)
+- [Hulu](https://www.hulu.com/)
+- [HBO Max](https://www.hbomax.com/)
+- [YouTube TV](https://tv.youtube.com/)
+- [fuboTV](https://www.fubo.tv/)
+- [Sling TV](https://www.sling.com/)
+- [Pluto TV](https://pluto.tv/)
+- [Crunchyroll](https://www.crunchyroll.com/)
+- [Funimation](https://www.funimation.com/)
+- [VRV](https://vrv.co/)
+- [Tubi](https://tubitv.com/)
+- [Peacock TV](https://www.peacocktv.com/)
+- [Discovery+](https://www.discoveryplus.com/)
+- [CuriosityStream](https://curiositystream.com/)
+- [Plex](https://www.plex.tv/)
+- [Emby](https://emby.media/)
+- [Jellyfin](https://jellyfin.org/)
+- [Kodi](https://kodi.tv/)
+
+## 虚拟现实和增强现实平台
+
+- [Oculus](https://www.oculus.com/)
+- [SteamVR](https://store.steampowered.com/vr/)
+- [HTC Vive](https://www.vive.com/us/)
+- [Windows Mixed Reality](https://www.microsoft.com/en-us/windows/mixed-reality)
+- [Magic Leap](https://www.magicleap.com/)
+- [Epic Games](https://www.epicgames.com/store/en-US/browse?category=VR%20%26%20AR&sortBy=releaseDate&sortDir=DESC&count=40&start=0)
+- [SideQuest](https://sidequestvr.com/)
+- [Viveport](https://www.viveport.com/)
+- [Oculus Store](https://www.oculus.com/experiences/quest/)
+- [Steam](https://store.steampowered.com/?l=schinese)
+- [Google Play Store](https://play.google.com/store/apps/category/VR?hl=en_US)
+- [Apple App Store](https://www.apple.com/app-store/)
+- [Samsung Galaxy Store](https://www.samsung.com/us/apps/virtual-reality/)
+- [Unity](https://unity.com/solutions/xr)
+- [Unreal Engine](https://www.unrealengine.com/en-US/xr)
+- [A-Frame](https://aframe.io/)
+- [ARCore](https://developers.google.com/ar)
+- [ARKit](https://developer.apple.com/arkit/)
+- [Vuforia](https://www.vuforia.com/)
+- [EasyAR](https://www.easyar.com/)
+
+## 游戏和游戏直播平台
+
+- [Steam](https://store.steampowered.com/)
+- [Epic Games Store](https://www.epicgames.com/store/en-US/)
+- [GOG](https://www.gog.com/)
+- [Origin](https://www.origin.com/usa/en-us/store)
+- [Ubisoft Store](https://store.ubi.com/us/)
+- [Battle.net](https://www.blizzard.com/en-us/shop/battle.net)
+- [Rockstar Games Launcher](https://www.rockstargames.com/launcher)
+- [EA App](https://www.ea.com/games/library)
+- [Nintendo eShop](https://www.nintendo.com/store/)
+- [PlayStation Store](https://store.playstation.com/en-us/home/games)
+- [Xbox Store](https://www.microsoft.com/en-us/store/games/xbox)
+- [Switch eShop](https://www.nintendo.com/store/nintendo-switch/)
+- [Twitch](https://www.twitch.tv/)
+- [YouTube Gaming](https://gaming.youtube.com/)
+- [Mixer](https://mixer.com/)
+- [Facebook Gaming](https://www.facebook.com/gaming)
+- [NimoTV](https://www.nimo.tv/)
+- [Douyu](https://www.douyu.com/)
+- [Huya](https://www.huya.com/)
+- [Bilibili](https://www.bilibili.com/)
+
+## 约会和社交发现平台
+
+- [Tinder](https://www.gotinder.com/)
+- [Bumble](https://bumble.com/)
+- [OkCupid](https://www.okcupid.com/)
+- [Match.com](https://www.match.com/)
+- [Plenty of Fish](https://www.plentyoffish.com/)
+- [eHarmony](https://www.eharmony.com/)
+- [Zoosk](https://www.zoosk.com/)
+- [Coffee Meets Bagel](https://www.coffeemeetsbagel.com/)
+- [Hinge](https://hinge.co/)
+- [Happn](https://www.happn.com/)
+- [Grindr](https://www.grindr.com/)
+- [Her](https://www.her.com/)
+- [Badoo](https://badoo.com/)
+- [Bumble BFF](https://www.bumble.com/bff)
+- [Bumble Bizz](https://www.bumble.com/bizz)
+- [Hily](https://hily.com/)
+- [Lovoo](https://www.lovoo.net/)
+- [Wapa](https://www.wapa.com/)
+- [MocoSpace](https://www.mocospace.com/)
+- [Mingle2](https://www.mingle2.com/)
+
+## 健康和健身平台
+
+- [Strava](https://www.strava.com/)
+- [Fitbit](https://www.fitbit.com/)
+- [MyFitnessPal](https://www.myfitnesspal.com/)
+- [Nike Training Club](https://nike.com/training)
+- [Peloton](https://www.onepeloton.com/)
+- [C25K](https://www.c25k.com/)
+- [Charity Miles](https://www.charitymiles.org/)
+- [MapMyRun](https://www.mapmyrun.com/)
+- [Endomondo](https://www.endomondo.com/)
+- [Runkeeper](https://runkeeper.com/)
+- [Garmin Connect](https://connect.garmin.com/en-US/)
+- [Under Armour Record](https://www.underarmour.com/en-us/record/)
+- [Nike Run Club](https://nike.com/run-club)
+- [Adidas Running](https://www.adidas.com/us/running)
+- [Puma Running](https://us.puma.com/en/us/category/running)
+- [New Balance Running](https://www.newbalance.com/running)
+- [Asics Running](https://www.asics.com/us/en-us/running/)
+- [Brooks Running](https://www.brooksrunning.com/)
+- [Saucony Running](https://www.saucony.com/en-us/running)
+- [Mizuno Running](https://www.mizunousa.com/running/)
+
+## 金融和投资平台
+
+- [Robinhood](https://robinhood.com/)
+- [Coinbase](https://www.coinbase.com/)
+- [Binance](https://www.binance.com/)
+- [Kraken](https://www.kraken.com/)
+- [eToro](https://www.etoro.com/)
+- [TD Ameritrade](https://www.tdameritrade.com/)
+- [Fidelity](https://www.fidelity.com/)
+- [Charles Schwab](https://www.schwab.com/)
+- [Merrill Edge](https://www.bankofamerica.com/investing/merrill-edge/)
+- [Vanguard](https://investor.vanguard.com/home/)
+- [Betterment](https://www.betterment.com/)
+- [Wealthfront](https://www.wealthfront.com/)
+- [Acorns](https://www.acorns.com/)
+- [Stash](https://stashinvest.com/)
+- [Public.com](https://public.com/)
+- [SoFi Invest](https://www.sofi.com/invest/)
+- [Revolut](https://www.revolut.com/)
+- [N26](https://n26.com/)
+- [Monzo](https://monzo.com/)
+- [Starling Bank](https://www.starlingbank.com/)
+
+## 餐厅预订和外卖平台
+
+- [OpenTable](https://www.opentable.com/)
+- [Grubhub](https://www.grubhub.com/)
+- [DoorDash](https://www.doordash.com/)
+- [Uber Eats](https://www.ubereats.com/)
+- [Postmates](https://postmates.com/)
+- [Caviar](https://www.trycaviar.com/)
+- [Seamless](https://www.seamless.com/)
+- [Eat24](https://www.eat24.com/)
+- [Slice](https://www.slice.com/)
+- [Favor](https://favor.com/)
+- [Resy](https://resy.com/)
+- [SingleTable](https://www.singletable.com/)
+- [DineIn](https://www.dinein.com/)
+- [Zomato](https://www.zomato.com/)
+- [Deliveroo](https://www.deliveroo.com/)
+- [Just Eat](https://www.just-eat.co.uk/)
+- [Foodora](https://www.foodora.de/)
+- [Hungry Panda](https://www.hungrypanda.com/)
+- [Rappi](https://www.rappi.com/)
+- [Rappi Food](https://food.rappi.com/)

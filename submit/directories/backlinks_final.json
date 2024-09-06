@@ -1,0 +1,3772 @@
+[
+  {
+    "domain": "www.youtube.com",
+    "url": "https://www.youtube.com/reportabuse",
+    "displayedUrl": "https://www.youtube.com › reportabuse",
+    "title": "Report inappropriate videos, channels, and other content ...",
+    "description": "Go to the content or channel that you want to report. Under the content or channel, click More and then Report . On the list that appears, click Legal issue.",
+    "resultsTotal": 1620000000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.instagram.com",
+    "url": "https://www.instagram.com/",
+    "displayedUrl": "https://www.instagram.com",
+    "title": "Instagram",
+    "description": "Create an account or log in to Instagram - Share what you're into with the people who get you.",
+    "resultsTotal": 542000000,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.facebook.com",
+    "url": "https://www.facebook.com/",
+    "displayedUrl": "https://www.facebook.com",
+    "title": "Facebook - log in or sign up",
+    "description": "Create an account or log into Facebook. Connect with friends, family and other people you know. Share photos and videos, send messages and get updates.",
+    "resultsTotal": 437000000,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.linkedin.com",
+    "url": "https://www.linkedin.com/",
+    "displayedUrl": "https://www.linkedin.com",
+    "title": "LinkedIn: Log In or Sign Up",
+    "description": "1 billion members | Manage your professional identity. Build and engage with your professional network. Access knowledge, insights and opportunities.",
+    "resultsTotal": 423000000,
+    "category": "Professional Social Network Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.tiktok.com",
+    "url": "https://www.tiktok.com/",
+    "displayedUrl": "https://www.tiktok.com",
+    "title": "TikTok - Make Your Day",
+    "description": "TikTok - trends start here. On a device or on the web, viewers can watch and discover millions of personalized short videos.",
+    "resultsTotal": 414000000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.pinterest.com",
+    "url": "https://www.pinterest.com/",
+    "displayedUrl": "https://www.pinterest.com",
+    "title": "Pinterest",
+    "description": "Discover recipes, home ideas, style inspiration and other ideas to try.",
+    "resultsTotal": 389000000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.reddit.com",
+    "url": "https://www.reddit.com/community",
+    "displayedUrl": "https://www.reddit.com › community",
+    "title": "Reddit for Community Homepage",
+    "description": "Discover essential resources and expert tips for Reddit moderators. Stay updated on new features, join events, and learn to grow a community on Reddit.",
+    "resultsTotal": 360000000,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.bilibili.com",
+    "url": "https://www.bilibili.com/",
+    "displayedUrl": "https://www.bilibili.com",
+    "title": "哔哩哔哩(゜-゜)つロ干杯~-bilibili",
+    "description": "哔哩哔哩（bilibili.com)是国内知名的视频弹幕网站，这里有及时的动漫新番，活跃的ACG氛围，有创意的Up主。大家可以在这里找到许多欢乐。",
+    "resultsTotal": 211000000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.quora.com",
+    "url": "https://www.quora.com/",
+    "displayedUrl": "https://www.quora.com",
+    "title": "Quora",
+    "description": "Quora is a place to gain and share knowledge. It's a platform to ask questions and connect with people who contribute unique insights and quality answers.",
+    "resultsTotal": 157000000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.researchgate.net",
+    "url": "https://www.researchgate.net/",
+    "displayedUrl": "https://www.researchgate.net",
+    "title": "ResearchGate | Find and share research",
+    "description": "Discover scientific knowledge and stay connected to the world of science. Join for free. Discover research. Access over 160 million publication pages.",
+    "resultsTotal": 132000000,
+    "category": "Professional Social Network Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "x.com",
+    "url": "https://x.com/efkxvjgk9p70891",
+    "displayedUrl": "https://x.com › ...",
+    "title": "音瑠@文字コラ (@EfkxVJgK9p70891) ...",
+    "description": "文字コラ作ってるよ  DMで依頼もOK  素人大歓迎  S女モノ多いです  いいね等反応あると嬉しいです.",
+    "resultsTotal": 127000000,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "wordpress.com",
+    "url": "https://wordpress.com/",
+    "displayedUrl": "https://wordpress.com",
+    "title": "WordPress.com: Build a Site, Sell Your Stuff, Start a Blog & More",
+    "description": "WordPress Without Limits. Everything you need to build and grow any website—all in one place. Get started.",
+    "resultsTotal": 124000000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.imdb.com",
+    "url": "https://www.imdb.com/",
+    "displayedUrl": "https://www.imdb.com",
+    "title": "IMDb: Ratings, Reviews, and Where to Watch the Best Movies ...",
+    "description": "IMDb is the world's most popular and authoritative source for movie, TV and celebrity content. Find ratings and reviews for the newest movie and TV shows.",
+    "resultsTotal": 105000000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.shutterstock.com",
+    "url": "https://www.shutterstock.com/",
+    "displayedUrl": "https://www.shutterstock.com",
+    "title": "Shutterstock: Stock Images, Photos, Vectors, Video, and Music",
+    "description": "Download the best royalty free images from Shutterstock, including photos, vectors, and illustrations. Enjoy straightforward pricing and simple licensing.",
+    "resultsTotal": 91400000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.deviantart.com",
+    "url": "https://www.deviantart.com/",
+    "displayedUrl": "https://www.deviantart.com",
+    "title": "DeviantArt - The Largest Online Art Gallery and Community",
+    "description": "DeviantArt is where art and community thrive. Explore over 350 million pieces of art while connecting to fellow artists and art enthusiasts.",
+    "resultsTotal": 88900000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.amazon.com",
+    "url": "https://www.amazon.com/",
+    "displayedUrl": "https://www.amazon.com",
+    "title": "Amazon.com. Spend less. Smile more.",
+    "description": "Free shipping on millions of items. Get the best of Shopping and Entertainment with Prime. Enjoy low prices and great deals on the largest selection of...",
+    "resultsTotal": 85000000,
+    "category": "E-commerce Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "stackoverflow.com",
+    "url": "https://stackoverflow.com/",
+    "displayedUrl": "https://stackoverflow.com",
+    "title": "Stack Overflow - Where Developers Learn, Share, & Build ...",
+    "description": "Stack Overflow is the largest, most trusted online community for developers to learn, share​ ​their programming ​knowledge, and build their careers.",
+    "resultsTotal": 79200000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "github.com",
+    "url": "https://github.com/rstudio",
+    "displayedUrl": "https://github.com › rstudio",
+    "title": "RStudio",
+    "description": "RStudio has 351 repositories available. Follow their code on GitHub.",
+    "resultsTotal": 78500000,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.scribd.com",
+    "url": "https://www.scribd.com/",
+    "displayedUrl": "https://www.scribd.com",
+    "title": "Scribd: Explore 195M+ documents from a global community",
+    "description": "Explore over 195M documents from a global community. Share information, and find inspiration on Scribd.",
+    "resultsTotal": 73300000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "play.google.com",
+    "url": "https://play.google.com/",
+    "displayedUrl": "https://play.google.com",
+    "title": "Android Apps on Google Play",
+    "description": "Enjoy millions of the latest Android apps, games, music, movies, TV, books, magazines & more. Anytime, anywhere, across your devices.",
+    "resultsTotal": 70900000,
+    "category": "E-commerce Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "medium.com",
+    "url": "https://medium.com/",
+    "displayedUrl": "https://medium.com",
+    "title": "Medium: Read and write stories.",
+    "description": "On Medium, anyone can share insightful perspectives, useful knowledge, and life wisdom with the world.",
+    "resultsTotal": 63800000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.tripadvisor.com",
+    "url": "https://www.tripadvisor.com/",
+    "displayedUrl": "https://www.tripadvisor.com",
+    "title": "Tripadvisor: Over a billion reviews & contributions for Hotels ...",
+    "description": "Plan your next trip, read reviews and get travel advice from our community on where to stay and what to do. Find savings on hotels, book the perfect tour or...",
+    "resultsTotal": 61700000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "stackexchange.com",
+    "url": "https://stackexchange.com/",
+    "displayedUrl": "https://stackexchange.com",
+    "title": "Stack Exchange: Hot Questions",
+    "description": "We make Stack Overflow and 170+ other community-powered Q&A sites.",
+    "resultsTotal": 55200000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.slideshare.net",
+    "url": "https://www.slideshare.net/terms",
+    "displayedUrl": "https://www.slideshare.net › terms",
+    "title": "Global Terms of Use",
+    "description": "These Global Terms of Use (“Terms”) govern Your use of websites (“Sites”), mobile applications (“Apps”), software, content, and all products and services (...",
+    "resultsTotal": 52600000,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.dailymotion.com",
+    "url": "https://www.dailymotion.com/",
+    "displayedUrl": "https://www.dailymotion.com",
+    "title": "Dailymotion",
+    "description": "The latest news, sports, music and entertainment videos on Dailymotion.",
+    "resultsTotal": 49700000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.booking.com",
+    "url": "https://www.booking.com/",
+    "displayedUrl": "https://www.booking.com",
+    "title": "Booking.com | Official site | The best hotels, flights, car rentals ...",
+    "description": "Explore the world with Booking.com. Big savings on homes, hotels, flights, car rentals, taxis, and attractions – build your perfect trip on any budget.",
+    "resultsTotal": 42300000,
+    "category": "Travel and Accommodation Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "zhidao.baidu.com",
+    "url": "https://zhidao.baidu.com/",
+    "displayedUrl": "https://zhidao.baidu.com",
+    "title": "百度知道",
+    "description": "经植物专家辨认，这种植物是罕见的水晶兰。水晶兰不是兰花，属鹿蹄草科植物，多年生，草本；茎直立，单一，不分枝，高10厘米至30厘米，全株无叶绿素，白色，从不进行光合作用，靠腐烂...",
+    "resultsTotal": 35100000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.academia.edu",
+    "url": "https://www.academia.edu/",
+    "displayedUrl": "https://www.academia.edu",
+    "title": "Academia.edu - Find Research Papers, Topics, Researchers",
+    "description": "Academia.edu is the platform to share, find, and explore 50 Million research papers. Join us to accelerate your research needs & academic interests.",
+    "resultsTotal": 29400000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.indeed.com",
+    "url": "https://www.indeed.com/",
+    "displayedUrl": "https://www.indeed.com",
+    "title": "Indeed: Job Search",
+    "description": "With Indeed, you can search millions of jobs online to find the next step in your career. With tools for job search, resumes, company reviews and more,...",
+    "resultsTotal": 29300000,
+    "category": "Job Search Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.tumblr.com",
+    "url": "https://www.tumblr.com/",
+    "displayedUrl": "https://www.tumblr.com",
+    "title": "Trending topics on Tumblr",
+    "description": "Explore trending topics on Tumblr. See all of the GIFs, fan art, and general conversation about the internet's favorite things.",
+    "resultsTotal": 27700000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.goodreads.com",
+    "url": "https://www.goodreads.com/",
+    "displayedUrl": "https://www.goodreads.com",
+    "title": "Goodreads | Meet your next favorite book",
+    "description": "Find and read more books you'll love, and keep track of the books you want to read. Be part of the world's largest community of book lovers on Goodreads.",
+    "resultsTotal": 27500000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.theguardian.com",
+    "url": "https://www.theguardian.com/",
+    "displayedUrl": "https://www.theguardian.com",
+    "title": "Latest news, sport and opinion from the Guardian",
+    "description": "Latest US news, world news, sports, business, opinion, analysis and reviews from the Guardian, the world's leading liberal voice.",
+    "resultsTotal": 26700000,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "pixabay.com",
+    "url": "https://pixabay.com/",
+    "displayedUrl": "https://pixabay.com",
+    "title": "5 million+ Stunning Free Images to Use Anywhere - Pixabay ...",
+    "description": "Find your perfect royalty-free image or video to download and use. ✓ Royalty-free ✓ No attribution required ✓ High quality images.",
+    "resultsTotal": 26700000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.gutefrage.net",
+    "url": "https://www.gutefrage.net/",
+    "displayedUrl": "https://www.gutefrage.net",
+    "title": "gutefrage - die größte deutschsprachige Frage-Antwort-Plattform",
+    "description": "Bei uns kannst Du Wissen, Erfahrung und Meinungen mit anderen teilen und entdecken. Seit 2006 ist gutefrage für Millionen Menschen die Anlaufstelle für Fragen...",
+    "resultsTotal": 22200000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "foursquare.com",
+    "url": "https://foursquare.com/",
+    "displayedUrl": "https://foursquare.com",
+    "title": "Unlocking Powerful Consumer Connections with Location | FSQ",
+    "description": "What can Foursquare do for you? Foursquare is the industry-leading platform for all things geospatial, from foundational building blocks to turnkey solutions.",
+    "resultsTotal": 22200000,
+    "category": "Local Business Directory Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.xing.com",
+    "url": "https://www.xing.com/",
+    "displayedUrl": "https://www.xing.com",
+    "title": "XING - Finde den Job, der zu Dir passt. Oder lass Dich finden!",
+    "description": "Über 1 Mio. Jobs ✓ 20.000 Recruiter·innen ✓ Gehaltsangaben ✓ Arbeitgeber-Bewertungen. Definiere Deine Job-Wünsche und mach Dein XING!",
+    "resultsTotal": 19500000,
+    "category": "Job Search Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.gettyimages.com",
+    "url": "https://www.gettyimages.com/",
+    "displayedUrl": "https://www.gettyimages.com",
+    "title": "Getty Images: Royalty-Free Stock Photos, Creative Images ...",
+    "description": "Discover Getty Images' unrivaled collection of royalty-free images to find the perfect stock photo, vector, or illustration that resonates with your...",
+    "resultsTotal": 19300000,
+    "category": "Image Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "issuu.com",
+    "url": "https://issuu.com/",
+    "displayedUrl": "https://issuu.com",
+    "title": "Issuu | Create Interactive Flipbooks on our Digital Publishing ...",
+    "description": "Issuu converts PDFs and documents into an interactive flipbook and marketing assets. Embed flipbooks onto your website and distribute online.",
+    "resultsTotal": 18700000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "soundcloud.com",
+    "url": "https://soundcloud.com/",
+    "displayedUrl": "https://soundcloud.com",
+    "title": "Stream and listen to music online for free with SoundCloud",
+    "description": "Discover and play over 320 million music tracks. Join the world's largest online community of artists, bands, DJs, and audio creators.",
+    "resultsTotal": 18300000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.behance.net",
+    "url": "https://www.behance.net/",
+    "displayedUrl": "https://www.behance.net",
+    "title": "Search Projects :: Photos, videos, logos, illustrations and ...",
+    "description": "Behance is the world's largest creative network for showcasing and discovering creative work.",
+    "resultsTotal": 18000000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "store.steampowered.com",
+    "url": "https://store.steampowered.com/",
+    "displayedUrl": "https://store.steampowered.com",
+    "title": "Welcome to Steam",
+    "description": "Steam is the ultimate destination for playing, discussing, and creating games.",
+    "resultsTotal": 17800000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.artstation.com",
+    "url": "https://www.artstation.com/kuyajaypi",
+    "displayedUrl": "https://www.artstation.com",
+    "title": "Kuya Jaypi",
+    "description": "League of Legends. Valorant. Overwatch 2. Disney Lorcana. Marvel Snap. Street Fighter. Clash Royale. God's Unchained. Fan Art. Portrait Art. Kuya Jaypi.",
+    "resultsTotal": 17300000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.glassdoor.com",
+    "url": "https://www.glassdoor.com/citi",
+    "displayedUrl": "https://www.glassdoor.com",
+    "title": "Working at Citi",
+    "description": "Overall, 71% of employees would recommend working at Citi to a friend. This is based on 33,258 anonymously submitted reviews on Glassdoor.",
+    "resultsTotal": 16000000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "prezi.com",
+    "url": "https://prezi.com/",
+    "displayedUrl": "https://prezi.com",
+    "title": "Presentations and videos with engaging visuals for hybrid ...",
+    "description": "Welcome to Prezi, the presentation software that uses motion, zoom, and spatial relationships to bring your ideas to life and make you a great presenter.",
+    "resultsTotal": 16000000,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.gofundme.com",
+    "url": "https://www.gofundme.com/",
+    "displayedUrl": "https://www.gofundme.com",
+    "title": "GoFundMe | The #1 Crowdfunding and Fundraising Platform",
+    "description": "GoFundMe is the world's leading crowdfunding platform—from memorial tributes and funerals to medical emergencies and nonprofits.",
+    "resultsTotal": 15300000,
+    "category": "Crowdfunding Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.primevideo.com",
+    "url": "https://www.primevideo.com/",
+    "displayedUrl": "https://www.primevideo.com",
+    "title": "Amazon.com Sign up for Prime Video",
+    "description": "Enjoy The Lord of the Rings: The Rings of Power and other Amazon Originals, popular movies, and hit TV shows — all available with your Prime membership.",
+    "resultsTotal": 14800000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.zomato.com",
+    "url": "https://www.zomato.com/",
+    "displayedUrl": "https://www.zomato.com",
+    "title": "Zomato: Best Restaurants in India",
+    "description": "India Restaurants - Find the best restaurants, cafés and bars in India on Zomato. View Menus, Photos, Ratings and User Reviews for Top restaurants in India.",
+    "resultsTotal": 13500000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.airbnb.com",
+    "url": "https://www.airbnb.com/",
+    "displayedUrl": "https://www.airbnb.com",
+    "title": "Airbnb | Vacation rentals, cabins, beach houses, & more",
+    "description": "Get an Airbnb for every kind of trip → 7 million vacation rentals → 2 million Guest Favorites → 220+ countries and regions worldwide.",
+    "resultsTotal": 12400000,
+    "category": "Travel and Accommodation Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "bandcamp.com",
+    "url": "https://bandcamp.com/",
+    "displayedUrl": "https://bandcamp.com",
+    "title": "Bandcamp",
+    "description": "Get the free Bandcamp app for iOS or Android to stream your purchases, listen offline, build a queue or playlist for hours of continuous listening, and explore...",
+    "resultsTotal": 12100000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.forbes.com",
+    "url": "https://www.forbes.com/",
+    "displayedUrl": "https://www.forbes.com",
+    "title": "Forbes",
+    "description": "Forbes is a global media company, focusing on business, investing, technology, entrepreneurship, leadership, and lifestyle.",
+    "resultsTotal": 11600000,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.coinbase.com",
+    "url": "https://www.coinbase.com/",
+    "displayedUrl": "https://www.coinbase.com",
+    "title": "Coinbase - Buy and Sell Bitcoin, Ethereum, and more with trust",
+    "description": "Coinbase is a secure online platform for buying, selling, transferring, and storing cryptocurrency.",
+    "resultsTotal": 11500000,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "dribbble.com",
+    "url": "https://dribbble.com/",
+    "displayedUrl": "https://dribbble.com",
+    "title": "Dribbble - Discover the World's Top Designers & Creative ...",
+    "description": "The world's destination for design · Explore inspiring designs · Find your next designer today. The world's leading brands use Dribbble to hire creative talent.",
+    "resultsTotal": 11200000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "vimeo.com",
+    "url": "https://vimeo.com/",
+    "displayedUrl": "https://vimeo.com",
+    "title": "Vimeo AI-Powered Video Platform",
+    "description": "The video platform trusted by 287 million creatives, entrepreneurs, and businesses. Everything you need to create, manage, and share stunning videos.",
+    "resultsTotal": 10600000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.ubereats.com",
+    "url": "https://www.ubereats.com/?srsltid=AfmBOoqYDh3_swTNh64HhS31dgRXimtNKXLAH5zXjNTm4R9qPdR9KOdo",
+    "displayedUrl": "https://www.ubereats.com",
+    "title": "Uber Eats | Food & Grocery Delivery | Order Groceries and ...",
+    "description": "Find the best restaurants that deliver. Get contactless delivery for restaurant takeout, groceries, and more! Order food online or in the Uber Eats app and...",
+    "resultsTotal": 10600000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.twitch.tv",
+    "url": "https://www.twitch.tv/",
+    "displayedUrl": "https://www.twitch.tv",
+    "title": "Twitch",
+    "description": "Twitch is an interactive livestreaming service for content spanning gaming, entertainment, sports, music, and more. There's something for everyone on...",
+    "resultsTotal": 9800000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.healthgrades.com",
+    "url": "https://www.healthgrades.com/",
+    "displayedUrl": "https://www.healthgrades.com",
+    "title": "Healthgrades | Find a Doctor - Doctor Reviews - Online Doctor ...",
+    "description": "Healthgrades is the leading online resource for comprehensive information about physicians and hospitals.",
+    "resultsTotal": 9750000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.last.fm",
+    "url": "https://www.last.fm/",
+    "displayedUrl": "https://www.last.fm",
+    "title": "Last.fm | Play music, find songs, and discover artists",
+    "description": "The world's largest online music service. Listen online, find out more about your favourite artists, and get music recommendations, only at Last.fm.",
+    "resultsTotal": 9570000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "nike.com",
+    "url": "https://jobs.nike.com/",
+    "displayedUrl": "https://jobs.nike.com",
+    "title": "Nike Careers Home",
+    "description": "Welcome to Nike Careers. Search Jobs. Find Your Fit. We Use the Power of Sport to Move the World. At NIKE, Inc., we see a world where everybody is an athlete.",
+    "resultsTotal": 9190000,
+    "category": "Job Search Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "imgur.com",
+    "url": "https://imgur.com/",
+    "displayedUrl": "https://imgur.com",
+    "title": "Imgur: The magic of the Internet",
+    "description": "Find, rate and share the best memes and images. Discover the magic of the Internet at Imgur.",
+    "resultsTotal": 9130000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.pexels.com",
+    "url": "https://www.pexels.com/login/",
+    "displayedUrl": "https://www.pexels.com › login",
+    "title": "Log in to Pexels",
+    "description": "Unlock a world of stunning visuals at Pexels. Log in now to access free photos, videos and share your own with the world. Start exploring today!",
+    "resultsTotal": 8750000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.yumpu.com",
+    "url": "https://www.yumpu.com/en",
+    "displayedUrl": "https://www.yumpu.com › ...",
+    "title": "YUMPU - Publishing digital magazines worldwide",
+    "description": "YUMPU releases magazines, documents and catalogs on the internet. Publish for free. Gain new readers and costumers worldwide.",
+    "resultsTotal": 8370000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "unsplash.com",
+    "url": "https://unsplash.com/",
+    "displayedUrl": "https://unsplash.com",
+    "title": "Unsplash: Beautiful Free Images & Pictures",
+    "description": "Beautiful, free images and photos that you can download and use for any project. Better than any royalty free or stock photos.",
+    "resultsTotal": 7990000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.microsoft.com",
+    "url": "https://www.microsoft.com/",
+    "displayedUrl": "https://www.microsoft.com",
+    "title": "Microsoft – AI, Cloud, Productivity, Computing, Gaming & Apps",
+    "description": "Maximize the everyday with Microsoft 365. Get online protection, secure cloud storage, and innovative apps designed to fit your needs—all in one plan.",
+    "resultsTotal": 7670000,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.zhihu.com",
+    "url": "https://www.zhihu.com/question/376173135/answer/1054696501",
+    "displayedUrl": "https://www.zhihu.com › answer",
+    "title": "最近看琴，看中三益121和雅马哈yu2x，但是比较 ...",
+    "description": "121和雅马哈yu2x，但是比较纠结，想让大家推荐一下？ 关注问题 写回答. ​ 邀请回答. ​ 好问题. ​. ​. 知乎· 6 个回答· 9 关注.",
+    "resultsTotal": 6710000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.ratemyprofessors.com",
+    "url": "https://www.ratemyprofessors.com/",
+    "displayedUrl": "https://www.ratemyprofessors.com",
+    "title": "Rate My Professors",
+    "description": "Find and rate your professor or school.",
+    "resultsTotal": 6360000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.bbb.org",
+    "url": "https://www.bbb.org/",
+    "displayedUrl": "https://www.bbb.org",
+    "title": "BBB: The Sign of a Better Business | Better Business Bureau®",
+    "description": "Business seal: the sign of a Better Business. The BBB Seal instantly identifies businesses committed to honesty and integrity.",
+    "resultsTotal": 6240000,
+    "category": "Review and Rating Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.netflix.com",
+    "url": "https://www.netflix.com/",
+    "displayedUrl": "https://www.netflix.com",
+    "title": "Netflix - Watch TV Shows Online, Watch Movies Online",
+    "description": "Netflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected...",
+    "resultsTotal": 5930000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.opentable.com",
+    "url": "https://www.opentable.com/",
+    "displayedUrl": "https://www.opentable.com",
+    "title": "OpenTable: Restaurants and Restaurant Bookings",
+    "description": "Book online, read restaurant reviews from diners, and earn points towards free meals. OpenTable is a real-time online booking network for fine dining...",
+    "resultsTotal": 5870000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.smule.com",
+    "url": "https://www.smule.com/",
+    "displayedUrl": "https://www.smule.com",
+    "title": "Smule: | Sing 14M Karaoke Songs with Lyrics on the #1 Social ...",
+    "description": "Smule is the #1 karaoke app. Sing 14M+ songs with lyrics! Record with pro audio FX to sound your best! Sing karaoke solo, or duet with friends and popular...",
+    "resultsTotal": 4990000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.doordash.com",
+    "url": "https://www.doordash.com/?srsltid=AfmBOoo5UidLgkm_F0xyHaluSf65TIkV_vXhjU-5BLc_LIszgqYdbr_4",
+    "displayedUrl": "https://www.doordash.com",
+    "title": "DoorDash Food Delivery & Takeout - From Restaurants Near ...",
+    "description": "Delivery & takeout from the best local restaurants. Breakfast, lunch, dinner and more, delivered safely to your door. Now offering pickup & no-contact...",
+    "resultsTotal": 4940000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.google.com",
+    "url": "https://www.google.com/services/",
+    "displayedUrl": "https://www.google.com › services",
+    "title": "Business Management Software | Google Business Solutions",
+    "description": "Learn about the comprehensive list of service software's Google Business Solutions provides to help with data analysis, advertising, site performance and...",
+    "resultsTotal": 4930000,
+    "category": "Business Management Software",
+    "isUGC": false
+  },
+  {
+    "domain": "www.rottentomatoes.com",
+    "url": "https://www.rottentomatoes.com/",
+    "displayedUrl": "https://www.rottentomatoes.com",
+    "title": "Rotten Tomatoes: Movies | TV Shows | Movie Trailers ...",
+    "description": "Rotten Tomatoes, home of the Tomatometer, is the most trusted measurement of quality for Movies & TV. The definitive site for Reviews, Trailers, Showtimes,...",
+    "resultsTotal": 4870000,
+    "category": "Review and Rating Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "substack.com",
+    "url": "https://substack.com/",
+    "displayedUrl": "https://substack.com",
+    "title": "Substack - A new economic engine for culture",
+    "description": "Substack's simple system lets you publish to the web, email, and our app simultaneously so you can find new subscribers and always reach your existing audience.",
+    "resultsTotal": 4860000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.doximity.com",
+    "url": "https://www.doximity.com/",
+    "displayedUrl": "https://www.doximity.com",
+    "title": "Clinician's Network & Healthcare Directory for Doctors, NPs ...",
+    "description": "The Universal Clinician Directory. Search and find any US physician, nurse practitioner or PA in seconds. Never Google another provider again.",
+    "resultsTotal": 4220000,
+    "category": "Professional Social Network Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.yelp.com",
+    "url": "https://www.yelp.com/forgot",
+    "displayedUrl": "https://www.yelp.com › forgot",
+    "title": "Forgot Password",
+    "description": "Forgot your Yelp password? Enter your email address and we will send you an email about how to reset your password.",
+    "resultsTotal": 4180000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.avvo.com",
+    "url": "https://www.avvo.com/",
+    "displayedUrl": "https://www.avvo.com",
+    "title": "Avvo.com - Legal. Easier.",
+    "description": "Avvo has ratings, reviews, and disciplinary records for lawyers in every state. Get free legal advice, find the right lawyer, and make informed legal...",
+    "resultsTotal": 4050000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.reverbnation.com",
+    "url": "https://www.reverbnation.com/",
+    "displayedUrl": "https://www.reverbnation.com",
+    "title": "ReverbNation : Artists First",
+    "description": "ReverbNation helps Artists grow lasting careers by introducing them to music industry partners, exposing them to fans, and building innovative tools to...",
+    "resultsTotal": 3940000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "vsco.co",
+    "url": "https://vsco.co/freddyruger",
+    "displayedUrl": "https://vsco.co › freddyruger",
+    "title": "Gallery | freddyruger",
+    "description": "Load more. Try for free · Download now. So you can make it. Company. About VSCO · Products · Plans · Careers · Press...",
+    "resultsTotal": 3550000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.binance.com",
+    "url": "https://www.binance.com/",
+    "displayedUrl": "https://www.binance.com",
+    "title": "Binance - Cryptocurrency Exchange for Bitcoin, Ethereum ...",
+    "description": "Buy & sell cryptocurrencies using bank transfer and 800+ options. Convert & Block Trade The easiest way to trade at all sizes.",
+    "resultsTotal": 3370000,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.buzzfeed.com",
+    "url": "https://www.buzzfeed.com/",
+    "displayedUrl": "https://www.buzzfeed.com",
+    "title": "BuzzFeed",
+    "description": "BuzzFeed has breaking news, vital journalism, quizzes, videos, celeb news, Tasty food videos, recipes, DIY hacks, and all the trending buzz you'll want to...",
+    "resultsTotal": 3320000,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "store.playstation.com",
+    "url": "https://store.playstation.com/",
+    "displayedUrl": "https://store.playstation.com",
+    "title": "Latest | Official PlayStation™Store US",
+    "description": "Discover PlayStation Plus. Enjoy hundreds of PS5, PS4 and classic PlayStation games, online multiplayer, and more unmissable benefits.",
+    "resultsTotal": 3270000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.snapchat.com",
+    "url": "https://www.snapchat.com/",
+    "displayedUrl": "https://www.snapchat.com",
+    "title": "Less social media. More Snapchat.",
+    "description": "Chat, send Snaps, explore Stories, and try Lenses on desktop, or download the app on mobile! See how to connect & create with friends on Snapchat,...",
+    "resultsTotal": 3150000,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.mixcloud.com",
+    "url": "https://www.mixcloud.com/",
+    "displayedUrl": "https://www.mixcloud.com",
+    "title": "Mixcloud - Making radio better | Mixcloud",
+    "description": "Use Mixcloud to play any music you like, build communities and get paid directly. We take care of the music copyright for you.",
+    "resultsTotal": 2990000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "gist.github.com",
+    "url": "https://gist.github.com/",
+    "displayedUrl": "https://gist.github.com",
+    "title": "Discover gists · GitHub",
+    "description": "OS X Screencast to animated GIF. This gist shows how to create a GIF screencast using only free OS X tools: QuickTime, ffmpeg, and gifsicle.",
+    "resultsTotal": 2910000,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.strava.com",
+    "url": "https://www.strava.com/",
+    "displayedUrl": "https://www.strava.com",
+    "title": "Strava | Running, Cycling & Hiking App - Train, Track & Share",
+    "description": "Strava connects millions of runners, cyclists, hikers, walkers and other active people through the sports they love – all on our mobile app and website.",
+    "resultsTotal": 2870000,
+    "category": "Health and Fitness Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.vitals.com",
+    "url": "https://www.vitals.com/",
+    "displayedUrl": "https://www.vitals.com",
+    "title": "Vitals.com: Find a Doctor, Doctor Reviews & Ratings",
+    "description": "Browse more than 9 million provider reviews. Find the right doctor or dentist for you. Search. You can also search by physician or practice name.",
+    "resultsTotal": 2860000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "unity.com",
+    "url": "https://unity.com/",
+    "displayedUrl": "https://unity.com",
+    "title": "Unity Real-Time Development Platform | 3D, 2D, VR & AR ...",
+    "description": "Create and grow real-time 3D games, apps, and experiences for entertainment, film, automotive, architecture, and more. Get started with Unity today.",
+    "resultsTotal": 2800000,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.homeadvisor.com",
+    "url": "https://www.homeadvisor.com/",
+    "displayedUrl": "https://www.homeadvisor.com",
+    "title": "HomeAdvisor - Find Local Home Repair & Improvement ...",
+    "description": "HomeAdvisor, powered by Angi, is the simplest way to find and book top-rated local home services. Connect with trusted home repair and improvement...",
+    "resultsTotal": 2750000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "audiomack.com",
+    "url": "https://audiomack.com/",
+    "displayedUrl": "https://audiomack.com",
+    "title": "Audiomack - Music platform empowering artists & fans ...",
+    "description": "Audiomack is a youth-driven, artist-first music streaming platform that allows creators to share unlimited music and podcast content for free.",
+    "resultsTotal": 2570000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.trustpilot.com",
+    "url": "https://www.trustpilot.com/",
+    "displayedUrl": "https://www.trustpilot.com",
+    "title": "Trustpilot Reviews: Experience the power of customer reviews",
+    "description": "Trustpilot is a review platform that's open to everyone. Share your experiences to help others make better choices and encourage companies to up their game.",
+    "resultsTotal": 2490000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.meetup.com",
+    "url": "https://www.meetup.com/",
+    "displayedUrl": "https://www.meetup.com",
+    "title": "Meetup | Find Local Groups, Events, and Activities Near You",
+    "description": "Find Meetup events, join groups, or start your own. Make new friends and connect with like-minded people. Meet people near you who share your interests.",
+    "resultsTotal": 2330000,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "ask.fm",
+    "url": "https://ask.fm/",
+    "displayedUrl": "https://ask.fm",
+    "title": "ASKfm: Ask and Answer",
+    "description": "Find out what people want to know about you. Ask questions and get answers on any topic!",
+    "resultsTotal": 2290000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.angi.com",
+    "url": "https://www.angi.com/",
+    "displayedUrl": "https://www.angi.com",
+    "title": "Angi (formerly Angie's List): Home Service Pros & Reviews",
+    "description": "Angie's List is now Angi. Connect with vetted pros, read verified reviews & get fair pricing for all your home projects & services — with Angi.",
+    "resultsTotal": 2200000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.tapatalk.com",
+    "url": "https://www.tapatalk.com/forum/28472",
+    "displayedUrl": "https://www.tapatalk.com › forum",
+    "title": "T4UM Forum Tematico - Furgoni Transporter Westfalia ...",
+    "description": "Oggi anche su Facebook https://www.facebook.com/groups/t4um.it/ ATTENZIONE - Il forum è aperto a tutti in lettura, ma per poter scrivere occorre registrarsi",
+    "resultsTotal": 2170000,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.huffpost.com",
+    "url": "https://www.huffpost.com/",
+    "displayedUrl": "https://www.huffpost.com",
+    "title": "HuffPost - Breaking News, U.S. and World News | HuffPost",
+    "description": "Read the latest headlines, news stories, and opinion from Politics, Entertainment, Life, Perspectives, and more.",
+    "resultsTotal": 2160000,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "drive.google.com",
+    "url": "https://drive.google.com/drive/quota",
+    "displayedUrl": "https://drive.google.com › drive › quota",
+    "title": "Google Drive: Sign-in",
+    "description": "Sign in · For my personal use · For work or my business.",
+    "resultsTotal": 2090000,
+    "category": "Cloud Storage Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.kickstarter.com",
+    "url": "https://www.kickstarter.com/",
+    "displayedUrl": "https://www.kickstarter.com",
+    "title": "Kickstarter",
+    "description": "Kickstarter exists to help bring creative projects to life. A home for film, music, art, theater, games, comics, design, photography, and more.",
+    "resultsTotal": 1970000,
+    "category": "Crowdfunding Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "libsyn.com",
+    "url": "https://libsyn.com/",
+    "displayedUrl": "https://libsyn.com",
+    "title": "The Best Podcast Hosting Platform | Libsyn Podcasting",
+    "description": "Libsyn hosts audio and video podcasts, and all plans include free custom branded audio and video players. Evolve and test — nothing's stopping you!",
+    "resultsTotal": 1950000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.spreaker.com",
+    "url": "https://www.spreaker.com/privacy",
+    "displayedUrl": "https://www.spreaker.com › privacy",
+    "title": "Privacy Policy",
+    "description": "This Privacy Policy describes how we collect, protect, share and use your personal information, both offline and online.",
+    "resultsTotal": 1800000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.grubhub.com",
+    "url": "https://www.grubhub.com/",
+    "displayedUrl": "https://www.grubhub.com",
+    "title": "Grubhub: Food Delivery | Restaurant Takeout | Order Food ...",
+    "description": "Grubhub helps you find and order food from wherever you are. How it works: you type in an address, we tell you the restaurants that deliver to that locale as...",
+    "resultsTotal": 1790000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "sourceforge.net",
+    "url": "https://sourceforge.net/",
+    "displayedUrl": "https://sourceforge.net",
+    "title": "SourceForge: Compare, Download & Develop Open Source ...",
+    "description": "SourceForge is a complete business software and services comparison platform where buyers find, compare, & review business software and IT services. Selling...",
+    "resultsTotal": 1730000,
+    "category": "Open Source Project Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.crunchyroll.com",
+    "url": "https://www.crunchyroll.com/?srsltid=AfmBOooIwud2_jSUfpCi36ov7EOqgpRUOGZUl6Wq8uXkaiWHDJorsXVF",
+    "displayedUrl": "https://www.crunchyroll.com",
+    "title": "Crunchyroll: Watch Popular Anime, Play Games & Shop Online",
+    "description": "Embark on an anime adventure with Crunchyroll, your ultimate destination for watching a vast collection of anime series and movies.",
+    "resultsTotal": 1520000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.answers.com",
+    "url": "https://www.answers.com/",
+    "displayedUrl": "https://www.answers.com",
+    "title": "Answers - The Most Trusted Place for Answering Life's ...",
+    "description": "Answers is the place to go to get the answers you need and to ask the questions you want.",
+    "resultsTotal": 1480000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.revolut.com",
+    "url": "https://www.revolut.com/",
+    "displayedUrl": "https://www.revolut.com",
+    "title": "Revolut | All-in-one Finance App for your Money | Revolut ...",
+    "description": "Free. Sending money abroad or sticking to a budget with built-in tools, no matter your needs, get more from your money with our Standard account.",
+    "resultsTotal": 1480000,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "docs.google.com",
+    "url": "https://docs.google.com/forms",
+    "displayedUrl": "https://docs.google.com › forms",
+    "title": "Google Forms: Sign-in",
+    "description": "Access Google Forms with a personal Google account or Google Workspace account (for business use).",
+    "resultsTotal": 1420000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.blogger.com",
+    "url": "https://www.blogger.com/",
+    "displayedUrl": "https://www.blogger.com",
+    "title": "Blogger.com - Create a unique and beautiful blog easily.",
+    "description": "Create a beautiful blog that fits your style. Choose from a selection of easy-to-use templates – all with flexible layouts and hundreds of background images –...",
+    "resultsTotal": 1340000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "news.ycombinator.com",
+    "url": "https://news.ycombinator.com/",
+    "displayedUrl": "https://news.ycombinator.com",
+    "title": "Hacker News",
+    "description": "Phind-405B and faster, high quality AI answers for everyone (phind.com). 153 points by rushingcreek 6 hours ago | hide | 72 comments.",
+    "resultsTotal": 1300000,
+    "category": "News and Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.domestika.org",
+    "url": "https://www.domestika.org/",
+    "displayedUrl": "https://www.domestika.org",
+    "title": "Domestika: Courses for creatives",
+    "description": "Domestika is the largest creative community. Learn and share from anywhere with online courses taught by the best professionals in the world of design and...",
+    "resultsTotal": 1280000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.nintendo.com",
+    "url": "https://www.nintendo.com/au/?srsltid=AfmBOop2_hOUH4i7EgZt6Yqd9uLhywK6laRiOzLD508zUXdbfPmMqxKu",
+    "displayedUrl": "https://www.nintendo.com › ...",
+    "title": "Nintendo - Official Site - Video Game Consoles, Games",
+    "description": "Discover Nintendo Switch, the video game system you can play at home or on the go. Plus, get the latest games and news on the official Nintendo site.",
+    "resultsTotal": 1200000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "kin.naver.com",
+    "url": "https://kin.naver.com/",
+    "displayedUrl": "https://kin.naver.com",
+    "title": "네이버 지식iN",
+    "description": "홈 · Q&A · CHOiCENEW · 답변하기 · 지식기부 · 사람들NEW · 베스트 · 명예의전당 · 룰렛 · NEW. 전문가 상담이 필요할 땐, 지식iN 엑스퍼트 · 지식iN 성지.",
+    "resultsTotal": 1190000,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "codepen.io",
+    "url": "https://codepen.io/",
+    "displayedUrl": "https://codepen.io",
+    "title": "CodePen: Online Code Editor and Front End Web Developer ...",
+    "description": "CodePen is a social development environment for front-end designers and developers. Build and deploy a website, show off your work, build test cases to...",
+    "resultsTotal": 1170000,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "developer.apple.com",
+    "url": "https://developer.apple.com/",
+    "displayedUrl": "https://developer.apple.com",
+    "title": "Apple Developer",
+    "description": "The Apple development ecosystem provides everything you need to bring incredible experiences to people around the world.",
+    "resultsTotal": 1150000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.kaggle.com",
+    "url": "https://www.kaggle.com/",
+    "displayedUrl": "https://www.kaggle.com",
+    "title": "Kaggle: Your Machine Learning and Data Science Community",
+    "description": "Kaggle is the world's largest data science community with powerful tools and resources to help you achieve your data science goals.",
+    "resultsTotal": 1110000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.apple.com",
+    "url": "https://www.apple.com/hu/",
+    "displayedUrl": "https://www.apple.com › ...",
+    "title": "Apple (Magyarország)",
+    "description": "Nézz körül az Apple innovatív világában: iPhone, iPad, Apple Watch, Mac és Apple TV, kiegészítők tárháza, szórakozás és profi terméktámogatás.",
+    "resultsTotal": 1100000,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.ea.com",
+    "url": "https://www.ea.com/",
+    "displayedUrl": "https://www.ea.com",
+    "title": "Electronic Arts Home Page - Official EA Site",
+    "description": "We exist to inspire the world through Play. Electronic Arts is a leading publisher of games on Console, PC and Mobile.",
+    "resultsTotal": 1060000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "anchor.fm",
+    "url": "https://anchor.fm/",
+    "displayedUrl": "https://anchor.fm",
+    "title": "Spotify for Podcasters",
+    "description": "Enjoy unlimited hosting and distribute your podcast everywhere. Take advantage of our free platform with uploading, analytics, fan engagement, and monetization...",
+    "resultsTotal": 1050000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.udemy.com",
+    "url": "https://www.udemy.com/",
+    "displayedUrl": "https://www.udemy.com",
+    "title": "Udemy: Online Courses - Learn Anything, On Your Schedule",
+    "description": "Udemy is an online learning and teaching marketplace with over 250000 courses and 73 million students. Learn programming, marketing, data science and more.",
+    "resultsTotal": 1040000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.thumbtack.com",
+    "url": "https://www.thumbtack.com/",
+    "displayedUrl": "https://www.thumbtack.com",
+    "title": "Thumbtack | Care for Your Home | Find Local Pros & Reviews",
+    "description": "Find local pros, compare prices and book home services in a few simple steps. Thumbtack makes caring for your home easier.",
+    "resultsTotal": 1020000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.drupal.org",
+    "url": "https://www.drupal.org/",
+    "displayedUrl": "https://www.drupal.org",
+    "title": "Drupal - Open Source CMS | Drupal.org",
+    "description": "Drupal is an open source platform for building amazing digital experiences. It's made by a dedicated community. Anyone can use it, and it will always be...",
+    "resultsTotal": 982000,
+    "category": "Open Source Project Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "tubitv.com",
+    "url": "https://tubitv.com/home",
+    "displayedUrl": "https://tubitv.com › ...",
+    "title": "Watch Free Movies and TV Shows Online",
+    "description": "Watch free movies and TV shows online in HD on any device. Tubi offers streaming movies in genres like Action, Horror, Sci-Fi, Crime and Comedy. Watch now.",
+    "resultsTotal": 934000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "postmates.com",
+    "url": "https://postmates.com/",
+    "displayedUrl": "https://postmates.com",
+    "title": "Postmates: Food Delivery, Groceries, Alcohol - Anything from ...",
+    "description": "Order on Postmates. Get food, drinks, groceries, and more delivered. Enter delivery address. Deliver now. Search here. Or Sign In.",
+    "resultsTotal": 803000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "discord.com",
+    "url": "https://discord.com/",
+    "displayedUrl": "https://discord.com",
+    "title": "Discord - Group Chat That's All Fun & Games",
+    "description": "Discord is great for playing games and chilling with friends, or even building a worldwide community. Customize your own space to talk, play, and hang out.",
+    "resultsTotal": 768000,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.coursera.org",
+    "url": "https://www.coursera.org/",
+    "displayedUrl": "https://www.coursera.org",
+    "title": "Coursera | Degrees, Certificates, & Free Online Courses",
+    "description": "Learn new job skills in online courses from industry leaders like Google, IBM, & Meta. Advance your career with top degrees from Michigan,...",
+    "resultsTotal": 767000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.seamless.com",
+    "url": "https://www.seamless.com/",
+    "displayedUrl": "https://www.seamless.com",
+    "title": "Seamless | Food Delivery from Restaurants Near You ~ Order ...",
+    "description": "Online food ordering from your local favorites for takeout or delivery. Support your local restaurants with Seamless and find coupons, reviews, and more!",
+    "resultsTotal": 767000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.canva.com",
+    "url": "https://www.canva.com/",
+    "displayedUrl": "https://www.canva.com",
+    "title": "Canva: Visual Suite for Everyone",
+    "description": "Canva is a free-to-use online graphic design tool. Use it to create social media posts, presentations, posters, videos, logos and more.",
+    "resultsTotal": 743000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "launchpad.net",
+    "url": "https://launchpad.net/openstack",
+    "displayedUrl": "https://launchpad.net",
+    "title": "OpenStack in Launchpad",
+    "description": "The OpenStack Open Source Cloud Mission: to produce the ubiquitous Open Source Cloud Computing platform that will meet the needs of public and private...",
+    "resultsTotal": 617000,
+    "category": "Open Source Project Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.g2.com",
+    "url": "https://www.g2.com/",
+    "displayedUrl": "https://www.g2.com",
+    "title": "G2: Business Software and Services Reviews",
+    "description": "Compare the best business software and services based on user ratings and social data. Reviews for CRM, ERP, HR, CAD, PDM and Marketing software.",
+    "resultsTotal": 611000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.trycaviar.com",
+    "url": "https://www.trycaviar.com/",
+    "displayedUrl": "https://www.trycaviar.com",
+    "title": "Caviar Food Delivery & Takeout - From Restaurants Near You",
+    "description": "Delivery & takeout from the best local restaurants. Breakfast, lunch, dinner and more, delivered safely to your door. Now offering pickup & no-contact...",
+    "resultsTotal": 602000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "creativemarket.com",
+    "url": "https://creativemarket.com/?srsltid=AfmBOoq08CZ48Lzo7N3q_GuDY5HwBm1Vi8iSONPoBm7U9_8eSlZpcXop",
+    "displayedUrl": "https://creativemarket.com",
+    "title": "Creative Market: High-quality Stock Photo, Graphics, Fonts ...",
+    "description": "Bring your creative projects to life with over 3 million unique fonts, graphics, themes, photos, and templates designed by independent creators around the...",
+    "resultsTotal": 594000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.livejournal.com",
+    "url": "https://www.livejournal.com/",
+    "displayedUrl": "https://www.livejournal.com",
+    "title": "LiveJournal: Discover global communities of bloggers who ...",
+    "description": "Your life is the best story! Just start your blog today!",
+    "resultsTotal": 558000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "slashdot.org",
+    "url": "https://slashdot.org/",
+    "displayedUrl": "https://slashdot.org",
+    "title": "Slashdot",
+    "description": "The core tool, Chemhacktica, is a software platform that uses machine learning to map chemical pathways for synthesizing desired molecules. It suggests...",
+    "resultsTotal": 545000,
+    "category": "News and Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.dropbox.com",
+    "url": "https://www.dropbox.com/",
+    "displayedUrl": "https://www.dropbox.com",
+    "title": "Dropbox.com",
+    "description": "With Dropbox for teams, you can store, access, preview, edit and transfer CAD, BIM, PDF and visual content files from anywhere.",
+    "resultsTotal": 542000,
+    "category": "Cloud Storage Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "cargocollective.com",
+    "url": "https://cargocollective.com/",
+    "displayedUrl": "https://cargocollective.com",
+    "title": "Cargo",
+    "description": "Cargo is a professional site building platform for designers and artists.",
+    "resultsTotal": 538000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.figma.com",
+    "url": "https://www.figma.com/",
+    "displayedUrl": "https://www.figma.com",
+    "title": "Figma: The Collaborative Interface Design Tool",
+    "description": "Figma is the leading collaborative design tool for building meaningful products. Seamlessly design, prototype, develop, and collect feedback in a single...",
+    "resultsTotal": 511000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.unrealengine.com",
+    "url": "https://www.unrealengine.com/",
+    "displayedUrl": "https://www.unrealengine.com",
+    "title": "Unreal Engine: The most powerful real-time 3D creation tool",
+    "description": "Develop games. Produce or animate films. Visualize spaces or products. Create next-generation interfaces. Or build immersive experiences we haven't even thought...",
+    "resultsTotal": 509000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.epicgames.com",
+    "url": "https://www.epicgames.com/fortnite/",
+    "displayedUrl": "https://www.epicgames.com › fortnite",
+    "title": "Fortnite | Free-to-Play Cross-Platform Game - Fortnite",
+    "description": "Create and play with friends for free in Fortnite. Explore games, concerts, live events and more, or be the last player standing in Battle Royale and Zero...",
+    "resultsTotal": 509000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "codesandbox.io",
+    "url": "https://codesandbox.io/",
+    "displayedUrl": "https://codesandbox.io",
+    "title": "CodeSandbox: Instant Cloud Development Environments",
+    "description": "CodeSandbox is a cloud development platform that empowers developers to code, collaborate and ship projects of any size from any device in record time.",
+    "resultsTotal": 469000,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.brooksrunning.com",
+    "url": "https://www.brooksrunning.com/de_at",
+    "displayedUrl": "https://www.brooksrunning.com › d...",
+    "title": "Laufschuhe, Zubehör und Laufbekleidung | Brooks Running",
+    "description": "Kaufen Sie Laufschuhe und Kleidung für Männer und Frauen mit kostenlosem Versand und Rückgaberecht. Großartige Laufausrüstung beginnt und endet mit Brooks...",
+    "resultsTotal": 445000,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "mashable.com",
+    "url": "https://mashable.com/",
+    "displayedUrl": "https://mashable.com",
+    "title": "Mashable",
+    "description": "Mashable is a global, multi-platform media and entertainment company.",
+    "resultsTotal": 443000,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.emaze.com",
+    "url": "https://www.emaze.com/",
+    "displayedUrl": "https://www.emaze.com",
+    "title": "Content Creation: Best Presentations, eCards & More | emaze",
+    "description": "Content creation with the help of AI. From amazing presentations and websites, to eCards and more, create beautiful visuals with our ready-to-use templates.",
+    "resultsTotal": 441000,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.bandlab.com",
+    "url": "https://www.bandlab.com/",
+    "displayedUrl": "https://www.bandlab.com",
+    "title": "BandLab - Make Music Online",
+    "description": "Music creation for all. Record, mix and collaborate on your music projects from start to finish with our best-in-class and 100% free Studio.",
+    "resultsTotal": 421000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.producthunt.com",
+    "url": "https://www.producthunt.com/",
+    "displayedUrl": "https://www.producthunt.com",
+    "title": "Product Hunt – The best new products in tech.",
+    "description": "Product Hunt is a curation of the best new products, every day. Discover the latest mobile apps, websites, and technology products that everyone's talking...",
+    "resultsTotal": 409000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.asics.com",
+    "url": "https://www.asics.com/",
+    "displayedUrl": "https://www.asics.com",
+    "title": "ASICS | Official U.S. Site | Running Shoes and Activewear ...",
+    "description": "Shop the official ASICS® online store, featuring the latest selection of running shoes, active wear, and athletic gear. Get free Standard Shipping on order.",
+    "resultsTotal": 400000,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "zapier.com",
+    "url": "https://zapier.com/",
+    "displayedUrl": "https://zapier.com",
+    "title": "Zapier: Automate your work today",
+    "description": "Workflow automation software for everyone. Zapier automates your work across 7000+ app integrations, so you can focus on what matters.",
+    "resultsTotal": 390000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.coroflot.com",
+    "url": "https://www.coroflot.com/",
+    "displayedUrl": "https://www.coroflot.com",
+    "title": "Coroflot — Design Jobs & Portfolios",
+    "description": "Search and browse through thousands of works from designers around the world, or sign up today and start creating your portfolio.",
+    "resultsTotal": 371000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "techcrunch.com",
+    "url": "https://techcrunch.com/",
+    "displayedUrl": "https://techcrunch.com",
+    "title": "TechCrunch | Startup and Technology News",
+    "description": "TechCrunch | Reporting on the business of technology, startups, venture capital funding, and Silicon Valley.",
+    "resultsTotal": 348000,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.disneyplus.com",
+    "url": "https://www.disneyplus.com/",
+    "displayedUrl": "https://www.disneyplus.com",
+    "title": "Disney+ - Stream Unlimited Movies and TV Series",
+    "description": "Disney+ is a streaming service where you can watch unlimited movies, TV series, and Originals. Sign-up with plans starting at $7.99 per month.",
+    "resultsTotal": 322000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.just-eat.co.uk",
+    "url": "https://www.just-eat.co.uk/",
+    "displayedUrl": "https://www.just-eat.co.uk",
+    "title": "Just Eat: Order takeaway online from 30000+ food delivery ...",
+    "description": "Order from local restaurants and takeaways online with Just Eat, the UK's leader in food delivery with over 30000+ restaurant menus offering Pizza, Chinese,...",
+    "resultsTotal": 320000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "audioboom.com",
+    "url": "https://audioboom.com/",
+    "displayedUrl": "https://audioboom.com",
+    "title": "Audioboom",
+    "description": "Audioboom is a leading global podcast publisher. We connect podcasters and advertisers with engaged and passionate audiences.",
+    "resultsTotal": 311000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "badoo.com",
+    "url": "https://badoo.com/",
+    "displayedUrl": "https://badoo.com",
+    "title": "Badoo: Best Free Online Dating Site & App - Friends, Chat, Flirt",
+    "description": "Join Badoo's community - the best free online dating app. Chat before you match, meet & date people in your area or make new friends from all over the...",
+    "resultsTotal": 308000,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.capterra.com",
+    "url": "https://www.capterra.com/",
+    "displayedUrl": "https://www.capterra.com",
+    "title": "Capterra: Find The Right Software and Services",
+    "description": "Choose the best software & services on Capterra, with insights from millions of users and 2 million+ verified reviews. Compare features, pricing, & more.",
+    "resultsTotal": 303000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "pluto.tv",
+    "url": "https://pluto.tv/",
+    "displayedUrl": "https://pluto.tv",
+    "title": "Pluto TV - Free Movies & TV Shows",
+    "description": "Drop In. It's Free. Watch 250+ channels of free TV and 1000's of On-Demand movies and TV shows. Stream now. Pay never.",
+    "resultsTotal": 277000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.buzzsprout.com",
+    "url": "https://www.buzzsprout.com/",
+    "displayedUrl": "https://www.buzzsprout.com",
+    "title": "Buzzsprout: Free Podcast Hosting",
+    "description": "Start podcasting today with free podcast hosting from Buzzsprout, the easiest podcasting software for hosting, promoting, and tracking your podcast.",
+    "resultsTotal": 270000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.podbean.com",
+    "url": "https://www.podbean.com/",
+    "displayedUrl": "https://www.podbean.com",
+    "title": "Podbean: Free Podcast hosting and Monetizing Platform",
+    "description": "Podbean is an easy and powerful way to create, promote and monetize your podcast. Everything you need for a successful podcast.",
+    "resultsTotal": 252000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "pastebin.com",
+    "url": "https://pastebin.com/",
+    "displayedUrl": "https://pastebin.com",
+    "title": "Pastebin.com - #1 paste tool since 2002!",
+    "description": "Pastebin.com is the number one paste tool since 2002. Pastebin is a website where you can store text online for a set period of time.",
+    "resultsTotal": 246000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "slidesgo.com",
+    "url": "https://slidesgo.com/",
+    "displayedUrl": "https://slidesgo.com",
+    "title": "Slidesgo: Free Google Slides themes and Powerpoint templates",
+    "description": "Create engaging presentations, faster. Free templates for Google Slides, PowerPoint and Canva PDF. Or kick off your next project with AI presentation maker.",
+    "resultsTotal": 235000,
+    "category": "Presentation Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.veoh.com",
+    "url": "https://www.veoh.com/",
+    "displayedUrl": "https://www.veoh.com",
+    "title": "My Veoh",
+    "description": "АЙКа Р-16: ДІВОЧА МІСІЯ, ЕПІЗОД (ОВА) 2 — \"Вояж, вояж — прямо на пляж\" — ЕЧЧІ АНІМЕ УКРАЇНСЬКОЮ МОВОЮ, рьона (ryona, リョナ), еротика, сексуальні дівочі бійки,...",
+    "resultsTotal": 231000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.nimo.tv",
+    "url": "https://www.nimo.tv/",
+    "displayedUrl": "https://www.nimo.tv",
+    "title": "NimoTV-Top Game Lives community, Meet New & Chat Online",
+    "description": "Nimo TV is the best social live streaming community for watching Liveshow, game Live or have a free chat. Participate in real-time interactions or video...",
+    "resultsTotal": 230000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.trustradius.com",
+    "url": "https://www.trustradius.com/",
+    "displayedUrl": "https://www.trustradius.com",
+    "title": "TrustRadius: Software Reviews, Software Comparisons and ...",
+    "description": "Find top rated software and services based on in-depth reviews from verified users. 400+ software categories including PaaS, NoSQL, BI, HR, and more.",
+    "resultsTotal": 212000,
+    "category": "Review and Rating Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "speakerdeck.com",
+    "url": "https://speakerdeck.com/",
+    "displayedUrl": "https://speakerdeck.com",
+    "title": "Speaker Deck | Easily Share Your Presentations Online",
+    "description": "Speaker Deck is the best way to share presentations online. Simply upload your slides as a PDF, and we'll turn them into a beautiful online experience.",
+    "resultsTotal": 211000,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "airtable.com",
+    "url": "https://blog.airtable.com/",
+    "displayedUrl": "https://blog.airtable.com",
+    "title": "Airtable Blog | For The Record",
+    "description": "A faster, simpler, more secure way to unlock AI and transform business growth. Instantly unlock new opportunities for growth and creativity.",
+    "resultsTotal": 210000,
+    "category": "Blogging Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.oculus.com",
+    "url": "https://www.oculus.com/",
+    "displayedUrl": "https://www.oculus.com",
+    "title": "Meta Quest VR Headsets, Accessories & Equipment",
+    "description": "Defy reality with Meta Quest. Our VR headsets redefine digital gaming and entertainment. Learn more about Quest 2, our most advanced all-in-one VR system.",
+    "resultsTotal": 206000,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.underarmour.com",
+    "url": "https://www.underarmour.com/en-us/",
+    "displayedUrl": "https://www.underarmour.com › en-us",
+    "title": "Under Armour® Official Store | FREE Shipping Available",
+    "description": "Under Armour builds game-changing sportswear, athletic shirts, shoes and more. FREE SHIPPING available and FREE returns on workout clothes, shoes, and gear.",
+    "resultsTotal": 204000,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "jsfiddle.net",
+    "url": "https://jsfiddle.net/",
+    "displayedUrl": "https://jsfiddle.net",
+    "title": "JSFiddle - Code Playground",
+    "description": "Test your JavaScript, CSS, HTML or CoffeeScript online with JSFiddle code editor.",
+    "resultsTotal": 200000,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "hearthis.at",
+    "url": "https://hearthis.at/tejasshetty/",
+    "displayedUrl": "https://hearthis.at",
+    "title": "Tejas Shetty",
+    "description": "Tejas Shetty is one of the few in India who boasts himself of creating His own compositions in remixing, thus,giving an all new dimension to Remixing/...",
+    "resultsTotal": 199000,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.designspiration.com",
+    "url": "https://www.designspiration.com/",
+    "displayedUrl": "https://www.designspiration.com",
+    "title": "Designspiration - Design Inspiration | Inspirational Art ...",
+    "description": "Create an account or log in to Designspiration - An image & color search engine for creating mood boards and finding art, design, logos, photography,...",
+    "resultsTotal": 189000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.huya.com",
+    "url": "https://www.huya.com/25444510",
+    "displayedUrl": "https://www.huya.com › ...",
+    "title": "xiaohaoOuO英雄联盟直播",
+    "description": "虎牙直播 · 热门搜索 · 新赛季上分 · 彩色弹幕 · 推荐动态主播动态讨论区 · 签约公会 · 猜你喜欢 · 推荐分类.",
+    "resultsTotal": 188000,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.weebly.com",
+    "url": "https://www.weebly.com/",
+    "displayedUrl": "https://www.weebly.com",
+    "title": "Free Website Builder: Build a Free Website or Online Store ...",
+    "description": "Weebly's free website builder makes it easy to create a website, blog, or online store. Find customizable templates, domains, and easy-to-use tools for any...",
+    "resultsTotal": 184000,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "developers.google.com",
+    "url": "https://developers.google.com/",
+    "displayedUrl": "https://developers.google.com",
+    "title": "Google for Developers - from AI and Cloud to Mobile and Web",
+    "description": "Explore developer resources, community events, and inspirational stories to help you build smarter and ship faster.",
+    "resultsTotal": 184000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.etoro.com",
+    "url": "https://www.etoro.com/",
+    "displayedUrl": "https://www.etoro.com",
+    "title": "Stocks & beyond: Invest in 6000+ assets on eToro",
+    "description": "Invest in a variety of asset classes — including 20 global stock exchanges and 100 cryptocurrencies — while managing all of your holdings in one place.",
+    "resultsTotal": 181000,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.powtoon.com",
+    "url": "https://www.powtoon.com/",
+    "displayedUrl": "https://www.powtoon.com",
+    "title": "Powtoon: Video Maker | Make Videos and Animations Online",
+    "description": "Make videos in minutes with Powtoon. Use our library of styles, characters, backgrounds and video, or upload your own! Free. Easy. Awesome. Sign up today!",
+    "resultsTotal": 177000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.shopify.com",
+    "url": "https://www.shopify.com/",
+    "displayedUrl": "https://www.shopify.com",
+    "title": "Shopify",
+    "description": "Try Shopify free and start a business or grow an existing one. Get more than ecommerce software with tools to manage every part of your business.",
+    "resultsTotal": 177000,
+    "category": "E-commerce Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "disqus.com",
+    "url": "https://blog.disqus.com/",
+    "displayedUrl": "https://blog.disqus.com",
+    "title": "Disqus Blog",
+    "description": "Disqus, a leading audience engagement and community growth platform, has been awarded Google Certified Publishing Partner (GCPP) status.",
+    "resultsTotal": 176000,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "angel.co",
+    "url": "https://angel.co/",
+    "displayedUrl": "https://angel.co",
+    "title": "Wellfound (formerly AngelList Talent) - Startup Job Search",
+    "description": "Connect directly with founders at top startups - no third party recruiters allowed. Everything you need to know, all upfront. View salary, stock options, and...",
+    "resultsTotal": 173000,
+    "category": "Job Search Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.podomatic.com",
+    "url": "https://www.podomatic.com/",
+    "displayedUrl": "https://www.podomatic.com",
+    "title": "Create a Podcast >> Start Podcasting | Hosting by Podomatic",
+    "description": "The easiest way to start and grow a podcast since 2005. Powerful recording, publishing, stats & analytics, promotion, monetization tools and more, all in one...",
+    "resultsTotal": 169000,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.docdroid.net",
+    "url": "https://www.docdroid.net/",
+    "displayedUrl": "https://www.docdroid.net",
+    "title": "DocDroid: Upload & Share PDF",
+    "description": "Upload your documents in any format. We support PDF, DOCX, DOC, ODT, RTF, XLS, XLSX, ODS, PPT, PPTX, ODP, TXT and more! DocDroid creates a link for sharing.",
+    "resultsTotal": 169000,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.onepeloton.com",
+    "url": "https://www.onepeloton.com/",
+    "displayedUrl": "https://www.onepeloton.com",
+    "title": "Peloton: The ultimate fitness experience",
+    "description": "Access high-energy workouts, instantly. Discover Peloton: streaming fitness classes to you live and on-demand.",
+    "resultsTotal": 167000,
+    "category": "Health and Fitness Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.indiegogo.com",
+    "url": "https://www.indiegogo.com/",
+    "displayedUrl": "https://www.indiegogo.com",
+    "title": "Indiegogo: Crowdfund Innovations & Support Entrepreneurs",
+    "description": "Crowdfund innovations in tech and design before they go mainstream and support entrepreneurs that are working to bring their dreams to life.",
+    "resultsTotal": 166000,
+    "category": "Crowdfunding Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "500px.com",
+    "url": "https://500px.com/dakink",
+    "displayedUrl": "https://500px.com › dakink",
+    "title": "Dawid Professor (dakink) Profile / ...",
+    "description": "6 Followers, 12705 Photo Views. See Dawid Professor's (dakink) photos on 500px.",
+    "resultsTotal": 164000,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "onedrive.live.com",
+    "url": "https://onedrive.live.com/",
+    "displayedUrl": "https://onedrive.live.com",
+    "title": "Personal Cloud Storage – Microsoft OneDrive",
+    "description": "Save your files and photos to OneDrive and access them from any device, anywhere. Learn more and get 5 GB of free personal cloud storage today.",
+    "resultsTotal": 160000,
+    "category": "Cloud Storage Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.eat24.com",
+    "url": "https://www.eat24.com/",
+    "displayedUrl": "https://www.eat24.com",
+    "title": "Eat24 Food Delivery | Order Online | Restaurants Delivery",
+    "description": "Hungry for food delivery? Order Eat24 today. Browse the best local restaurants, delivery menus, ratings and reviews, coupons, and more. It's always fast and...",
+    "resultsTotal": 156000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.haikudeck.com",
+    "url": "https://www.haikudeck.com/zuru",
+    "displayedUrl": "https://www.haikudeck.com",
+    "title": "Haiku Deck Zuru: Artificial Intelligence Driven Presentations",
+    "description": "Artificial intelligence software that builds presentations automatically. Upload an outline or just your idea and let Zuru handle the rest.",
+    "resultsTotal": 153000,
+    "category": "Presentation Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "mega.nz",
+    "url": "https://mega.nz/",
+    "displayedUrl": "https://mega.nz",
+    "title": "MEGA: Protect your Online Privacy",
+    "description": "Store files, chat, and meet – all in one place. MEGA brings cloud storage, file and folder sharing, chat, meetings, and more — together into one place.",
+    "resultsTotal": 148000,
+    "category": "Cloud Storage Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.kraken.com",
+    "url": "https://www.kraken.com/",
+    "displayedUrl": "https://www.kraken.com",
+    "title": "Kraken | The crypto platform for smarter investing",
+    "description": "Buy, sell, trade and learn about crypto on Kraken — the simple, powerful crypto platform that grows with you.",
+    "resultsTotal": 148000,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "simplecast.com",
+    "url": "https://friendlycitybooks.simplecast.com/",
+    "displayedUrl": "https://friendlycitybooks.simplecast.com",
+    "title": "The Friendly City Books Podcast",
+    "description": "Since 2020, Friendly City Books has served as an independent bookstore and gathering space for book lovers in our hometown of Columbus, Mississippi.",
+    "resultsTotal": 140000,
+    "category": "Podcast Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "code.google.com",
+    "url": "http://code.google.com/p/xmlseclibs/",
+    "displayedUrl": "http://code.google.com › xmlseclibs",
+    "title": "robrichards/xmlseclibs: A PHP library for XML Security",
+    "description": "xmlseclibs is a library written in PHP for working with XML Encryption and Signatures. The author of xmlseclibs is Rob Richards. Branches.",
+    "resultsTotal": 138000,
+    "category": "Code Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.awwwards.com",
+    "url": "https://www.awwwards.com/",
+    "displayedUrl": "https://www.awwwards.com",
+    "title": "Awwwards - Website Awards - Best Web Design Trends",
+    "description": "Awwwards are the Website Awards that recognize and promote the talent and effort of the best developers, designers and web agencies in the world.",
+    "resultsTotal": 135000,
+    "category": "Design Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.pscp.tv",
+    "url": "https://www.pscp.tv/",
+    "displayedUrl": "https://www.pscp.tv",
+    "title": "Periscope",
+    "description": "Explore the world through the eyes of somebody else.",
+    "resultsTotal": 130000,
+    "category": "Video Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "zoom.us",
+    "url": "https://zoom.us/",
+    "displayedUrl": "https://zoom.us",
+    "title": "Zoom: One platform to connect",
+    "description": "Zoom helps consolidate communications, connect people, and collaborate better together in the boardroom, classroom, operating room, and everywhere in between.",
+    "resultsTotal": 112000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.fubo.tv",
+    "url": "https://www.fubo.tv/welcome",
+    "displayedUrl": "https://www.fubo.tv › ...",
+    "title": "fubo - Watch Live Sports & TV Without Cable | Try Free",
+    "description": "Watch ABC, CBS, FOX, NBC, ESPN and other top channels live - without cable TV. On your phone, TV and more. No contract. DVR included.",
+    "resultsTotal": 111000,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "bitbucket.org",
+    "url": "https://status.bitbucket.org/",
+    "displayedUrl": "https://status.bitbucket.org",
+    "title": "Atlassian Bitbucket Status",
+    "description": "Welcome to Atlassian Bitbucket's home for real-time and historical data on system performance.",
+    "resultsTotal": 110000,
+    "category": "Code Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "nextcloud.com",
+    "url": "https://nextcloud.com/",
+    "displayedUrl": "https://nextcloud.com",
+    "title": "Nextcloud - Open source content collaboration platform",
+    "description": "Nextcloud offers a modern, on-premises content collaboration platform with real-time document editing, video chat & groupware on mobile, desktop and web.",
+    "resultsTotal": 107000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "kodi.tv",
+    "url": "https://kodi.tv/",
+    "displayedUrl": "https://kodi.tv",
+    "title": "Kodi: Open Source Home Theater Software",
+    "description": "Kodi allows you to watch and record live TV all from an easy to use interface. It works with a number of popular backends including MediaPortal, MythTV, NextPVR...",
+    "resultsTotal": 104000,
+    "category": "Open Source Project Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "evernote.com",
+    "url": "https://evernote.com/",
+    "displayedUrl": "https://evernote.com",
+    "title": "Best Note Taking App - Organize Your Notes with Evernote",
+    "description": "Our note taking app helps you capture and prioritize ideas, projects and to-do lists, so nothing falls through the cracks. Start your free trial today!",
+    "resultsTotal": 103000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.fitbit.com",
+    "url": "https://www.fitbit.com/",
+    "displayedUrl": "https://www.fitbit.com",
+    "title": "Fitbit Official Site for Activity Trackers & More",
+    "description": "Find your fit with Fitbit's family of fitness products that help you stay motivated and improve your health by tracking your activity, exercise, food,...",
+    "resultsTotal": 96400,
+    "category": "Health and Fitness Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.clubhouse.com",
+    "url": "https://www.clubhouse.com/",
+    "displayedUrl": "https://www.clubhouse.com",
+    "title": "Clubhouse",
+    "description": "Huuuge group voice notes with all of your friends.",
+    "resultsTotal": 91700,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "photobucket.com",
+    "url": "https://photobucket.com/",
+    "displayedUrl": "https://photobucket.com",
+    "title": "Photobucket | Photo Storage",
+    "description": "Store your photos and videos online with secure storage from Photobucket. Available on iOS, Android and desktop. Securely backup your memories and sign up...",
+    "resultsTotal": 90500,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "telegram.org",
+    "url": "https://web.telegram.org/",
+    "displayedUrl": "https://web.telegram.org",
+    "title": "Telegram Web",
+    "description": "Telegram is a cloud-based mobile and desktop messaging app with a focus on security and speed.",
+    "resultsTotal": 88600,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.zoho.com",
+    "url": "https://www.zoho.com/",
+    "displayedUrl": "https://www.zoho.com",
+    "title": "Zoho | Cloud Software Suite for Businesses",
+    "description": "A unique and powerful software suite for businesses of all sizes. With 55+ applications, Zoho caters to 100 million+ users for their end-to-end business...",
+    "resultsTotal": 88200,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.peacocktv.com",
+    "url": "https://www.peacocktv.com/",
+    "displayedUrl": "https://www.peacocktv.com",
+    "title": "Peacock: Stream TV and Movies Online, Watch Live News ...",
+    "description": "Peacock is a streaming service from NBCUniversal. With tons of hit movies and TV shows, Originals, current NBC & Bravo hits, and LIVE Sports including Sunday...",
+    "resultsTotal": 86600,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "public.com",
+    "url": "https://public.com/",
+    "displayedUrl": "https://public.com",
+    "title": "Stocks, Bonds, Crypto, & Options Investing App - Public.com",
+    "description": "Invest in stocks, bonds, options, crypto, and more in one place. Use advanced tools, and AI-powered insights to make informed investing decisions.",
+    "resultsTotal": 83600,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "asana.com",
+    "url": "https://asana.com/",
+    "displayedUrl": "https://asana.com",
+    "title": "Manage your team's work, projects, & tasks online • Asana ...",
+    "description": "Work anytime, anywhere with Asana. Keep remote and distributed teams, and your entire organization, focused on their goals, projects, and tasks with Asana.",
+    "resultsTotal": 82600,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.notion.so",
+    "url": "https://www.notion.so/",
+    "displayedUrl": "https://www.notion.so",
+    "title": "Notion: Your connected workspace for wiki, docs & projects",
+    "description": "Built right into your workspace, Notion AI is at the ready to brainstorm ideas, summarize, help you write, and find what you're looking for.",
+    "resultsTotal": 82100,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "emby.media",
+    "url": "https://emby.media/",
+    "displayedUrl": "https://emby.media",
+    "title": "Emby - The open media solution",
+    "description": "Emby takes the fuss out of managing your home videos, music, and photos, so that you can spend more time enjoying and less time struggling.",
+    "resultsTotal": 78100,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "transistor.fm",
+    "url": "https://transistor.fm/",
+    "displayedUrl": "https://transistor.fm",
+    "title": "Transistor - modern podcast hosting and analytics",
+    "description": "Transistor provides podcast hosting and analytics for thousands of organizations, brands, and creatives around the world. Learn how to start a podcast →.",
+    "resultsTotal": 77900,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "fireside.fm",
+    "url": "https://whiskytalk.fireside.fm/",
+    "displayedUrl": "https://whiskytalk.fireside.fm",
+    "title": "Whisky Talk",
+    "description": "The podcast from The Scotch Malt Whisky Society.",
+    "resultsTotal": 77000,
+    "category": "Podcast Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "slack.com",
+    "url": "https://slack.com/",
+    "displayedUrl": "https://slack.com",
+    "title": "Slack: AI Work Management & Productivity Tools",
+    "description": "Slack is built for work. It's the app where you can instantly reach your team on the go or at your desk. Learn more about Slack features.",
+    "resultsTotal": 76500,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.douyu.com",
+    "url": "https://www.douyu.com/",
+    "displayedUrl": "https://www.douyu.com",
+    "title": "斗鱼- 每个人的直播平台",
+    "description": "斗鱼- 每个人的直播平台提供高清、快捷、流畅的视频直播和游戏赛事直播服务，包含英雄联盟lol直播、穿越火线cf直播、dota2直播、美女直播等各类热门游戏赛事直播和各种...",
+    "resultsTotal": 76200,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "us.puma.com",
+    "url": "https://us.puma.com/us/es?srsltid=AfmBOooR8zYJosNHGWOIw0jfwey-T6nfLUfM8jP1zruuwwH4wNZtaZDZ",
+    "displayedUrl": "https://us.puma.com › ...",
+    "title": "PUMA.com",
+    "description": "Welcome to PUMA – the Fastest Sports Brand in the World. Shop Clothes, Shoes, Accessories for Women, Men and Kids.",
+    "resultsTotal": 70900,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "xenforo.com",
+    "url": "https://xenforo.com/",
+    "displayedUrl": "https://xenforo.com",
+    "title": "XenForo - Compelling community forum platform",
+    "description": "XenForo is a compelling community forum platform with a premium user experience, reliability, flexibility and security. There is no better platform upon...",
+    "resultsTotal": 66100,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.jamendo.com",
+    "url": "https://www.jamendo.com/",
+    "displayedUrl": "https://www.jamendo.com",
+    "title": "Jamendo Music | Free music downloads",
+    "description": "Free music downloads and streaming. Discover and explore 600000+ free songs from 40000+ independent artists from all around the world.",
+    "resultsTotal": 62400,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "castos.com",
+    "url": "https://castos.com/",
+    "displayedUrl": "https://castos.com",
+    "title": "Castos: The podcast hosting platform for growing brands",
+    "description": "Castos is the podcast platform for creators. Here you can grow your audience and monetize your podcast with ease. Experience Castos for Free.",
+    "resultsTotal": 61800,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.phpbb.com",
+    "url": "https://www.phpbb.com/",
+    "displayedUrl": "https://www.phpbb.com",
+    "title": "phpBB • Free and Open Source Forum Software",
+    "description": "phpBB is a free flat-forum bulletin board software solution that can be used to stay in touch with a group of people or can power your entire website.",
+    "resultsTotal": 60500,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "carbonmade.com",
+    "url": "https://carbonmade.com/",
+    "displayedUrl": "https://carbonmade.com",
+    "title": "Carbonmade: Your online portfolio",
+    "description": "Carbonmade helps you show off your work and get discovered. Perfect for photographers, illustrators, motion designers, graphic designers, copywriters or...",
+    "resultsTotal": 59800,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "splice.com",
+    "url": "https://splice.com/",
+    "displayedUrl": "https://splice.com",
+    "title": "Splice: Royalty-Free Sounds, FX, Presets & More",
+    "description": "Splice is the industry's highest quality, royalty-free sample library. Get access to millions of sounds made by top artists, labels, and sound designers.",
+    "resultsTotal": 58400,
+    "category": "Music Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "clickup.com",
+    "url": "https://clickup.com/",
+    "displayedUrl": "https://clickup.com",
+    "title": "ClickUp™ | One app to replace them all",
+    "description": "Our mission is to make the world more productive. To do this, we built one app to replace them all - Tasks, Docs, Goals, and Chat.",
+    "resultsTotal": 58200,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.discoveryplus.com",
+    "url": "https://www.discoveryplus.com/",
+    "displayedUrl": "https://www.discoveryplus.com",
+    "title": "discovery+ | Stream 70,000+ Real-Life TV Episodes",
+    "description": "Watch HGTV, Food Network, TLC, ID and more plus exclusive originals, all in one place. Start your 7-day free trial today.",
+    "resultsTotal": 55900,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "resy.com",
+    "url": "https://resy.com/",
+    "displayedUrl": "https://resy.com",
+    "title": "Resy | Your Guide to the World's Best Restaurants",
+    "description": "Resy powers the world's best restaurants, using technology to imagine the future of hospitality.",
+    "resultsTotal": 54000,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "monzo.com",
+    "url": "https://monzo.com/",
+    "displayedUrl": "https://monzo.com",
+    "title": "Monzo | Your New Favourite Bank",
+    "description": "Organise, save & invest with a free UK current account, joint account or business account. Make your money more Monzo.",
+    "resultsTotal": 52400,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.saucony.com",
+    "url": "https://www.saucony.com/en/havok/",
+    "displayedUrl": "https://www.saucony.com › havok",
+    "title": "Havok XC3",
+    "description": "Designed to allow your foot uninhibited range of motion that's natural to your walk or run. These styles offer no additional structural materials to adjust your...",
+    "resultsTotal": 51300,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "redcircle.com",
+    "url": "https://redcircle.com/",
+    "displayedUrl": "https://redcircle.com",
+    "title": "RedCircle | Host Your Podcast & Grow Your Revenue",
+    "description": "Trusted brands ready to fuel your podcast journey. Our advertising platform connects you directly with brands, so you make money faster.",
+    "resultsTotal": 50500,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "workspace.google.com",
+    "url": "https://workspace.google.com/",
+    "displayedUrl": "https://workspace.google.com",
+    "title": "Google Workspace: Secure Online Productivity ...",
+    "description": "Learn how the suite of secure, online tools from Google Workspace empowers teams of all sizes to do their best work.",
+    "resultsTotal": 50300,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.wix.com",
+    "url": "https://www.wix.com/blog",
+    "displayedUrl": "https://www.wix.com › blog",
+    "title": "Wix Blog | Web Design & Small Business Tips to Promote ...",
+    "description": "Get expert tips for a successful business, web design inspiration, online marketing guidance and all the latest Wix related news.",
+    "resultsTotal": 46400,
+    "category": "Blogging Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "megaphone.fm",
+    "url": "https://support.megaphone.fm/en/",
+    "displayedUrl": "https://support.megaphone.fm › ...",
+    "title": "Megaphone Help Center",
+    "description": "A collection of articles for assisting with your account settings, payments, and billing. Becca DiCenso avatar",
+    "resultsTotal": 44200,
+    "category": "Podcast Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.hbomax.com",
+    "url": "https://www.hbomax.com/",
+    "displayedUrl": "https://www.hbomax.com",
+    "title": "Max | The One to Watch",
+    "description": "Stream iconic series, hit movies, fresh originals, family favorites, breaking news, and live sports. Plans start at $9.99/month.",
+    "resultsTotal": 41600,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.rockstargames.com",
+    "url": "https://www.rockstargames.com/",
+    "displayedUrl": "https://www.rockstargames.com",
+    "title": "Rockstar Games",
+    "description": "The official home of Rockstar Games.",
+    "resultsTotal": 41300,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.labroots.com",
+    "url": "https://www.labroots.com/",
+    "displayedUrl": "https://www.labroots.com",
+    "title": "Labroots Trending Science News, Webinars & Virtual Events",
+    "description": "Stay connected and on top of trending scientific news, free educational webinars and virtual events, and science culture with Labroots, the leading...",
+    "resultsTotal": 40700,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.typepad.com",
+    "url": "https://www.typepad.com/",
+    "displayedUrl": "https://www.typepad.com",
+    "title": "Typepad. Share your passions with the world.",
+    "description": "Typepad is the reliable, flexible blogging platform that puts the publisher in control. Plus great one-on-one support from our team of friendly experts.",
+    "resultsTotal": 40300,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "slides.com",
+    "url": "https://slides.com/",
+    "displayedUrl": "https://slides.com",
+    "title": "Slides: Create and Share Presentations for Free",
+    "description": "Introducing Slides AI. Make better presentations. Create exceptional slide decks in half the time using intuitive design tools and machine learning.",
+    "resultsTotal": 40100,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "trello.com",
+    "url": "https://trello.com/",
+    "displayedUrl": "https://trello.com",
+    "title": "Trello: Manage Your Team's Projects From Anywhere",
+    "description": "Trello makes it easy for your team to get work done. No matter the project, workflow, or type of team, Trello can help keep things organized.",
+    "resultsTotal": 40000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "audius.co",
+    "url": "https://audius.co/",
+    "displayedUrl": "https://audius.co",
+    "title": "Audius - Empowering Creators • Audius",
+    "description": "Audius is a music streaming and sharing platform that puts power back into the hands of content creators.",
+    "resultsTotal": 39300,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.khanacademy.org",
+    "url": "https://www.khanacademy.org/",
+    "displayedUrl": "https://www.khanacademy.org",
+    "title": "Khan Academy | Free Online Courses, Lessons & Practice",
+    "description": "Khan Academy's library of trusted, standards-aligned practice and lessons covers math K-12 through early college, grammar, science, history, AP®, SAT®, and...",
+    "resultsTotal": 39000,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "nodebb.org",
+    "url": "https://nodebb.org/",
+    "displayedUrl": "https://nodebb.org",
+    "title": "Home | NodeBB | Your Community Forum Platform",
+    "description": "NodeBB is the next generation community forum platform. Built on open source software, we've helped hundreds of companies engage their customers.",
+    "resultsTotal": 38600,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "digg.com",
+    "url": "https://digg.com/",
+    "displayedUrl": "https://digg.com",
+    "title": "Digg: News and Trending Stories Around the Internet",
+    "description": "Digg is the homepage of the internet, featuring the best articles, videos, and original content that the web is talking about right now.",
+    "resultsTotal": 37500,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.atlassian.com",
+    "url": "https://www.atlassian.com/",
+    "displayedUrl": "https://www.atlassian.com",
+    "title": "Collaboration software for software, IT and business teams",
+    "description": "Atlassian's team collaboration software like Jira, Confluence and Trello help teams organize, discuss, and complete shared work.",
+    "resultsTotal": 36000,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.match.com",
+    "url": "https://www.match.com/",
+    "displayedUrl": "https://www.match.com",
+    "title": "Match® | The Leading Online Dating Site for Singles ...",
+    "description": "Match.com is the number one destination for online dating with more dates, more relationships, & more marriages than any other dating or personals site.",
+    "resultsTotal": 33900,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "robinhood.com",
+    "url": "https://robinhood.com/",
+    "displayedUrl": "https://robinhood.com",
+    "title": "Robinhood: Commission-free Stock Trading & Investing App",
+    "description": "Build your portfolio starting with just $1. Invest in stocks, options, and ETFs at your pace and commission-free.",
+    "resultsTotal": 32000,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.box.com",
+    "url": "https://www.box.com/customers",
+    "displayedUrl": "https://www.box.com › customers",
+    "title": "Customer stories - Powering 100K+ Businesses",
+    "description": "Across industries, Box customers of all sizes get more work done in the cloud. See how they empower their people, protect their content, and stay compliant.",
+    "resultsTotal": 31100,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "mybb.com",
+    "url": "https://mybb.com/",
+    "displayedUrl": "https://mybb.com",
+    "title": "MyBB - Free and Open Source Forum Software",
+    "description": "MyBB is the free and open source forum software powering thousands of engaging, vibrant, and unique communities across the internet.",
+    "resultsTotal": 30500,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "store.ubi.com",
+    "url": "https://store.ubi.com/",
+    "displayedUrl": "https://store.ubi.com",
+    "title": "Ubisoft Store France - Nouveautés et Offres Exclusives",
+    "description": "Achetez sur la boutique officielle d'Ubisoft, plongez dans notre vaste catalogue de jeux, DLC et offres exclusives maintenant. Découvrez Ubisoft+.",
+    "resultsTotal": 29500,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.mapmyrun.com",
+    "url": "https://www.mapmyrun.com/",
+    "displayedUrl": "https://www.mapmyrun.com",
+    "title": "MapMyRun",
+    "description": "Easily track your Workouts, set Training Plans, and discover new Workout Routines to crush your goals. Get Started.",
+    "resultsTotal": 28700,
+    "category": "Health and Fitness Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.myfitnesspal.com",
+    "url": "https://www.myfitnesspal.com/",
+    "displayedUrl": "https://www.myfitnesspal.com",
+    "title": "MyFitnessPal: Calorie Tracker & BMR Calculator to Reach ...",
+    "description": "Reach your health, fitness & weight goals with MyFitnessPal, the #1 nutrition tracking app. Macro & calorie calculator, food tracker, and fasting app in one...",
+    "resultsTotal": 28500,
+    "category": "Health and Fitness Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.spiceworks.com",
+    "url": "https://www.spiceworks.com/",
+    "displayedUrl": "https://www.spiceworks.com",
+    "title": "Spiceworks: Business and Industry News, Analysis and Expert ...",
+    "description": "Explore AI fundamentals, debunk myths, and discover how AI tools transform business intelligence, marketing, HR, and cybersecurity. Start your AI …",
+    "resultsTotal": 27300,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "tv.youtube.com",
+    "url": "https://tv.youtube.com/directory",
+    "displayedUrl": "https://tv.youtube.com › directory",
+    "title": "Browse YouTube TV",
+    "description": "Start a Free Trial to watch Directory on YouTube TV (and cancel anytime). Stream live TV from ABC, CBS, FOX, NBC, ESPN & popular cable networks.",
+    "resultsTotal": 25600,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "sidequestvr.com",
+    "url": "https://sidequestvr.com/",
+    "displayedUrl": "https://sidequestvr.com",
+    "title": "SideQuest",
+    "description": "SideQuest is the early access layer for Virtual Reality Get access to the latest Oculus Quest Games Oculus App Lab games lots of free apps on applab and...",
+    "resultsTotal": 25000,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.schwab.com",
+    "url": "https://www.schwab.com/",
+    "displayedUrl": "https://www.schwab.com",
+    "title": "Charles Schwab | A Modern Approach to Investing and ...",
+    "description": "Charles Schwab offers investment products and services, including brokerage and retirement accounts, online trading and more.",
+    "resultsTotal": 23800,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "hily.com",
+    "url": "https://hily.com/support/",
+    "displayedUrl": "https://hily.com › support",
+    "title": "Hily Support FAQ's",
+    "description": "Have questions about Hily? Most of them will be answered on its FAQ page. Go there first. If any are not, contact customer support directly.",
+    "resultsTotal": 23500,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "zerply.com",
+    "url": "https://zerply.com/",
+    "displayedUrl": "https://zerply.com",
+    "title": "Zerply — The global VFX & Animation talent platform",
+    "description": "The global VFX & Animation talent platform. Connecting, supporting and educating across Film & TV, Games, Advertising and Mixed Reality.",
+    "resultsTotal": 21100,
+    "category": "Professional Social Network Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.viveport.com",
+    "url": "https://www.viveport.com/agreement",
+    "displayedUrl": "https://www.viveport.com › agreement",
+    "title": "VIVEPORT | VR Games, Apps, & Videos.",
+    "description": "VIVEPORT is your destination for all the best VR games and apps. Explore new content, create new experiences, and revisit the titles you...",
+    "resultsTotal": 19400,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "clyp.it",
+    "url": "https://clyp.it/",
+    "displayedUrl": "https://clyp.it",
+    "title": "Share, Embed & Upload Audio with Clyp",
+    "description": "Professional audio hosting, made simple. Upload high-quality audio, collaborate or get feedback, and easily share anywhere.",
+    "resultsTotal": 17900,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "n26.com",
+    "url": "https://get.n26.com/",
+    "displayedUrl": "https://get.n26.com",
+    "title": "Open an account – Sign Up",
+    "description": "Open an N26 account in 5 minutes and experience mobile banking the world loves. No hidden fees, no problem.",
+    "resultsTotal": 17800,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.veracrypt.fr",
+    "url": "https://www.veracrypt.fr/code/",
+    "displayedUrl": "https://www.veracrypt.fr",
+    "title": "Source Code",
+    "description": "VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password,...",
+    "resultsTotal": 17300,
+    "category": "Open Source Project Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.hulu.com",
+    "url": "https://www.hulu.com/",
+    "displayedUrl": "https://www.hulu.com",
+    "title": "Hulu: Stream TV and Movies Live and Online",
+    "description": "Hulu streaming library with tons of episodes and movies. Watch full seasons of exclusively streaming series, classic favorites, Hulu Originals, hit movies,...",
+    "resultsTotal": 17100,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "invisioncommunity.com",
+    "url": "https://invisioncommunity.com/faq/",
+    "displayedUrl": "https://invisioncommunity.com › faq",
+    "title": "FAQ",
+    "description": "Here are a few frequently asked questions other clients asked before joining. General enquiries Can I see some examples of a working community?",
+    "resultsTotal": 16800,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.vive.com",
+    "url": "https://www.vive.com/",
+    "displayedUrl": "https://www.vive.com",
+    "title": "HTC VIVE - VR, AR, and MR Headsets, Glasses, Experiences",
+    "description": "Explore virtual, augmented, and mixed reality with HTC VIVE's immersive standalone and PC VR headsets, glasses, accessories, games, and metaverse portal,...",
+    "resultsTotal": 16600,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.smartsheet.com",
+    "url": "https://www.smartsheet.com/",
+    "displayedUrl": "https://www.smartsheet.com",
+    "title": "The enterprise work management platform",
+    "description": "Smartsheet enables teams to manage projects, automate processes & scale programs in one powerful platform. Maintain visibility & keep distributed teams...",
+    "resultsTotal": 16300,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.portfoliobox.net",
+    "url": "https://www.portfoliobox.net/",
+    "displayedUrl": "https://www.portfoliobox.net",
+    "title": "Portfoliobox - Portfolio Websites | Online Portfolio Website",
+    "description": "The leading online website builder for creative professionals. Photographers, Designers, Artists, Illustrators, Models, Makeup Artists and Stylists.",
+    "resultsTotal": 16000,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "flarum.org",
+    "url": "https://docs.flarum.org/",
+    "displayedUrl": "https://docs.flarum.org",
+    "title": "Flarum Documentation: About Flarum",
+    "description": "Flarum is a delightfully simple discussion platform for your website. It's fast, free, and easy to use, with all the features you need to run a successful...",
+    "resultsTotal": 15900,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.smugmug.com",
+    "url": "https://www.smugmug.com/",
+    "displayedUrl": "https://www.smugmug.com",
+    "title": "SmugMug: Protect, Share, Store, and Sell Your Photos",
+    "description": "SmugMug is a business partner, sales assistant, and photo lab all in one. Look great, Earn more, Breathe easy, A platform for every photo business.",
+    "resultsTotal": 15700,
+    "category": "Image Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "jellyfin.org",
+    "url": "https://jellyfin.org/",
+    "displayedUrl": "https://jellyfin.org",
+    "title": "Jellyfin: The Free Software Media System",
+    "description": "Jellyfin enables you to collect, manage, and stream your media. Run the Jellyfin server on your system and gain access to the leading free-software...",
+    "resultsTotal": 15700,
+    "category": "Streaming Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "ghost.org",
+    "url": "https://ghost.org/",
+    "displayedUrl": "https://ghost.org",
+    "title": "Ghost: The best open source blog & newsletter platform",
+    "description": "Ghost is a powerful app for professional publishers to create, share, and grow a business around their content. It comes with modern tools to build a website,...",
+    "resultsTotal": 15600,
+    "category": "Blogging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "simplemachines.org",
+    "url": "https://custom.simplemachines.org/",
+    "displayedUrl": "https://custom.simplemachines.org",
+    "title": "Customization Site",
+    "description": "In our Modification Site — commonly called the \"Mod Site\" — you will find packages that can change your forums operation, add features, remove features, and a...",
+    "resultsTotal": 15400,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "todoist.com",
+    "url": "https://todoist.com/",
+    "displayedUrl": "https://todoist.com",
+    "title": "Todoist | A To-Do List to Organize Your Work & Life",
+    "description": "Trusted by 30 million people and teams. Todoist is the world's favorite task manager and to-do list app. Finally become focused, organized and calm.",
+    "resultsTotal": 12200,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "bumble.com",
+    "url": "https://bumble.com/",
+    "displayedUrl": "https://bumble.com",
+    "title": "Bumble | Date, Chat, Meet New People & Network Better",
+    "description": "Bumble has changed the way people date, create meaningful relationships & network with women making the first move. Meet new people & download Bumble.",
+    "resultsTotal": 12100,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.whatsapp.com",
+    "url": "https://www.whatsapp.com/",
+    "displayedUrl": "https://www.whatsapp.com",
+    "title": "WhatsApp | Secure and Reliable Free Private Messaging and ...",
+    "description": "Use WhatsApp Messenger to stay in touch with friends and family. WhatsApp is free and offers simple, secure, reliable messaging and calling, available on",
+    "resultsTotal": 12000,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.plex.tv",
+    "url": "https://www.plex.tv/",
+    "displayedUrl": "https://www.plex.tv",
+    "title": "Stream Movies & Find Shows On The Best Streaming Services",
+    "description": "A one-stop destination to stream movies, TV shows, and music, Plex is the most comprehensive entertainment platform available today.",
+    "resultsTotal": 11600,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.sofi.com",
+    "url": "https://www.sofi.com/",
+    "displayedUrl": "https://www.sofi.com",
+    "title": "SoFi: Banking, Loans, Invest, Credit Card, & Mortgages",
+    "description": "Why do over 8M members trust SoFi? Financial solutions for school, marriage, starting a family, home buying, retirement, or whatever's next. Member FDIC.",
+    "resultsTotal": 11400,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "piktochart.com",
+    "url": "https://piktochart.com/",
+    "displayedUrl": "https://piktochart.com",
+    "title": "Piktochart: Infographic Maker Trusted By 11 Million Users",
+    "description": "With Piktochart AI, you can create stunning infographics, reports, presentations, and more in seconds. No design experience needed. Start for free.",
+    "resultsTotal": 11300,
+    "category": "Design Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.edx.org",
+    "url": "https://www.edx.org/",
+    "displayedUrl": "https://www.edx.org",
+    "title": "edX: Build new skills. Advance your career.",
+    "description": "Discover thousands of offerings — from free courses to full degrees — delivered by world-class partners like Harvard, Google, Amazon and more.",
+    "resultsTotal": 10900,
+    "category": "Education and Online Learning Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "rocket.chat",
+    "url": "https://es.rocket.chat/",
+    "displayedUrl": "https://es.rocket.chat",
+    "title": "Rocket.Chat: Plataforma de comunicaciones en la que puede ...",
+    "description": "Utiliza funciones de colaboración como el chat en tiempo real, las videoconferencias y el uso compartido de archivos para mantener conectados a los equipos...",
+    "resultsTotal": 10900,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "vanillaforums.com",
+    "url": "http://vanillaforums.com/",
+    "displayedUrl": "http://vanillaforums.com",
+    "title": "Higher Logic Vanilla: Top Customer Community Platform",
+    "description": "Higher Logic Vanilla is the all-in-one community platform designed to help you and your customers succeed. Book a demo today!",
+    "resultsTotal": 9990,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.fidelity.com",
+    "url": "https://www.fidelity.com/",
+    "displayedUrl": "https://www.fidelity.com",
+    "title": "Fidelity Investments - Retirement Plans, Investing, Brokerage ...",
+    "description": "Fidelity Investments offers Financial Planning and Advice, Retirement Plans, Wealth Management Services, Trading and Brokerage services, and a wide range of...",
+    "resultsTotal": 9840,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.mocospace.com",
+    "url": "https://www.mocospace.com/chat",
+    "displayedUrl": "https://www.mocospace.com › chat",
+    "title": "Free Online Chat Rooms",
+    "description": "Moco's free chat rooms are the perfect online chat solution for all devices. Choose a chat room and start to find new friends around the world.",
+    "resultsTotal": 9330,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "mattermost.com",
+    "url": "https://mattermost.com/",
+    "displayedUrl": "https://mattermost.com",
+    "title": "Mattermost | Collaboration for Your Mission-Critical Work",
+    "description": "Mattermost is a secure collaboration platform for accelerating mission critical work in complex environments.",
+    "resultsTotal": 9020,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.kompoz.com",
+    "url": "https://www.kompoz.com/",
+    "displayedUrl": "https://www.kompoz.com",
+    "title": "Kompoz - Music Collaboration Platform",
+    "description": "Create music online. Collaborate with musicians and friends around the world. Create crowdsourced new original music from your home studio.",
+    "resultsTotal": 8160,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "flipboard.com",
+    "url": "https://about.flipboard.com/",
+    "displayedUrl": "https://about.flipboard.com",
+    "title": "Flipboard: Home",
+    "description": "Flipboard is one place for all the top stories, deep dives and curated content you need. Get the award winning app for iOS or Android.",
+    "resultsTotal": 7450,
+    "category": "News and Media Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "curiositystream.com",
+    "url": "https://curiositystream.com/",
+    "displayedUrl": "https://curiositystream.com",
+    "title": "Curiosity Stream | If it's out there, it's in here",
+    "description": "Curiosity Stream has thousands of documentaries that enlighten, entertain & inspire. What are you curious about?",
+    "resultsTotal": 7230,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "zencast.fm",
+    "url": "https://www.zencast.fm/",
+    "displayedUrl": "https://www.zencast.fm",
+    "title": "ZenCast: The Best Podcast Hosting, Publishing & Distribution ...",
+    "description": "The easiest way to host your podcast & publish it on every platform. Upload once and publish to Apple Podcasts, Spotify, Youtube and your website.",
+    "resultsTotal": 6280,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.pcloud.com",
+    "url": "https://www.pcloud.com/",
+    "displayedUrl": "https://www.pcloud.com",
+    "title": "pCloud - The Most Secure Cloud Storage",
+    "description": "pCloud is the most secure encrypted cloud storage, where you can store your personal files or backup your PC or share your business documents with your...",
+    "resultsTotal": 5950,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "runkeeper.com",
+    "url": "https://runkeeper.com/cms/",
+    "displayedUrl": "https://runkeeper.com › cms",
+    "title": "Track your Run - ASICS Runkeeper Running Tracker App",
+    "description": "Just like a real-life coach, the ASICS Runkeeper app will help you set your goals, train for them, and track your progress along the way.",
+    "resultsTotal": 5930,
+    "category": "Health and Fitness Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "podio.com",
+    "url": "https://video.podio.com/",
+    "displayedUrl": "https://video.podio.com",
+    "title": "Podio",
+    "description": "Podio, now part of Citrix, is an online work platform that gives people more power than they've ever had before to manage their work better, smarter and in...",
+    "resultsTotal": 5140,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.newbalance.com",
+    "url": "https://www.newbalance.com/",
+    "displayedUrl": "https://www.newbalance.com",
+    "title": "New Balance: Shoes, Sneakers, & Athletic Wear",
+    "description": "Shop sneakers, shoes, and a wide range of fitness clothing at New Balance and discover the perfect blend of timeless style, quality, and performance.",
+    "resultsTotal": 5000,
+    "category": "E-commerce Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "briarproject.org",
+    "url": "https://briarproject.org/about/",
+    "displayedUrl": "https://briarproject.org › about",
+    "title": "About",
+    "description": "Core Team Michael Rogers started the Briar project to support freedom of expression, freedom of association and the right to privacy.",
+    "resultsTotal": 4950,
+    "category": "Open Source Project Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.webex.com",
+    "url": "https://www.webex.com/",
+    "displayedUrl": "https://www.webex.com",
+    "title": "Webex: The leader in collaboration & customer experience",
+    "description": "With industry leading video conferencing, calling, and contact center solutions, Webex fuels hybrid work for businesses of all sizes.",
+    "resultsTotal": 4810,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "about.gitlab.com",
+    "url": "https://about.gitlab.com/",
+    "displayedUrl": "https://about.gitlab.com",
+    "title": "GitLab: The most-comprehensive AI-powered DevSecOps ...",
+    "description": "Balance speed and security in a single platform. Automate software delivery, boost productivity, and secure your end-to-end software supply chain.",
+    "resultsTotal": 4800,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "repl.it",
+    "url": "https://repl.it/templates",
+    "displayedUrl": "https://repl.it › templates",
+    "title": "Templates",
+    "description": "Make a custom AI writer with a few lines of code! This Repl uses Cohere AI's language models to generate custom text based on a given \"command\".",
+    "resultsTotal": 4370,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "cryptomator.org",
+    "url": "https://cryptomator.org/",
+    "displayedUrl": "https://cryptomator.org",
+    "title": "Cryptomator - Free Cloud Encryption for Dropbox & Co",
+    "description": "Cryptomator is a simple tool for digital self-defense. It allows you to protect your cloud data by yourself and independently.",
+    "resultsTotal": 4280,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.skype.com",
+    "url": "https://www.skype.com/ro/",
+    "displayedUrl": "https://www.skype.com › ...",
+    "title": "Skype | Rămâneți conectat cu apeluri video gratuite în ...",
+    "description": "Apelurile telefonice Skype către Ucraina sunt gratuite? Da, orice apel către Ucraina prin Skype este acum gratuit. Păstrați legătura cu chatul video gratuit...",
+    "resultsTotal": 3750,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "connect.garmin.com",
+    "url": "https://connect.garmin.com/",
+    "displayedUrl": "https://connect.garmin.com",
+    "title": "Garmin Connect | Free Online Fitness Community",
+    "description": "Garmin Connect is the tool for tracking, analyzing and sharing health and fitness activities from your Garmin device.",
+    "resultsTotal": 3590,
+    "category": "Health and Fitness Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "signal.org",
+    "url": "https://signal.org/",
+    "displayedUrl": "https://signal.org",
+    "title": "Signal >> Home",
+    "description": "Say Anything. Share text, voice messages, photos, videos, GIFs and files for free. Signal uses your phone's data connection so you can avoid SMS and MMS fees.",
+    "resultsTotal": 3580,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "slidebean.com",
+    "url": "https://slidebean.com/",
+    "displayedUrl": "https://slidebean.com",
+    "title": "Slidebean: AI Pitch Deck Creator + Pitch Deck Design Agency",
+    "description": "The all-in-one pitch deck software. The Slidebean platform will help you create everything you need to pitch to investors and raise funds for your startup.",
+    "resultsTotal": 3540,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.mentimeter.com",
+    "url": "https://www.mentimeter.com/",
+    "displayedUrl": "https://www.mentimeter.com",
+    "title": "Mentimeter: Interactive presentation software",
+    "description": "Turn presentations into conversations with interactive polls that engage meetings and classrooms. Get started, it's free. No credit card needed.",
+    "resultsTotal": 3540,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.pixpa.com",
+    "url": "https://www.pixpa.com/",
+    "displayedUrl": "https://www.pixpa.com",
+    "title": "Pixpa: Create Your Awesome Portfolio Website",
+    "description": "Pixpa is an easy, all-in-one portfolio website builder for photographers & creators to create portfolio websites with a built-in online store, blog, and client...",
+    "resultsTotal": 3270,
+    "category": "E-commerce Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.squarespace.com",
+    "url": "https://www.squarespace.com/",
+    "displayedUrl": "https://www.squarespace.com",
+    "title": "Website Builder — Create a Website in Minutes — Squarespace",
+    "description": "Create a customizable website or online store with an all-in-one solution from Squarespace. Choose a website template and start your free trial today.",
+    "resultsTotal": 3160,
+    "category": "Website Builder",
+    "isUGC": false
+  },
+  {
+    "domain": "en.calameo.com",
+    "url": "http://en.calameo.com/books/0015990309439b5d74f8b",
+    "displayedUrl": "http://en.calameo.com › books",
+    "title": "Mid West Australia: Creating A Waterwise Mediterranean ...",
+    "description": "For your Mediterranean garden to be successful and rewarding you will need to carry out soil improvement prior to planting, mulch after planting, and install an...",
+    "resultsTotal": 2700,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "tresorit.com",
+    "url": "https://tresorit.com/",
+    "displayedUrl": "https://tresorit.com",
+    "title": "Tresorit: End-to-End Encrypted Cloud Storage for Businesses",
+    "description": "Take control of your data with Tresorit's ultra-secure encryption for cloud storage, encrypted file sharing & storage, and e-signature solutions.",
+    "resultsTotal": 2460,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.backblaze.com",
+    "url": "https://www.backblaze.com/",
+    "displayedUrl": "https://www.backblaze.com",
+    "title": "Backblaze: The Best Unlimited Cloud Storage Services",
+    "description": "Backblaze is a pioneer in robust, scalable low cost cloud backup and storage services. Enterprise hot storage, low cost backup and archive, and more.",
+    "resultsTotal": 2340,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.office.com",
+    "url": "https://www.office.com/",
+    "displayedUrl": "https://www.office.com",
+    "title": "Microsoft 365: Login",
+    "description": "Free or premium: Microsoft 365 has you covered. Everyone gets cloud storage and essential Microsoft 365 apps on the web, free of charge.",
+    "resultsTotal": 2320,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "stashinvest.com",
+    "url": "https://ask.stashinvest.com/",
+    "displayedUrl": "https://ask.stashinvest.com",
+    "title": "Official Stash Support",
+    "description": "Stash support is here to help. Learn more about how to use Stash and find resources that will help you with your Stash account.",
+    "resultsTotal": 2270,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.origin.com",
+    "url": "https://www.origin.com/",
+    "displayedUrl": "https://www.origin.com",
+    "title": "PC Games and Computer Video Games for Download",
+    "description": "Explore PC video games available for download right now. Electronic Arts is a leading publisher of games for the PC, consoles, and mobile.",
+    "resultsTotal": 2090,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.zoosk.com",
+    "url": "https://www.zoosk.com/",
+    "displayedUrl": "https://www.zoosk.com",
+    "title": "Zoosk | Online Dating Site & App to Find Your Perfect Match",
+    "description": "Meet local singles with Zoosk, an online dating site and dating app that makes it so simple to find your perfect match. Put some love in your life today!",
+    "resultsTotal": 2080,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.betterment.com",
+    "url": "https://www.betterment.com/",
+    "displayedUrl": "https://www.betterment.com",
+    "title": "Betterment",
+    "description": "Betterment can help grow your money by making saving and investing easy. Invest in a tailored portfolio, set buckets for your goals, and earn rewards.",
+    "resultsTotal": 2040,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "threema.ch",
+    "url": "https://threema.ch/es",
+    "displayedUrl": "https://threema.ch › ...",
+    "title": "Threema – La mensajería segura para particulares y empresas",
+    "description": "La aplicación de mensajería Threema Work permite a las empresas utilizar la mensajería instantánea para la comunicación corporativa sin correr ningún riesgo.",
+    "resultsTotal": 1880,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.bankofamerica.com",
+    "url": "https://www.bankofamerica.com/",
+    "displayedUrl": "https://www.bankofamerica.com",
+    "title": "Bank of America - Banking, Credit Cards, Loans and Merrill ...",
+    "description": "Choose the card that works for you · Checking Checking · Savings & CDs Savings & CDs · Credit Cards Credit Cards · Home Loans Home Loans · Auto Loans Auto Loans...",
+    "resultsTotal": 1850,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.beautiful.ai",
+    "url": "https://www.beautiful.ai/",
+    "displayedUrl": "https://www.beautiful.ai",
+    "title": "AI Presentation Maker | Make it Beautiful with Beautiful.ai",
+    "description": "Beautiful.ai's presentation software applies the rules of great design in real-time. Just add content and your slides adapt like magic.",
+    "resultsTotal": 1790,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "joinmastodon.org",
+    "url": "https://joinmastodon.org/servers",
+    "displayedUrl": "https://joinmastodon.org",
+    "title": "Servers",
+    "description": "A Small Community Mastodon Server for Casual Chit-Chat. UK Based, A place for good and wholesome content open to everyone. Pets, Photos, Music &...",
+    "resultsTotal": 1720,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "tribe.so",
+    "url": "https://tribe.so/",
+    "displayedUrl": "https://tribe.so",
+    "title": "Bettermode | Create Powerful Web Apps",
+    "description": "The most versatile, and feature-rich engagement platform. Browse 100+ beautifully designed templates, each flexible for precise customization to your needs.",
+    "resultsTotal": 1650,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.acast.com",
+    "url": "https://www.acast.com/",
+    "displayedUrl": "https://www.acast.com",
+    "title": "Podcasting For Creators & Advertisers | Acast Podcasts",
+    "description": "Acast is the world's leading independent podcast company, elevating podcast creators & podcast advertisers for the ultimate listening experience.",
+    "resultsTotal": 1650,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.blizzard.com",
+    "url": "https://www.blizzard.com/",
+    "displayedUrl": "https://www.blizzard.com",
+    "title": "Blizzard Entertainment",
+    "description": "Creators of the Warcraft, Diablo, StarCraft, and Overwatch series, Blizzard Entertainment is an industry-leading developer responsible for the most epic...",
+    "resultsTotal": 1620,
+    "category": "Gaming and Game Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "pitch.com",
+    "url": "https://pitch.com/",
+    "displayedUrl": "https://pitch.com",
+    "title": "Pitch: Presentation software for fast-moving teams",
+    "description": "Pitch is presentation software that enables any team to quickly create sleek decks that get results. Sign up for free.",
+    "resultsTotal": 1540,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.vbulletin.com",
+    "url": "https://www.vbulletin.com/",
+    "displayedUrl": "https://www.vbulletin.com",
+    "title": "vBulletin 6, The World's Leading Community Software",
+    "description": "Use vBulletin Cloud and we'll handle your hosting, site maintenance and upgrades for you. vBulletin 6. Buy Now",
+    "resultsTotal": 1510,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.assembla.com",
+    "url": "https://www.assembla.com/download-page-tortoisesvn",
+    "displayedUrl": "https://www.assembla.com › download-page-tortoisesvn",
+    "title": "TortoiseSVN for Windows",
+    "description": "Assembla is the world's only provider of Enterprise Cloud Version Control. Assembla is mission critical VCS for teams writing mission critical code.",
+    "resultsTotal": 1500,
+    "category": "Code Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "investor.vanguard.com",
+    "url": "https://investor.vanguard.com/home",
+    "displayedUrl": "https://investor.vanguard.com › ...",
+    "title": "Vanguard: Helping you reach your investing goals | Vanguard",
+    "description": "Our funds are crafted with you in mind to help you reach your goals of investment success. Over the last 10 years we have had a history of strong performance.",
+    "resultsTotal": 1480,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "hangouts.google.com",
+    "url": "https://hangouts.google.com/",
+    "displayedUrl": "https://hangouts.google.com",
+    "title": "Google Hangouts",
+    "description": "No information is available for this page.",
+    "resultsTotal": 1350,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "wire.com",
+    "url": "https://wire.com/legal",
+    "displayedUrl": "https://wire.com › legal",
+    "title": "Legal Terms",
+    "description": "Wire is used for private communication. When using it, you are required to abide by any applicable laws. You can not use Wire for unlawful or illegal,...",
+    "resultsTotal": 1350,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.foodora.de",
+    "url": "https://www.foodora.de/en/",
+    "displayedUrl": "https://www.foodora.de › ...",
+    "title": "Food Delivery | Restaurant Takeout | Order Food Online",
+    "description": "Order your favorite dishes for delivery online via Lieferando.de! Choose pizza, sushi, burger, vegetarian and more from over 29000 restaurants in Germany.",
+    "resultsTotal": 1270,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "growthhackers.com",
+    "url": "https://growthhackers.com/",
+    "displayedUrl": "https://growthhackers.com",
+    "title": "GrowthHackers.com - Premier Community for Scalable Growth",
+    "description": "A private community for top growth leaders - where marketing, product, and growth experts come to learn, connect, and tackle challenges together.",
+    "resultsTotal": 1200,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.sling.com",
+    "url": "https://www.sling.com/",
+    "displayedUrl": "https://www.sling.com",
+    "title": "Sling TV: Stream Live TV Channels, Sports, & News Online",
+    "description": "Sling TV lets you watch sports, movies, and shows live or on demand. It lets you customize your subscription with add-ons like AMC+ or Paramount+ with SHOWTIME.",
+    "resultsTotal": 1190,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.wealthfront.com",
+    "url": "https://www.wealthfront.com/",
+    "displayedUrl": "https://www.wealthfront.com",
+    "title": "Wealthfront: Give all your money a place to grow",
+    "description": "Wealthfront is designed to build wealth over time. Earn 5.00% APY on your uninvested cash, invest in a ladder of US Treasuries, and diversify for the long...",
+    "resultsTotal": 1190,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.soundtrap.com",
+    "url": "https://www.soundtrap.com/storytellers",
+    "displayedUrl": "https://www.soundtrap.com › storytellers",
+    "title": "Vocals & Songwriting - Make podcasts online!",
+    "description": "Start your own podcast with Soundtrap. Easy audio editing, and interactive transcripts helps you create your podcast free today. Sign up now!",
+    "resultsTotal": 1180,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.plentyoffish.com",
+    "url": "http://www.plentyoffish.com/dating",
+    "displayedUrl": "http://www.plentyoffish.com › dating",
+    "title": "Dating in Your City - Plenty of Fish Free Dating",
+    "description": "Plenty of Fish has thousands of members looking to date near you. Free dating and personals in your city.",
+    "resultsTotal": 1020,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.funimation.com",
+    "url": "https://www.funimation.com/",
+    "displayedUrl": "https://www.funimation.com",
+    "title": "Crunchyroll: Watch Popular Anime, Play Games & Shop Online",
+    "description": "Embark on an anime adventure with Crunchyroll, your ultimate destination for watching a vast collection of anime series and movies.",
+    "resultsTotal": 1010,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.idrive.com",
+    "url": "https://www.idrive.com/",
+    "displayedUrl": "https://www.idrive.com",
+    "title": "Cloud Backup and Storage solutions for home and business ...",
+    "description": "IDrive provides Online cloud Backup for PCs, Macs, iPhones, Android and other Mobile Devices all into ONE account for one low fee.",
+    "resultsTotal": 981,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.ning.com",
+    "url": "https://www.ning.com/",
+    "displayedUrl": "https://www.ning.com",
+    "title": "NING: Create your own social network with the best ...",
+    "description": "Ning - is the largest online community building platform in the World ☆ Create your own social network in a matter of minutes ⚡️ Take your 14 days trial.",
+    "resultsTotal": 925,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.grindr.com",
+    "url": "https://www.grindr.com/",
+    "displayedUrl": "https://www.grindr.com",
+    "title": "Grindr: The World's Largest Social Networking App for LGBTQ ...",
+    "description": "Grindr is the world's largest social networking app for gay, bi, trans, and queer people. Download Grindr today to discover, connect to, and explore the...",
+    "resultsTotal": 925,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.mizunousa.com",
+    "url": "https://www.mizunousa.com/Careers",
+    "displayedUrl": "https://www.mizunousa.com › Careers",
+    "title": "Careers | More About Mizuno USA",
+    "description": "We employ enthusiastic sports centric, dynamic individuals who bring the necessary education, skills and expertise to perform competent, rewarding work for both...",
+    "resultsTotal": 920,
+    "category": "Job Search Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "beanstalkapp.com",
+    "url": "https://beanstalkapp.com/",
+    "displayedUrl": "https://beanstalkapp.com",
+    "title": "Beanstalk",
+    "description": "Beanstalk is the complete code hosting workflow teams or individuals use to write, review and deploy their code.",
+    "resultsTotal": 917,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.acorns.com",
+    "url": "https://www.acorns.com/",
+    "displayedUrl": "https://www.acorns.com",
+    "title": "Acorns - Invest, Earn, Grow, Spend, Later | Acorns | Acorns",
+    "description": "Acorns helps you save & invest. Invest spare change, bank smarter, earn bonus investments, and more! Get started.",
+    "resultsTotal": 885,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "wickr.com",
+    "url": "https://wickr.com/",
+    "displayedUrl": "https://wickr.com",
+    "title": "AWS Wickr | Protecting Communications with End-to-End ...",
+    "description": "Wickr is a single end-to-end encrypted service that provides a full suite of collaboration capabilities on any device.",
+    "resultsTotal": 881,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.starlingbank.com",
+    "url": "https://www.starlingbank.com/",
+    "displayedUrl": "https://www.starlingbank.com",
+    "title": "Starling Bank: Award-winning bank accounts - Starling Bank",
+    "description": "Award-winning everyday bank accounts with no monthly fees, industry-leading security features and a Mastercard™ bank card. Apply now.",
+    "resultsTotal": 879,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.eharmony.com",
+    "url": "https://www.eharmony.com/",
+    "displayedUrl": "https://www.eharmony.com",
+    "title": "Dating site to meet singles & find real love!",
+    "description": "eharmony is a dating site with over 20 year's experience. Our matching helps you to find real love. Sign up for free and meet thousands of like-minded...",
+    "resultsTotal": 835,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.sermo.com",
+    "url": "https://www.sermo.com/",
+    "displayedUrl": "https://www.sermo.com",
+    "title": "Sermo: Social Network Platform for Physicians",
+    "description": "Access the global medical community that empowers today's physicians with Sermo's social network platform. ✓ Click here to sign up for Sermo for free today!",
+    "resultsTotal": 802,
+    "category": "Professional Social Network Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "zulip.com",
+    "url": "https://zulip.com/",
+    "displayedUrl": "https://zulip.com",
+    "title": "Zulip — organized team chat",
+    "description": "Zulip offers a convenient cloud solution, with features to make your users and IT team happy. Import your data and integrations from Slack and other products.",
+    "resultsTotal": 795,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.joomla.org",
+    "url": "https://www.joomla.org/",
+    "displayedUrl": "https://www.joomla.org",
+    "title": "Joomla Content Management System (CMS) - try it! It's free!",
+    "description": "Joomla! is the mobile-ready and user-friendly way to build your website. Choose from thousands of features and designs. Joomla! is free and open source.",
+    "resultsTotal": 794,
+    "category": "Open Source Project Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "tox.chat",
+    "url": "https://blog.tox.chat/",
+    "displayedUrl": "https://blog.tox.chat",
+    "title": "Tox Blog – News regarding the Tox Project",
+    "description": "The objective of this project is to implement a new KCI-resistant handshake based on NoiseIK in c-toxcore, which is backwards compatible to the current KCI-...",
+    "resultsTotal": 728,
+    "category": "Blogging Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "aframe.io",
+    "url": "https://aframe.io/",
+    "displayedUrl": "https://aframe.io",
+    "title": "A-Frame: Hello WebVR",
+    "description": "A web framework for building virtual reality experiences. Make WebVR with HTML and Entity-Component. Works on Vive, Rift, desktop, mobile platforms.",
+    "resultsTotal": 651,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "spideroak.com",
+    "url": "https://spideroak.com/",
+    "displayedUrl": "https://spideroak.com",
+    "title": "Space Cybersecurity Solutions - SpiderOak Protects Space ...",
+    "description": "SpiderOak secures civil, military, and commercial space projects with top-tier security, offering advanced Space Cybersecurity Solutions for Hybrid Space...",
+    "resultsTotal": 650,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.captivate.fm",
+    "url": "https://www.captivate.fm/",
+    "displayedUrl": "https://www.captivate.fm",
+    "title": "Unlimited podcast hosting • Best podcast platform • Captivate.fm",
+    "description": "Host unlimited podcasts with the world's only growth-focused podcast hosting™. Create, grow & monetize your show with our podcast platform.",
+    "resultsTotal": 540,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "basecamp.com",
+    "url": "https://basecamp.com/",
+    "displayedUrl": "https://basecamp.com",
+    "title": "Basecamp: Project management software, online collaboration",
+    "description": "Basecamp's the project management platform that helps small teams move faster and make more progress than they ever thought possible.",
+    "resultsTotal": 538,
+    "category": "Online Collaboration Tool Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.sync.com",
+    "url": "https://www.sync.com/",
+    "displayedUrl": "https://www.sync.com",
+    "title": "Sync | Secure Cloud Storage, File Sharing and Document ...",
+    "description": "Sync is a file storage, sharing, and collaboration platform that keeps you safe, secure and connected in the cloud.",
+    "resultsTotal": 483,
+    "category": "Cloud Storage Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.endomondo.com",
+    "url": "https://www.endomondo.com/",
+    "displayedUrl": "https://www.endomondo.com",
+    "title": "Endomondo - Fitness & Nutrition Guide",
+    "description": "Endomondo newsletter has tips, workout plans & resources that will help you in your fitness journey.",
+    "resultsTotal": 443,
+    "category": "Health and Fitness Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "wavo.me",
+    "url": "https://wavo.me/",
+    "displayedUrl": "https://wavo.me",
+    "title": "Wavo | Unified Music Marketing, Advertising, and Analytics",
+    "description": "Wavo is the music industry's leading marketing and analytics platform. Learn more about our data-driven solutions that make investing in artists predictable...",
+    "resultsTotal": 418,
+    "category": "Music Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.magicleap.com",
+    "url": "https://www.magicleap.com/",
+    "displayedUrl": "https://www.magicleap.com",
+    "title": "Magic Leap: Leading Innovation in Augmented Reality",
+    "description": "Magic Leap is leading innovation in Augmented Reality by bringing together industry-leading optics, scalable production, AI capabilities & immersive AR...",
+    "resultsTotal": 346,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.amuse.io",
+    "url": "https://www.amuse.io/en/",
+    "displayedUrl": "https://www.amuse.io › ...",
+    "title": "Amuse",
+    "description": "Amuse provides smart funding, digital music distribution, and additional services to the self-releasing and independent artist community.",
+    "resultsTotal": 342,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "answers.yahoo.com",
+    "url": "https://malaysia.answers.yahoo.com/amp/qna/20060704054447AAh6pQ2",
+    "displayedUrl": "https://malaysia.answers.yahoo.com › amp › qna",
+    "title": "Mail, Weather, Search, Politics, News, Finance, Sports & Videos",
+    "description": "Latest news coverage, email, free stock quotes, live scores and video are just the beginning. Discover more every day at Yahoo!",
+    "resultsTotal": 326,
+    "category": "Question and Answer Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.genial.ly",
+    "url": "https://www.genial.ly/5890c03544a87c0e3c95db35/oxford",
+    "displayedUrl": "https://www.genial.ly › oxford",
+    "title": "OXFORD",
+    "description": "Oxford is a city of England (UK). In this city is the older University of the anglophone world. It know as ´´the City of Dreaming Spires´´,...",
+    "resultsTotal": 316,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.gotinder.com",
+    "url": "https://www.gotinder.com/",
+    "displayedUrl": "https://www.gotinder.com",
+    "title": "Tinder | Dating, Make Friends & Meet New People",
+    "description": "With 55 billion matches to date, Tinder® is the world's most popular dating app, making it the place to meet new people.",
+    "resultsTotal": 290,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "getsession.org",
+    "url": "https://getsession.org/",
+    "displayedUrl": "https://getsession.org",
+    "title": "Session | Send Messages, Not Metadata. | Private Messenger",
+    "description": "Session is a private messenger that aims to remove any chance of metadata collection by routing all messages through an onion routing network.",
+    "resultsTotal": 288,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "tahoe-lafs.readthedocs.io",
+    "url": "https://tahoe-lafs.readthedocs.io/",
+    "displayedUrl": "https://tahoe-lafs.readthedocs.io",
+    "title": "Tahoe-LAFS — Tahoe-LAFS 1.x documentation",
+    "description": "Tahoe-LAFS is a Free and Open decentralized storage system. It distributes your data across multiple servers. Even if some of the servers fail or are taken over...",
+    "resultsTotal": 288,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.vevo.com",
+    "url": "https://www.vevo.com/artist/yuna",
+    "displayedUrl": "https://www.vevo.com",
+    "title": "YunaVEVO",
+    "description": "Latest Videos on Vevo! Watch the Hottest New Music Videos in this exclusive playlist. 3:31 · Taylor Swift - Lavender Haze (Official Music Video).",
+    "resultsTotal": 283,
+    "category": "Music Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "ludus.one",
+    "url": "https://ludus.one/",
+    "displayedUrl": "https://ludus.one",
+    "title": "Ludus",
+    "description": "Ludus is an advanced presentation tool for creative professionals. It's like Sketch and Keynote had a baby in the cloud.",
+    "resultsTotal": 231,
+    "category": "Presentation Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "hinge.co",
+    "url": "https://hinge.co/",
+    "displayedUrl": "https://hinge.co",
+    "title": "Download Hinge, the dating app designed to be deleted | Hinge",
+    "description": "Go on your last first date. Hinge is built on the belief that anyone looking for love should be able to find it. It's also built on an acclaimed Nobel-Prize-...",
+    "resultsTotal": 231,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.happn.com",
+    "url": "https://www.happn.com/",
+    "displayedUrl": "https://www.happn.com",
+    "title": "happn - Dating App",
+    "description": "Connect with genuine locals on happn, where authentic profiles are enriched with real-life crossings, favorite Spots, and personalized insights.",
+    "resultsTotal": 212,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.blubrry.com",
+    "url": "https://www.blubrry.com/tvarp_tfrafjall/",
+    "displayedUrl": "https://www.blubrry.com",
+    "title": "Útvarp Töfrafjall",
+    "description": "The Living Art Museum is a non-profit, artist run museum, founded in 1978 by a group of Icelandic artists.",
+    "resultsTotal": 188,
+    "category": "Podcast Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.orfium.com",
+    "url": "https://www.orfium.com/",
+    "displayedUrl": "https://www.orfium.com",
+    "title": "Orfium: Music Rights Management Software",
+    "description": "Orfium is the global technology company solving the entertainment industry's biggest challenges around digital music & broadcast rights management.",
+    "resultsTotal": 141,
+    "category": "Music Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.discourse.org",
+    "url": "https://www.discourse.org/",
+    "displayedUrl": "https://www.discourse.org",
+    "title": "Discourse is the place to build civilized communities ...",
+    "description": "Discourse is modern forum software for your community. Use it as a mailing list, discussion forum, long-form chat room, and more!",
+    "resultsTotal": 120,
+    "category": "Forum and Community Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "riot.im",
+    "url": "https://riot.im/reinstall",
+    "displayedUrl": "https://riot.im › reinstall",
+    "title": "Riot.im Android security update",
+    "description": "After the security incident at Matrix.org, we have decided to publish a new Riot.im Android app on the Google Play Store out of an abundance...",
+    "resultsTotal": 116,
+    "category": "Instant Messaging Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.docstoc.com",
+    "url": "https://www.docstoc.com/",
+    "displayedUrl": "https://www.docstoc.com",
+    "title": "Docstoc",
+    "description": "",
+    "resultsTotal": 96,
+    "category": "Document Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.codebasehq.com",
+    "url": "https://www.codebasehq.com/",
+    "displayedUrl": "https://www.codebasehq.com",
+    "title": "Codebase - Git, Mercurial and Subversion hosting with project ...",
+    "description": "Codebase is the ultimate code hosting platform for professional development teams. Includes source tree browser, in-line comments, notes, and a powerful...",
+    "resultsTotal": 85,
+    "category": "Code Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.okcupid.com",
+    "url": "https://www.okcupid.com/",
+    "displayedUrl": "https://www.okcupid.com",
+    "title": "OkCupid: Best Free Dating App & Site to Find a Match Today",
+    "description": "OkCupid is the only online dating app that matches you on what really matters to you—and it's free! Download it today to connect with real people.",
+    "resultsTotal": 69,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.seafile.com",
+    "url": "https://www.seafile.com/",
+    "displayedUrl": "https://www.seafile.com",
+    "title": "Seafile - Open Source File Sync and Share Software",
+    "description": "Seafile is an open source, self-hosted file sync and share solution with high performance and reliability. Sync, access, and collaborate on files on your...",
+    "resultsTotal": 46,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.easyar.com",
+    "url": "https://www.easyar.com/",
+    "displayedUrl": "https://www.easyar.com",
+    "title": "EasyAR|Augmented Reality & AR SDK",
+    "description": "EasyAR Mega provides city-scale AR cloud solution, and empowers culture and tourism, business area, education, industry and many other businesses with flexible...",
+    "resultsTotal": 38,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.tdameritrade.com",
+    "url": "https://www.tdameritrade.com/",
+    "displayedUrl": "https://www.tdameritrade.com",
+    "title": "TD Ameritrade, Inc. is now at Schwab",
+    "description": "TD Ameritrade, Inc. has been acquired by Charles Schwab, and all accounts have been moved. At Schwab, you get access to thinkorswim® trading platforms and...",
+    "resultsTotal": 26,
+    "category": "Financial Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "ello.co",
+    "url": "https://o.ello.co/https://www.zillow.com/profile/depchaybovoisport",
+    "displayedUrl": "https://o.ello.co › https: › profile › d...",
+    "title": "Dep chay bo Voisport - Real Estate Professional in Alaska ...",
+    "description": "Visit Dep chay bo Voisport's profile on Zillow to find ratings and reviews. Find great Alaska, AK real estate professionals on Zillow like Dep chay bo...",
+    "resultsTotal": 20,
+    "category": "Social Media Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.viadeo.com",
+    "url": "http://www.viadeo.com/contact",
+    "displayedUrl": "http://www.viadeo.com › contact",
+    "title": "Viadeo",
+    "description": "Viadeo et JDN-Réseau évoluent et deviennent Viadeo by JDN Cher membre, Viadeo - votre réseau social français - évolue, et nous souhaitions partager avec vous...",
+    "resultsTotal": 17,
+    "category": "Professional Social Network Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.lovoo.net",
+    "url": "https://www.lovoo.net/",
+    "displayedUrl": "https://www.lovoo.net",
+    "title": "LOVOO - Online dating app for flirting, chatting, and getting to ...",
+    "description": "LOVOO is the place for chatting and getting to know people. Discover people nearby on the Radar, find new friends, or the love of your life!",
+    "resultsTotal": 16,
+    "category": "Dating and Social Discovery Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.charitymiles.org",
+    "url": "http://www.charitymiles.org/humanachallenge/",
+    "displayedUrl": "http://www.charitymiles.org › humanachallenge",
+    "title": "Humana Challenge Sweepstakes",
+    "description": "Enter for your chance to win the Grand Prize for you and a guest to attend the Humana Challenge PGA Tour Tournament in Palm Springs, California in January, 2015...",
+    "resultsTotal": 14,
+    "category": "Health and Fitness Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "fanburst.com",
+    "url": "https://fanburst.com/",
+    "displayedUrl": "https://fanburst.com",
+    "title": "Listen to what's trending on the Audius platform",
+    "description": "Listen to what's trending on the Audius platform | Stream tracks, albums, playlists on desktop and mobile.",
+    "resultsTotal": 13,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "www.whooshkaa.com",
+    "url": "https://www.whooshkaa.com/rss/podcast/id/2455",
+    "displayedUrl": "https://www.whooshkaa.com › rss › podcast",
+    "title": "The Phantom's Lair SuperCoach Podcast",
+    "description": "",
+    "resultsTotal": 1,
+    "category": "Podcast Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.indabamusic.com",
+    "url": "https://www.indabamusic.com/",
+    "displayedUrl": "https://www.indabamusic.com",
+    "title": "Indaba Music",
+    "description": "",
+    "resultsTotal": 1,
+    "category": "Music Sharing Platform",
+    "isUGC": true
+  },
+  {
+    "domain": "hubic.com",
+    "url": "http://www.hubic.com/",
+    "displayedUrl": "http://www.hubic.com",
+    "title": "Cloud Storage - Shadow Drive",
+    "description": "Discover Shadow Drive, the secure cloud storage for backing up and sharing your files online. Access your storage space instantly from any device.",
+    "resultsTotal": 1,
+    "category": "Cloud Storage Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "vrv.co",
+    "url": "https://vrv.co/unavailable",
+    "displayedUrl": "https://vrv.co › unavailable",
+    "title": "Crunchyroll: Watch Popular Anime, Play Games & Shop Online",
+    "description": "Embark on an anime adventure with Crunchyroll, your ultimate destination for watching a vast collection of anime series and movies.",
+    "resultsTotal": 1,
+    "category": "Streaming Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.vuforia.com",
+    "url": "https://www.vuforia.com/",
+    "displayedUrl": "https://www.vuforia.com",
+    "title": "Vuforia Enterprise Augmented Reality (AR) Software",
+    "description": "Vuforia Studio is a scalable AR content creation solution that transforms existing 3D CAD or product data from PLM systems into detailed AR experiences tailored...",
+    "resultsTotal": 1,
+    "category": "Virtual and Augmented Reality Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.wapa.com",
+    "url": "https://www.wapa.com/assets/calendar/spring2019/012919%20%20govdelivery-clarification-health-home.pdf",
+    "displayedUrl": "https://www.wapa.com › calendar › spring2019",
+    "title": "TE OF - Washington State Health Care Authority - WA.gov",
+    "description": "The agency is clarifying Medicaid Program policy changes, and the ordering of Home Health services including medical supplies and equipment.",
+    "resultsTotal": 1,
+    "category": "Document Sharing Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.deliveroo.com",
+    "url": "http://www.deliveroo.com/brands/chipotle",
+    "displayedUrl": "http://www.deliveroo.com › brands › chipotle",
+    "title": "Order Chipotle Delivery Near Me",
+    "description": "If you're looking for a tasty takeaway, you've come to the right place. Chipotle will get your favourite dishes delivered directly to you in no time.",
+    "resultsTotal": 1,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.rappi.com",
+    "url": "https://www.rappi.com/",
+    "displayedUrl": "https://www.rappi.com",
+    "title": "Pide Comida a Domicilio y el Súper en línea - Rappi México",
+    "description": "Pide en línea domicilio de restaurantes, supermercado, medicamentos y ¡mucho más! Tus tiendas favoritas están en Rappi. Entregamos con amor en todo México.",
+    "resultsTotal": 1,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  },
+  {
+    "domain": "www.hungrypanda.com",
+    "url": "https://www.hungrypanda.com/",
+    "displayedUrl": "https://www.hungrypanda.com",
+    "title": "Hungry Panda",
+    "description": "",
+    "resultsTotal": 1,
+    "category": "Restaurant Reservation and Food Delivery Platform",
+    "isUGC": false
+  }
+]

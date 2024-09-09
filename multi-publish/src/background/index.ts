@@ -1,5 +1,5 @@
 import submitMediumPost from '~/contentScript/medium'
-import { PublishTask } from '~/types'
+import { MediumPublishTask, PublishTask } from '~/types'
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'PUBLISH_TASK') {
@@ -29,7 +29,7 @@ function updateTaskStatus(platform: string, status: 'success' | 'failed') {
 async function publishArticle(task: PublishTask) {
   switch (task.platform) {
     case 'medium':
-      return await publishToMedium(task)
+      return await publishToMedium(task as MediumPublishTask)
     case 'devto':
       return await publishToDevTo(task)
     case 'hashnode':
@@ -40,10 +40,10 @@ async function publishArticle(task: PublishTask) {
   }
 }
 
-async function publishToMedium(task: PublishTask) {
+async function publishToMedium(task: MediumPublishTask) {
   // 打开新标签页
   const tab = await chrome.tabs.create({
-    url: 'https://medium.com/new-story',
+    url: task.url,
     active: false,
   })
 

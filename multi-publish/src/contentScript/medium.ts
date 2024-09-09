@@ -1,31 +1,31 @@
-import { PublishTask } from '~/types'
+import { MediumPublishTask } from '~/types'
 
-export default async function submitMediumPost(content: PublishTask) {
+export default async function submitMediumPost(content: MediumPublishTask) {
   // @ts-ignore
   const waitForElement = window.waitForElement
   try {
-    await waitForElement('.graf--title')
-    const titleElement = document.querySelector('.graf--title')
-    const bodyElement = document.querySelector('.graf--p')
+    await waitForElement(content.titleSelector)
+    const titleElement = document.querySelector(content.titleSelector)
+    const bodyElement = document.querySelector(content.bodySelector)
     titleElement.textContent = content.title
     bodyElement.textContent = content.content
     console.log('title and body set')
 
-    await waitForElement('button[data-action="show-prepublish"]')
+    await waitForElement(content.previewButtonSelector)
     const previewButton = document.querySelector(
-      'button[data-action="show-prepublish"]',
+      content.previewButtonSelector,
     ) as HTMLButtonElement
     previewButton.click()
     console.log('click preview button')
 
-    await waitForElement('button[data-action="publish"]')
+    await waitForElement(content.publishButtonSelector)
     const publishButton = document.querySelector(
-      'button[data-action="publish"]',
+      content.publishButtonSelector,
     ) as HTMLButtonElement
     publishButton.click()
     console.log('click publish button')
 
-    await waitForElement('h3[data-testid="publishSuccessTitleText"]')
+    await waitForElement(content.successSelector)
     return true
   } catch (error) {
     console.error('Error submitting medium post', error)

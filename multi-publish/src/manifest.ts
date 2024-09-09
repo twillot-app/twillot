@@ -4,13 +4,12 @@ import packageData from '../package.json'
 //@ts-ignore
 const isDev = process.env.NODE_ENV == 'development'
 
-const host_permissions = ['https://*.x.com/*']
+const host_permissions = []
 // cloudflare workers
 if (isDev) {
-  host_permissions.push('http://localhost:8787/*')
-  host_permissions.push('http://127.0.0.1:8787/*')
+  host_permissions.push('*://*/*')
 } else {
-  host_permissions.push('https://*.twillot.com/*')
+  host_permissions.push('https://www.twillot.com/multi-publish')
 }
 
 export default defineManifest({
@@ -24,15 +23,15 @@ export default defineManifest({
     48: 'img/logo-48.png',
     128: 'img/logo-128.png',
   },
-  action: {
-    // popup 优先级高
-    // default_popup: 'pages/popup.html',
-    // default_icon: 'img/logo-48.png',
-  },
-  options_ui: {
-    page: 'pages/options.html',
-    open_in_tab: true,
-  },
+  // action: {
+  // popup 优先级高
+  // default_popup: 'pages/popup.html',
+  // default_icon: 'img/logo-48.png',
+  // },
+  // options_ui: {
+  // page: 'pages/options.html',
+  // open_in_tab: true,
+  // },
   // devtools_page: 'pages/devtools.html',
   background: {
     service_worker: 'src/background/index.ts',
@@ -40,7 +39,7 @@ export default defineManifest({
   },
   content_scripts: [
     {
-      matches: ['https://x.com/*'],
+      matches: ['https://*/*'],
       js: ['src/contentScript/index.ts'],
       run_at: 'document_start',
     },
@@ -60,21 +59,7 @@ export default defineManifest({
     },
   ],
   host_permissions,
-  permissions: [
-    'storage',
-    'webRequest',
-    'declarativeNetRequest',
-    'declarativeNetRequestWithHostAccess',
-  ],
-  declarative_net_request: {
-    rule_resources: [
-      {
-        id: 'origin_rules',
-        enabled: true,
-        path: 'src/rules.json',
-      },
-    ],
-  },
+  permissions: ['storage', 'webRequest', 'activeTab', 'tabs', 'scripting'],
   // chrome_url_overrides: {
   //   newtab: 'pages/newtab.html',
   // },

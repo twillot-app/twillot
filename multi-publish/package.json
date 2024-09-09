@@ -1,20 +1,10 @@
 {
   "author": "twillot@outlook.com",
   "dependencies": {
-    "@kobalte/core": "^0.13.4",
-    "@solidjs/router": "^0.13.6",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "lodash.debounce": "^4.0.8",
-    "lodash.get": "^4.4.2",
-    "solid-js": "^1.8.1",
-    "tailwind-merge": "^2.4.0",
-    "tailwindcss": "^3.4.3",
-    "tailwindcss-animate": "^1.0.7",
     "utils": "workspace:^"
   },
-  "description": "Effortlessly Export Your Twitter Data with One Click",
-  "displayName": "Twillot Exporter for X/Twitter",
+  "description": "Automatically publish articles to multiple blog platforms to increase product exposure and website SEO",
+  "displayName": "Twillot Multi Publish",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -25,7 +15,7 @@
   "scripts": {
     "build": "vite build",
     "coverage": "vitest run --coverage",
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite",
     "fmt": "prettier --write '**/*.{tsx,ts,json,css,md}'",
     "preview": "vite preview",
     "test": "vitest",
@@ -33,7 +23,5 @@
   },
   "type": "module",
   "version": "1.1.0",
-  "devDependencies": {
-    "@types/lodash.get": "^4.4.9"
-  }
+  "devDependencies": {}
 }

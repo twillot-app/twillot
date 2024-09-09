@@ -18,3 +18,19 @@ export function waitForElement(selector: string) {
     })
   })
 }
+
+export function fillInputField(element: HTMLElement, text: string) {
+  if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+    // @ts-ignore
+    element.value = text
+    element.dispatchEvent(new Event('input', { bubbles: true }))
+  } else {
+    element.textContent = text
+  }
+}
+
+export function wait(time: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
+}

@@ -4,16 +4,20 @@ export interface PublishTask {
   title: string
   content: string
   tags?: string[]
-}
-
-export interface MediumPublishTask extends PublishTask {
-  platform: 'medium'
-  url: 'https://medium.com/new-story'
+  // Operations are allowed after this element is found
+  initSelector?: string
   titleSelector: string
   bodySelector: string
-  previewButtonSelector: string
+  // medium
+  previewButtonSelector?: string
   publishButtonSelector: string
-  successSelector: string
+  /**
+   * Some platforms have a success message that is displayed after the post is published and some don't, they just redirect to the post page and make us hard to detect if the post is published, in this case we can add a errorSelector to detect if the post is errored
+   */
+  // medium
+  successSelector?: string
+  // devto
+  errorSelector?: string
 }
 
 export enum Platform {

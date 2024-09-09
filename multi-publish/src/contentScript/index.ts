@@ -25,6 +25,15 @@ const platformTasks: Record<string, PublishTask> = {
     publishButtonSelector: '#editor-actions button:nth-child(1)',
     errorSelector: 'div[data-testid="error-message"]',
   },
+  github: {
+    url: 'https://github.com/twillot-app/twillot/issues/new',
+    platform: 'github',
+    title: 'How to use twillot',
+    content: 'test ' + new Date().toISOString(),
+    titleSelector: '#issue_title',
+    bodySelector: '#issue_body',
+    publishButtonSelector: '#new_issue button[type="submit"]:not([disabled])',
+  },
 }
 
 // 创建发布按钮

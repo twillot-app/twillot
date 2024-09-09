@@ -34,6 +34,26 @@ const platformTasks: Record<string, PublishTask> = {
     bodySelector: '#issue_body',
     publishButtonSelector: '#new_issue button[type="submit"]:not([disabled])',
   },
+  kofi: {
+    url: 'https://ko-fi.com/blog/editor',
+    platform: 'kofi',
+    title: 'How to use twillot',
+    content: 'test ' + new Date().toISOString(),
+    initSelector: '.fr-element.fr-view',
+    titleSelector: '#blogPostTitle',
+    bodySelector: '#postBody',
+    publishButtonSelector: '#submitform button[data-toggle="dropdown"]',
+  },
+  patreon: {
+    url: 'https://www.patreon.com/posts/111755036/edit',
+    platform: 'patreon',
+    title: 'How to use twillot',
+    content: 'test ' + new Date().toISOString(),
+    titleSelector: '#renderPageContentWrapper input',
+    bodySelector: '.post_body',
+    publishButtonSelector:
+      '#renderPageContentWrapper nav button.sc-furwcr.bdCQnw',
+  },
 }
 
 // 创建发布按钮

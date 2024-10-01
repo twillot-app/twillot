@@ -4,6 +4,11 @@
 
 ## Changelog
 
+## Oct 2, 2024 Update
+
+- Fixed a bug that caused the extension to stop smart tagging
+- Ending the free trial for smart tagging
+
 ## Aug 28, 2024 Update
 
 - Added AI-powered smart categorization to automatically organize your bookmarks!

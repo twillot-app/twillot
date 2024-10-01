@@ -48,21 +48,7 @@ import { PRICING_URL } from '~/libs/member'
 // Wrap the sleep function
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-const MAX_WAIT_TIME = 512000 // 最大等待时间，512秒
 const BATCH_SIZE = 20 // 每20个请求为一个等级
-const INITIAL_WAIT_TIME = 3000 // 初始等待时间，3秒
-const MAX_RANDOM_VARIATION = 0.1 // 最大随机变化，10%
-
-function calculateWaitTime(currentRequest: number): number {
-  const level = Math.floor(currentRequest / BATCH_SIZE)
-  const baseTime = Math.min(
-    INITIAL_WAIT_TIME * Math.pow(2, level),
-    MAX_WAIT_TIME,
-  )
-  const randomVariation =
-    (Math.random() * 2 - 1) * MAX_RANDOM_VARIATION * baseTime
-  return baseTime + randomVariation
-}
 
 async function query(
   keyword = '',
@@ -433,6 +419,20 @@ export async function removeBookmark(tweetId: string) {
 
 export async function smartTagging() {
   const [store, setStore] = dataStore
+  const license = await getLicense()
+  const level = getLevel(license)
+  const isFree = level === MemberLevel.Free
+
+  if (isFree) {
+    alert('Please upgrade to a paid plan to continue AI auto organizing')
+    await sleep(3000)
+    await chrome.tabs.create({
+      url: PRICING_URL,
+    })
+    setStore('isTagging', false)
+    return
+  }
+
   const uid = await getCurrentUserId()
   if (!uid) {
     alert('Please login to use AI auto organizing')
@@ -452,12 +452,13 @@ export async function smartTagging() {
     return
   }
 
+  const dailyMax = level === MemberLevel.Pro ? 500 : 200
   let offset = 0
   let reqCount = 0
   let isLimited = false
   setStore('isTagging', true)
 
-  while (store.isTagging) {
+  for (let i = 0; i < dailyMax; i++) {
     // server error
     if (isLimited) {
       setStore('isTagging', false)
@@ -466,36 +467,6 @@ export async function smartTagging() {
     }
 
     try {
-      const license = await getLicense()
-      const level = getLevel(license)
-      const isFree = level === MemberLevel.Free
-
-      if (isFree) {
-        if (reqCount > BATCH_SIZE) {
-          localStorage.setItem(
-            'limited_time',
-            Math.floor(Date.now() / 1000).toString(),
-          )
-          isLimited = true
-        } else {
-          // 24 小时后才能再次使用
-          const limitedTime = parseInt(
-            localStorage.getItem('limited_time') || '0',
-          )
-          isLimited = Date.now() / 1000 - limitedTime < 24 * 60 * 60
-        }
-
-        if (isLimited) {
-          alert('Please upgrade to a paid plan to continue AI auto organizing')
-          await sleep(3000)
-          await chrome.tabs.create({
-            url: PRICING_URL,
-          })
-          setStore('isTagging', false)
-          break
-        }
-      }
-
       // 只查询 null 或 undefined，设置为空表示 ai 分类过但是找不到对应文件夹
       const tweets = await iterate(
         (t) => typeof t.folder !== 'string',
@@ -568,11 +539,8 @@ export async function smartTagging() {
         }
 
         reqCount += 1
-        const waitTime = calculateWaitTime(reqCount)
-        console.log(
-          `Request id = ${reqCount}, waiting for ${waitTime / 1000} seconds`,
-        )
-        await sleep(waitTime)
+
+        await sleep(3000)
       }
     } catch (error) {
       console.error('Error fetching unclassified tweets:', error)

@@ -214,7 +214,14 @@ export const Layout = (props) => {
                     class="ms-3 inline-flex cursor-pointer items-center justify-center rounded-full text-xs opacity-60"
                     onClick={smartTagging}
                   >
-                    <Show when={store.isTagging} fallback={<IconSparkles />}>
+                    <Show
+                      when={store.isTagging}
+                      fallback={
+                        <span class="animate-spin">
+                          <IconSparkles />
+                        </span>
+                      }
+                    >
                       <Spinner className="h-4 w-4 fill-gray-700 text-gray-200 dark:text-gray-600" />
                     </Show>
                   </span>
@@ -333,11 +340,12 @@ export const Layout = (props) => {
           <Modal
             visible={!store.hasShownAIModal}
             title="Auto-organize Bookmarks with AI"
-            okText="Explore"
+            okText="Start Organizing with AI"
             onOk={async () => {
               await chrome.tabs.create({
                 url: PRICING_URL,
               })
+              setStore('hasShownAIModal', true)
               localStorage.setItem('hasShownAIModal', 'true')
             }}
             onCancel={() => {

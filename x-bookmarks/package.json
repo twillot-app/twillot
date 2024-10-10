@@ -8,7 +8,7 @@
   },
   "description": "Search, organize and export your X/Twitter bookmarks",
   "devDependencies": {},
-  "displayName": "Twillot Bookmarks for X/Twitter",
+  "displayName": "Twitter Bookmarks Search by Twillot",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -26,5 +26,5 @@
     "zip": "npm run build && node src/zip.js"
   },
   "type": "module",
-  "version": "1.7.0"
+  "version": "1.8.0"
 }

@@ -7,7 +7,6 @@
       business: 'pri_01j70dtsgvtafd7c3skj4g8j7s',
       pro: 'pri_01j70ds81j85jpw0dbak0gya41',
     },
-    webhookUrl: 'https://api.twillot.com/webhook/paddle/generate',
     // 确保和 pricing 页面同级
     welcomeUrl: './welcome?utm_source=paddle',
     scriptSrc: 'https://cdn.paddle.com/paddle/v2/paddle.js',
@@ -22,28 +21,7 @@
       alert('Invalid price item')
       return
     }
-    fetch(config.webhookUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...data,
-        twillot: {
-          product_name: config.product_name,
-          plan: entry[0],
-        },
-      }),
-      method: 'POST',
-    })
-      .then(() => {
-        setTimeout(() => {
-          location.href = config.welcomeUrl
-        }, 2000)
-      })
-      .catch((err) => {
-        console.error('Error:', err)
-        location.reload()
-      })
+    location.href = config.welcomeUrl
   }
 
   const initializePaddle = () => {

@@ -4,17 +4,14 @@
     token: 'live_9233313a92afcfb5b4887874b7e',
     product_name: 'ssf',
     priceItems: {
-      pro: 'pri_01j70dtsgvtafd7c3skj4g8j7s',
-      business: 'pri_01j70ds81j85jpw0dbak0gya41',
+      business: 'pri_01j70dtsgvtafd7c3skj4g8j7s',
+      pro: 'pri_01j70ds81j85jpw0dbak0gya41',
     },
     webhookUrl: 'https://api.twillot.com/webhook/paddle/generate',
     // 确保和 pricing 页面同级
     welcomeUrl: './welcome?utm_source=paddle',
     scriptSrc: 'https://cdn.paddle.com/paddle/v2/paddle.js',
   }
-
-  const isCheckoutPage = (href) => href && href.includes('/checkout')
-  const isProPlan = (href) => href && href.includes('pro')
 
   const handleCheckoutCompleted = (data) => {
     const entries = Object.entries(config.priceItems)
@@ -60,19 +57,14 @@
       },
     })
 
-    document.addEventListener('click', (event) => {
-      const anchor = event.target.closest('a')
-      if (!anchor) return
-
-      const href = anchor.getAttribute('href')
-      if (!isCheckoutPage(href)) return
-
-      event.preventDefault()
-      const priceId = isProPlan(href)
-        ? config.priceItems.pro
-        : config.priceItems.business
+    document.querySelector('#btn-pro a').addEventListener('click', () => {
       Paddle.Checkout.open({
-        items: [{ priceId, quantity: 1 }],
+        items: [{ priceId: config.priceItems.pro, quantity: 1 }],
+      })
+    })
+    document.querySelector('#btn-business a').addEventListener('click', () => {
+      Paddle.Checkout.open({
+        items: [{ priceId: config.priceItems.business, quantity: 1 }],
       })
     })
   }

@@ -5,7 +5,7 @@
     product_name: 'ssf',
     priceItems: {
       pro: 'pri_01j70dtsgvtafd7c3skj4g8j7s',
-      basic: 'pri_01j70ds81j85jpw0dbak0gya41',
+      business: 'pri_01j70ds81j85jpw0dbak0gya41',
     },
     webhookUrl: 'https://api.twillot.com/webhook/paddle/generate',
     // 确保和 pricing 页面同级
@@ -13,7 +13,7 @@
     scriptSrc: 'https://cdn.paddle.com/paddle/v2/paddle.js',
   }
 
-  const isCheckoutPage = (href) => href && href.includes('#checkout')
+  const isCheckoutPage = (href) => href && href.includes('/checkout')
   const isProPlan = (href) => href && href.includes('pro')
 
   const handleCheckoutCompleted = (data) => {
@@ -70,7 +70,7 @@
       event.preventDefault()
       const priceId = isProPlan(href)
         ? config.priceItems.pro
-        : config.priceItems.basic
+        : config.priceItems.business
       Paddle.Checkout.open({
         items: [{ priceId, quantity: 1 }],
       })

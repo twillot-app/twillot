@@ -4,8 +4,9 @@
     token: 'test_4b6c972f141746108dfe03eddc6',
     product_name: 'ssf',
     priceItems: {
-      pro: 'pri_01ja7gfshf1nnqny0cz86yqs1e',
-      business: 'pri_01ja7ggncy5mfn5ejrbz3rhqah',
+      basic: 'pri_01jajsc6j0s28e22dhzzmxa5f9',
+      pro: 'pri_01jajscwyrp9585y08ssyf7bj7',
+      business: 'pri_01jajsdfyfng11hjb9t3fjyhwn',
     },
     // 确保和 pricing 页面同级
     welcomeUrl: './welcome?utm_source=paddle',
@@ -35,12 +36,17 @@
       },
     })
 
-    document.querySelector('#btn-pro').addEventListener('click', () => {
+    document.querySelector('#btn-basic')?.addEventListener('click', () => {
+      Paddle.Checkout.open({
+        items: [{ priceId: config.priceItems.basic, quantity: 1 }],
+      })
+    })
+    document.querySelector('#btn-pro')?.addEventListener('click', () => {
       Paddle.Checkout.open({
         items: [{ priceId: config.priceItems.pro, quantity: 1 }],
       })
     })
-    document.querySelector('#btn-business').addEventListener('click', () => {
+    document.querySelector('#btn-business')?.addEventListener('click', () => {
       Paddle.Checkout.open({
         items: [{ priceId: config.priceItems.business, quantity: 1 }],
       })
